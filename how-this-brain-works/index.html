@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How this brain works — Srish</title>
+<meta name="description" content="Everything you are reading is a plain text file in a Git repository. There is no database and no app that owns it. The rule Tools change. Notes should not have to. So the notes are">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">note</span>
+  <h1>How this brain works</h1>
+  <div class="meta">2026-08-27<br><span class="tag">systems</span><span class="tag">notes</span><span class="tag">ai</span></div>
+  <p>Everything you are reading is a plain text file in a Git repository. There is no database and no app that owns it.</p>
+<h2>The rule</h2>
+<p>Tools change. Notes should not have to. So the notes are the boring part on purpose — Markdown files with a small block of labels on top.</p>
+<pre><code class="language-yaml">type: meeting
+date: 2026-08-26
+client: [[some-client]]
+about: [[some-project]]</code></pre>
+<p>Those labels are what let a machine answer <em>"what did we decide about this project?"</em> instead of just finding the word.</p>
+<h2>Two repositories, not one</h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>Holds</th><th>Who sees it</th></tr></thead><tbody><tr><td>private</td><td>everything</td><td>me, and the agents I run</td></tr><tr><td>public</td><td>only what I marked</td><td>you</td></tr></tbody></table></div>
+<p>Filtering happens when files are <strong>copied</strong>, not when they are rendered. A private note is never written into the published folder at all — so a bug means the site fails to update, never that something leaks.</p>
+<h2>Publishing is one word</h2>
+<pre><code class="language-diff">- share: private
++ share: public</code></pre>
+<p>That is the whole action. A robot does the rest.</p>
+<h2>Why not just use a notes app</h2>
+<blockquote>If your knowledge lives inside an application, you are renting it.</blockquote>
+<p>I want to still be able to read these in ten years, with whatever tool exists then.</p>
+<p>See also <a href="/what-i-do/">What I do</a>.</p>
+  <div class="sources"><h2>Sources</h2><ol><li><span class="num">1</span><a href="https://quartz.jzhao.xyz/" rel="noopener nofollow" target="_blank">quartz.jzhao.xyz</a></li><li><span class="num">2</span><a href="https://docs.github.com/pages" rel="noopener nofollow" target="_blank">docs.github.com/pages</a></li></ol></div><div class="connected"><h2>Connected</h2><ul><li><a href="/what-i-do/"><span class="rel">mentions</span>What I do</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

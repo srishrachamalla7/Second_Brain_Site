@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price Comparison Platform: Complete Technical and Product Specification — Srish</title>
+<meta name="description" content="Price Comparison Platform: Complete Technical and Product Specification Prepared for: Srish Date: 01 September 2026 Status: Working specification, v1 0. How to read this document E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">reference</span>
+  <h1>Price Comparison Platform: Complete Technical and Product Specification</h1>
+  <div class="meta">2026-09-01<br><span class="tag">price-tracking</span><span class="tag">affiliate</span><span class="tag">scraping</span><span class="tag">ecommerce</span><span class="tag">india</span><span class="tag">spec</span></div>
+  <h2>Price Comparison Platform: Complete Technical and Product Specification</h2>
+<p><strong>Prepared for:</strong> Srish <strong>Date:</strong> 01 September 2026 <strong>Status:</strong> Working specification, v1</p>
+<hr>
+<h2>0. How to read this document</h2>
+<p>Everything marked <strong>VERIFIED</strong> was checked against live sources on 01 September 2026 and the source is named. Everything marked <strong>ASSUMPTION</strong> is my judgement and you should test it before spending money on it.</p>
+<p>The single most important thing in this document is Section 2. Several of the APIs that a generic plan would tell you to use were shut down or locked in the first half of 2026. If you build against a stale plan you will lose months.</p>
+<hr>
+<h2>1. Product definition</h2>
+<h3>1.1 What it is</h3>
+<p>A price intelligence platform with two distinct product surfaces sharing one backend:</p>
+<p><strong>Surface A: Price Tracking (the core)</strong> User submits a product URL or picks from a catalogue. System monitors that item's price on a schedule and alerts the user when it drops below a threshold. Revenue comes from affiliate commission on the alert click, which lands at peak purchase intent.</p>
+<p><strong>Surface B: Comparison Search (the growth layer)</strong> User searches for an item. System returns the same item across multiple retailers with total landed cost, and picks a winner. Built second, because it depends on a matching engine that Surface A does not need.</p>
+<h3>1.2 What it is not, at least not in v1</h3>
+<p>Flights, hotels and ride-hailing are explicitly out of v1 scope. Reasoning in Section 2.4. They are not a smaller version of the same problem, they are a different problem with different data contracts, and the current API access situation makes them worse, not better, than in previous years.</p>
+<h3>1.3 Core product principle</h3>
+<p><strong>A wrong price is worse than no price.</strong> Every design decision below optimises for correctness over coverage. It is better to track 500 items perfectly than 5 million items badly. Users forgive missing data. They do not forgive being sent to a checkout page showing a different number from the one in the alert.</p>
+<hr>
+<h2>2. Data source reality, verified September 2026</h2>
+<p>This section is the plan's foundation. Read it before anything else.</p>
+<h3>2.1 Amazon: MAJOR CHANGE in 2026</h3>
+<p><strong>VERIFIED:</strong> Product Advertising API 5.0 (PA-API) has been deprecated and retired. Amazon's own documentation states PA-API is no longer accepting new customers and directs everyone to the <strong>Creators API</strong>. Reported dates: deprecation 30 April 2026, endpoint retirement 15 May 2026. Amazon's public docs site carries the deprecation banner; the specific retirement dates came via direct notification to existing PA-API customers, so they are not all on the public migration guide.</p>
+<p><strong>What changed technically:</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Aspect</th><th>PA-API 5.0 (dead)</th><th>Creators API (current)</th></tr></thead><tbody><tr><td>Auth</td><td>AWS Signature V4, Access Key + Secret</td><td>OAuth 2.0 client credentials, Client ID + Secret, bearer token</td></tr><tr><td>Parameter casing</td><td>PascalCase (<code>Keywords</code>, <code>ItemCount</code>)</td><td>lowerCamelCase (<code>keywords</code>, <code>itemCount</code>)</td></tr><tr><td>Marketplace</td><td>Baked into the regional signing key</td><td>Sent in request body and <code>x-marketplace</code> header</td></tr><tr><td>Item caps</td><td>Varies</td><td>SearchItems max 10 items per call, GetItems max 10 itemIds per call</td></tr><tr><td>Credential versions</td><td>n/a</td><td>v2.x uses Cognito, v3.x uses Login with Amazon (LwA)</td></tr></tbody></table></div>
+<p><strong>The access gate, and this is the hard part:</strong></p>
+<p><strong>VERIFIED:</strong> Eligibility is now <strong>10 qualifying sales in the trailing 30 days</strong>. It was 3 under PA-API, and 1 before that. The window is rolling, so eligibility flips off the moment you drop below the threshold and flips back on when you climb again. Amazon's error for this is <code>AssociateNotEligible (403)</code>.</p>
+<p>A qualifying sale requires the buyer to complete checkout, not just add to cart, and to not return the item within the return window. Amazon's standard attribution window is 24 hours.</p>
+<p><strong>Implication for you:</strong> You cannot start on the Amazon API. You have to launch, drive real affiliate sales through some other mechanism, and the API turns on afterwards. Plan for Amazon coverage in Phase 2, not Phase 1. Design the retailer adapter interface so Amazon can be plugged in later without touching anything else.</p>
+<h3>2.2 Flipkart: closed</h3>
+<p><strong>VERIFIED:</strong> Flipkart stopped accepting new public affiliate signups. Multiple independent 2026 sources confirm the program is closed to direct registration. The old affiliate API documentation is still reachable at <code>affiliate.flipkart.com/api-docs/</code> but its release notes were last updated in 2016, so treat it as unmaintained. Documented rate limit was 20 calls per second, one active API token per account, and generating a new token disables the old one.</p>
+<p><strong>Route in:</strong> Sub-affiliate networks. This is the standard workaround in India and it is what everyone in this space actually uses.</p>
+<div class="tablewrap"><table><thead><tr><th>Network</th><th>Coverage</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Cuelinks</strong></td><td>2,500+ campaigns, 1,000+ brands</td><td>Widest catalogue. Minimum payout Rs 500. Approval cycle 45 to 60 days after sale confirmation. Best fit for a platform.</td></tr><tr><td>EarnKaro</td><td>Amazon, Flipkart, Ajio, Myntra</td><td>Lowest barrier, minimum payout Rs 10. Built for individual creators sharing links, not platforms.</td></tr><tr><td>INRDeals</td><td>Wide Indian ecommerce</td><td>Known for fast, low-threshold payouts. Utilitarian dashboard.</td></tr><tr><td>ExtraPe</td><td>500+ brands</td><td>Cashback-oriented.</td></tr></tbody></table></div>
+<p><strong>ASSUMPTION:</strong> Cuelinks is the right choice for you because it consolidates many merchants behind one integration and one payout stream. <strong>Verify before committing:</strong> whether Cuelinks offers a programmatic deep-link API rather than only a dashboard, plugin and browser extension. If it is dashboard-only, that is a blocker for an automated platform and you need to ask them directly for API access as a publisher.</p>
+<h3>2.3 Search APIs: mostly gone</h3>
+<p><strong>VERIFIED, from your own earlier research and confirmed:</strong></p>
+<ul><li>Bing Search APIs retired 11 August 2025.</li><li>Google Custom Search JSON API closed to new customers, discontinued 01 January 2027.</li></ul>
+<p><strong>Implication:</strong> Do not design any component that assumes cheap programmatic search. Product discovery has to come from retailer feeds, user submissions, or your own crawl. This kills the "just use a shopping SERP API" shortcut that most generic architecture documents suggest.</p>
+<h3>2.4 Travel: worse than you would expect, and this is why it is out of v1</h3>
+<p><strong>VERIFIED:</strong> Amadeus <strong>Self-Service</strong> APIs shut down. The free monthly quota with cached data and 10 TPS cap ended with the portal on <strong>17 July 2026</strong>. There is no free tier for independent developers anymore. Amadeus now routes small platforms through <strong>Quick Connect</strong>, which is a commercial arrangement, not a signup form.</p>
+<p><strong>VERIFIED:</strong> Kiwi.com Tequila closed to new developers in 2026.</p>
+<p><strong>VERIFIED:</strong> Duffel offers a test mode but the test data is sandbox data, not real fares.</p>
+<p>Skyscanner, Expedia and Booking.com remain partnership-gated: application, commercial review, traffic requirements, and often weeks of waiting.</p>
+<p><strong>Structural reason travel does not fit your architecture anyway:</strong> flight and hotel prices are session-specific and search-specific. There is no stable URL holding a stable price. The entire tracking model in Section 1.1 depends on a URL that means the same thing tomorrow as it does today. Travel has no such object. Building it means building a second, unrelated system.</p>
+<p><strong>Verdict:</strong> Out of v1. Revisit only if your brother closes a partner agreement, in which case it becomes a separate product line with its own backend, not a category tab.</p>
+<h3>2.5 EV charging: genuinely open, genuinely small</h3>
+<p><strong>VERIFIED:</strong> Open Charge Map (<code>openchargemap.org/site/develop/api</code>) is a free, non-commercial, non-profit global registry with an API key, covering location, connector types, power and some pricing. Data is crowd-sourced and via OCPI feeds submitted directly by charging networks. Licence is CC BY-SA 3.0, which matters: <strong>share-alike obligations attach</strong>, so check carefully before mixing it into a proprietary database.</p>
+<p>Endpoint shape:</p>
+<pre><code>GET https://api.openchargemap.io/v3/poi/
+    ?output=json&amp;latitude={lat}&amp;longitude={lng}
+    &amp;distance=10&amp;maxresults=10&amp;key={API_KEY}</code></pre>
+<p>Commercial alternatives exist (HERE EV Charge Points, TomTom which is built on Eco-Movement, Google Places) but only Google Places and Mapbox are self-serve. PlugShare requires commercial licensing and EV-industry vetting.</p>
+<p><strong>Honest assessment:</strong> tariff data quality is the weak point. Location data is broad, live availability and real pricing are patchy. This is a real gap in the market but the addressable revenue in India today is small. Good candidate for a separate focused app later, wrong candidate to anchor a platform on.</p>
+<h3>2.6 Summary table: what you can actually get on day one</h3>
+<div class="tablewrap"><table><thead><tr><th>Source</th><th>Self-serve?</th><th>Real prices?</th><th>Verdict for Phase 1</th></tr></thead><tbody><tr><td>Amazon Creators API</td><td>No, 10 sales/30 days</td><td>Yes</td><td><strong>Phase 2</strong>, gated</td></tr><tr><td>Flipkart direct</td><td>No, closed</td><td>Yes</td><td><strong>Never</strong>, use network</td></tr><tr><td>Cuelinks / EarnKaro / INRDeals</td><td>Yes</td><td>Deep links, verify data API</td><td><strong>Phase 1</strong>, monetisation layer</td></tr><tr><td>Open Charge Map</td><td>Yes, free key</td><td>Partial</td><td>Optional side module</td></tr><tr><td>Amadeus / Kiwi / Duffel</td><td>No / No / sandbox only</td><td>No</td><td><strong>Out of scope</strong></td></tr><tr><td>Google / Bing search APIs</td><td>Discontinued</td><td>n/a</td><td><strong>Do not design around</strong></td></tr><tr><td>Direct scraping</td><td>Yes, with effort</td><td>Yes</td><td><strong>Phase 1 primary</strong></td></tr></tbody></table></div>
+<p><strong>Conclusion: Phase 1 runs on scraping plus sub-affiliate deep links. Everything else is a later unlock.</strong></p>
+<hr>
+<h2>3. The scraping layer, done properly</h2>
+<h3>3.1 What you are actually fighting</h3>
+<p><strong>VERIFIED:</strong> Modern anti-bot systems operate in layers and you must pass all of them simultaneously. The major vendors are Cloudflare Bot Management, DataDome, Akamai, HUMAN Security (formerly PerimeterX) and Kasada.</p>
+<p>Cloudflare's ML v9 bot model became the default across all zones in Q1 2026 and weights <strong>JA4 TLS fingerprints and HTTP/2 frame ordering</strong> more aggressively than v8 did. The practical consequence: a clean residential IP alone is no longer enough. If your proxy terminates and re-encrypts TLS at a generic gateway, the bot score still fails.</p>
+<p>Detection layers, in order:</p>
+<ol><li><strong>IP reputation.</strong> Datacenter IP ranges from major clouds are on published lists and fail immediately.</li><li><strong>TLS fingerprint (JA3/JA4).</strong> Python <code>requests</code> produces an instantly recognisable hash. So does Node with Axios.</li><li><strong>HTTP/2 frame ordering.</strong> Header order and frame sequence differ between real browsers and libraries.</li><li><strong>JavaScript challenge.</strong> Requires actual JS execution.</li><li><strong>Behavioural.</strong> Mouse movement, timing, navigation paths, session consistency.</li></ol>
+<h3>3.2 The stack that works</h3>
+<p><strong>Tier 1, cheapest, use for everything that will accept it:</strong></p>
+<ul><li><code>curl_cffi</code> (Python). <strong>VERIFIED:</strong> impersonates the TLS fingerprint of real browsers at the handshake layer. Free library. This single change removes the most common instant-block trigger for Python scrapers.</li><li>Rotating residential proxies. Match User-Agent to the impersonated TLS fingerprint. Mismatch is itself a signal.</li></ul>
+<p><strong>Tier 2, for JS-challenge sites:</strong></p>
+<ul><li>Playwright or Nodriver or SeleniumBase UC with anti-automation signals stripped. Randomised viewport, random 2 to 5 second delays, natural navigation paths, resource loading like a real browser.</li><li>Slow (5 to 30 seconds per page) and expensive. Use only where Tier 1 fails.</li></ul>
+<p><strong>Tier 3, managed unblockers, when your own stack loses:</strong></p>
+<ul><li>Oxylabs Web Unblocker, Bright Data Scraping Browser, ScrapingBee, Scrapfly, Apify.</li><li>Higher per-request cost, near-zero maintenance.</li></ul>
+<h3>3.3 Proxy costs, verified September 2026</h3>
+<p>Residential proxy pricing spans roughly <strong>$1 to $15 per GB</strong> depending on pool quality:</p>
+<div class="tablewrap"><table><thead><tr><th>Provider</th><th>Approx. rate</th><th>Note</th></tr></thead><tbody><tr><td>DataImpulse, IPRoyal</td><td>$1 to $7/GB</td><td>Budget tier</td></tr><tr><td>Webshare</td><td>~$3/GB</td><td>Budget</td></tr><tr><td>NodeMaven</td><td>~$7/GB</td><td>Passes TLS through untouched, which matters for Cloudflare v9</td></tr><tr><td>Decodo</td><td>~$8.5/GB</td><td>Premium-budget</td></tr><tr><td>Oxylabs</td><td>~$8/GB</td><td>Strong on ecommerce targets</td></tr><tr><td>Bright Data</td><td>~$15/GB list</td><td>Enterprise</td></tr><tr><td>NetNut</td><td>~$15/GB</td><td>Enterprise</td></tr></tbody></table></div>
+<p><strong>Critical selection criterion:</strong> providers that pass TLS through untouched outperform providers that terminate and re-encrypt at the gateway. NodeMaven and Decodo's rotating residential tier were specifically named as passing; test before you commit to an annual plan.</p>
+<p>Managed scraping APIs cluster around <strong>$29/month entry</strong> (Apify Starter, Scrape.do Hobby). ScrapingBee offers 1,000 free calls with no card.</p>
+<p><strong>Also noted:</strong> Cloudflare launched <strong>Web Bot Auth</strong> in May 2026, cryptographic signing for legitimate AI agents, with Anchor Browser and Browserbase as launch partners. Worth watching. If a legitimate-agent identity path matures, it could change this whole calculus in your favour.</p>
+<h3>3.4 The AI layer, used correctly</h3>
+<p>You asked why AI does not solve scraping. Precise answer:</p>
+<p><strong>AI fixes parsing. AI does not fix fetching.</strong> Bot detection happens at the network layer, before any HTML reaches you. If Cloudflare returns a 403 or a Turnstile challenge, your model has nothing to read. The LLM sits downstream of the wall.</p>
+<p><strong>Where AI genuinely earns its cost: selector repair, not extraction.</strong></p>
+<p>Running a model on every price check is financially ruinous at scale. Instead:</p>
+<pre><code>1. FETCH        cheap request via curl_cffi + proxy
+2. EXTRACT      cached CSS/XPath selector for this domain
+3. VALIDATE     - did we get a number?
+                - is currency correct?
+                - is it within 40% of last known price?
+                - is it not a strikethrough MRP?
+4. IF VALID     store, done. Cost: fraction of a paisa.
+5. IF INVALID   call LLM once with the raw DOM
+                → re-derive selector
+                → CACHE new selector for this domain
+                → retry extraction
+                → alert engineer if second failure</code></pre>
+<p>Model as <strong>selector repair on failure</strong>, cached per domain. This is the difference between a few dollars a month and a few thousand.</p>
+<p><strong>The trap AI introduces:</strong> a model returns a confident, plausible, wrong number when a page shows MRP, discounted price, bank-offer price, exchange price and subscribe-and-save price simultaneously. Indian ecommerce pages are especially bad for this. Your validation layer must catch it. Never trust a single model read for a price you show a user.</p>
+<hr>
+<h2>4. System architecture</h2>
+<h3>4.1 Component map</h3>
+<pre><code>┌───────────────────────────────────────────────────────┐
+│  CLIENTS                                              │
+│  Web (Next.js)  │  Android/iOS (React Native/Expo)   │
+└────────────────────────┬──────────────────────────────┘
+                         │ REST / JSON
+┌────────────────────────▼──────────────────────────────┐
+│  API GATEWAY  (FastAPI)                               │
+│  auth · rate limit · request validation               │
+└────────┬──────────────────────────────┬───────────────┘
+         │                              │
+┌────────▼──────────┐        ┌──────────▼──────────────┐
+│  CORE API         │        │  SEARCH SERVICE          │
+│  users, watches,  │        │  Meilisearch / Typesense │
+│  alerts, history  │        │                          │
+└────────┬──────────┘        └──────────┬───────────────┘
+         │                              │
+┌────────▼──────────────────────────────▼───────────────┐
+│  POSTGRES  (+ TimescaleDB for price history)          │
+│  REDIS     (cache, queue broker, selector cache)      │
+└────────┬──────────────────────────────────────────────┘
+         │
+┌────────▼──────────────────────────────────────────────┐
+│  WORKER POOL  (Celery / Arq / Dramatiq)               │
+│  ┌──────────────┐ ┌─────────────┐ ┌────────────────┐ │
+│  │ Fetch worker │ │ Parse worker│ │ Alert worker   │ │
+│  │ curl_cffi    │ │ selector +  │ │ FCM / email    │ │
+│  │ + proxy pool │ │ LLM repair  │ │ + affiliate    │ │
+│  └──────────────┘ └─────────────┘ └────────────────┘ │
+└────────┬──────────────────────────────────────────────┘
+         │
+┌────────▼──────────────────────────────────────────────┐
+│  RETAILER ADAPTERS  (one module per retailer)         │
+│  amazon_in · flipkart · myntra · croma · reliance ... │
+│  each implements: parse_url() · fetch() · extract()   │
+└───────────────────────────────────────────────────────┘</code></pre>
+<h3>4.2 Why this shape</h3>
+<p><strong>The retailer adapter interface is the most important design decision in the project.</strong> Every retailer is a plugin implementing one interface. Adding Amazon later, when your affiliate sales unlock the Creators API, must be a new file and zero changes anywhere else.</p>
+<pre><code class="language-python">class RetailerAdapter(Protocol):
+    domain_patterns: list[str]
+    requires_js: bool
+    tier: int  # 1=curl_cffi, 2=playwright, 3=managed
+
+    def canonicalize(self, url: str) -&gt; str: ...
+    def extract_product_id(self, url: str) -&gt; str: ...
+    async def fetch(self, url: str) -&gt; RawPage: ...
+    def extract(self, page: RawPage) -&gt; PriceSnapshot: ...
+    def affiliate_link(self, url: str, sub_id: str) -&gt; str: ...</code></pre>
+<p><code>canonicalize()</code> matters more than it looks. Indian retailers append tracking junk, session IDs and referral params to every URL. Two users tracking the same item must resolve to the same row, or you fetch the same page twice and pay twice.</p>
+<h3>4.3 Data model</h3>
+<pre><code class="language-sql">-- Retailers
+retailers (
+  id, slug, name, domain, country,
+  adapter_key, tier, affiliate_network, is_active
+)
+
+-- A tracked item on a specific retailer
+listings (
+  id, retailer_id, canonical_url UNIQUE, external_id,
+  title, image_url, brand, model,
+  product_group_id NULL,          -- set once matching exists
+  last_checked_at, check_interval_seconds,
+  consecutive_failures, status
+)
+
+-- Groups equivalent listings across retailers (Phase 2)
+product_groups (
+  id, canonical_title, brand, model, gtin NULL, category_id
+)
+
+-- Price history, TimescaleDB hypertable
+price_snapshots (
+  listing_id, captured_at,
+  price NUMERIC(12,2), currency CHAR(3),
+  mrp NUMERIC(12,2) NULL,
+  shipping NUMERIC(10,2) NULL,
+  in_stock BOOLEAN,
+  seller TEXT NULL,
+  extraction_method TEXT,          -- &#x27;selector&#x27; | &#x27;llm_repair&#x27;
+  confidence NUMERIC(3,2)
+)
+PARTITION BY RANGE (captured_at)
+
+-- User watches
+watches (
+  id, user_id, listing_id NULL, product_group_id NULL,
+  target_price NUMERIC(12,2) NULL,
+  alert_on_any_drop BOOLEAN,
+  alert_on_percent_drop NUMERIC(5,2) NULL,
+  created_at, last_alerted_at, is_active
+)
+
+-- Selector cache, hot path
+domain_selectors (
+  domain, field,                  -- &#x27;price&#x27;|&#x27;title&#x27;|&#x27;stock&#x27;|&#x27;image&#x27;
+  selector TEXT, selector_type,   -- &#x27;css&#x27;|&#x27;xpath&#x27;|&#x27;jsonld&#x27;|&#x27;regex&#x27;
+  last_verified_at, success_count, failure_count
+)
+
+-- Affiliate click attribution
+click_events (
+  id, user_id, listing_id, sub_id UNIQUE,
+  clicked_at, network, payout NULL, confirmed_at NULL
+)</code></pre>
+<p><strong>Note on <code>price_snapshots</code>:</strong> this table becomes your single biggest asset and your single biggest cost. 100,000 listings checked 4 times daily is 400,000 rows per day, 146 million per year. TimescaleDB with compression handles this; plain Postgres will hurt. Set a compression policy on data older than 30 days and a retention policy at 2 to 3 years.</p>
+<h3>4.4 Scheduling: adaptive, not fixed</h3>
+<p>Do not check everything at the same interval. Compute per listing:</p>
+<pre><code>base_interval = 24h
+
+multipliers:
+  × 0.25  if any user has an active watch near current price
+  × 0.5   if price changed in last 3 checks (volatile item)
+  × 0.5   during a known sale window (Big Billion Days, GIF, festive)
+  × 2.0   if price unchanged for 14+ consecutive checks
+  × 4.0   if zero users watching (catalogue-only item)
+  × 8.0   after 3 consecutive fetch failures (backoff)
+
+clamp to [1h, 7d]</code></pre>
+<p>This is the difference between a bill that scales with users and one that scales with catalogue size. It is the core economic insight of the whole project.</p>
+<hr>
+<h2>5. Technology stack</h2>
+<p>Chosen for self-hosting on your own server, free or open-source wherever a credible option exists.</p>
+<div class="tablewrap"><table><thead><tr><th>Layer</th><th>Choice</th><th>Why</th><th>Cost</th></tr></thead><tbody><tr><td><strong>Backend</strong></td><td>Python 3.12 + FastAPI</td><td>Your primary language. Async native, matches the scraping workload.</td><td>Free</td></tr><tr><td><strong>Workers</strong></td><td>Arq (Redis-based) or Celery</td><td>Arq is lighter and async-native. Celery if you want the mature ecosystem.</td><td>Free</td></tr><tr><td><strong>Database</strong></td><td>PostgreSQL 16 + TimescaleDB</td><td>Time-series compression on price history is the whole reason. Apache 2.0 community edition.</td><td>Free</td></tr><tr><td><strong>Cache / broker</strong></td><td>Redis 7</td><td>Selector cache, task queue, rate limiting.</td><td>Free</td></tr><tr><td><strong>Search</strong></td><td>Meilisearch or Typesense</td><td>Both MIT/Apache. Typo tolerance out of the box, which matters for product search. Elasticsearch is overkill and heavy on RAM.</td><td>Free</td></tr><tr><td><strong>HTTP client</strong></td><td><code>curl_cffi</code></td><td>Browser TLS impersonation. Non-negotiable.</td><td>Free</td></tr><tr><td><strong>Browser automation</strong></td><td>Playwright</td><td>Only for Tier 2 sites.</td><td>Free</td></tr><tr><td><strong>Parsing</strong></td><td>selectolax (fast) + lxml (fallback)</td><td>selectolax is roughly an order of magnitude faster than BeautifulSoup.</td><td>Free</td></tr><tr><td><strong>Web frontend</strong></td><td>Next.js 15 + Tailwind</td><td>SSR for SEO on public price-history pages.</td><td>Free</td></tr><tr><td><strong>Mobile</strong></td><td>React Native + Expo</td><td>One codebase, both stores, and you can share TypeScript types with the web app.</td><td>Free</td></tr><tr><td><strong>Push</strong></td><td>Firebase Cloud Messaging</td><td>Free at your volume, works on both platforms.</td><td>Free</td></tr><tr><td><strong>Email</strong></td><td>Resend or self-hosted Postal</td><td>Resend free tier is 3,000/month. Postal is self-hosted and free but deliverability is your problem.</td><td>Free to low</td></tr><tr><td><strong>Monitoring</strong></td><td>Grafana + Prometheus + Loki</td><td>Self-hosted. You already run Docker on a VPS.</td><td>Free</td></tr><tr><td><strong>Error tracking</strong></td><td>GlitchTip</td><td>Sentry-compatible API, self-hostable, AGPL.</td><td>Free</td></tr><tr><td><strong>Reverse proxy</strong></td><td>Caddy</td><td>Automatic TLS, simpler than Nginx for this.</td><td>Free</td></tr><tr><td><strong>Orchestration</strong></td><td>Docker Compose</td><td>Do not reach for Kubernetes. You will not need it before 100k users.</td><td>Free</td></tr><tr><td><strong>CI/CD</strong></td><td>GitHub Actions</td><td>Free tier is generous for private repos at this size.</td><td>Free</td></tr><tr><td><strong>LLM</strong></td><td>Claude Haiku or a local model</td><td>Only fires on selector-repair failures, so volume is low. A local Qwen or Llama on your own GPU is viable given it is a rare, latency-tolerant call.</td><td>Low</td></tr></tbody></table></div>
+<p><strong>Only unavoidable paid line: residential proxies.</strong> Everything else can be free or self-hosted at launch.</p>
+<hr>
+<h2>6. Application surfaces: every page and screen</h2>
+<h3>6.1 Web application (Next.js)</h3>
+<p><strong>Public, SEO-facing, server-rendered:</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Route</th><th>Purpose</th><th>SEO priority</th></tr></thead><tbody><tr><td><code>/</code></td><td>Landing, search bar, trending drops</td><td>High</td></tr><tr><td><code>/search?q=</code></td><td>Search results</td><td>Medium</td></tr><tr><td><code>/p/[slug]</code></td><td>Product page: current prices across retailers, price history chart, "track this" CTA</td><td><strong>Highest</strong></td></tr><tr><td><code>/deals</code></td><td>Live feed of biggest drops in last 24h</td><td>High</td></tr><tr><td><code>/deals/[category]</code></td><td>Category-filtered drops</td><td>High</td></tr><tr><td><code>/store/[retailer]</code></td><td>All tracked deals at one retailer</td><td>Medium</td></tr><tr><td><code>/price-history/[listing]</code></td><td>Standalone chart page, highly linkable</td><td><strong>Highest</strong></td></tr><tr><td><code>/compare/[a]-vs-[b]</code></td><td>Head-to-head comparison, programmatic pages</td><td>High</td></tr><tr><td><code>/blog/[slug]</code></td><td>Buying guides, deal roundups</td><td>High</td></tr><tr><td><code>/about</code>, <code>/privacy</code>, <code>/terms</code>, <code>/affiliate-disclosure</code></td><td>Legal and trust</td><td>Required</td></tr></tbody></table></div>
+<p><strong>Authenticated:</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Route</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/dashboard</code></td><td>All active watches, current vs target price</td></tr><tr><td><code>/watch/new</code></td><td>Paste URL, set target, confirm</td></tr><tr><td><code>/watch/[id]</code></td><td>Single watch detail, full history, edit alert rules</td></tr><tr><td><code>/alerts</code></td><td>Alert history, what fired and when</td></tr><tr><td><code>/settings/notifications</code></td><td>Channel prefs: push, email, WhatsApp</td></tr><tr><td><code>/settings/account</code></td><td>Profile, currency, region, delete account</td></tr></tbody></table></div>
+<p><strong>Admin, internal only:</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Route</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/admin/adapters</code></td><td>Per-retailer health: success rate, block rate, last failure</td></tr><tr><td><code>/admin/selectors</code></td><td>Selector cache, manual override, repair history</td></tr><tr><td><code>/admin/queue</code></td><td>Live worker queue depth, failure backlog</td></tr><tr><td><code>/admin/costs</code></td><td>Proxy GB consumed, LLM calls, cost per listing per day</td></tr><tr><td><code>/admin/attribution</code></td><td>Click-to-conversion funnel per network</td></tr></tbody></table></div>
+<h3>6.2 Mobile application (React Native + Expo)</h3>
+<div class="tablewrap"><table><thead><tr><th>Screen</th><th>Contents</th></tr></thead><tbody><tr><td><strong>Onboarding</strong></td><td>3 slides, then permission prompts for push and clipboard</td></tr><tr><td><strong>Home</strong></td><td>Watched items, sorted by proximity to target price. Pull to refresh.</td></tr><tr><td><strong>Add Item</strong></td><td>Paste URL, or <strong>share-sheet intake</strong>, or barcode scan</td></tr><tr><td><strong>Item Detail</strong></td><td>Price chart, all retailers carrying it, buy button, edit target</td></tr><tr><td><strong>Deals</strong></td><td>Trending drops feed, infinite scroll</td></tr><tr><td><strong>Search</strong></td><td>Query, filter by retailer and category</td></tr><tr><td><strong>Alerts</strong></td><td>Notification history</td></tr><tr><td><strong>Settings</strong></td><td>Channels, currency, region, account</td></tr></tbody></table></div>
+<p><strong>Two mobile-specific features that matter more than anything else in this list:</strong></p>
+<ol><li><strong>Share-sheet intake.</strong> User is inside the Amazon app, taps Share, picks your app, item is tracked. This removes the single biggest friction point in the entire product. Register an Android intent filter and an iOS Share Extension. Build this in v1, not v2.</li></ol>
+<ol><li><strong>Clipboard detection.</strong> On app open, if clipboard holds a recognised retailer URL, offer to track it. Prompt for permission clearly; iOS shows a paste banner and users are sensitive about it.</li></ol>
+<h3>6.3 Domain strategy</h3>
+<p>You own several domains already. For this project:</p>
+<ul><li>Pick a short, brandable, spellable-over-the-phone name. Avoid "cheap", it signals low quality and attracts price-sensitive non-converting traffic.</li><li>Single primary domain. Do not split web and API across brands.</li><li><code>api.&lt;domain&gt;</code> for the API, <code>www.&lt;domain&gt;</code> for the app.</li><li>Register the <code>.in</code> alongside the <code>.com</code> if India is the launch market.</li></ul>
+<hr>
+<h2>7. Deployment</h2>
+<h3>7.1 Server sizing</h3>
+<p>You already run a Hetzner VPS with Docker, so this fits your existing operation.</p>
+<p><strong>Phase 1, up to roughly 10,000 tracked listings:</strong></p>
+<ul><li>1× CPX31 or equivalent: 4 vCPU, 8 GB RAM, 160 GB SSD</li><li>Everything in one Docker Compose stack</li><li>Approximate cost: EUR 15/month</li></ul>
+<p><strong>Phase 2, 100,000+ listings:</strong></p>
+<ul><li>1× app server (API + web): 4 vCPU, 8 GB</li><li>1× database server: 8 vCPU, 32 GB, dedicated fast disk</li><li>2× worker nodes: 4 vCPU, 8 GB each, horizontally scalable</li><li>Approximate cost: EUR 90 to 130/month</li></ul>
+<h3>7.2 Compose layout</h3>
+<pre><code class="language-yaml">services:
+  caddy:        # TLS termination, reverse proxy
+  web:          # Next.js
+  api:          # FastAPI, 2 to 4 uvicorn workers
+  worker-fetch: # scaled independently, the hot path
+  worker-parse:
+  worker-alert:
+  scheduler:    # enqueues due checks every 60s
+  postgres:     # + timescaledb extension
+  redis:
+  meilisearch:
+  grafana:
+  prometheus:
+  loki:</code></pre>
+<h3>7.3 Operational essentials</h3>
+<ul><li><strong>Backups.</strong> <code>pg_dump</code> nightly to Backblaze B2 or Hetzner Storage Box. Test a restore before launch, not after your first incident.</li><li><strong>Proxy failover.</strong> Two providers configured. When provider A's block rate crosses a threshold, cut over automatically. Single-provider dependency will take you down.</li><li><strong>Circuit breaker per retailer.</strong> If a retailer's failure rate crosses 30% in a 15-minute window, stop fetching it entirely and alert. Hammering a site that has started blocking you turns a temporary block into a permanent one.</li><li><strong>Blue-green deploys.</strong> Two API containers behind Caddy, health-checked, swap on deploy. Your scrapers must not stop during a release.</li><li><strong>Secrets.</strong> Docker secrets or SOPS. Never <code>.env</code> in the repository.</li></ul>
+<hr>
+<h2>8. Cost model</h2>
+<p><strong>ASSUMPTION-heavy. Test each line against real measurement in Week 1.</strong></p>
+<p>Assumptions: 10,000 tracked listings, average 3 checks per day, average 200 KB per page fetch.</p>
+<div class="tablewrap"><table><thead><tr><th>Line item</th><th>Calculation</th><th>Monthly (USD)</th></tr></thead><tbody><tr><td>Bandwidth through residential proxies</td><td>10,000 × 3 × 30 × 200 KB = ~180 GB</td><td>$180 to $540 at $1 to $3/GB</td></tr><tr><td>Server (Phase 1)</td><td>Hetzner CPX31</td><td>~$17</td></tr><tr><td>LLM selector repair</td><td>~2% failure rate = 18,000 repairs, cached per domain so effectively ~500 unique calls</td><td>~$5</td></tr><tr><td>Push notifications</td><td>FCM</td><td>$0</td></tr><tr><td>Email</td><td>Resend free tier</td><td>$0</td></tr><tr><td>Backups</td><td>Backblaze B2</td><td>~$3</td></tr><tr><td>Domains</td><td>Amortised</td><td>~$3</td></tr><tr><td><strong>Total</strong></td><td></td><td><strong>~$208 to $568</strong></td></tr></tbody></table></div>
+<p><strong>The proxy line dominates everything.</strong> Three levers on it, in order of impact:</p>
+<ol><li><strong>Adaptive scheduling</strong> (Section 4.4). Cutting average checks per day from 3 to 1.5 halves the bill directly.</li><li><strong>Response size.</strong> Request only the HTML, block images, CSS, fonts and analytics at the proxy layer. A product page is often 2 MB with assets and 150 KB without. This is potentially a 10x saving and it is the single highest-leverage optimisation in the project.</li><li><strong>Tier discipline.</strong> Every site pushed from Tier 2 (headless browser) down to Tier 1 (<code>curl_cffi</code>) saves both bandwidth and time. Audit this monthly.</li></ol>
+<p><strong>Revenue side, for calibration.</strong> At roughly 5% average commission and an average order value of Rs 3,000, each converted click is about Rs 150. To cover a $300 monthly infrastructure bill (~Rs 26,000) you need roughly <strong>175 conversions per month</strong>. At a 2% alert-click-to-purchase rate that means about 8,750 alert clicks, which at 3 alerts per active user per month means roughly <strong>3,000 active users</strong>. That is your break-even. Write that number on a wall.</p>
+<hr>
+<h2>9. Legal and compliance</h2>
+<p><strong>I am not a lawyer and this is not legal advice. Get an Indian tech lawyer to review before launch. Budget for it.</strong></p>
+<h3>9.1 India, where you operate</h3>
+<p><strong>VERIFIED:</strong> The position is genuinely unsettled and you should not let anyone tell you otherwise.</p>
+<ul><li><strong>IT Act 2000, Section 43</strong> penalises unauthorised access to computer systems and entitles affected parties to compensation. In response to parliamentary questions, the Indian government took the view that intermediaries scraping publicly available data may fall under Section 43.</li><li><strong>Indian courts have not yet determined</strong> whether ToS restrictions or <code>robots.txt</code> are enforceable. This is genuinely open. The CJEU has held that entities may impose binding contractual limits on scraping, which is persuasive but not binding in India.</li><li><strong>DPDP Act 2023</strong> applies to personal data of identifiable individuals. Product prices are not personal data, so your core dataset is outside it. But the moment you store seller names that identify individuals, or user reviews, you are a data fiduciary. Penalties reach Rs 250 crore.</li><li><strong>Copyright Act 1957</strong> applies to reproduced content. Prices are facts and facts are not copyrightable. Product descriptions and images are a different matter.</li><li><strong>Aggravating factor to avoid:</strong> rotating IPs specifically to defeat a block a site has already imposed is conduct a court can read as knowledge that permission was absent, which is exactly the element a Section 66 allegation needs. This is a meaningful distinction. Distributing load is ordinary practice. Circumventing a block you have already received is not.</li></ul>
+<h3>9.2 Practical risk-reduction rules</h3>
+<ol><li><strong>Never scrape behind a login.</strong> This is the brightest line in every jurisdiction.</li><li><strong>Never store product images or descriptions.</strong> Store the price, the URL, the title and your own reference to their image URL. Hotlink or don't show it.</li><li><strong>Respect <code>robots.txt</code></strong> even though enforceability is unclear. It is cheap insurance and it is the first thing anyone's lawyer will ask about.</li><li><strong>Rate limit hard.</strong> Well under what would degrade their service. Document your rate limits so you can show them.</li><li><strong>Identify your bot</strong> in the User-Agent with a contact URL. Counter-intuitive, but a site that can reach you will usually email before they sue.</li><li><strong>Stop immediately on receiving any notice.</strong> Do not negotiate first. Comply, then talk.</li><li><strong>Prefer the affiliate relationship.</strong> Once you are a Cuelinks publisher sending real sales to a merchant, your relationship with them changes character entirely. This is the strongest legal position available to you and it is another argument for launching on affiliate deep links.</li><li><strong>Affiliate disclosure is mandatory.</strong> FTC-style disclosure requirements apply if you have any US traffic; Indian norms are converging. Put it above the fold, not in the footer.</li></ol>
+<h3>9.3 The Amazon-specific trap</h3>
+<p>Read the Amazon Associates Operating Agreement properly. It has historically restricted displaying Amazon price data obtained by means other than their API, and it restricts how long you may cache prices. If you scrape Amazon prices while holding an Associates account, you risk your account, which is your entire monetisation. <strong>Decide deliberately: either scrape Amazon and forgo Associates, or use Associates and only show Amazon prices from the Creators API.</strong> Do not do both accidentally.</p>
+<hr>
+<h2>10. Phased roadmap</h2>
+<h3>Phase 0: Feasibility spike (Week 1 to 2). No app, no UI.</h3>
+<p>This exists to kill the project cheaply if it deserves to be killed.</p>
+<ul><li>☐ Pick 5 target retailers. Suggested: Amazon.in, Flipkart, Croma, Reliance Digital, Vijay Sales.</li><li>☐ Write one Python script per retailer. <code>curl_cffi</code>, one residential proxy, extract price from 40 real product URLs each.</li><li>☐ <strong>Measure and record:</strong> success rate, block rate, bytes per fetch, seconds per fetch, which tier each site needs.</li><li>☐ Run it continuously for 7 days. Blocks often appear on day 3, not day 1.</li><li>☐ Extrapolate the real proxy cost per 1,000 listings per day.</li></ul>
+<p><strong>Kill criteria.</strong> Do not proceed if: fewer than 3 of 5 retailers sustain above 90% success over 7 days, OR extrapolated proxy cost exceeds $500/month at 10,000 listings.</p>
+<h3>Phase 1: Tracking MVP (Week 3 to 10)</h3>
+<ul><li>☐ Core API, Postgres + TimescaleDB, Redis, worker pool</li><li>☐ Retailer adapters for whichever survived Phase 0</li><li>☐ Selector cache with LLM repair fallback</li><li>☐ Adaptive scheduler</li><li>☐ Auth, watches, alerts</li><li>☐ Push via FCM, email via Resend</li><li>☐ Mobile app: Home, Add Item, <strong>share-sheet intake</strong>, Item Detail, Settings</li><li>☐ Cuelinks integration for affiliate deep links</li><li>☐ Admin dashboard: adapter health, cost per listing</li><li>☐ <strong>Deliberately excluded from Phase 1:</strong> cross-retailer matching, comparison search, web frontend beyond a landing page</li></ul>
+<p><strong>Success criteria:</strong> 500 active users, 5,000 tracked listings, above 95% price accuracy sampled manually against live pages, first affiliate rupee received.</p>
+<h3>Phase 2: Comparison and scale (Month 4 to 7)</h3>
+<ul><li>☐ Product matching engine: GTIN/EAN where present, then brand + model normalisation, then embedding similarity on titles, with a human review queue for low-confidence matches</li><li>☐ <code>product_groups</code> populated, comparison search live</li><li>☐ Full Next.js web app with SEO-focused <code>/p/</code> and <code>/price-history/</code> pages</li><li>☐ Apply for Amazon Creators API once 10 sales/30 days is sustained</li><li>☐ Retailer count to 15 to 20</li><li>☐ Multi-currency</li></ul>
+<p><strong>Note on matching:</strong> this is the hardest engineering problem in the project and it is why it is in Phase 2. Indian retailers rarely publish GTINs. Titles vary wildly ("Samsung Galaxy S24 5G (Onyx Black, 256 GB)" vs "SAMSUNG Galaxy S24 5G 256GB Onyx Black"). Budget 6 weeks for this alone and expect a permanent human review queue.</p>
+<h3>Phase 3: Expansion (Month 8+)</h3>
+<ul><li>☐ Additional countries, starting with UAE or Singapore where Indian retailers already ship</li><li>☐ EV charging module if it still looks interesting</li><li>☐ Browser extension for desktop price comparison at checkout</li><li>☐ Public API as a B2B product, which is where the real margin might be</li></ul>
+<hr>
+<h2>11. The five things most likely to kill this</h2>
+<p>Ranked by probability, with the mitigation for each.</p>
+<ol><li><strong>Proxy cost outruns affiliate revenue.</strong> Most likely failure mode by a wide margin. <em>Mitigation:</em> Phase 0 measures this before you build. Adaptive scheduling and asset blocking are your levers. Break-even is roughly 3,000 active users; if user growth is slower than catalogue growth you are losing money on every listing.</li></ol>
+<ol><li><strong>A major retailer blocks you permanently.</strong> <em>Mitigation:</em> circuit breakers, identified bot with contact details, and an affiliate relationship that gives them a commercial reason to tolerate you. Never more than 40% of your value concentrated in one retailer.</li></ol>
+<ol><li><strong>Product matching never gets good enough.</strong> <em>Mitigation:</em> Phase 1 does not need it at all. If matching turns out to be intractable, you still have a working tracking product. This is why the phasing is ordered the way it is.</li></ol>
+<ol><li><strong>Amazon Associates account terminated.</strong> <em>Mitigation:</em> the deliberate decision in Section 9.3. Do not scrape Amazon and hold an Associates account simultaneously without understanding the agreement.</li></ol>
+<ol><li><strong>Nobody wants it.</strong> <em>Mitigation:</em> the share-sheet flow and the alert loop are your retention mechanics. If Week 4 retention after Phase 1 launch is below 20%, the problem is demand, not engineering, and no amount of additional retailers fixes it.</li></ol>
+<hr>
+<h2>12. What to verify before writing any code</h2>
+<p>Things I could not confirm and you should, because they change the plan:</p>
+<ol><li><strong>Does Cuelinks expose a programmatic deep-link API to publishers?</strong> If it is dashboard and plugin only, you need to negotiate API access or find a network that has one. <strong>This is the highest-priority unknown in the entire document.</strong></li><li><strong>Current Cuelinks commission rates for your target categories</strong>, and whether platform-type publishers are accepted at all.</li><li><strong>Amazon Creators API rate limits and TPS</strong>, which are not consistently documented publicly.</li><li><strong>Open Charge Map's CC BY-SA 3.0 share-alike scope</strong>, if you use it commercially. Share-alike could contaminate a proprietary dataset.</li><li><strong>Whether Cloudflare's Web Bot Auth</strong> opens a legitimate path for identified price-comparison agents. This launched May 2026 and is early, but if it matures it changes Section 3 substantially in your favour.</li></ol>
+<hr>
+<h2>13. One-paragraph summary</h2>
+<p>Build a price <em>tracking</em> product, not a price <em>comparison</em> product, and build it for Indian ecommerce only. Tracking works because the user hands you the URL, which eliminates the matching problem entirely, and because cost then scales with demand rather than catalogue size. Run it on <code>curl_cffi</code> plus residential proxies with an LLM used only for selector repair on failure, self-hosted on Docker on a Hetzner box. Monetise through Cuelinks from day one because Amazon's API now requires 10 sales in a rolling 30-day window and Flipkart's direct program is closed. Skip travel entirely, because Amadeus Self-Service shut down on 17 July 2026, Kiwi closed to new developers, and session-based fares do not fit a URL-tracking architecture anyway. Spend two weeks on the Phase 0 spike before writing a line of product code, and kill the project without regret if the proxy economics do not clear.</p>
+<hr>
+<p><em>Every VERIFIED item above was checked on 01 September 2026. API access terms in this space change frequently and several changed materially in the first half of 2026 alone. Re-verify anything in Section 2 before you build against it.</em></p>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

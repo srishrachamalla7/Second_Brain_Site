@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI-TARS — Beginner Guide to Native GUI Agents — Srish</title>
+<meta name="description" content="UI-TARS — Beginner Guide to Native GUI Agents Original paper: UI-TARS: Pioneering Automated GUI Interaction with Native Agents Paper version covered here: v1, submitted 2025-01-21.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">reference</span>
+  <h1>UI-TARS — Beginner Guide to Native GUI Agents</h1>
+  <div class="meta">2025-01-21<br><span class="tag">research</span><span class="tag">learning</span><span class="tag">gui-agents</span><span class="tag">multimodal</span><span class="tag">ui-tars</span><span class="tag">computer-use</span></div>
+  <h2>UI-TARS — Beginner Guide to Native GUI Agents</h2>
+<p><strong>Original paper:</strong> <a href="https://arxiv.org/abs/2501.12326" rel="noopener">UI-TARS: Pioneering Automated GUI Interaction with Native Agents</a> <strong>Paper version covered here:</strong> v1, submitted 2025-01-21. <strong>Official code:</strong> <a href="https://github.com/bytedance/UI-TARS" rel="noopener">bytedance/UI-TARS</a></p>
+<blockquote>This note is written for someone who can code but is new to GUI agents, multimodal models, and this research area. The goal is not to memorize the paper. The goal is to understand the machine well enough that you could build a smaller version.</blockquote>
+<hr>
+<h2>0. Read this first</h2>
+<h3>The one-minute explanation</h3>
+<p>A <strong>GUI agent</strong> is an AI that can use a computer the way a person does:</p>
+<ul><li>look at the screen,</li><li>decide what to do,</li><li>click or type,</li><li>look at the new screen,</li><li>decide again,</li><li>continue until the task is finished.</li></ul>
+<p>Older systems often glued together many separate pieces: one model understood the screen, another found buttons, some scripts decided what action to execute, and extra code stored memory or enforced workflows.</p>
+<p><strong>UI-TARS is trying to make the model itself become the agent.</strong> It takes the task instruction, a screenshot, and recent interaction history, and predicts a <strong>thought + action</strong>. The action can be something like <code>Click(x, y)</code>, <code>Type(text)</code>, <code>Scroll(...)</code>, or a platform-specific action. The computer executes it, returns another screenshot, and the loop repeats.</p>
+<p>The big idea is:</p>
+<pre><code class="language-text">                TASK: &quot;Book me a flight&quot;
+                         |
+                         v
+                 +----------------+
+                 |    UI-TARS     |
+                 | vision +       |
+                 | reasoning +    |
+                 | action          |
+                 +-------+--------+
+                         |
+                  thought + action
+                         |
+             +-----------+-----------+
+             |                       |
+        Click(x,y)              Type(text)
+             |                       |
+             +-----------+-----------+
+                         v
+                    COMPUTER
+                         |
+                         v
+                  NEW SCREENSHOT
+                         |
+                         +-------&gt; UI-TARS again</code></pre>
+<p>The paper argues that getting this to work well requires solving <strong>four difficult things together</strong>:</p>
+<ol><li><strong>Perception</strong> — understand a crowded GUI screenshot.</li><li><strong>Action + grounding</strong> — know exactly what action to take and exactly where.</li><li><strong>Reasoning</strong> — think through multi-step tasks instead of reacting to one screen at a time.</li><li><strong>Learning from experience</strong> — collect failures and good trajectories, then train the model again.</li></ol>
+<p>The paper's main contribution is therefore less like “here is one clever neural-network layer” and more like <strong>“here is a full training recipe for turning a vision-language model into a native computer-use agent.”</strong> citeturn416863view0</p>
+<hr>
+<h2>1. The problem</h2>
+<h3>First: what is a GUI agent?</h3>
+<p>Imagine you tell a human:</p>
+<blockquote>“Open the browser, search for flights from Berlin to Hyderabad, choose the cheapest option, and save it.”</blockquote>
+<p>A human does not receive an API called <code>search_flights()</code>.</p>
+<p>They see pixels.</p>
+<p>They read text.</p>
+<p>They understand buttons.</p>
+<p>They decide what to click.</p>
+<p>They remember what they already did.</p>
+<p>They correct themselves when something goes wrong.</p>
+<p>A real GUI agent has to do all of that.</p>
+<h3>Why is this hard?</h3>
+<p>A screenshot can contain hundreds of visual elements: tiny icons, text fields, buttons, menus, sidebars, popups, tables, images, and unrelated clutter. The model has to understand <strong>both what things are and where they are</strong>. citeturn910420view1</p>
+<p>Then there is the action problem.</p>
+<p>Knowing “click the Submit button” is not enough. The model must produce a valid low-level command and a precise location such as a screen coordinate.</p>
+<p>Then there is the planning problem.</p>
+<p>A task may require 20 actions. The agent has to remember what happened earlier and keep the final goal in mind.</p>
+<p>Then there is the data problem.</p>
+<p>Text and image models have huge training corpora, but high-quality records of <strong>people actually completing multi-step GUI workflows</strong> are much rarer. The paper calls this a fundamental data bottleneck for native GUI agents. citeturn416863view0</p>
+<h3>What was wrong with earlier approaches?</h3>
+<p>The paper describes an evolution:</p>
+<pre><code class="language-text">STAGE 1
+Rule-based automation
+       |
+       | rigid rules
+       v
+STAGE 2
+Modular agent framework
+       |
+       | several separate models + tools + prompts
+       v
+STAGE 3
+Native agent model
+       |
+       | one model learns the complete interaction behavior
+       v
+STAGE 4 (future direction in the paper)
+Active / lifelong agent
+       |
+       | keep learning from experience with less human effort</code></pre>
+<p>The paper's complaint about modular systems is not that they never work. They can work very well for narrow tasks. The problem is that they require lots of manual engineering and task-specific glue, and can become brittle when the environment changes. citeturn416863view0</p>
+<hr>
+<h2>2. Mental model</h2>
+<h3>Think of UI-TARS as a person operating a computer</h3>
+<p>A useful mental model is to imagine four pieces inside one brain:</p>
+<pre><code class="language-text">             +----------------------------------+
+             |            UI-TARS               |
+             |                                  |
+Screen ----&gt; |  EYES      = perception         |
+             |                                  |
+History ---&gt; |  MEMORY    = recent interaction |
+             |                                  |
+Goal ------&gt; |  BRAIN     = reasoning          |
+             |                                  |
+             |  HANDS     = actions             |
+             +----------------+-----------------+
+                              |
+                              v
+                           COMPUTER</code></pre>
+<p>This is still one model. “Eyes”, “brain”, and “hands” are just a useful way to understand what capabilities the training is trying to teach.</p>
+<h3>The important shift</h3>
+<p>Traditional automation thinks:</p>
+<pre><code class="language-text">&quot;I know the DOM / API / exact workflow, therefore I can automate it.&quot;</code></pre>
+<p>UI-TARS tries to think:</p>
+<pre><code class="language-text">&quot;I can see the interface, so I can learn how to operate it.&quot;</code></pre>
+<p>That is why the paper emphasizes <strong>screenshot-only input</strong>. The model is not supposed to depend on an accessibility tree, HTML structure, or special application API at inference time. citeturn416863view0</p>
+<hr>
+<h2>3. Implementation at a glance</h2>
+<h3>The actual runtime loop</h3>
+<pre><code class="language-text">                 USER INSTRUCTION
+                       |
+                       v
+          +---------------------------+
+          | Task + recent interaction |
+          | history + current image   |
+          +-------------+-------------+
+                        |
+                        v
+                +---------------+
+                |    UI-TARS     |
+                | Qwen2-VL base  |
+                +-------+-------+
+                        |
+                +-------+-------+
+                |               |
+                v               v
+             Thought          Action
+                |               |
+                |          Click / Type /
+                |          Scroll / Drag /
+                |          Hotkey / ...
+                |               |
+                +-------+-------+
+                        |
+                        v
+                   COMPUTER / APP
+                        |
+                        v
+                  NEW SCREENSHOT
+                        |
+                        +------------------+
+                                           |
+                                           v
+                                      repeat loop</code></pre>
+<h3>The training pipeline</h3>
+<pre><code class="language-text">                  RAW GUI WORLD
+                       |
+        +--------------+---------------+
+        |                              |
+        v                              v
+ Screenshot / element data       Human/model action traces
+        |                              |
+        +---------------+--------------+
+                        |
+                        v
+              Unified training format
+                        |
+             +----------+----------+
+             |                     |
+             v                     v
+       Perception data       Action/reasoning data
+             |                     |
+             +----------+----------+
+                        |
+                        v
+                 UI-TARS training
+              (SFT / reasoning data)
+                        |
+                        v
+                 Early UI-TARS
+                        |
+                        v
+              run on virtual PCs
+                        |
+                        v
+                 raw trajectories
+                        |
+                        v
+        rule filter -&gt; VLM scoring -&gt; human review
+                        |
+                        v
+                high-quality traces
+                        |
+                        v
+                  fine-tune again
+                        |
+                        +-------&gt; repeat
+
+Wrong trajectories also become useful:
+
+wrong action -&gt; correction / reflection -&gt; preference pair -&gt; DPO</code></pre>
+<p><strong>SOURCE SAYS:</strong> UI-TARS is built from Qwen2-VL 2B/7B/72B-scale base models, trained on about 50B tokens, and uses SFT plus later DPO for the iterative improvement stage. citeturn405008view3turn910420view5</p>
+<p><strong>MY EXPLANATION:</strong> The model is not “just prompted harder.” A large part of the work is building the right training data so that the model learns the actual behavior of a computer operator.</p>
+<hr>
+<h2>4. How it works, step by step</h2>
+<h3>Step 1 — Give the model the goal</h3>
+<p>Example:</p>
+<pre><code class="language-text">&quot;Open the browser and search for the cheapest flight to Hyderabad.&quot;</code></pre>
+<p>The instruction stays part of the context as the agent operates.</p>
+<h3>Step 2 — Give it the current screen</h3>
+<p>The main observation is a screenshot.</p>
+<p>Unlike systems that first convert a GUI into structured text, UI-TARS is designed to directly consume the visual interface. The paper argues that this avoids platform-specific dependence on underlying system structures. citeturn416863view0</p>
+<h3>Step 3 — Give it recent history</h3>
+<p>The model also sees previous observations and actions.</p>
+<p>Conceptually:</p>
+<pre><code class="language-text">Instruction
++
+Screen 1 -&gt; Thought 1 -&gt; Action 1
+Screen 2 -&gt; Thought 2 -&gt; Action 2
+Screen 3 -&gt; Thought 3 -&gt; ?</code></pre>
+<p>Because context is limited, the paper says it keeps only the <strong>last N observations</strong>, while retaining the interaction history in short-term memory. In the experiments, N is set to 5, and the authors mention token-budget constraints such as a 32k sequence length. citeturn910420view1turn405008view3</p>
+<h3>Step 4 — Think before acting</h3>
+<p>UI-TARS adds an explicit “thought” before each action.</p>
+<pre><code class="language-text">SEE
+ ↓
+THINK
+ ↓
+ACT
+ ↓
+SEE NEW SCREEN
+ ↓
+THINK
+ ↓
+ACT</code></pre>
+<p>The paper calls this <strong>System-2 reasoning</strong>: deliberate reasoning for difficult, multi-step decisions. citeturn910420view1</p>
+<h3>Step 5 — Produce a normalized action</h3>
+<p>The model does not output a vague sentence such as “click the red button”. It produces one of the standardized actions.</p>
+<p>Examples from the paper:</p>
+<pre><code class="language-text">Click(x, y)
+Drag(x1, y1, x2, y2)
+Scroll(x, y, direction)
+Type(content)
+Wait()
+Finished()
+CallUser()</code></pre>
+<p>There are also platform-specific actions such as desktop hotkeys and mobile back/home/enter operations. citeturn910420view2</p>
+<h3>Step 6 — Ground the action precisely</h3>
+<p>This is an extremely important part.</p>
+<p>Suppose the instruction is:</p>
+<pre><code class="language-text">Click the red &quot;Submit&quot; button in the top-right.</code></pre>
+<p>The model must turn that meaning into coordinates.</p>
+<p>The paper constructs grounding data from screenshot metadata, including bounding boxes and text. It converts the bounding box into a representative point, then trains the model to predict <strong>normalized screen coordinates</strong> so the behavior is less dependent on a particular resolution. citeturn910420view2</p>
+<p>Think:</p>
+<pre><code class="language-text">1920 x 1080 screen
+
+actual pixel:
+(1632, 141)
+
+              ↓
+
+normalized coordinate representation
+
+              ↓
+
+model learns &quot;where&quot; the target is</code></pre>
+<h3>Step 7 — Execute on the machine</h3>
+<p>The environment performs the action.</p>
+<p>For example:</p>
+<pre><code class="language-text">UI-TARS -&gt; Click(0.85, 0.13)
+                    |
+                    v
+              OS / browser
+                    |
+                    v
+             new screenshot</code></pre>
+<p>The next screenshot becomes the next observation.</p>
+<p>That creates the agent loop.</p>
+<h3>Step 8 — Repeat until Finished()</h3>
+<p>The agent continues until the task succeeds, fails, or requests user intervention.</p>
+<p>This is why GUI agents are fundamentally sequential: one bad click can change the entire future state of the task.</p>
+<hr>
+<h2>5. The architecture</h2>
+<h3>5.1 The model backbone</h3>
+<p>UI-TARS starts from <strong>Qwen2-VL</strong> and continually trains 2B, 7B, and 72B scale variants. The paper reports roughly 50B training tokens for the developed models. citeturn405008view3turn416863view0</p>
+<p>The paper is therefore not inventing a brand-new transformer from scratch.</p>
+<p>A useful picture is:</p>
+<pre><code class="language-text">                Qwen2-VL
+                   |
+          +--------+--------+
+          |                 |
+      general VLM       GUI training
+          |                 |
+          +--------+--------+
+                   |
+                UI-TARS
+                   |
+        GUI perception + reasoning
+        + grounding + actions</code></pre>
+<p><strong>MY TAKE:</strong> This is an important lesson when reading modern ML papers. The research contribution can be the <strong>data + objectives + training loop + system design</strong>, not a completely new base architecture.</p>
+<h3>5.2 Perception training</h3>
+<p>The authors build a GUI screenshot dataset with metadata such as:</p>
+<ul><li>element type,</li><li>depth,</li><li>bounding box,</li><li>text content.</li></ul>
+<p>They train several kinds of GUI understanding tasks: element description, dense captioning, state-transition captioning, question answering, and Set-of-Mark prompting. citeturn416863view0turn910420view1</p>
+<p>Think of these tasks as teaching the model different levels of “looking”.</p>
+<pre><code class="language-text">&quot;What is on this screen?&quot;
+        |
+        v
+&quot;What is this specific button?&quot;
+        |
+        v
+&quot;What changed between screen A and B?&quot;
+        |
+        v
+&quot;Which element answers this question?&quot;
+        |
+        v
+&quot;Where exactly should I click?&quot;</code></pre>
+<p>This is much richer than simply collecting screenshots with a label like <code>button</code>.</p>
+<h3>5.3 Unified action space</h3>
+<p>Different platforms naturally have different operations.</p>
+<p>Without standardization you might have:</p>
+<pre><code class="language-text">Web:     browser.click(...)
+Android: tap(...)
+Windows: mouse.click(...)
+Mac:     something else</code></pre>
+<p>UI-TARS maps semantically similar operations into a shared action vocabulary.</p>
+<p>That lets the model learn one conceptual language:</p>
+<pre><code class="language-text">Click
+Type
+Scroll
+Drag
+Wait
+Finished
+...</code></pre>
+<p>The paper combines its own annotated trajectories with several open-source datasets and standardizes them into this unified format. citeturn405008view1</p>
+<h3>5.4 Grounding data</h3>
+<p>Grounding means:</p>
+<blockquote>“I know which GUI element you mean. Now tell me exactly where it is.”</blockquote>
+<p>The paper creates training pairs like:</p>
+<pre><code class="language-text">SCREENSHOT
++
+&quot;red Submit button in the top-right&quot;
+            |
+            v
+      normalized (x, y)</code></pre>
+<p>This is one of the reasons GUI agents need much more than generic image understanding. The model must connect language, visual appearance, and geometry. citeturn910420view2</p>
+<h3>5.5 System-2 reasoning</h3>
+<p>The authors crawl around <strong>6 million GUI tutorials</strong> and use GUI traces with inserted reasoning patterns. They explicitly encourage patterns such as:</p>
+<pre><code class="language-text">Task decomposition
+Long-term consistency
+Milestone recognition
+Trial and error
+Reflection</code></pre>
+<p>They then augment traces with thoughts so the model learns a bridge between seeing the screen and selecting the next action. citeturn416863view0turn910420view3</p>
+<p>This is important because:</p>
+<pre><code class="language-text">Screenshot -&gt; Action</code></pre>
+<p>is often too shallow for a difficult task.</p>
+<p>They want:</p>
+<pre><code class="language-text">Screenshot
+   |
+   v
+&quot;What is my goal?&quot;
+   |
+   v
+&quot;What has already happened?&quot;
+   |
+   v
+&quot;What should happen next?&quot;
+   |
+   v
+Action</code></pre>
+<h3>5.6 Thought bootstrapping</h3>
+<p>There is a subtle problem with adding reasoning after the fact.</p>
+<p>Suppose you already know the correct action is:</p>
+<pre><code class="language-text">Click Submit</code></pre>
+<p>and then ask a model to invent a thought explaining it.</p>
+<p>The thought may sound reasonable even if it is not the reasoning that actually caused the choice.</p>
+<p>The paper therefore samples multiple <strong>thought + action</strong> candidates from an early model and keeps a thought when its sampled action matches the correct action. This tries to make the thought causally connected to the action instead of being a post-hoc explanation. citeturn405008view2</p>
+<p>That is a genuinely useful idea to remember when building reasoning datasets.</p>
+<h3>5.7 Learning from online experience</h3>
+<p>Now comes the clever part.</p>
+<p>The authors do not want humans to manually record every possible workflow forever.</p>
+<p>Instead:</p>
+<pre><code class="language-text">Task instructions
+       |
+       v
+   Current model
+       |
+       v
+Hundreds of virtual PCs
+       |
+       v
+Raw trajectories
+       |
+       +--&gt; bad / noisy
+       |
+       v
+Filtering
+  1. rules
+  2. VLM scoring
+  3. human review
+       |
+       v
+Good trajectories
+       |
+       v
+Fine-tune model
+       |
+       v
+Better model
+       |
+       +------&gt; collect more trajectories</code></pre>
+<p>The paper says this loop is run over multiple rounds on hundreds of virtual PCs. citeturn910420view4</p>
+<h3>5.8 Reflection tuning</h3>
+<p>Failure is especially valuable.</p>
+<p>Imagine:</p>
+<pre><code class="language-text">Goal: bookmark a page
+
+Model thinks:
+&quot;Click bookmark&quot;
+
+but accidentally clicks:
+&quot;Close tab&quot;</code></pre>
+<p>A dumb training dataset might throw the whole trajectory away.</p>
+<p>UI-TARS instead teaches recovery.</p>
+<pre><code class="language-text">WRONG ACTION
+    |
+    v
+Observe the consequences
+    |
+    v
+Recognize the mistake
+    |
+    v
+Think about recovery
+    |
+    v
+Correct next action</code></pre>
+<p>The authors annotate both <strong>error correction</strong> and <strong>post-reflection</strong> examples. Corrected steps are used for SFT; the method also constructs preference pairs so the model can learn that a corrected action is better than the erroneous one. citeturn910420view5</p>
+<h3>5.9 Why DPO appears here</h3>
+<p>DPO means <strong>Direct Preference Optimization</strong>.</p>
+<p>Forget the name for a moment.</p>
+<p>You have:</p>
+<pre><code class="language-text">Same situation
+      |
+      +---- WRONG action
+      |
+      +---- BETTER action</code></pre>
+<p>Instead of only teaching “here is the right answer”, you can teach:</p>
+<pre><code class="language-text">BETTER &gt; WRONG</code></pre>
+<p>That is what the DPO stage is being used for: the model gets a preference signal between corrected and erroneous behaviors. citeturn910420view5</p>
+<hr>
+<h2>6. Tiny concrete example</h2>
+<p>Let's build the smallest possible UI-TARS-style task.</p>
+<h3>Goal</h3>
+<pre><code class="language-text">&quot;Open settings and turn on Dark Mode.&quot;</code></pre>
+<h3>Observation 1</h3>
+<p>The model sees a home screen.</p>
+<p>It thinks:</p>
+<pre><code class="language-text">MY EXPLANATION:
+I need to find the settings control first.</code></pre>
+<p>Action:</p>
+<pre><code class="language-text">Click(900, 80)</code></pre>
+<h3>Observation 2</h3>
+<p>Settings opens.</p>
+<p>Now the screen contains:</p>
+<pre><code class="language-text">Display
+Notifications
+Sound
+Privacy
+...</code></pre>
+<p>The model thinks:</p>
+<pre><code class="language-text">I am in Settings. Dark Mode is likely under Display.</code></pre>
+<p>Action:</p>
+<pre><code class="language-text">Click(410, 210)</code></pre>
+<h3>Observation 3</h3>
+<p>Display settings are open.</p>
+<p>The model sees:</p>
+<pre><code class="language-text">Theme
+  Light
+  Dark
+  System</code></pre>
+<p>Thought:</p>
+<pre><code class="language-text">Dark is directly available. Select it.</code></pre>
+<p>Action:</p>
+<pre><code class="language-text">Click(520, 370)</code></pre>
+<h3>Observation 4</h3>
+<p>The screen changes to a dark theme.</p>
+<p>Thought:</p>
+<pre><code class="language-text">The desired state appears to be reached.</code></pre>
+<p>Action:</p>
+<pre><code class="language-text">Finished()</code></pre>
+<p>This tiny example shows why the agent needs <strong>all four capabilities</strong>:</p>
+<pre><code class="language-text">Perception  -&gt; understand the menu
+Grounding   -&gt; find the exact item
+Reasoning   -&gt; know the next step
+Memory      -&gt; remember that Settings was already opened</code></pre>
+<hr>
+<h2>7. The difficult words</h2>
+<div class="tablewrap"><table><thead><tr><th>Term</th><th>Plain English</th></tr></thead><tbody><tr><td>GUI</td><td>Graphical User Interface — buttons, menus, windows, text boxes, etc.</td></tr><tr><td>GUI agent</td><td>AI that operates a graphical interface to complete a goal</td></tr><tr><td>VLM</td><td>Vision-Language Model — a model that can process images and language together</td></tr><tr><td>Perception</td><td>Understanding what is visible on the screen</td></tr><tr><td>Grounding</td><td>Converting “that button” into the exact location to interact with</td></tr><tr><td>Action space</td><td>The set of actions the model is allowed to output</td></tr><tr><td>Trajectory / trace</td><td>A sequence of observations, thoughts, and actions during a task</td></tr><tr><td>SFT</td><td>Supervised Fine-Tuning — train on examples of desired behavior</td></tr><tr><td>DPO</td><td>Direct Preference Optimization — teach the model which of two behaviors is preferred</td></tr><tr><td>System 1</td><td>Fast, automatic decision-making</td></tr><tr><td>System 2</td><td>Slower, deliberate reasoning</td></tr><tr><td>Short-term memory</td><td>Recent interaction context supplied back to the model</td></tr><tr><td>Online bootstrapping</td><td>Letting the current model generate new training experience by acting in environments</td></tr><tr><td>Reflection tuning</td><td>Training the model to notice errors and recover from them</td></tr><tr><td>Normalized coordinates</td><td>Coordinates represented relative to screen size rather than fixed pixels</td></tr><tr><td>State transition</td><td>How the interface changes after an action</td></tr><tr><td>Set-of-Mark (SoM)</td><td>Visually marking GUI elements so the model can associate elements with locations</td></tr></tbody></table></div>
+<hr>
+<h2>8. What is actually new?</h2>
+<h3>The paper is not claiming one magic invention</h3>
+<p>The contribution is a <strong>stack of mutually reinforcing ideas</strong>.</p>
+<pre><code class="language-text">Better GUI perception
+        +
+Unified actions
+        +
+Better grounding
+        +
+Explicit reasoning
+        +
+Experience collection
+        +
+Reflection / correction
+        +
+DPO from mistakes
+        |
+        v
+More capable native GUI agent</code></pre>
+<p>The four ideas the paper emphasizes most strongly are:</p>
+<h3>1. Enhanced GUI perception</h3>
+<p>Teach the model to understand crowded GUI screenshots using multiple specialized data tasks. citeturn416863view0</p>
+<h3>2. Unified action modeling</h3>
+<p>Use one normalized action vocabulary across web, desktop, and mobile settings. citeturn405008view1</p>
+<h3>3. System-2 reasoning</h3>
+<p>Insert deliberate reasoning between perception and action and train on several reasoning patterns. citeturn910420view3</p>
+<h3>4. Iterative learning from experience</h3>
+<p>Let the agent act in virtual environments, filter the resulting trajectories, train again, and use errors for reflection and preference optimization. citeturn910420view4turn910420view5</p>
+<p><strong>MY TAKE:</strong> The most interesting contribution is probably the <strong>closed loop</strong> rather than any individual dataset.</p>
+<pre><code class="language-text">model
+  -&gt; acts
+  -&gt; fails / succeeds
+  -&gt; records experience
+  -&gt; filters experience
+  -&gt; trains on experience
+  -&gt; becomes better
+  -&gt; acts again</code></pre>
+<p>That is the part that points toward more autonomous agents.</p>
+<hr>
+<h2>9. Results and evidence</h2>
+<p>The authors evaluate the system across three broad dimensions:</p>
+<pre><code class="language-text">PERCEPTION
+    |
+GROUNDING
+    |
+AGENT TASK EXECUTION</code></pre>
+<h3>Perception</h3>
+<p>For VisualWebBench, UI-TARS-72B scores <strong>82.8</strong>, compared with <strong>78.5 for GPT-4o</strong> in the paper's comparison. citeturn405008view3</p>
+<h3>Grounding</h3>
+<p>The paper reports strong grounding results across mobile, desktop, and web settings, including <strong>38.1 on ScreenSpot Pro</strong>. citeturn416863view0</p>
+<h3>ScreenSpot</h3>
+<p>On ScreenSpot, the paper reports strong results from UI-TARS-7B and UI-TARS-72B, with different strengths across the mobile, desktop, and web categories. The table is important because it shows that being good at one GUI modality does not automatically mean being equally good everywhere. citeturn405008view4</p>
+<h3>Online agent tasks</h3>
+<p>For OSWorld and AndroidWorld, the paper reports:</p>
+<pre><code class="language-text">OSWorld
+UI-TARS-72B-SFT      18.8  (15 steps)
+UI-TARS-72B-DPO      22.7  (15 steps)
+UI-TARS-72B-DPO      24.6  (50 steps)
+
+AndroidWorld
+UI-TARS-72B-SFT      46.6</code></pre>
+<p>The paper compares these with Claude Computer Use at <strong>14.9 / 22.0</strong> on the corresponding OSWorld step settings and GPT-4o at <strong>34.5</strong> on AndroidWorld. citeturn405008view5</p>
+<h3>What do those numbers actually mean?</h3>
+<p>A benchmark score is not “the model is 46.6% as smart as a human”.</p>
+<p>It means roughly:</p>
+<blockquote>Under this benchmark's task definition and evaluation procedure, this system successfully completed that fraction/score of the tested tasks.</blockquote>
+<p>So the useful question is not simply “which number is largest?”</p>
+<p>The useful questions are:</p>
+<pre><code class="language-text">What tasks were tested?
+What inputs were allowed?
+How many steps were allowed?
+Was tool access allowed?
+Was the model screenshot-only?
+Was there human intervention?</code></pre>
+<p>Those details determine how impressive a number really is.</p>
+<h3>One interesting result: DPO helps</h3>
+<p>On OSWorld, the paper reports:</p>
+<pre><code class="language-text">72B SFT -&gt; 18.8
+72B DPO -&gt; 22.7   (15 steps)</code></pre>
+<p>The authors explicitly use DPO for OSWorld because that benchmark benefits strongly from the iterative improvement stage. citeturn405008view3turn405008view5</p>
+<p>That is practical evidence for the paper's argument that <strong>learning from wrong trajectories is valuable</strong>.</p>
+<hr>
+<h2>10. Limitations / gotchas</h2>
+<h3>1. The data pipeline is enormous</h3>
+<p>The paper is not saying:</p>
+<pre><code class="language-text">&quot;Install Qwen2-VL and add a clever prompt.&quot;</code></pre>
+<p>The system depends on large-scale screenshot datasets, action traces, reasoning annotations, millions of tutorials, online environments, multiple filtering stages, and large-scale training. citeturn416863view0turn910420view4</p>
+<p>That makes exact reproduction expensive.</p>
+<h3>2. Screenshot-only does not mean “no infrastructure”</h3>
+<p>The model input can be screenshot-based while the surrounding system still needs an environment that captures screenshots and executes actions.</p>
+<p>So the real architecture is:</p>
+<pre><code class="language-text">MODEL
+ +
+SCREEN CAPTURE
+ +
+ACTION EXECUTOR
+ +
+COMPUTER ENVIRONMENT</code></pre>
+<p>The paper's “native model” claim is mainly about the decision-making model, not about magically eliminating the operating system integration layer.</p>
+<h3>3. The action space is still predefined</h3>
+<p>The model has a vocabulary of actions such as Click, Type, Scroll, Drag, and platform-specific controls. citeturn910420view2</p>
+<p>That is already general, but it is not the same as an unrestricted computer API.</p>
+<h3>4. Context length forces a memory trade-off</h3>
+<p>The paper limits the model to the recent observations in its context because full history can become too large. citeturn910420view1</p>
+<p>So long tasks still raise the classic question:</p>
+<pre><code class="language-text">&quot;What should the agent remember?&quot;</code></pre>
+<h3>5. Self-generated data can amplify mistakes</h3>
+<p>Online bootstrapping is powerful because it creates data cheaply, but it also creates the possibility of producing lots of bad examples.</p>
+<p>That is why the paper needs:</p>
+<pre><code class="language-text">rules -&gt; VLM scoring -&gt; human review</code></pre>
+<p>The filtering step is not a minor detail. It is what protects the next training round from being polluted by the previous model's mistakes. citeturn910420view4</p>
+<h3>6. Benchmark wins are not the same as universal reliability</h3>
+<p>The paper reports strong results on a number of benchmarks, but benchmark success does not mean an agent will safely and reliably operate every arbitrary desktop application.</p>
+<p><strong>MY TAKE:</strong> For real deployments, the environment, permissions, failure recovery, task boundaries, and safety layer matter just as much as raw model capability.</p>
+<h3>7. This note covers the paper's 2025 v1, not the later model lineage</h3>
+<p>The official UI-TARS repository has since moved on to later releases, including UI-TARS-1.5 and UI-TARS-2. Those are important when implementing the modern system, but they are <strong>not silently substituted for claims made by this original paper</strong>. citeturn168472view0</p>
+<hr>
+<h2>11. Build-it-yourself</h2>
+<h3>First: do NOT try to reproduce the entire paper</h3>
+<p>A beginner implementation should be much smaller.</p>
+<p>Your goal is to learn the architecture first.</p>
+<h3>Version 0 — tiny screenshot agent</h3>
+<pre><code class="language-text">                 +------------------+
+Instruction ---&gt;|                  |
+Screenshot ----&gt;|   Vision model   |----&gt; action text
+History -------&gt;|                  |
+                 +--------+---------+
+                          |
+                          v
+                    Action parser
+                          |
+                          v
+                    PyAutoGUI / OS
+                          |
+                          v
+                     new screenshot
+                          |
+                          +----&gt; repeat</code></pre>
+<h3>Step 1 — capture the screen</h3>
+<p>Use Python to capture the current desktop screenshot.</p>
+<h3>Step 2 — send screenshot + instruction to a VLM</h3>
+<p>Start with an existing vision-language model instead of training one.</p>
+<p>Conceptually:</p>
+<pre><code class="language-python">response = model(
+    image=screenshot,
+    text=instruction + recent_history
+)</code></pre>
+<h3>Step 3 — force a tiny action vocabulary</h3>
+<p>Start with:</p>
+<pre><code class="language-text">CLICK(x, y)
+TYPE(text)
+WAIT()
+DONE()</code></pre>
+<p>Do not start with 20 action types.</p>
+<h3>Step 4 — parse the response</h3>
+<p>Convert:</p>
+<pre><code class="language-text">CLICK(820, 410)</code></pre>
+<p>into an actual mouse click.</p>
+<h3>Step 5 — close the loop</h3>
+<pre><code class="language-python">while not done:
+    screenshot = capture_screen()
+    thought, action = model(screenshot, instruction, history)
+    execute(action)
+    history.append((screenshot, thought, action))</code></pre>
+<h3>Step 6 — add grounding data</h3>
+<p>Create examples such as:</p>
+<pre><code class="language-text">Image
++
+&quot;Click the blue login button&quot;
++
+(x, y)</code></pre>
+<p>Normalize the coordinates.</p>
+<h3>Step 7 — collect trajectories</h3>
+<p>Start recording:</p>
+<pre><code class="language-text">instruction
+screen
+thought
+action
+new screen
+thought
+action
+...</code></pre>
+<h3>Step 8 — deliberately keep failures</h3>
+<p>Do not only save successful runs.</p>
+<p>Create examples like:</p>
+<pre><code class="language-text">Wrong action
+   |
+   v
+What changed?
+   |
+   v
+What should I have done?
+   |
+   v
+Correct action</code></pre>
+<p>This gives you the basic idea behind reflection tuning.</p>
+<h3>Step 9 — preference data</h3>
+<p>Create:</p>
+<pre><code class="language-text">same state
+   |
+   +---- bad action
+   |
+   +---- good action</code></pre>
+<p>Then train a preference objective.</p>
+<h3>Step 10 — only then worry about scale</h3>
+<p>Once the tiny system works, you can explore:</p>
+<pre><code class="language-text">more screenshots
+more actions
+more platforms
+more trajectories
+better filtering
+larger models
+online bootstrapping</code></pre>
+<h3>Practical reproduction path</h3>
+<pre><code class="language-text">WEEKEND 1
+Screenshot -&gt; VLM -&gt; CLICK / TYPE
+
+WEEKEND 2
+Add history + multi-step loop
+
+WEEKEND 3
+Add coordinate grounding dataset
+
+WEEKEND 4
+Record successful + failed trajectories
+
+NEXT
+Add reflection + preference training
+
+LATER
+Run many environments and bootstrap data</code></pre>
+<p><strong>MY TAKE:</strong> This is the most important thing to carry from the paper. You do not need a 72B model to learn the architecture. You can reproduce the <strong>shape of the system</strong> with a much smaller model and understand each piece one at a time.</p>
+<h3>Official implementation starting points</h3>
+<p>The authors' codebase includes deployment/inference guidance, action parsing, coordinate processing, and a path toward running UI-TARS on desktop environments. Their public repository also points to a desktop agent implementation and browser automation ecosystem. citeturn168472view0turn168472search1</p>
+<p>For the original 2025 paper, the most relevant thing to inspect in code is not just “how to call the model”. Study:</p>
+<pre><code class="language-text">1. action format
+2. coordinate normalization
+3. screenshot -&gt; model input
+4. model output -&gt; executable action
+5. history format
+6. benchmark environment loop</code></pre>
+<p>Those six pieces are the skeleton of the agent.</p>
+<hr>
+<h2>12. What I would remember</h2>
+<p>If you forget almost everything in this note, remember this:</p>
+<h3>A GUI agent is a control loop</h3>
+<pre><code class="language-text">SEE -&gt; THINK -&gt; ACT -&gt; SEE -&gt; THINK -&gt; ACT</code></pre>
+<h3>UI-TARS combines four things</h3>
+<pre><code class="language-text">Perception
+   +
+Action / grounding
+   +
+Reasoning
+   +
+Learning from experience</code></pre>
+<h3>The hardest part is not the click</h3>
+<p>The click is easy.</p>
+<p>The hard part is teaching the model:</p>
+<pre><code class="language-text">&quot;I understand what this screen means,
+I know what my goal is,
+I remember what I already did,
+I can choose the next action,
+and when I fail I can recover.&quot;</code></pre>
+<h3>The training loop is the real story</h3>
+<pre><code class="language-text">                    +------------------+
+                    |                  |
+                    |   BETTER MODEL   |
+                    |                  |
+                    +--------+---------+
+                             |
+                             v
+                       acts in world
+                             |
+                             v
+                      collects traces
+                             |
+                             v
+                         filters
+                             |
+                             v
+                   corrections / DPO
+                             |
+                             v
+                       train again
+                             |
+                             +-----------&gt; BETTER MODEL</code></pre>
+<p>That loop is much more important than memorizing one benchmark number.</p>
+<hr>
+<h2>13. Sources</h2>
+<h3>Primary</h3>
+<ul><li><strong>Paper:</strong> https://arxiv.org/abs/2501.12326</li><li><strong>Paper HTML:</strong> https://arxiv.org/html/2501.12326v1</li><li><strong>Paper PDF:</strong> https://arxiv.org/pdf/2501.12326</li><li><strong>Official code:</strong> https://github.com/bytedance/UI-TARS</li></ul>
+<h3>Useful implementation references</h3>
+<ul><li><strong>UI-TARS README:</strong> https://github.com/bytedance/UI-TARS/blob/main/README.md</li><li><strong>UI-TARS desktop:</strong> https://github.com/bytedance/UI-TARS-desktop</li></ul>
+<hr>
+<h2>Source vs explanation</h2>
+<p><strong>SOURCE SAYS</strong> — the paper's claims, numbers, architecture, training procedures, and reported experiments.</p>
+<p><strong>MY EXPLANATION</strong> — simplified teaching language so someone new to GUI agents can follow the ideas.</p>
+<p><strong>MY TAKE</strong> — practical implementation advice or interpretation. These are not claims made by the paper unless explicitly marked as such.</p>
+<hr>
+<h3>Final mental picture</h3>
+<pre><code class="language-text">              HUMAN GOAL
+                  |
+                  v
+        +---------------------+
+        |      UI-TARS        |
+        |                     |
+        |  vision             |
+        |  reasoning          |
+        |  grounding          |
+        |  action prediction  |
+        +----------+----------+
+                   |
+               action
+                   |
+                   v
+               COMPUTER
+                   |
+             screenshot
+                   |
+                   +------------+
+                                |
+                                v
+                           UI-TARS again
+
+TRAINING SIDE
+
+GUI data -&gt; action traces -&gt; reasoning traces
+       \         |              /
+        \        |             /
+         +-------+------------+
+                 |
+                 v
+             train model
+                 |
+                 v
+          run on virtual PCs
+                 |
+          collect mistakes
+                 |
+          filter + correct
+                 |
+             train again
+                 |
+                 +------&gt; better agent</code></pre>
+<p><strong>This is the paper in one picture:</strong> teach a VLM how computers look, teach it the language of actions, teach it to reason before acting, then let it practice in virtual computers and learn from what it gets wrong. citeturn416863view0turn910420view4turn910420view5</p>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

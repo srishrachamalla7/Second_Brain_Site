@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FauxTalks — what it can earn, and how long it takes — Srish</title>
+<meta name="description" content="Research done 2026-08-30 by five parallel agents: competitor revenue, keyword market size, the app-store mockup market, FauxTalks&#x27; own 16 months of analytics, and payment-processor">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">note</span>
+  <h1>FauxTalks — what it can earn, and how long it takes</h1>
+  <div class="meta">2026-08-30<br><span class="tag">monetization</span><span class="tag">seo</span><span class="tag">competitors</span><span class="tag">analytics</span><span class="tag">revenue</span><span class="tag">research</span></div>
+  <p>Research done 2026-08-30 by five parallel agents: competitor revenue, keyword market size, the app-store mockup market, FauxTalks' own 16 months of analytics, and payment-processor acceptance. Every number below is either measured from FauxTalks' own GA4 / Search Console, or sourced externally. Guesses are labelled as guesses.</p>
+<p>The question being answered: <strong>how much money can this site make, and when?</strong></p>
+<hr>
+<h2>The short answer</h2>
+<pre><code>  $1,000 per MONTH        -&gt; yes.  About 12-15 months of steady work.
+  $1,000 MRR (recurring)  -&gt; no.   Not in this category. See below.</code></pre>
+<p>Those are two different things and the difference decides the whole strategy.</p>
+<hr>
+<h2>1. Why recurring revenue does not work here</h2>
+<p>People who need a fake chat screenshot need it <strong>once</strong>. They make it, they send it, they leave. They do not subscribe to anything.</p>
+<p>This is not an opinion. It is what every comparable product shows:</p>
+<div class="tablewrap"><table><thead><tr><th>Product</th><th>Recurring revenue</th><th>Evidence</th></tr></thead><tbody><tr><td>Mockly</td><td><strong>$248 MRR from 15 subscribers</strong> after 13 months</td><td>trustmrr.com/startup/mockly</td></tr><tr><td>TwitterShots</td><td>$500 MRR from <strong>22,938 registered users</strong></td><td>twittershots.com/blog/500-mrr</td></tr><tr><td>Pika</td><td>$2,000-3,500 MRR, 190-250 paid users, took ~2 years</td><td>Indie Hackers / Starter Story</td></tr><tr><td>FakeDetail</td><td><strong>No subscription at all.</strong> Sells $15/15-day to $100/year passes</td><td>fakedetail.com</td></tr><tr><td>pranx, prankshit, ifaketextmessage, zeoob</td><td><strong>No subscription. Ads only.</strong></td><td>direct site checks</td></tr></tbody></table></div>
+<p>TwitterShots is the clearest data point: <strong>22,938 registered users produce $500/month.</strong> That is <strong>2 cents per user per month.</strong></p>
+<p>Mockly matters most because it is the closest thing to FauxTalks that exists — "realistic screenshots of chat conversations, AI chats, social media posts" — and it has the same domain authority (DR 19). After 13 months it earns $950 in a month, but <strong>only $248 of that recurs.</strong> The other $702 is one-time sales.</p>
+<p><strong>Conclusion: aim for $1,000 per month blended — ads plus one-time sales. Do not build a subscription business.</strong></p>
+<hr>
+<h2>2. Where FauxTalks stands today (measured, high confidence)</h2>
+<p>30 days to 2026-08-30, from GA4 and Search Console:</p>
+<div class="tablewrap"><table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Sessions</td><td>7,229</td></tr><tr><td>Users</td><td>4,666</td></tr><tr><td>Pageviews</td><td>14,401</td></tr><tr><td>Google clicks</td><td>1,257</td></tr><tr><td>Average position</td><td>15.3</td></tr><tr><td>Non-branded share of clicks</td><td>5.2% (an all-time high)</td></tr></tbody></table></div>
+<h3>The funnel</h3>
+<p>Measured 2026-08-26 to 08-30 — the only window that exists, because custom event tracking only shipped on 2026-08-26. <strong>821 deduplicated users.</strong></p>
+<pre><code> visited        ███████████████████████████████████████████████████  821   100%
+ opened app     ███████████████████████████████                      492  59.9%
+ picked platform████████████████████                                 319  38.9%
+ added message  ██████████████                                       216  26.3%
+ EXPORTED       ██████████                                           160  19.5%</code></pre>
+<p><strong>The important read: 160 of 216 people who build a chat finish the export. That is 74%. The end of the funnel is healthy — do not try to fix it.</strong> The leak is at the front: 40% of visitors never open the app at all.</p>
+<h3>The number that actually governs revenue</h3>
+<div class="tablewrap"><table><thead><tr><th>Cut</th><th>Value</th></tr></thead><tbody><tr><td>Unique exporters per month</td><td>~950</td></tr><tr><td><strong>Tier-1 exporters (US/UK/CA/AU/DE)</strong></td><td><strong>33.1% = ~315 per month</strong></td></tr></tbody></table></div>
+<p>Two-thirds of the people who finish the core action live in countries that will not pay. <strong>~315 per month is the real paying population</strong> — not 4,666, not 950.</p>
+<p>Exporters by country, 5-day window, n=160:</p>
+<pre><code> United States   ████████████████████████████████  33
+ Philippines     ███████████████                   15
+ India           █████████████                     13
+ United Kingdom  ███████████                       11
+ China           █████████                          9
+ Australia       ████                               4
+ Canada          ████                               4
+ Indonesia       ████                               4
+ Poland          ████                               4
+ Singapore       ████                               4</code></pre>
+<h3>Two beliefs that the data killed</h3>
+<ol><li><strong>"Reddit traffic is worthless."</strong> False. Reddit opens the app at 63.2% vs</li></ol>
+<p>Google's 62.4%, and exports at 20.5% vs Google's 22.0%. Statistically identical. The genuinely weak channel is <strong>Bing at 6.2%</strong>.</p>
+<ol><li><strong>"The export step is leaking users."</strong> False — that came from comparing</li></ol>
+<p><code>message_added</code> (an event count; one person adds many messages) against <code>export_completed</code> (unique users). Always compare users to users.</p>
+<h3>Mobile beats desktop, by a lot</h3>
+<div class="tablewrap"><table><thead><tr><th>Device</th><th>Users</th><th>Export rate</th></tr></thead><tbody><tr><td>Mobile</td><td>441</td><td><strong>24.3%</strong></td></tr><tr><td>Desktop</td><td>365</td><td>14.2%</td></tr><tr><td>Tablet</td><td>22</td><td>4.5%</td></tr></tbody></table></div>
+<p>Mobile is both the majority of traffic <strong>and</strong> nearly twice the conversion. Product work belongs there.</p>
+<hr>
+<h2>3. The competition — traffic and what they earn from ads</h2>
+<p>This is the part that reframes everything. Every site beating FauxTalks in this niche is <strong>20 to 70 times bigger</strong>, and <strong>every single one monetizes with ads.</strong></p>
+<pre><code> estimated monthly visits          (1 block = 10,000 visits)
+
+ fakedetail.com   █████████████████████████████████████████████████  ~487K
+ pranx.com        ████████████████████████████████████████████       ~445K
+ prankshit.com    █████████████████████████████                      ~288K
+ ifaketextmessage ███████████████████████                            ~227K
+ zeoob.com        ████████████████                                   ~164K
+ fauxtalks.com    █                                                    7.2K</code></pre>
+<h3>Estimated competitor ad revenue</h3>
+<p><strong>These are my estimates, not disclosed figures.</strong> No site in this category publishes its ad income. Method: visits x 1.6 to 1.9 pageviews per visit, then a display RPM chosen for that site's geography — $2.50-4.00 for US/UK-heavy traffic, $1.00-2.00 for Latin America and South Asia-heavy traffic. Real RPM swings with ad network, layout, and season, so treat these as order-of-magnitude.</p>
+<div class="tablewrap"><table><thead><tr><th>Site</th><th>Est. pageviews/mo</th><th>Assumed RPM</th><th><strong>Est. ad revenue/mo</strong></th></tr></thead><tbody><tr><td>fakedetail.com</td><td>~800K</td><td>$2.00-4.00 (mixed IN/ID/TR)</td><td><strong>$1,600 - $3,200</strong></td></tr><tr><td>pranx.com</td><td>~740K</td><td>$2.00-4.00</td><td><strong>$1,480 - $2,960</strong></td></tr><tr><td>ifaketextmessage.com</td><td>~380K</td><td>$2.00-4.00 (US/PH)</td><td><strong>$760 - $1,520</strong></td></tr><tr><td>prankshit.com</td><td>~430K</td><td>$1.00-2.00 (Brazil/Mexico)</td><td><strong>$430 - $860</strong></td></tr><tr><td>zeoob.com</td><td>~280K</td><td>$2.00-4.00</td><td><strong>$560 - $1,120</strong></td></tr><tr><td><strong>fauxtalks.com (today)</strong></td><td><strong>14.4K</strong></td><td>$2.00-4.00</td><td><strong>$29 - $58</strong></td></tr></tbody></table></div>
+<pre><code> estimated ad revenue per month    (1 block = $50)
+
+ fakedetail.com   ████████████████████████████████████████████████  ~$2,400
+ pranx.com        ██████████████████████████████████████████        ~$2,100
+ ifaketextmessage ███████████████████████                           ~$1,140
+ zeoob.com        █████████████████                                   ~$840
+ prankshit.com    █████████████                                       ~$645
+ fauxtalks.com    █                                                    ~$44</code></pre>
+<p><strong>Read this carefully: the top competitors in this niche are earning roughly $1,500-$3,000 a month, from ads, with no subscription at all.</strong> That is the proven business model here, and it is the same order of magnitude as the $1,000/month goal. Nobody in this category is getting rich. But the goal is reachable, and the route is the one they all took.</p>
+<h3>Can a DR 19 site actually compete?</h3>
+<p>Yes. Evidence:</p>
+<ul><li><strong>No incumbent exceeds DR/AS ~45.</strong> These are scrappy ad-supported prank</li></ul>
+<p>sites, not entrenched authorities.</p>
+<ul><li><strong>Several are losing organic traffic</strong> month-over-month (-21% to -40% in</li></ul>
+<p>snapshots). Rankings here churn; nothing is moated.</p>
+<ul><li><strong>FauxTalks already ranks at position 5.3-8.1</strong> on its best terms at DR 19.</li></ul>
+<p>The SERP is not gated by authority.</p>
+<h3>But it is won by breadth, not by head terms</h3>
+<div class="tablewrap"><table><thead><tr><th>Site</th><th>Keywords it ranks for</th><th>URLs</th></tr></thead><tbody><tr><td>fakedetail.com</td><td>~1,300</td><td>many</td></tr><tr><td>prankshit.com</td><td>843</td><td>many</td></tr><tr><td><strong>fauxtalks.com</strong></td><td>small</td><td><strong>~26</strong></td></tr></tbody></table></div>
+<p>There is no single big keyword to capture. The whole niche is a long-tail aggregation game — hundreds of small pages, each catching a few searches. <strong>That gap between 26 URLs and 1,300 keywords is the entire growth strategy.</strong></p>
+<hr>
+<h2>4. What was ruled out</h2>
+<h3>The App Store / Play Store pivot — drop it</h3>
+<p>This was Track B in the roadmap (GitHub issue #14) and was the intended revenue play. The research does not support it:</p>
+<ul><li><strong>The wedge is already taken.</strong> "Generate the screenshot, don't just frame an</li></ul>
+<p>upload" is already shipped by <strong>Appthetics</strong> (text description to full app UI screens to framed store screenshots) and <strong>TapUI</strong>, which explicitly markets itself as the "stage one" tool versus "stage two" tools like AppScreens.</p>
+<ul><li><strong>Mockly already sells the exact combination</strong> — fake chat generator plus app</li></ul>
+<p>store screenshot maker, bundled, $12.99 one-time. The planned adjacent move already exists, from a competitor in the same space.</p>
+<ul><li><strong>The niche's ceiling is low.</strong> Best documented pure-play is Pika at</li></ul>
+<p>$2,000-3,500 MRR after ~2 years. Rotato, Previewed, LaunchMatic, Angle.sh, Shotbot and Screenshots Pro disclose <strong>nothing</strong> despite targeted searching. That absence is itself the finding.</p>
+<ul><li><strong>Distribution is harder, not easier.</strong> Smaller search pool, denser</li></ul>
+<p>competition, and developers buy once per app release. AppLaunchpad's four Product Hunt launches went 109 to 64 to 70 to <strong>18</strong> upvotes.</p>
+<p>Prices in that market for reference:</p>
+<div class="tablewrap"><table><thead><tr><th>Tool</th><th>Pricing</th></tr></thead><tbody><tr><td>AppLaunchpad</td><td>~$19-29/mo</td></tr><tr><td>Previewed</td><td>Free / $9.99 one-time / $19-29/mo</td></tr><tr><td>Rotato</td><td>$79 / $89 / $199 one-time</td></tr><tr><td>Screenshots Pro</td><td>Free / $19/mo / $49/mo</td></tr><tr><td>Mockuuups Studio</td><td>$15/mo or $120/yr</td></tr><tr><td>Angle.sh</td><td>$79 / $149 one-time</td></tr><tr><td>AppScreens</td><td>Free / ~$25/mo</td></tr></tbody></table></div>
+<p>Only surviving angle: <strong>chat / messaging / dating app developers specifically</strong>, where FauxTalks' chat-UI realism is genuinely best in class. That is a niche inside a niche inside a niche. Not a plan.</p>
+<h3>Automated backlink tools (Money Robot and similar) — never</h3>
+<p>Money Robot spams scraped blog networks (newsyblog.com, mpeblog.com, veronicablog.com) with auto-generated articles. On a DR 19 site with a thin backlink profile this is the fastest route to a penalty, and there is no undo. The "$67 software that makes your earnings grow" pitch is an upsell wall with a sales bot attached.</p>
+<hr>
+<h2>5. Payments — what changed</h2>
+<h3>Stripe processes this exact category today</h3>
+<p><strong>FakeChatGenerators.com</strong> sells fake chat screenshot generation at $1 for 3 days then $9/month, and states on its own FAQ that it uses Stripe. That is a live existence proof for the category.</p>
+<p>Stripe's restricted-business list prohibits "document falsification services" and "fake references or ID-providing services" — these target forged <em>identity and credential documents</em>, not entertainment mockups.</p>
+<h3>The Dodo rejection was about donations, not the product</h3>
+<p>Confirmed in Dodo's own merchant-acceptance documentation: they refuse "collecting money without delivering something in return", naming "charity or NGO drives, political or religious donations, personal fundraisers, crowdfunding campaigns". The impersonation question had already been resolved with four written safeguards. <strong>A paid-plan resubmission is a genuinely different application.</strong></p>
+<h3>Order to apply</h3>
+<div class="tablewrap"><table><thead><tr><th>Rank</th><th>Processor</th><th>Why</th></tr></thead><tbody><tr><td>1</td><td><strong>Stripe</strong></td><td>Live competitor precedent in this exact category</td></tr><tr><td>2</td><td><strong>Dodo</strong> (paid plan only, no donations)</td><td>Prior rejection was donation-specific</td></tr><tr><td>3</td><td>Creem</td><td>Explicitly welcomes "SaaS, tools"; will pre-clear by email</td></tr><tr><td>4</td><td>Polar</td><td>Plausible, but broad discretionary prohibited list</td></tr><tr><td>5</td><td>Lemon Squeezy / Gumroad</td><td>Policies aimed at regulated/physical goods</td></tr><tr><td>—</td><td><strong>Avoid: Paddle</strong></td><td>Tightening AUP around impersonation and deepfakes</td></tr><tr><td>—</td><td><strong>Avoid: FastSpring</strong></td><td>"Inappropriate products... without notice." Fully discretionary</td></tr></tbody></table></div>
+<h3>Fees decide the price</h3>
+<div class="tablewrap"><table><thead><tr><th>Price</th><th>Processor fee</th><th>Share lost</th></tr></thead><tbody><tr><td>$3/month subscription</td><td>~$0.58</td><td><strong>19%</strong></td></tr><tr><td>$19 one-time</td><td>~$1.45</td><td><strong>7.6%</strong></td></tr></tbody></table></div>
+<p>The flat 40c per transaction is charged regardless of price. <strong>A cheap subscription is structurally broken.</strong> Price at $19 one-time.</p>
+<h3>AdSense looks fine</h3>
+<p>Google's Misrepresentative Content policy targets a publisher who "misrepresents, misstates, or conceals information about... the primary purpose of your web property". A tool that openly says it makes mockups is not concealing what it is. Pranx, GeekPrank and PrankShit have run ads on this exact category for years.</p>
+<h3>The watermark — a genuinely open decision</h3>
+<p>Earlier guidance said "never sell watermark removal". That was too absolute. Mockly and FakeDetail both gate watermark removal and neither has been banned.</p>
+<p>The real constraint is narrower:</p>
+<ul><li><strong>If resubmitting to Dodo</strong> — keep the watermark mandatory. It was cited to</li></ul>
+<p><em>them</em> as a safeguard, and breaking a stated commitment to a specific processor is what closes accounts.</p>
+<ul><li><strong>If going to Stripe</strong> — no such promise exists. Gating it is defensible and</li></ul>
+<p>industry-standard, <strong>provided</strong> it is framed as "for commercial and professional use", never as "make it undetectable".</p>
+<p>Framing that maximises approval anywhere: sell it as a <strong>mockup / prototyping tool</strong>, keep "fake" as an SEO keyword but not the primary pitch, keep the ToS prohibiting fraud and harassment, keep no image hosting, and never take donations again.</p>
+<hr>
+<h2>6. The money model</h2>
+<p>Conversion benchmarks — ChartMogul, 200 products, surveyed January 2026:</p>
+<div class="tablewrap"><table><thead><tr><th>Segment</th><th>Good</th><th>Great</th></tr></thead><tbody><tr><td>Freemium self-serve, no card</td><td>3-5%</td><td>8-12%</td></tr><tr><td>B2B freemium</td><td>6-10%</td><td>15-20%</td></tr><tr><td>B2C / hybrid freemium</td><td>5-7%</td><td>8-12%</td></tr><tr><td>Consumer mobile freemium (median)</td><td>2.2%</td><td>—</td></tr></tbody></table></div>
+<p>FauxTalks has a casual consumer audience, so <strong>assume 2-4%</strong>, not the SaaS average. Applied to ~315 tier-1 exporters per month at $19 one-time netting $17.55:</p>
+<div class="tablewrap"><table><thead><tr><th>Sessions/mo</th><th>Pageviews</th><th>Tier-1 exporters</th><th>Sales at 3%</th><th>Ads at $3.50 RPM</th><th><strong>Total/mo</strong></th></tr></thead><tbody><tr><td><strong>7,200 (today)</strong></td><td>14,400</td><td>315</td><td>9 = $166</td><td>$50</td><td><strong>~$215</strong></td></tr><tr><td>15,000</td><td>30,000</td><td>655</td><td>20 = $345</td><td>$105</td><td><strong>~$450</strong></td></tr><tr><td><strong>30,000</strong></td><td>60,000</td><td>1,310</td><td>39 = $690</td><td>$210</td><td><strong>~$900</strong></td></tr><tr><td>40,000</td><td>80,000</td><td>1,750</td><td>52 = $920</td><td>$280</td><td><strong>~$1,200</strong></td></tr></tbody></table></div>
+<pre><code> revenue per month by traffic level     (1 block = $25)
+
+  7,200 sessions  ████████                      ~$215   &lt;- today
+ 15,000 sessions  ██████████████████            ~$450
+ 30,000 sessions  ████████████████████████████████████  ~$900
+ 40,000 sessions  ████████████████████████████████████████████████  ~$1,200</code></pre>
+<p><strong>Target: ~30,000-35,000 sessions per month equals ~$1,000 per month. That is 4 to 5 times today.</strong></p>
+<hr>
+<h2>7. How long — 12 to 15 months</h2>
+<p>The timeline is grounded in growth FauxTalks has <strong>already demonstrated</strong>. Impressions per day, by month, 2026:</p>
+<pre><code> Jan  ████████████                              36.6
+ Feb  ██████████████                            43.1
+ Mar  ██████████████████                        54.1
+ Apr  ██████████████████████████████            89.3
+ May  █████████████████████████████████         97.8
+ Jun  ███████████████████████████████████████  142.3
+ Jul  ██████████████████████████████████████   126.7
+ Aug  ██████████████████████████████████████████ 151.4   &lt;- all-time high</code></pre>
+<p><strong>That is 4.1x growth in 7 months.</strong> The 4x needed for $1,000/month is a rate already proven on this site.</p>
+<h3>One thing that looks alarming and is not</h3>
+<p>Clicks did <strong>not</strong> grow proportionally, and CTR fell from 76.7% to 26.1%:</p>
+<div class="tablewrap"><table><thead><tr><th>Month</th><th>Clicks/day</th><th>Impressions/day</th><th>CTR</th></tr></thead><tbody><tr><td>Jan</td><td>28.1</td><td>36.6</td><td>76.7%</td></tr><tr><td>Apr</td><td>51.6</td><td>89.3</td><td>57.8%</td></tr><tr><td>Jun</td><td>65.1</td><td>142.3</td><td>45.7%</td></tr><tr><td>Jul</td><td>51.1</td><td>126.7</td><td>40.3%</td></tr><tr><td>Aug</td><td>39.5</td><td>151.4</td><td>26.1%</td></tr></tbody></table></div>
+<p>This is <strong>mix shift, not decline.</strong> 14 new pages launched on 2026-08-26 and entered the index at positions 20-62, dragging the blended average down. The brand terms (<code>fauxtalks</code>, <code>faux talks</code>) are still pinned at <strong>position 1.0</strong> in every snapshot. New pages take 3-6 months to settle. This dilution is the expected cost of the breadth strategy, and it reverses.</p>
+<h3>The one real SEO progress signal</h3>
+<p>Non-branded share of clicks — the only measure that is not brand navigation:</p>
+<pre><code> Jan  ·                                          0.0%
+ Feb  ·                                          0.1%
+ Mar  █                                          0.7%
+ Apr  █                                          1.1%
+ May  █                                          0.9%
+ Jun  ████                                       4.4%
+ Jul  ███                                        3.5%
+ Aug  █████                                      5.2%   &lt;- new high</code></pre>
+<p>Small, but it has roughly tripled since spring. This is real.</p>
+<h3>Phases</h3>
+<div class="tablewrap"><table><thead><tr><th>Phase</th><th>Months</th><th>Sessions</th><th>Revenue/mo</th><th>Work</th></tr></thead><tbody><tr><td>1. Monetize what exists</td><td>0-2</td><td>7-10K</td><td>$50-250</td><td>Ads live; Stripe applied; $19 Pro shipped</td></tr><tr><td>2. Breadth</td><td>2-6</td><td>10-18K</td><td>$250-500</td><td>30-50 more pages; mobile UX</td></tr><tr><td>3. Compounding</td><td>6-12</td><td>18-30K</td><td>$500-900</td><td>Pages mature; internal linking; blog depth</td></tr><tr><td>4. Target</td><td>12-15</td><td>30-40K</td><td><strong>$1,000+</strong></td><td>Maintain and iterate</td></tr></tbody></table></div>
+<pre><code> month   0    2    4    6    8   10   12   15
+         |----|----|----|----|----|----|----|
+ phase   [ 1 ][   2   ][      3      ][  4  ]
+ rev/mo  $50      $250        $500      $1,000+</code></pre>
+<p>Cross-checks on the 12-15 month figure:</p>
+<ul><li><strong>Mockly reached $950/month in 13 months</strong> at the same DR 19. Direct comparable.</li><li><strong>Pika took ~2 years</strong> to $2,000-3,500 MRR.</li><li>Community median for a solo developer reaching $1K is ~8 months (anecdotal,</li></ul>
+<p>not a study).</p>
+<p>12-15 months is the honest middle.</p>
+<p><strong>This assumes continuous shipping. Stopping for two months does not pause the clock — rankings decay while you are away.</strong></p>
+<hr>
+<h2>8. What to do, in order</h2>
+<ol><li><strong>Apply to AdSense this week.</strong> No processor approval, no backend, no risk.</li></ol>
+<p>Worth ~$50/month now, and it scales with every visitor added afterwards.</p>
+<ol><li><strong>Apply to Stripe in parallel.</strong> Weeks of lead time. Frame as a mockup tool.</li><li><strong>Publish 30-50 more pages over three months.</strong> The single biggest lever.</li></ol>
+<p>Every platform crossed with every intent is its own page — "fake whatsapp chat generator", "whatsapp chat screenshot maker", "fake whatsapp group chat".</p>
+<ol><li><strong>Fix the two unindexed pages</strong> — <code>fake-snapchat-chat-generator</code> and</li></ol>
+<p><code>fake-teams-chat-generator</code> have <strong>zero impressions</strong>. Free wins.</p>
+<ol><li><strong>Mobile UX pass.</strong> Twice the conversion, majority of traffic, currently the</li></ol>
+<p>secondary surface.</p>
+<ol><li><strong>Ship the $19 one-time Pro</strong> once Stripe clears — video export, 4x</li></ol>
+<p>resolution, batch export. Not a $3/month subscription.</p>
+<ol><li><strong>Re-measure the funnel on 2026-09-15.</strong> The current read is a 5-day window.</li></ol>
+<p><strong>Do not:</strong> buy backlinks, pivot to app-store screenshots, price below $9, take donations, or build a subscription before a one-time product proves demand.</p>
+<hr>
+<h2>9. How much to trust each number</h2>
+<div class="tablewrap"><table><thead><tr><th>Confidence</th><th>What</th></tr></thead><tbody><tr><td><strong>High</strong></td><td>Funnel counts, traffic source / device / geography splits, competitor pricing, processor policy language, FauxTalks' own traffic history</td></tr><tr><td><strong>Medium</strong></td><td>Competitor traffic estimates (SimilarWeb free tier, volatile between snapshots), conversion assumptions (benchmarks are cross-category, not this niche), <strong>competitor ad revenue (my estimate — nobody publishes it)</strong>, ad RPM for FauxTalks (no first-party data yet — measure it, do not trust $3.50)</td></tr><tr><td><strong>Low</strong></td><td>Keyword search volumes (free tools would not return reliable numbers), new-page performance (only 2 days of data), the 12-15 month timeline (a projection, not a measurement)</td></tr></tbody></table></div>
+<p><strong>The weakest input is search volume.</strong> Free keyword tools would not return trustworthy numbers for these terms. If any money is ever spent on this project, spend it on <strong>one month of Ahrefs</strong> before committing to the page-breadth plan — it would tighten every traffic projection here.</p>
+<hr>
+<h2>A data trap worth remembering</h2>
+<p>The 30-day GA4 export shows <code>export_completed = 263</code>. Tracking only went live on <strong>2026-08-26</strong>, so roughly 26 of those 30 days contain zero events. Dividing 263 by 30-day sessions gives a 3.6% export rate. <strong>The real rate is 19.5% — a 5x error.</strong> Any custom-event rate must use a window starting on or after 2026-08-26.</p>
+<hr>
+<p>Full source document: <code>inbox/raw/2026-08-30_fauxtalks_monetization_research_en.md</code></p>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/aitelemeter/"><span class="rel">peer_project</span>AITelemeter</a></li><li><a href="/tools4agents/"><span class="rel">peer_project</span>Tools4Agents</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

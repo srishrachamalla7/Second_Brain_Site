@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bi2Bi client call — Counter Sales demo, 15 change requests, and 4 of the 6 open questions answered — Srish</title>
+<meta name="description" content="A screen-share call with the Bi2Bi client on 2 September 2026. Three people on the line — two on the client side, one on ours. Bi2Bi is the whitelabel copy of Esszo. The two run th">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Bi2Bi client call — Counter Sales demo, 15 change requests, and 4 of the 6 open questions answered</h1>
+  <div class="meta">2026-09-02<br><span class="tag">esszo</span><span class="tag">bi2bi</span><span class="tag">b2b</span><span class="tag">counter-sales</span><span class="tag">pos</span><span class="tag">distributor-app</span><span class="tag">consumer-app</span><span class="tag">inventory</span><span class="tag">gst</span><span class="tag">invoice</span><span class="tag">geotagging</span><span class="tag">roles</span><span class="tag">out-of-stock</span><span class="tag">change-requests</span></div>
+  <p>A screen-share call with the <strong>Bi2Bi</strong> client on 2 September 2026. Three people on the line — two on the client side, one on ours.</p>
+<p><strong>Bi2Bi is the whitelabel copy of Esszo.</strong> The two run the same product on separate production databases. Fixes and features land in Esszo first and are then ported down to Bi2Bi, so everything on this page is written as work against Esszo even though the demo was for the Bi2Bi client.</p>
+<p>The call had three parts:</p>
+<pre><code>   PART 1                 PART 2                    PART 3
+   ──────                 ──────                    ──────
+   Counter Sales          15 change requests        Out-of-Stock proposal
+   demo (POS)             walked through            answers
+                          &quot;priority-wise&quot;
+   we showed              they pushed back          4 of our 6 questions
+   what shipped           on 15 things              got real answers,
+                                                    2 are still open</code></pre>
+<p>Written by an agent from the raw transcript, saved verbatim at <code>inbox/raw/Transcripts/02-08-2026_Esszo_call_Telugu.txt</code>.</p>
+<blockquote><strong>On the transcript below.</strong> Telugu with heavy English code-mixing. The ASR is poor — it writes English speech in Telugu script, mangles shop and people names, and the speaker diarisation swaps the voices in places. Read it for the shape of the discussion, not for exact wording. Nothing has been removed; the full recording is reproduced at the bottom of this page.</blockquote>
+<blockquote><strong>On tracking.</strong> Both sides said the same thing out loud during this call: points asked for in WhatsApp get lost, and even the asker forgets what was asked — <em>"ట్రాకింగ్ లేదు."</em> That is the whole reason this page exists.</blockquote>
+<hr>
+<h2>The scorecard</h2>
+<pre><code>  15  change requests raised            ████████████████
+   1  design decision made on the call  █
+   4  open questions answered           ████
+   2  open questions still open         ██
+   1  idea raised and dropped           █</code></pre>
+<hr>
+<h2>Part 1 — What we demonstrated: Counter Sales</h2>
+<p>The walk-in billing screen, live on both Esszo and Bi2Bi. A full sale was made on the client's own catalogue during the call, then cancelled to show the reversal.</p>
+<pre><code>   ┌────────────────────────────────────────────────────────────┐
+   │  COUNTER SALES                                             │
+   │                                                            │
+   │  1. Search products      filter: in stock / out of stock   │
+   │           │                                                │
+   │           ▼                                                │
+   │  2. Choose price mode                                      │
+   │                                                            │
+   │      ┌──────────────┐        ┌──────────────┐              │
+   │      │  CUSTOMER    │        │    TRADE     │              │
+   │      │              │        │              │              │
+   │      │ consumer     │        │ distributor  │              │
+   │      │ pricing      │        │ group price  │              │
+   │      │              │        │ Group A /    │              │
+   │      │              │        │ Wholesale    │              │
+   │      └──────────────┘        └──────────────┘              │
+   │           │                                                │
+   │           ▼                                                │
+   │  3. Discount (optional)   →   4. Cash or Card              │
+   │           │                                                │
+   │           ▼                                                │
+   │  5. Save  →  Generate bill                                 │
+   └───────────────────────┬────────────────────────────────────┘
+                           │
+          ┌────────────────┼────────────────┐
+          ▼                ▼                ▼
+   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+   │   INVOICE   │  │  YOUR SALES │  │ ACCOUNTING  │
+   │  GST bill,  │  │  order list │  │    Sale     │
+   │ downloadable│  │             │  │  Register   │
+   └─────────────┘  └─────────────┘  └─────────────┘</code></pre>
+<p><strong>Cancelling a sale reverses everything.</strong> Stock goes back to the shop, the entry comes out of accounting, and the order shows as <code>Cancelled</code> in the order list. This was demonstrated end to end.</p>
+<p>One follow-up from the demo: the sale register showed a taxable amount of 172 against a total of 188 on a bill where a discount had been applied, and we said we would <strong>re-test the GST arithmetic on discounted bills</strong> before calling it closed.</p>
+<p>The agreed behaviour is this, and both sides confirmed it is correct:</p>
+<pre><code>        Bill total (GST already included)
+                    │
+                    ▼
+             apply discount
+                    │
+                    ▼
+        GST itself is NOT recalculated
+        the discount comes off the total</code></pre>
+<hr>
+<h2>Part 2 — The 15 change requests</h2>
+<p>Listed in the order the client raised them, which they said was their priority order.</p>
+<hr>
+<h2>1. Discount needs a lock — a new POS-only role</h2>
+<p><strong>The problem.</strong> Anyone standing at the counter can key in a direct discount. There is no approval, no ceiling, and no edit afterwards.</p>
+<p>Three options were weighed:</p>
+<div class="tablewrap"><table><thead><tr><th>Option</th><th>Verdict</th></tr></thead><tbody><tr><td>Authenticator-style rotating code, shared verbally</td><td>Workable, but a code that lives for a minute can be used four or five times</td></tr><tr><td>Login-and-approve before every invoice</td><td><strong>Rejected</strong> — 15 bills in an hour means 15 approvals. Too heavy.</td></tr><tr><td><strong>A restricted role, plus the existing activity log</strong></td><td><strong>Chosen</strong></td></tr></tbody></table></div>
+<p><strong>The decision.</strong> Admin Management currently offers only one role. Create a second.</p>
+<pre><code>   ┌───────────────────────┐        ┌───────────────────────┐
+   │        ADMIN          │        │      POS USER         │
+   │                       │        │      (new)            │
+   │  Products             │        │                       │
+   │  Inventory            │        │  Counter Sales        │
+   │  Orders               │        │                       │
+   │  Distributors         │        │  ...and nothing else  │
+   │  Accounting           │        │                       │
+   │  Counter Sales        │        │                       │
+   │  Admin Management     │        │                       │
+   └───────────────────────┘        └───────────────────────┘
+
+   The activity log already records who gave which discount.
+   A per-role discount ceiling sits on top of that.</code></pre>
+<p><strong>To do:</strong> create the POS User role, hide everything except Counter Sales from it, and add a discount threshold per role.</p>
+<hr>
+<h2>2. Order numbers do not match between support and admin</h2>
+<p>Support tickets reference order numbers — 545, 573, 549 — that cannot be found in the admin panel at all.</p>
+<pre><code>   SUPPORT TICKET says          ADMIN PANEL has
+   ─────────────────            ───────────────
+      order 545                    id 35
+      order 573                    id 210
+      order 549                    ...
+
+              ▲                        ▲
+              └────────  ✗  ───────────┘
+                  no shared number</code></pre>
+<p><strong>Cause suspected:</strong> consumer orders and distributor orders are stored and numbered separately.</p>
+<p><strong>Client's ask:</strong> one order number, visible everywhere — support, admin, app.</p>
+<hr>
+<h2>3. Edit an order before generating the invoice — the biggest one</h2>
+<p>This is the request the client pressed hardest on, because there is a manual workaround running in production right now.</p>
+<p><strong>What happens today:</strong></p>
+<pre><code>   Customer orders 10 items
+              │
+              ▼
+   2 of them are out of stock
+              │
+              ▼
+   ┌────────────────────────────────────┐
+   │  Print the invoice on paper        │
+   │  Strike out the 2 missing lines    │
+   │      with a pen                    │
+   │  Write the corrected total by hand │
+   │  Send it with the goods            │
+   └────────────────────────────────────┘
+              │
+              ▼
+   Books say  ₹1620 received
+   Actually collected  ₹1400
+              │
+              ▼
+        accounts are wrong</code></pre>
+<p>The client described it plainly: every invoice is printed, cut down with a pen, and carried to the kirana shop that way.</p>
+<p><strong>What they want:</strong></p>
+<pre><code>   ┌──────────────────────────────────────────────────────────┐
+   │  ORDER #573                                    [ EDIT ]  │
+   │                                                          │
+   │   Almonds 1 kg          20      ✓ in stock               │
+   │   Cashew W320 250 g     10   [−]  reduce to 5            │
+   │   Safawi Dates 500 g    30   [×]  remove, none left      │
+   │                                                          │
+   │   Two ways to cut, and BOTH are needed:                  │
+   │     [−]  reduce the quantity                             │
+   │     [×]  remove the product entirely                     │
+   │                                                          │
+   │              ┌──────────────────────────┐                │
+   │              │  GENERATE INVOICE  →     │                │
+   │              └──────────────────────────┘                │
+   └──────────────────────────────────────────────────────────┘
+              │
+              ▼
+   Invoice, stock and accounts all match what actually shipped</code></pre>
+<p><strong>And the customer must be told in the app — not just on the phone.</strong> Today the dispatcher rings the customer and gets a verbal yes. That still happens, but the app has to show it too:</p>
+<pre><code>   CONSUMER APP
+   ┌───────────────────────────────────────────┐
+   │  Your order — partially dispatched        │
+   │                                           │
+   │   Almonds 1 kg       20 of 20    ✓        │
+   │   Cashew W320         5 of 10    partial  │
+   │   Safawi Dates        0 of 30    not sent │
+   │                                           │
+   │   You are charged only for what was sent. │
+   └───────────────────────────────────────────┘</code></pre>
+<p><strong>Where it is needed:</strong> the distributor app <strong>and</strong> the admin app.</p>
+<p><strong>Raised and dropped — substitution.</strong> Swapping one 500 g pack for two 250 g packs was discussed, and a minus-or-replace button opening a variant search was sketched on the call. The client then dropped it — sending a substitute by hand is not a problem worth building for. <strong>Not being built.</strong></p>
+<hr>
+<h2>4. People have no names — signup fields must be mandatory</h2>
+<p><strong>The bug.</strong> In the new build an account can be created without a name or an email. When that happens the application invents an email address, and then uses the part before the <code>@</code> as the person's name.</p>
+<pre><code>   Someone signs up, leaves name and email blank
+                    │
+                    ▼
+   App generates    user8842@...
+                    │
+                    ▼
+   Name becomes     &quot;user8842&quot;
+                    │
+                    ▼
+   ┌──────────────────────────────────────────────┐
+   │  DISTRIBUTOR APP        │  ADMIN PANEL       │
+   │  ──────────────         │  ───────────       │
+   │  Siddhi Vinayaka        │  user8842          │
+   │  Kirana Shop        ✓   │  9xxxxxxxxx    ✗   │
+   │  Veerabhadra Kirana ✓   │  user9107      ✗   │
+   └──────────────────────────────────────────────┘
+
+   Result: the client cannot tell who anyone is.
+   A real consumer they had assigned by hand could not be
+   found again anywhere in the system.</code></pre>
+<p>This affects <strong>consumers and distributors both</strong>. A fix was already in progress when the call happened.</p>
+<p><strong>The mandatory field set, agreed:</strong></p>
+<pre><code>   ┌────────────────────────────────────────┐
+   │  ✓  Kirana shop name                   │
+   │       (owner&#x27;s name in brackets)       │
+   │  ✓  Phone number                       │
+   │  ✓  Address                            │
+   │  ✓  Location pin                       │
+   │  ·  Email — optional                   │
+   └────────────────────────────────────────┘</code></pre>
+<p>Location is currently marked optional in the application. <strong>That has to change.</strong> The client already instructs their onboarding staff to capture all of these by hand; the app should stop depending on that discipline.</p>
+<hr>
+<h2>5. The buyer's details are missing from the invoice</h2>
+<p>The invoice carries the seller's details — company name, GST number, address. The buyer's do not appear at all.</p>
+<pre><code>   INVOICE                          INVOICE
+   (today)                          (wanted)
+   ┌────────────────────┐           ┌────────────────────┐
+   │ FROM               │           │ FROM               │
+   │  Company name      │           │  Company name      │
+   │  GST number        │           │  GST number        │
+   │  Address           │           │  Address           │
+   │                    │           │                    │
+   │ TO                 │           │ TO                 │
+   │  (blank)        ✗  │           │  Shop name      ✓  │
+   │                    │           │  Address        ✓  │
+   └────────────────────┘           └────────────────────┘</code></pre>
+<p>Distributor orders already do this correctly. Consumer orders must match — in the <strong>order details screen and on the invoice PDF</strong>.</p>
+<hr>
+<h2>6. Geo-tagging is 5–6 km off</h2>
+<p>Staff stood inside the shop and pinned the location. The record reads <em>Bhagyalakshmi Colony Road</em>. Pressing <strong>View on map</strong> opens <strong>Balanagar</strong>, five to six kilometres away. Reproduced on two different phones.</p>
+<pre><code>        Where the pin was dropped          Where the map opens
+        ┌─────────────────┐                ┌─────────────────┐
+        │   the shop      │                │    Balanagar    │
+        │       X         │ ─── 5-6 km ──▶ │       X         │
+        └─────────────────┘                └─────────────────┘</code></pre>
+<p><strong>Likely cause.</strong> To avoid the paid Google Maps API we are using OpenStreetMap, whose India coverage is thinner. That normally costs a few hundred metres of accuracy — not five kilometres. So the real suspect is a naming or ordering mismatch in the latitude/longitude handling, not the map data.</p>
+<p><strong>Why it matters commercially.</strong> Right now one person — the marketing staffer doing the onboarding — knows where every kirana shop physically is. He is supporting deliveries for about fifteen more days. The next delivery hire will know nothing, and will have only the map pin to work from.</p>
+<p><strong>To do:</strong> verify the lat/long values end to end and test from a real distributor login. The client offered a phone number to log in with.</p>
+<hr>
+<h2>7. Unknown pending applications</h2>
+<p>Several applications sit in the Active Directory pending list that nobody on the client side recognises. Possibly a restaurant, possibly someone known to a distributor. <strong>Client to phone and confirm, then clear them.</strong></p>
+<hr>
+<h2>8. No way to find a consumer</h2>
+<p>A consumer can only be reached by first knowing which distributor they sit under.</p>
+<pre><code>   Today                                  Wanted
+   ─────                                  ──────
+   Distributors                           Consumers
+       └─ Balaji Dry Fruits                   └─ search by name / phone
+             └─ Active Directory                     │
+                   └─ Consumers                      ▼
+                         └─ the person          found in one step,
+                                                showing which
+   (and you must already know                  distributor they
+    which distributor it was)                  belong to</code></pre>
+<p>There was a separate Consumers tab at one point. It was removed. <strong>Bring back a consumer list with search</strong>, and restore the <strong>Approve button</strong> that used to sit on the consumer record and has also gone missing.</p>
+<hr>
+<h2>9. Distributor app — the shop name must be the headline</h2>
+<p>The order card leads with the order number and buries the shop name.</p>
+<pre><code>   TODAY                          OPTION 14  — CHOSEN
+   ┌──────────────────────┐       ┌──────────────────────┐
+   │                      │       │                      │
+   │  CONSUMER #70        │       │  Siddhi Vinayaka     │
+   │  ══════════════      │       │  Kirana Shop         │
+   │                      │       │  ═══════════════     │
+   │  Siddhi Vinayaka     │       │                      │
+   │  Kirana Shop         │       │  Order #70           │
+   │                      │       │  Tomorrow delivery   │
+   │  Tomorrow            │       │                      │
+   └──────────────────────┘       └──────────────────────┘
+
+   Three mock layouts were compared on the call (13, 14, 15).
+   14 wins, with one change: the shop name takes the &quot;Tomorrow&quot;
+   slot, and &quot;Tomorrow delivery&quot; moves underneath.</code></pre>
+<p><strong>Plus a list / grid view.</strong> Order volume is growing and scrolling up and down a long card feed on a phone is already painful. The client pointed at the existing list view elsewhere in the distributor app as the model.</p>
+<hr>
+<h2>10. Inventory price entry must work from the keyboard alone</h2>
+<p>Two separate faults on the same screen. Bulk price entry — customer price and distributor price per variant — is a job done for a week at a time, and today it needs the mouse.</p>
+<pre><code>   FAULT A — the number spinner
+
+   ┌──────────────────┐
+   │  Price   189  ▲  │  ← scrolling the page nudges these arrows
+   │               ▼  │     and silently changes the number
+   └──────────────────┘
+
+   FIX: remove the up/down spinner from number fields.
+
+
+   FAULT B — Tab stops working
+
+   [ MRP        ] ──Tab──▶ [ Customer  ] ──Tab──▶ [ Distributor ]
+                                                        │
+                                                       Tab
+                                                        ▼
+                                            field is below the fold
+                                            page does NOT scroll
+                                            focus is lost
+
+   FIX: auto-scroll to follow the focused field.</code></pre>
+<p>The goal, in the client's framing: never touch the mouse — go straight down the keyboard.</p>
+<p>Noted on the call that this had been raised once before and was forgotten. That is exactly the tracking problem, item 15.</p>
+<hr>
+<h2>11. GST should be set once, not per variant</h2>
+<pre><code>   TODAY                                WANTED
+   ─────                                ──────
+   Product                              Product
+     Basic info                           Basic info
+       HSN code                             HSN code
+                                            GST %   ← set once, here
+     Variants
+       500 g                              Variants
+         ... fields ...                     500 g   → 5% inherited
+         GST %  ← set here                  250 g   → 5% inherited
+       250 g                                1 kg    → 5% inherited
+         ... fields ...
+         GST %  ← and again                and a variant may still
+                                           override it when a real
+                                           case needs it</code></pre>
+<p>Set the GST rate once alongside the HSN code, have every variant inherit it, and keep variant-level GST as an override. Confirmed as buildable on the call.</p>
+<hr>
+<h2>12. Consumer app — remove the post-order marketing text</h2>
+<p>The screen shown after an order completes carries an "Organic" information block and a feedback prompt. The client wants both gone from both apps. The "last order cleared" line stays.</p>
+<p>Something Esszo-specific may be designed for that space later. Not now.</p>
+<hr>
+<h2>13. Consumer name missing in the distributor app order flow</h2>
+<p>Same root cause as item 4 — orders arriving from consumers show the shop name correctly in one place and a generated identifier in another. Fixed by making the signup fields mandatory, but listed separately because the client raised it separately, against the invoice.</p>
+<hr>
+<h2>14. iOS apps are not submitted</h2>
+<pre><code>   ANDROID                          iOS
+   ┌────────────────────┐           ┌────────────────────┐
+   │ Distributor  live  │           │ Distributor   ✗    │
+   │ Consumer     live  │           │ Consumer      ✗    │
+   └────────────────────┘           └────────────────────┘
+                                     approval ≈ 2 months
+                                     from submission</code></pre>
+<p>Both B2B apps still need to go to the App Store, and review is expected to take around two months. <strong>Plan: submit everything together this month</strong> rather than in pieces.</p>
+<hr>
+<h2>15. Stop tracking this in WhatsApp</h2>
+<p>Agreed on the call: a <strong>shared checklist</strong> all three of them can edit, where a point is ticked off as done and drops to the bottom. Google Sheets or Google Keep — either is fine.</p>
+<pre><code>   WhatsApp                    Shared checklist
+   ────────                    ────────────────
+   asked → scrolled away       asked → visible
+   forgotten                   done  → ticked, drops down
+   re-raised weeks later       both sides see the same list
+   no tracking                 it is the checkpoint</code></pre>
+<p><strong>Our side creates it and shares it.</strong></p>
+<hr>
+<h2>Part 3 — Answers to the Out-of-Stock proposal</h2>
+<p>The <a href="/stock-demand-requests/">Out-of-Stock Requests — Proposal</a> proposal put <strong>six questions</strong> to the client. This call was where they got answered — the client named the out-of-stock feature as the main reason for the meeting.</p>
+<p>Both cycles from the proposal were re-confirmed as correct:</p>
+<pre><code>   CYCLE 1                          CYCLE 2
+   Distributor → Admin              Consumer → Distributor
+
+   asks 100, admin has 20           notify button
+   order not taken for the 80       scoring by number of askers
+   admin sees the shortfall         one count per account (anti-spam)
+   admin can HOLD or RELEASE        counted per variant
+        the 20                      distributor ticks a list
+                                    ONE CLICK TO BUY → order page
+                                    cash or online, their choice
+
+   And when admin has none either, admin is warned EARLY and the
+   item is flagged as urgent: &quot;this many consumers are asking.&quot;</code></pre>
+<h2>Answered</h2>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>Question</th><th>Client's answer</th></tr></thead><tbody><tr><td><strong>3</strong></td><td>If the item cannot be sourced at all, what happens?</td><td><strong>Cancel the order — but show the consumer a notification.</strong> Not a silent failure.</td></tr><tr><td><strong>4</strong></td><td>When new stock arrives, who gets it?</td><td><strong>First in, first out.</strong> Stated flatly and without hesitation.</td></tr><tr><td><strong>new</strong></td><td>An order where some lines can be filled and some cannot</td><td><strong>Split it into two orders.</strong> Ship what is available now; the rest stays pending and ships when it arrives. The reasoning: do not lose the lead.</td></tr><tr><td><strong>new</strong></td><td>Should waiting requests be pooled or kept separate?</td><td>One queue, served first in first out.</td></tr></tbody></table></div>
+<p>The split-order answer is worth drawing, because it changes the proposal:</p>
+<pre><code>   ORDER            HAVE       SPLIT INTO
+   ─────            ────       ──────────
+   X × 20            20    ┐
+   Y × 10             5    ├──▶  ORDER A — ships now
+   Z × 30             0    ┘      X 20, Y 5
+
+                           └──▶  ORDER B — pending
+                                  Y 5, Z 30
+                                  ships when stock arrives</code></pre>
+<h2>Still open</h2>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>Question</th><th>Where it stands</th></tr></thead><tbody><tr><td><strong>2</strong></td><td>Should there be a <strong>limit</strong> on how much a distributor can request beyond what is available?</td><td><strong>Open.</strong> The client was honest that they do not know yet. The worry is real — someone entering 10,000 or 20,000 units, by accident or to make a point. One idea floated: show each distributor's order-to-fulfilment ratio on screen.</td></tr><tr><td><strong>5</strong></td><td>Should a request <strong>expire</strong>?</td><td><strong>Open.</strong> Both sides agreed it is a genuine problem — a request made 20 days ago is stale, and the consumers behind it are long gone. No rule decided.</td></tr></tbody></table></div>
+<p>Questions <strong>1</strong> (when a distributor pays) and <strong>6</strong> (repeat askers — one voice or several) were not reached. Question 6 is partly covered by the one-count-per-account rule already agreed.</p>
+<hr>
+<h2>What happens next</h2>
+<pre><code>   OUR SIDE                                    CLIENT SIDE
+   ────────                                    ───────────
+
+   □  Create the shared checklist              □  Call and confirm the
+      and share it                                unknown pending
+                                                  applications
+   □  Re-test GST on discounted bills
+                                               □  Decide: request limit
+   □  Signup fields mandatory —                   (question 2)
+      name, phone, address, location
+                                               □  Decide: request expiry
+   □  Order edit before invoice                   (question 5)
+      — quantity AND whole product
+      — admin + distributor app                □  Decide: payment timing
+      — partial state shown to consumer           (question 1)
+
+   □  POS User role + discount ceiling
+
+   □  Buyer details on the invoice
+
+   □  Fix the geo-tag offset
+
+   □  Consumer list + search, restore
+      the Approve button
+
+   □  Distributor app: layout 14,
+      plus a list view
+
+   □  Inventory: remove spinners,
+      auto-scroll on Tab
+
+   □  GST once at HSN level, variant
+      override kept
+
+   □  Remove post-order marketing text
+
+   □  Unify order numbers
+
+   □  Submit both iOS apps together
+      this month</code></pre>
+<hr>
+<h2>Transcript (Telugu with English, verbatim)</h2>
+<p>Reproduced exactly as recorded. Speaker labels are the ASR's own and are not reliable — the diarisation swaps voices in several places.</p>
+<pre><code>Speaker 1: Thanks.
+Speaker 2: はい。 I say, &quot;I switch.&quot;
+Speaker 1: High frequency.
+Speaker 2: サイ。
+Speaker 1: High frequency.
+Speaker 2: うん、行くね。
+Speaker 1: いや、すいません。
+Speaker 2: అంటే.
+Speaker 1: Hello?
+Speaker 2: お願い、行かない。 ఇండియాలోనే అంటున్నా.
+Speaker 1: Haha. అవును, అవును. మీరు పార్క్ మీద వర్క్ చేస్తుంటే.
+Speaker 2: ఉమ్.
+Speaker 2: ఆఫీస్ ఆ? మీదా?
+Speaker 1: Actually, both. ఆఫీస్‌లో కొంచెం.
+Speaker 2: ఆఫీస్ ఎట్లానైతది? మీదానికి ఎక్కువ ఇంపార్టెన్స్ ఇయ్యాలి.
+Speaker 1: Yes.
+Speaker 1: అంటే కొద్దిగా. Give  Give a present అంటే నేను చేసే వర్క్, లీవ్స్ కి లైవ్ వెళ్లబోతుంది.
+Speaker 2: Yes. సో
+Speaker 1: సో అప్పుడు ఇంకా కొంచెం దాని వల్ల కొంచెం ఎక్కువ వర్క్, అట్లా. ఇప్పుడు వెళ్తుంది లైవ్ కి.
+Speaker 2: ఆహా.
+Speaker 2: నాకు కూడా జరిగింది ఆఫీస్‌లో. రెండు ప్రాజెక్టులు చేస్తున్నా, ఒకటేసారి.
+Speaker 2: స్ట్రీమింగ్ ఇంకా రాలేదు. యాక్టివ్ అంటే వచ్చింది, మళ్లీ లీవ్ అయినట్టు.
+Speaker 1: ఆహా.
+Speaker 2: ఆ, వచ్చింది.
+Speaker 3: Hey guys.
+Speaker 1: Hi.
+Speaker 2: హాయ్.
+Speaker 3: Hi, hi.
+Speaker 3: ఓకే, ఒకసారి మాకు డెమో చూపిస్తారా, అది?
+Speaker 3: ఆఫ్లైన్.
+Speaker 2: Okay, offline. డెమో కావాలా? ఓకే, ఒకసారి చూపియొచ్చు.
+Speaker 2: బట్ ఇదొకటి, ఏమంటారు, నేను స్క్రీన్ షేర్ చేస్తున్నాను. మళ్లీ తర్వాత డిలీట్ చేసుకోండి. అది డిలీట్ చేయడానికి రాదు. సో ఒక చిన్న ప్రాడక్ట్ యాడ్ చేస్తాను.
+Speaker 3: ఉమ్, ఓకే, పర్లేదు.
+Speaker 2: రాజు కోసం వెయిట్ చేద్దామా? స్టార్ట్ చేద్దామా?
+Speaker 3: రాజు రాడు.
+Speaker 2: రాజు లేడు.
+Speaker 3: సో.
+Speaker 1: Fantastic.
+Speaker 2: ఇవన్నీ మీ ప్రాడక్ట్స్. సో బేసిక్‌గా ఏదైనా ప్రాడక్ట్ చెప్తారా, టెస్ట్ టేక్ కి?
+Speaker 3: యా, ఎందుకంటే లాస్ట్ కి 42% పెట్టేసాం.
+Speaker 2: ఇదా? ధనియాల కారం.
+Speaker 3: ఉమ్, ఉమ్.
+Speaker 2: ఓకే.
+Speaker 2: టు యాడ్ చేసినాను.
+Speaker 3: ఉమ్, ఓకే.
+Speaker 2: ఓకే.
+Speaker 2: కరెక్ట్. మనం ఫిల్టర్ చేసుకోవచ్చు. ఇన్స్టాక్ ఓన్లీ, అవుట్ ఆఫ్ స్టాక్ కూడా పెట్టొచ్చు. యాక్చువల్లీ అవుట్ ఆఫ్ స్టాక్ ది తర్వాత నేను జస్ట్ చూపిస్తది. బట్ మీరు ఆర్డర్ చేసుకోవచ్చు. డ్రై ఫ్రూట్స్ అంటే డ్రై ఫ్రూట్స్ అని. టైమింగ్ నేను ఇంకొకటి యాడ్ చేస్తాను, జస్ట్ కివి. ఇక్కడ మనకి టోటల్ గా టూ ఆప్షన్స్. ప్రైస్ మోడ్ వచ్చేసి కస్టమర్స్, ట్రేడ్ ఒకటి.
+Speaker 1: ఓకే.
+Speaker 2: కస్టమర్స్ అంటే మీ కస్టమర్ ప్రైసింగ్ వస్తది. మనకి కన్స్యూమర్ ప్రైసింగ్ ఉంది కదా, ఆ ప్రైసింగ్ వచ్చేస్తది. ట్రేడ్ అంటే మనకి గ్రూప్ ప్రైస్ గ్రూప్స్ ఉంటాయి కదా, డిస్ట్రిబ్యూటర్ గ్రూప్స్. వాళ్ళ ప్రైసింగ్ వచ్చేస్తది. ఇప్పుడు గ్రూప్ ఏ?
+Speaker 2: మళ్లీ హోల్సేల్.
+Speaker 2: ఈ ప్రాడక్ట్స్ కి రెండిటికి సేమ్ ఉన్నాయి. కాస్ట్.
+Speaker 3: ఆ, సేమ్ ఉంది.
+Speaker 2: సో కన్స్యూమర్ చూసుకుంటే 189 నుంచి 234 కి వచ్చింది, చూడండి.
+Speaker 2: సో ఐదర్ నేను ఇట్లా కూడా సెలెక్ట్ చేసుకోవచ్చు. ఇప్పుడు లెట్స్ సే, మీకు ఎవరైనా డిస్ట్రిబ్యూటర్ ఏ గ్రూప్ లో ఉన్నాడో ఐడియా ఉందా? సాయితేజా? ఓకే, లెట్స్ సే సాయితేజా.
+Speaker 3: పేరు అనేది ఉండాలి, మాక్సిమం గ్రూప్ పేరు అనేది ఉండాలి.
+Speaker 2: అచ్చా, గ్రూప్ ఏ లో ఉన్నారు. సో నేను ట్రేడ్ కి వెళ్తాను. ట్రేడ్ కి వెళ్లి నా దగ్గర సాయితేజా గ్రూప్ ఏ లో ఉన్నాడు. హోల్సేల్ లో పెడతా. సో ఇప్పుడు డిస్ట్రిబ్యూటర్ ఏజ్ గ్రూప్ ఏ. బట్ బట్ యు ఆర్ చార్జింగ్ ఫర్ హోల్సేల్ ప్రైసెస్ అని చెప్పి జస్ట్ ఎస్టిమేషన్. ఆఫర్ జస్ట్ చెప్తది. కాదంటే డిస్కౌంట్ ఇవ్వచ్చు. ఇప్పుడు నేను 99 తగ్గిస్తా. సో ఈవెన్ అవుతది. క్యాష్ యు పే ఆర్ కార్డ్. ఏదైనా మనము ఒకటే కదా, సేమ్ జస్ట్ సేవ్ చేసుకోండి, కంప్లీట్ సేవ్. ఇప్పుడు నేను బిల్ జనరేట్ చేయొచ్చు. మీకు దీంట్లో సాయితేజా డిస్ట్రిబ్యూటర్ మొత్తం వస్తది. వాడి ఇన్ఫర్మేషన్ ఇది మీది. ఓకే.
+Speaker 2: సేమ్ అమౌంట్.
+Speaker 3: ఓకే.
+Speaker 2: అండ్ ఇక్కడికి వచ్చేస్తే. ఐదర్ న్యూ సేల్ మీద క్లిక్ చేయొచ్చు, ఇంకో సేల్ కావాలంటే మీ సేల్స్ అని ఇక్కడ కనిపిస్తది. ఓకే, దానికంటే ముందు ఇప్పుడు ఇది మీరు లెట్స్ సే ఇది క్యాన్సల్ చేసేయొచ్చు. క్యాన్సల్ చేస్తే ఏమవుతది అంటే మీ అకౌంటింగ్ లోకి వెళ్లి వెళ్ళిపోతది. మళ్లీ మీ షాప్ కి యాడ్ అయిపోతది.
+Speaker 3: ఆ, నైస్.
+Speaker 2: ఒకసారి మీకు చూపించి నేను క్యాన్సల్ చేస్తాను. సో పాస్ సేల్ లో ఇప్పుడు ఇక్కడ క్లిక్ చేయొచ్చు, లేదా అంటే ఆర్డర్ మీద క్లిక్ చేసి ఇక్కడ మనం సెలెక్ట్ చేసుకోవచ్చు. పాయింట్ ఆఫ్ సేల్.
+Speaker 3: ఓకే.
+Speaker 2: ఇవి వచ్చేస్తాయి. ఇది నేను చేసిన 28, ఇది ఇప్పుడు చేసింది.
+Speaker 3: ఓకే.
+Speaker 2: ఆ, ఇలా వెళ్లొచ్చు. మళ్లీ సేమ్ ఇన్వాయిస్ డౌన్లోడ్ చేసుకోవచ్చు. సేమ్ వస్తది. ఇప్పుడు డౌన్లోడ్ చేసేద్దాం. అండ్ మీకు అకౌంటింగ్ లో కూడా సేల్ రిజిస్టర్ లో ఇది వచ్చేస్తది.
+Speaker 2: ఇది కూడా డౌన్లోడ్ చేయొచ్చు. సేమ్.
+Speaker 3: ఓకే.
+Speaker 2: జస్ట్ ఇంకా సేమ్. దీంట్లో వచ్చింది అంటే మీ అన్ని బుక్స్ లో వచ్చేస్తది ఇంకా.
+Speaker 3: ఓకే.
+Speaker 2: సో ఇప్పుడు నేను ఒక్కసారి క్యాన్సల్ చేసేస్తా.
+Speaker 1: సో.
+Speaker 2: కట్ అయ్యింది.
+Speaker 3: మ్యూట్ లో పెట్టాడు.
+Speaker 2: ఓకే.
+Speaker 2: ఫైన్. ఆ, యా, యా. సో ఒక చిన్న డౌట్ ఇక్కడ.
+Speaker 2: ఓకే, వచ్చేసి ఆఫ్టర్ డిస్కౌంటెడ్ అమౌంట్ మీదనే చార్జ్ చేస్తాం కదా, ఆ చెక్ చేద్దాం ఒక్కసారి.
+Speaker 3: ఏది, ఏది, ఏది?
+Speaker 2: ఇప్పుడు సపోజ్ 289 సంథింగ్ బిల్ అయింది కదా, డిస్కౌంట్ 99 ఇచ్చారు. 99 జిఎస్టి వచ్చేసి సపోజ్ 99 సంథింగ్ అనుకో, 100 ఇచ్చాము అనుకో. సో అవుట్పుట్ జిఎస్టి రెడ్యూస్ అవుతది జనరల్ గా. అంటే అమౌంట్ మీదకి క్యాలిక్యులేట్ అవ్వాలి యాక్చువల్ గా. లేదు, టోటల్ బిల్ లోకి డిస్కౌంట్ జిఎస్టి. టోటల్ బిల్ లోకి జిఎస్టి మీద కాదు. టోటల్ బిల్ లోకి వెళ్లి డిస్కౌంట్ వస్తది.
+Speaker 1: యా, జిఎస్టి టచ్ అయ్యేది.
+Speaker 2: ఆ, యా, అదే ఓకే, అదే ఓకే. ఇప్పుడు 289 కి మైట్ బి 10% జిఎస్టి అనుకో. సో 28.9 పడుతుంది. బట్ 199 చేసేటప్పుడు కూడా 29 పాయింట్ సంథింగ్ అలా ఉండొద్దు. 19 అలా. నేను చెక్ చేస్తా, ఒకసారి, ఒకసారి టెస్ట్ చేస్తా అది.
+Speaker 3: ఫైన్.
+Speaker 2: అంటే మనం ఓవరాల్ ఆఫ్టర్ జిఎస్టి, ఇంక్లూడింగ్ జిఎస్టి అయిన తర్వాత మనం డిస్కౌంట్ వేస్తున్నాం కదా. ఆహా, యాక్చువల్లీ ఇప్పుడు నేను 180 ఓపెన్ చెప్పు, ఇప్పుడు నేను 189 చేశా కదా, కానీ మీ బుక్స్ లో చూసుకుంటే 182 ఎంత వస్తది, నేను చూపిస్తాను. ఇది అకౌంటింగ్ సేల్ రిజిస్టర్ 172.
+Speaker 3: ఓకే, ఓకే.
+Speaker 2: 172 ఇది బిఫోర్. టాక్సబుల్ అమౌంట్ బిఫోర్ చేస్తే తర్వాత 188.
+Speaker 3: 188.
+Speaker 2: ఆ, అయితే టోటల్ 18 నుంచి డిటెక్ట్ చేస్తున్నది. సో మనం డిస్కౌంట్ ఇస్తున్నాం అన్నమాట. టోటల్ అమౌంట్ నుంచి.
+Speaker 3: అదే, అంతే ఉంటది కదా. నువ్వు డిస్కౌంట్ లైక్ క్యాలిక్యులేట్ చేసుకొని డిస్కౌంట్ లాస్ట్ చేస్తే, లైక్ అవుట్పుట్ చేసి కూడా తగ్గినట్టే కదా, ఇండైరెక్ట్ గా.
+Speaker 2: ఉమ్, అదే అంటే నేను ఏమంటున్నాను అంటే, యా, కరెక్ట్ గా ఉంది అంటున్నా. అవును, అవును, అవును. అంటే నువ్వు ఏమైనా తప్పు అంటున్నావా, సాయి?
+Speaker 3: అంటే లేదు, లేదు, లేదు, ఫస్ట్ మీరు అన్నారు కదా, జిఎస్టి అన్చేంజ్డ్ ఉంటది అని చెప్పేసి.
+Speaker 2: ఉమ్, అన్చేంజ్డ్ అది. మనం ఓవరాల్ బిల్ మీద డిస్కౌంట్ ఇస్తున్నాం, అంతే, ఏం లేదు.
+Speaker 3: కానీ అశ్విన్ ఇక్కడ డిస్కౌంట్ డిస్కౌంట్ ఇయ్యాలంటే ఏదైనా ఉంది కదా, బ్యారికేట్ ఉండాలి. డైరెక్ట్ డిస్కౌంట్ కొట్టే ఆప్షన్ ఉండొద్దు.
+Speaker 2: ఎందుకు? అకౌంటెంట్ అది ఎవరైనా అప్రూవల్ తీసుకున్నాకనే డిస్కౌంట్ అనేది అప్లికేబుల్ పెట్టాలా?
+Speaker 3: ఇప్పుడు ఎడిట్ ఆప్షన్ లేదు. ఫర్ ఎగ్జాంపుల్, తెలుసు, ఒక 10 వెండర్స్ లో 10 డిస్ట్రిబ్యూటర్స్ ఉంటే, ఒక డిస్ట్రిబ్యూటర్ రెగ్యులర్ గా తీసుకుంటున్నాడు. తను డిస్కౌంట్ అడిగిండు. అప్పుడు ఎట్లా చేస్తాం మనం?
+Speaker 2: ఎడిట్ ఆప్షన్ లేదు కాబట్టి డిస్కౌంట్ అంటే నువ్వు నేను నరేష్ కూర్చొని ఇస్తున్నాడు.
+Speaker 3: దాని తర్వాత స్టాఫ్ ఎవరైనా ఇస్తారు కదా, వాళ్ళు డైరెక్ట్ తీసుకుంటారు కదా. మనం అడిగాక ఎవరైనా అప్రూవల్ తీసుకొని అయ్యారు కదా. సో ఫ్యూచర్ లో మనం పెట్టుకోవచ్చు కదా, శ్రీ కంట్రోల్.
+Speaker 2: టూ థింగ్స్ చేయొచ్చు. ఒకటి వచ్చేసి ఓటిపి. ఓటిపి అంటే మీకు మళ్ళీ ఎస్ఎంఎస్ అదంతా వద్దు. అలా కాకుండా మనం మీరు ఇది అథెంటికేటర్స్ వాడు ఉంటారు కదా. అలాంటిది మీకు ఎవ్రీ టైం ఒక కోడ్ జనరేట్ అవుతూ ఉంటుంది. ఆ పర్టికులర్ మినిట్ వరకు మీరు ఆ కోడ్ వాళ్ళకి ఇవ్వచ్చు. కానీ ఒక్కసారి ఆ కోడ్ ఫోర్ ఫైవ్ లాక్స్ కూడా వాడొచ్చు.
+Speaker 3: ఆ, అట్లా కాకుండా ఇట్లా పెట్టొచ్చా? అంటే ఇప్పుడు ఒకవేళ డిస్కౌంట్ అడిగిండు అనుకోండి.
+Speaker 2: ఆ ఇన్వాయిస్ జనరేట్ కావాలంటే ఎవరైనా లాగిన్ చేసి అప్రూవ్ చేయాలి. చేయొచ్చు, పెట్టొచ్చు. బట్ కాంప్లెక్స్ అయితది కదా అని చెప్పేసి. ఇప్పుడు లెట్స్ సే 100 బిల్స్ వచ్చినాయి అనుకో. సరే, 100 కాకపోయినా అదే హార్ లో 15 బిల్స్ వచ్చినాయి. మీరు 15 టైమ్స్ అప్రూవ్ కొడుతూ ఉండాలి.
+Speaker 3: ఉమ్, ఓకే. అ
+Speaker 2: అవును, అవును, చేయొచ్చు.
+Speaker 3: లేదు అంటే ఎంప్లాయి లాక్ పెడదాం. ఇప్పుడు మనకి ఇది ఉంది కదా, యాక్టివిటీ లాగ్ లో ఎవరెవరు ఎంత డిస్కౌంట్ ఇచ్చారో.
+Speaker 3: ఆ, కరెక్ట్. ఆ త్రెషోల్డ్ ఇయ్యాలి.
+Speaker 2: మాక్సిమం త్రెషోల్డ్ కాదు. త్రెషోల్డ్ కాదు. ఇప్పుడు ఇది ఇది.
+Speaker 2: యూసర్స్. ఇప్పుడు నేనే మర్చిపోయాను. 5% 10% కాదు. అడ్మిన్, అడ్మిన్ మేనేజ్మెంట్. అడ్మిన్ మేనేజ్మెంట్. రైట్. ఇక్కడ లెట్స్ సే, ఇప్పుడు అడ్మిన్ ఉంది కదా. అడ్మిన్ బదులు మనం ఇంకోటి పెడదాము. లెట్స్ సే ఎంప్లాయి అంటాం. ఎంప్లాయి వాళ్ళకి ఓన్లీ పిఓఎస్ ఏ కనిపిస్తది. వేరే ఏం కనిపియదు. ఓకే,  కనబడదు. రైట్. వాళ్ళు రోజు కదా.
+Speaker 2: సూపర్. అట్లా చేసి వాళ్ళకి అప్రూవల్ పెట్టేస్తే అంతే. ఇప్పుడు వాళ్ళని అడిగితే మనం చెప్పేస్తుంది. ఒకటి, ఇదేంటి? అందులో ఓన్లీ ఒకటే రోల్ వస్తుంది.
+Speaker 2: రోల్, రోల్.
+Speaker 2: అచ్చా, ఇదా.
+Speaker 3: అడ్మిన్ మేనేజ్మెంట్ లో.
+Speaker 2: ఆ, ఇప్పుడు ఒకటే అనుకున్నాం కదా. మళ్ళీ మనం డిస్కస్ చేసాం అనుకుందాం.
+Speaker 3: ఆ, ఓకే, ఓకే.
+Speaker 2: ఇప్పుడు మీరే కాబట్టి పిఓఎస్ పేజ్ ఒకటి క్రియేట్ చేయండి. పిఓఎస్ పేజ్ ఒకటి క్రియేట్ చేయండి. పిఓఎస్ యూసర్ అని పెట్టండి పేరు. ఓకే, పిఓఎస్ అకౌంట్ పెట్టానా? ఓకే, అవును.
+Speaker 3: నోట్ చేసుకోండి. ఒకటి, రైట్, రైట్. అందుకే సార్, ఇదే ఆన్ చేసిన మొత్తం ట్రాన్స్క్రిప్ట్ వస్తే నేను ఏఐ కి వేస్తా. అదే తీస్తది మొత్తం. ఉమ్, ఓకే, ఓకే.
+Speaker 2: ఓకే. అండ్ ఇంకోటి వచ్చేసి క్యాన్సిల్ చేసేయండి.
+Speaker 3: ఒకటి. ఆ,
+Speaker 2: ఆ, చేసి ఒకసారి క్యాన్సిల్. ఆ, క్యాన్సిల్ అయిపోయింది. క్యాన్సిల్ అని చూపిస్తే ఇప్పుడు ఇక్కడ ఆర్డర్స్ లో ఇక్కడ క్యాన్సిల్డ్ అని వచ్చేస్తది.
+Speaker 3: అండ్ మీ ఇన్వెంటరీ సారీ అకౌంటింగ్ సేల్ రిజిస్టర్ లో ఇది ఓకే. మైట్ బి క్యాన్సిల్డ్ అనేది రావాలి.
+Speaker 2: రిక్వెస్ట్, రిక్వెస్ట్ అయిపోతుంది. చేసిన రీసెర్చ్ చేసిన ఆ.
+Speaker 2: బేసిక్ గా లాక్ సర్కిల్ కూడా కట్ అవుతది. చెక్ చేసిన సైట్ దేంట్లో చెక్ చేస్తుంది. మనకి ఇన్వెంటరీ ఇదంతా అమౌంట్ వస్తది. చూడు,  సేల్స్.
+Speaker 2: 16,  ఓకే. ఇది ఒక్కసారి చూసి నేను చెప్తాను. మైట్ బి మీకు ఇచ్చిన మాన్యువల్ లో కూడా పాయింట్ యాడ్ చేసిన డిలీట్ అయిపోతది అంతా.
+Speaker 3: ఓకే, ఓకే. అయితే నాకు నెక్స్ట్ డౌట్ ఏంటంటే, లెఫ్ట్ సైడ్ లో సపోర్ట్ లోకి వెళ్లి ఒకసారి సపోర్ట్ కింద ఇక్కడ చూసినాం. ఒకసారి చూడండి. ఆ స్టాక్ నెంబర్ 36, స్టాక్ నెంబర్ 35, సారీ, స్టాక్ ఆర్డర్ నెంబర్ 545, ఆర్డర్ నెంబర్ 573, ఆర్డర్ నెంబర్ 549 కనిపిస్తున్నాయా? మూడు సెకండ్, థర్డ్, ఫోర్త్. ఈ ఆర్డర్ నెంబర్ మన దగ్గర లేదు ఎందుకు?
+Speaker 2: ఇది కన్స్యూమర్ ఆర్డర్ లో. కన్స్యూమర్ ఆర్డర్ డిస్ట్రిబ్యూటర్ ఆర్డర్.
+Speaker 2: ఓకే, మైట్ బి అది డిఫరెంట్ గా సేవ్ అవుతున్నట్టు ఉంది.
+Speaker 2: ఓకే.
+Speaker 3: ఐడి 134, ఏ హాయ్.
+Speaker 3: ఐ డిడ్ నాట్ సీ యు. హాయ్.
+Speaker 3: ఓకే.
+Speaker 2: బ్యాక్ ఎండ్  రెస్పాన్సిబుల్ రెస్పాన్స్ ఓకే.
+Speaker 2: టికెట్ ఓపెన్ ఆ రైట్ 35 35 ఓకే.
+Speaker 3: యూసర్ ఐడి హెల్ప్.
+Speaker 2: ఓకే, ఇది ఒక్కసారి చెక్ చేస్తాము. బేసిక్ గా ఇది ఐడి. ఓకే, ఐడి 35 ఆర్.
+Speaker 2: 35 210.
+Speaker 3: మనకు కూడా ఆర్డర్ నెంబర్ 535, 535 వస్తే బాగుంటది అంతా. ఇది మూవ్ వస్తుంది. ఆ.
+Speaker 2: ఈ డిస్ట్రిబ్యూటర్ ఐడి ఏదో ఉంది.
+Speaker 2: ఓకే, ఇది కూడా చెక్ చేస్తాం ఒకసారి.
+Speaker 3: నోట్ చేసుకోండి.
+Speaker 3: నేను టూ పాయింట్స్ పెట్టాను ఒకసారి చూడరా.
+Speaker 3: అంటే నేను చెప్తా.
+Speaker 2: ఆర్డర్ ఒక ఆర్డర్ వచ్చింది. ఫర్ ఎగ్జాంపుల్, ఏదైనా ఒక ఆర్డర్ వచ్చింది. ఆర్డర్స్ లోకి వెళ్లి వెనకాల అడ్మిన్ లోకి ఏదైనా ఒక ఆర్డర్ ఓపెన్. కరెక్ట్, అక్కడే ఉంది. అది క్లిక్ చేయండి. కిందకి వెళ్ళు. ఇప్పుడు ఫర్ ఎగ్జాంపుల్, నా దగ్గర సఫా డేట్స్ లేవు. ఓకే. ఓకే, ఇప్పుడు ఐ షుడ్ బి ఏబుల్ టు రిమూవ్ దట్ ఫ్రమ్ దిస్ ఆర్డర్ బిఫోర్ జనరేటింగ్ ది ఇన్వాయిస్. అండ్ సెండింగ్ ది రిమైనింగ్ ప్రొడక్ట్స్ టు కస్టమర్. అసలు ఏమవుతుంది అంటే, మేము ఇలా టూ త్రీ ప్రొడక్ట్స్ లేకపోతే పంపిస్తున్నాము. మైనస్ చేసుకొని ఇవ్వడం ఇవి జరుగుతున్నాయి. అక్కడ రికార్డ్స్ లో ఏమున్నది? రికార్డు ఏమో, టోటల్ అమౌంట్ రిసీవ్డ్ అని ఉంటది. కాకపోతే మనకు కొన్ని ఐటమ్స్ మిస్సింగ్ ఉన్నాయి ఇందులో. సో ఆ అమౌంట్ రాదు మనకు. 2000 ప్లేస్ లో 800 వస్తాయి మనకు. 200 రావు ఎందుకంటే స్టాక్ లేదు. ఇవి.
+Speaker 2: రిపీట్ వస్తాయి మనకు. ప్రతి ఆర్డర్ కి వస్తుంది. అట్లా చెప్పండి.
+Speaker 3: సో ఇప్పుడు మనకి ఆ మాక్స్ స్టాక్ అవైలబుల్ వరకే ఆర్డర్స్ తీసుకుంటున్నాం కదా. జనరల్ గా అయితే, అయితే కరెక్టే. కానీ పాయింట్ ఏంటంటే, అప్పుడప్పుడు అయిపోతున్నాయి తొందరగా. ప్రొడక్ట్స్ మన దగ్గర అయిపోతున్నాయి. అంటే సిస్టం ఉంటది. అది
+Speaker 2: అది సిస్టం లా ఉంటది. మనకు ఎక్స్ట్రా అంటే ఫ్యూచర్ స్టాక్ పెట్టుకున్నాం. సిస్టం లా ఎందుకు అంటే, దే షుడ్ నాట్ గో బ్యాక్ అవుట్ ఆఫ్ స్టాక్ కనిపియద్దు అన్న ఉద్దేశంలో మనము ఫ్యూచర్ స్టాక్ అనేది 100 పెట్టేసి పెట్టిన అన్నిటికీ. అట్లా పెట్టేసరికి ఏమవుతుంది అంటే, మనం అప్పుడప్పుడు కొన్ని స్టాక్స్ అంటే ఉండవు. అంటే నేను ఇప్పుడు తీసుకొచ్చి ఇవ్వలేను కూడా. ఆ పరిస్థితిలో స్టాక్ ఉంది. వాళ్ళు ఎప్పుడో ఆర్డర్ పెట్టిన వాళ్ళు ఉంటారు. మనం టూ త్రీ డేస్ తర్వాత చూస్తున్నాము. అది అసలు ప్రొడక్ట్ దొరుకుతలేదు అన్న సిట్యువేషన్ కూడా వస్తుంది. ఫర్ ఎగ్జాంపుల్, బి టు బి ఇప్పుడు రోజు అవుతుంది. అది బి టు బి ఆల్రెడీ స్టార్ట్ అయిపోయింది. మీరు చూసే ఉంటారు ట్రాన్సాక్షన్స్. అది అయితేనే ఉన్నది. బి టు బి లా ఆ ప్రతిదీ ఇన్వాయిస్ ప్రింట్ అవుట్ తీసి అందులో నుంచి కట్ చేసి మైనస్ చేసి మాన్యువల్ గా పెండ్ తో రాసి కేఎం షాప్ కి సప్లై చేస్తున్నాం. అదేమైనా ఆప్షన్ ఉంటదా? ఇప్పుడు ఫర్ ఎగ్జాంపుల్, కస్టమర్ 10 ఐటమ్స్ పెట్టి మన దగ్గర ఎనిమిదే ఉన్నాయి. మనం ఆ రెండు తీసేయొచ్చా? ఎడిట్ చేయడానికి ఆర్డర్ ని కరెక్ట్ చేయడం అయితే చేయొచ్చు. ప్రాబ్లం లేదు. బట్ ఓన్లీ థింగ్ ఏంటి అంటే, మళ్ళీ యూసర్ ఓకేనా అంటే, ఇప్పుడు నేను అది అది మేము మాట్లాడుకుంటున్నాం. ఫోన్ లో చెప్తున్నాం. వాళ్ళు దే ఆర్ కన్విన్స్డ్. ఓకే, మళ్ళీ అక్కడ కూడా యూఐ లో చూపిస్తాం. మీరు 10 ఆర్డర్ చేస్తే, ఈ రెండు లేవు. ఏంటో పంపుతున్నాము అన్నట్టు యూఐ లో కూడా చూపియాలి. ఎక్కడ అంటున్నావ్? ఇప్పుడు చెక్ చేసుకున్నప్పుడు ఆ అవును, అవును, అవును. అదే యూసర్స్ ఓకే అంటే చేయొచ్చు. అయ్యా, రిఫండ్, రిఫండ్ అట్లా ఉంటది కదా? లైక్ పార్షియల్ ఆర్డర్ డెలివర్డ్ అట్లా. అలా వాళ్ళు ఇంకా అట్లా అప్డేట్ అయితే, మీరు మాన్యువల్ గా కొట్టేసేయాలి. ఐదర్ క్యాష్ లేకపోతే, మీరు తీసేసుకోవాలి. 100% క్యాష్ డెలివరీ అనేసి 100% క్యాష్ డెలివరీ నడుస్తుంది. అయితే ఇక్కడ ఏమవుతుంది అంటే, ఇప్పుడు ఫర్ ఎగ్జాంపుల్ 16, 19 ఉంది. 16, 20 ఉంది. ఓకే, ఇప్పుడు మన అకౌంట్స్ లో ఏం పడుతుంది? మొత్తం తర్వాత, తర్వాత ఇప్పుడు ఇప్పుడు ఈ ఆర్డరే ఉందనుకో. ఫర్ ఎగ్జాంపుల్, ఓకే, నాకు ఇలా ఎడిట్ ఆప్షన్ లేదు. నేను ఏం చేస్తా? నేను ఆర్డర్ డెలివర్డ్ చేసేస్తా. అట్ ది సేమ్ టైం, రిసీవ్డ్ అమౌంట్ కిందకి వెళ్తే, కిందకి వెళ్లి ఒకసారి పేడ్ ఆన్లైన్ లేకపోతే, పేడ్ ఆన్ క్యాష్ సెలెక్ట్ చేసుకుంటా. అవునా? ఇప్పుడు మన బుక్స్ లో ఏం కనిపిస్తది? 16, 20 కనిపిస్తది. కానీ మనం తీసుకుంది ఎంత? 1400 తీసుకుంటాం. ఎందుకంటే ఇలా ప్రొడక్ట్ లేదు. రైట్.
+Speaker 2: అకౌంట్ ఇది అయిపోతది. అంటే ఒకసారి మైనస్ అయితే, ఇది కూడా ఇప్పుడు లెట్స్ సే ప్రొడక్ట్ కూడా రిటర్న్ వచ్చినా కూడా మళ్ళీ స్టాక్ లో యాడ్ కావాలి. ఆల్రెడీ రిటర్న్స్ ఇచ్చారు. రిటర్న్ చెప్తున్నా. దాంట్లో ఏంటంటే, దీంట్లో కూడా వేసేస్తాం. ఆ లేదు అంటే, ఎడిట్ ఆప్షన్ ఉండాలి. ఏందంటే, ఈ ప్రొడక్ట్ లేకపోతే, అక్కడ జస్ట్ ఇట్లా దాన్ని ఒమిట్ చేసి మిగతా అన్నిటికీ మాత్రమే ఇన్వాయిస్ క్రియేట్ చేసినట్టు.
+Speaker 1: Distribution rep here, Kieran Shapla. I need a distribution rep Monday, okay? డిస్ట్రిబ్యూటర్ మనమే, కాకపోతే ఒక ఎంప్లాయీని పెట్టినాం అన్నమాట, బిల్‌డోబీకి.
+Speaker 1: సో ఆయననే హ్యాండిల్ చేస్తాడు, అంటే నేను కూడా లాగిన్ ఉన్నా మధ్యలో. అయితే నేను వచ్చి ప్రొడక్ట్స్ తీసుకునేటప్పుడు, అంటే డిస్పాచ్— నేను డిస్పాచ్ చేసేటప్పుడు ఏం చేస్తాను, ప్రింట్ అవుట్ తీసుకొని, ఈ ఐటమ్ ఏది అని చెప్పి, అవి మైనస్ చేసి, ప్రింట్ తో రాసి ఇస్తున్నాం.
+Speaker 1: And we collect తీసుకొని వస్తున్నాడు, సో అది డిస్ట్రిబ్యూటర్ రేపు ప్లస్ అడ్మిన్ యాప్‌లో ఈ ఎడిట్ ఆప్షన్ ఇచ్చి, ఏవైతే ఉన్నాయో, మనం ఏవైతే డిస్పాచ్ చేసి డెలివరీ చేస్తున్నామో, వాటికి మాత్రం ఇన్వాయిస్ ఇచ్చేటట్టు, అది కూడా తీసేయడం. ఆర్డర్ ఎడిట్ ఆప్షన్ నా ఉద్దేశం ఏంటంటే, ఆర్డర్ ఎడిట్ ఆప్షన్ అంతే.
+Speaker 2: మైనస్, ప్లస్, మైనస్ సింబల్ పెడితే సరిపోతదా?
+Speaker 1: అట్లైనా సరే, ఎట్లైనా సరే, మీరు ఆలోచించండి.
+Speaker 2: Alright, minus can be quantity or మొత్తం ప్రొడక్ట్.
+Speaker 1: ఆ, ఆ ప్రొడక్ట్ వుడ్ బి మచ్ బెటర్. మాన్యువల్ వర్క్ ఉండదు. మనం క్యాలిక్యులేట్— అట్
+Speaker 2: అట్లా అర్థం లేదు. క్వాంటిటీ అంటే, ఇప్పుడు let&#x27;s say సప్లై డేట్స్ రెండు ఆర్డర్ చేశాం, మీ దగ్గర ఒకటే.
+Speaker 1: అవును, అవును, ఒకటే ఉంది, ఒకటే ఉంది.
+Speaker 2: సో ఒకటి నుంచి వచ్చు కదా, మొత్తం—
+Speaker 1: అవును, అవును, అవును, అవును, అవును, కరెక్ట్, పర్ఫెక్ట్, కరెక్ట్, రెండు. రెండు విధాలుగా కావాలి, ఒకటి మొత్తం ప్రొడక్ట్ తీసుకోవాలి, లేకపోతే క్వాంటిటీ తీసేయడం.
+Speaker 2: పర్ఫెక్ట్, అర్థమైంది.
+Speaker 1: ఉమ్, మళ్లీ ఈ రీప్లేస్‌లు ఏమైనా రావాలా? అంటే, ఇప్పుడు might be సఫై డేట్స్ 500 గ్రామ్స్ ఉంది, 250, 250 ఇస్తారు. అది అవసరం లేదు, అది అవసరం లేదు. అది మాన్యువల్‌గా పంపించేస్తే అయిపోతది, దానికంటే ప్రాబ్లం ఏం లేదు. మళ్లీ స్టాక్ ఉంది కదా, అవును, అది కూడా కరెక్టేలే.
+Speaker 1: ఓకే, ఆ ఒక దాని బదులు ఒకటి యాక్సెప్ట్ చేస్తారు. ఇప్పుడు బిటుబిలా చేస్తారు, కానీ అరే, మనకి ఇక్కడ ఇన్వెంటరీ ఇష్యూ వస్తది. ఆ, కరెక్ట్.
+Speaker 2: అంటే ఏం లేదు, నన్ను అడిగితే, ఇప్పుడు let&#x27;s say ఇక్కడ మైనస్ బటన్ ఉంది అనుకుందాం. ఓకే, మైనస్ కొట్టేసి, లేదంటే రీప్లేస్ కొట్టేసి, ఇక్కడ ఒక టెక్స్ట్ బార్ వస్తది. బార్ వచ్చి సర్చ్ చేయొచ్చు. ఈ సఫై డేట్స్ ఇక్కడ వేరియంట్లు వస్తాయి. 500 గ్రామ్స్, 250, దాని రేటే వచ్చేస్తది. అది ఎక్కువైతే ఎక్కువ, తక్కువైతే తక్కువ.
+Speaker 1: పర్ఫెక్ట్. అది ఒకసారి, ఇదైతే చూడండి కొంచెం క్లారిటీగా. ఇంకొకటి వచ్చేసి, ఈ డిస్ట్రిబ్యూటర్ యాప్‌లో ఇది బిటుబి డిస్ట్రిబ్యూటర్ యాప్, నేను చెప్తున్నాను ఎగ్జాంపుల్. ఎందుకంటే ఎస్ఓ కొన్ని రోజులు పార్క్ చేసినాం, మోస్ట్లీ డిస్ట్రిబ్యూటర్ యాప్. కన్స్యూమర్ ఆర్డర్ పెడతారు కదా, ఆ ఇన్వాయిస్‌లో కన్స్యూమర్ డీటెయిల్స్ ఏమి అనిపియట్లేదు. ఒకసారి డిస్ట్రిబ్యూటర్ బిటుబి లాగిన్ చేయవా, అడ్మిన్ చెప్తా.
+Speaker 2: అడ్మిన్, అడ్మిన్.
+Speaker 1: ఓకే, .
+Speaker 1: అహ్, ఒక్కసారి డిస్ట్రిబ్యూటర్‌కి వెళ్లవా?
+Speaker 1: డిస్ట్రిబ్యూటర్‌లో Active Directory, Active Directory—ఇందులో ఫస్ట్‌ది B2B నోడ్ జోన్ ఉంది, చూసుకో. అది క్లిక్ చేయండి.
+Speaker 1: Yeah, చిన్న కన్స్యూమర్ బేస్‌కి వెళ్లవా?
+Speaker 2: The time factor to knock.
+Speaker 1: అంటే, ఈ గో-బ్యాక్ అండ్ కం-బ్యాక్.
+Speaker 1: ఒకసారి బ్యాక్ వెళ్లి మళ్లీ ముందుకు రా.
+Speaker 2: Okay.
+Speaker 1: ఇదే కాదు, ఇది అప్‌డేట్ చేయాలి.
+Speaker 2: Uh-huh.
+Speaker 1: ఓకే.
+Speaker 2: I&#x27;m trying to save templates.
+Speaker 2: దీంట్లో?
+Speaker 1: ఆ, దీంట్లో—ఇప్పుడు చూసారా, మనము ఏమంటారు, డిస్ట్రిబ్యూటర్ యాప్‌లో ఆర్డర్ వస్తాయి కదా, వీళ్ల నుంచి. అక్కడ నేమ్ కరెక్ట్ వస్తుంది. ఏది సిద్ధి వినాయక కీర్ణం చాప, వీరభద్ర కీర్ణం చాప అని. కానీ ఇక్కడ చూడు, అసలు కన్స్యూమర్ నేమ్ కనిపియట్లేదు.
+Speaker 2: ఆ, actually వీటికి ఒక issue ఉంది.
+Speaker 2: ఏమైంది అంటే, మీరు observe చేయండి. కొత్త బిల్డ్‌లో చేస్తున్నాము. మనకి అకౌంట్ క్రియేట్ చేసేటప్పుడు నేమ్, ఈమెయిల్ ఐడి ఇయ్యకపోయినా లోపలికి వెళ్లొచ్చు. సో, ఎవరైనా నేమ్ అండ్ ఈమెయిల్ ఐడి ఇవ్వలేదు అనుకోండి, ఆటోమేటిక్‌గా మన అప్లికేషన్‌నే ఒక ఈమెయిల్ ఐడి క్రియేట్ చేస్తుంది.
+Speaker 1: ఓకే.
+Speaker 2: అండ్ నేమ్ కూడా. ఏదైతే ఈమెయిల్ ఐడి కంటే ముందు ఉందో, ఇదే నేమ్.
+Speaker 1: ఉమ్.
+Speaker 2: ఇంకా, దాని వల్ల ఉంది, అది ఫిక్స్ చేస్తున్నాను అది.
+Speaker 1: ఆ, అది కొంచెం చేయరా?
+Speaker 2: ఉమ్, ఇది సేమ్ డిస్ట్రిబ్యూటర్స్‌కి కూడా అవుతుంది.
+Speaker 2: మీరు observe చేయగలరు, డిస్ట్రిబ్యూటర్స్‌లో—
+Speaker 1: అవును, అవును, అవును, డిస్ట్రిబ్యూటర్‌లో అవుతుంది. నేను నా క్వశ్చన్ ఇంకా ఏందంటే, వీళ్ల ఇన్వాయిస్ ఉంది, చూసావా? ఇన్వాయిస్‌లో ఇప్పుడు మన డీటెయిల్స్ వస్తది. వాసవి గ్రూప్స్ వచ్చి, GST నంబర్, అడ్రస్ ఇవన్నీ వస్తాయి. అవునా? కానీ వాళ్లది కూడా మనకు అడ్రస్ రావాలి, actually.
+Speaker 1: ఇన్వాయిస్‌లో రావట్లేదు.
+Speaker 1: అవును. ఏం రావట్లేదు.
+Speaker 2: ఓకే, సో బేసిక్‌గా మీరు ఏమంటున్నారు అంటే, ఆర్డర్ డీటెయిల్స్‌లో డిస్ట్రిబ్యూటర్ ఎట్లా వచ్చిందో, సేమ్ అట్లానే కన్స్యూమర్‌ది కూడా రావాలి.
+Speaker 1: రావాలి. ఆ, అది.
+Speaker 2: ఓకే.
+Speaker 1: కానీ ఇన్వాయిస్‌లో నేను చెప్పేది—
+Speaker 2: ఇన్వాయిస్‌లో, అర్థమైంది.
+Speaker 1: అవును.
+Speaker 2: చేయొచ్చు.
+Speaker 1: ఒకటి, ఇంకోటి, ముందు నేను ఒకటి స్క్రీన్ షాట్ పంపించినా. అది మనం పెట్టింది GDMet లో అయితే, అది బాలనగర్ వెళ్తుంది.
+Speaker 1: ఏది? జియో ట్యాగింగ్.
+Speaker 1: మన షాప్ దగ్గర నిలబడి, అక్కడ ఉండి, మనోడు ట్యాగ్ చేసిండు. ఏది? లొకేషన్.
+Speaker 2: ఓకే.
+Speaker 1: లొకేషన్ ట్యాగ్ చేస్తే, ఇది ఏం పెట్టినాడు? ఆ, చూడు, అది GDMet లో భాగ్యలక్ష్మి కాలనీ రోడ్. ఆ వ్యూ ఆన్ మ్యాప్ అని క్లిక్ చేస్తే, అది బాలనగర్ కి వెళ్తుంది.
+Speaker 2: ఓకే, మ్యాప్‌లో ఎట్లా చూపించిందో కరెక్ట్‌గా చూపించిందా? లొకేషన్?
+Speaker 1: రాంగ్ చూపిస్తుంది.
+Speaker 2: అవును.
+Speaker 1: ఉమ్, మనోడు ఆ షాప్ దగ్గర GDMet లో ఉండి, అక్కడ పిన్ చేపించిండు. అదేమో బాలనగర్ ఫ్లై ఓవర్ దగ్గర కొట్టింది.
+Speaker 2: ఎంత దూరం ఉంటది అక్కడికి వెళ్లి?
+Speaker 1: 5-6 కిలోమీటర్లు ఉంటది.
+Speaker 2: అంత తేడా ఉంటదా?
+Speaker 1: ఉమ్.
+Speaker 2: ఓకే, ఒక్కసారి చూస్తాం. actually, మనము మనీ పెట్టొద్దు అని చెప్పి, Google నుంచి API తీసుకున్నాను అన్నమాట, Maps నుంచి.
+Speaker 1: ఓకే, ఓకే.
+Speaker 2: సో, ఏం చేసినాము అంటే, ఓపెన్ స్ట్రీట్ మాప్స్ అని చెప్పేసి, ఓపెన్ సర్వీస్ ఉంటది.
+Speaker 1: ఓకే.
+Speaker 2: Google Mapsే. కానీ అంత డేటా ఉండదు. మెయిన్ గా ఇండియా వాళ్లది అంత ఉండదు. బట్, నార్మల్ గా అయితే, 800 మీటర్స్ అటు ఇటు ఉంటది, మరి 5 కిలోమీటర్స్ అంటే ఏదో ఒకసారి చెక్ చేస్తాం.
+Speaker 1: బాబు, ఇప్పుడు ఏందంటే, ఇప్పుడు ఎంప్లాయ్ ఉన్నాడు, చూసావా? ఆయన బేసిక్‌గా మార్కెటింగ్ హెడ్ అన్నమాట ఇప్పుడు మనకు. ఓకే? ఓకే.
+Speaker 1: ఆ ఎంప్లాయ్ పని ఏంటంటే, జస్ట్ ఆన్ బోర్డింగ్ ది కీర్ణం షాప్స్ కస్టమర్స్. ఓకే, నెక్స్ట్ కాకపోతే, ఇప్పుడు ఒక 15 డేస్ వరకు హి విల్ సపోర్ట్ అస్ టు డెలివర్ ది ప్రొడక్ట్స్. కీర్ణం షాప్స్. బట్ ఇన్ ఫ్యూచర్, మేము ఒక ఏమంటారు, ఇంకొక ఎంప్లాయ్‌ని హైర్ చేసుకొని, వాడి పని డైలీ డెలివర్ చేయడం. సో, తనకు తెలవదు కదా, ఈ కీర్ణం షాప్ ఎక్కడ ఉందో. ఎందుకు అంటే, ఈ శ్రీకాంత్ అనే క్యాండిడేట్ ఉన్నాడు, ఆయనకు తెలుసు. మేము కొత్తగా వచ్చే క్యాండిడేట్ కి తెలియదు. సో, మనము కచ్చితంగా లొకేషన్ కావాలి. అది. ఆ లొకేషన్ ఇప్పుడు వెళ్ళడానికి కాస్ట్ అయితే కూడా కానీ, నాకు—
+Speaker 2: అంటే, లేదు, ఇంకో ఆప్షన్ ఉంటది. అంటే, బేసిక్‌గా లాటిట్యూడ్, లాంగిట్యూడ్? Yes or no?
+Speaker 1: ఇది టేకింగ్ లాటిట్యూడ్, లాంగిట్యూడ్.
+Speaker 2: రైట్. అయితే, ఏంటి అంటే, might be జస్ట్ నేమింగ్ కన్వెన్షన్ తేడా ఉంది. బట్, లాటిట్యూడ్, లాంగిట్యూడ్ కరెక్ట్‌గా వస్తది.
+Speaker 1: ఆ, what I&#x27;m saying is, you have the right option. View on map.
+Speaker 2: ఉమ్.
+Speaker 1: పక్కనే డెలివరీ డీటెయిల్స్ పక్కన, view on map. ఆ view on map కొడితే, అది మామూలుగా అయితే, అక్కడ షాప్ దగ్గర ఉండి అని సెలెక్ట్ చేసిండు.
+Speaker 2: లాంగిట్యూడ్, లాటిట్యూడ్.
+Speaker 1: But it is going to బాలనగర్. అది నేను చెప్తున్నా.
+Speaker 2: వేరే ఫోన్స్‌లో అది చేశారా? లాగిన్‌లో?
+Speaker 1: నా ఫోన్‌లో చెక్ చేసినా, ఆయన సేమ్.
+Speaker 2: అవును. ఒక్కసారి చెక్ చేస్తాం.
+Speaker 1: ఓకే.
+Speaker 2: చెక్ చేసి అప్డేట్ చేస్తాం.
+Speaker 1: మీకు కావాలంటే, ఎప్పుడు లాగిన్ చేస్తా అంటే, నంబర్ ఇస్తా. ఆ నంబర్ తో లాగిన్ చేయండి. డిస్ట్రిబ్యూటర్ యాప్.
+Speaker 2: ఆ.
+Speaker 1: If in case you need.
+Speaker 2: Might be. మన లొకేషన్ కూడా పెట్టొచ్చు. అంటే, నేను కూడా టెస్ట్ చేయొచ్చు. ఓకే.
+Speaker 1: ఆ, ఆ, టెస్ట్ చెయ్యి. ఒకసారి టెస్ట్ చెయ్యి. ఆల్రెడీ ఉన్నట్టు ఉంది. ఎవరిది? సాయి ఉందనుకుంటా. డిస్ట్రిబ్యూటర్ యాప్? YouTube?
+Speaker 2: నాకు తెలిసి, రోహిత్ ది కూడా ఉంటది టెస్టింగ్. అతనిది కూడా ఉంటది.
+Speaker 1: ఒకసారి పైకి వెళ్ళావా? ఇవి మీ నంబర్లా? ఒకసారి పైకి వెళ్ళు. ఇందులో, ఇందులో. ఆ, అడవిలో. ఇది
+Speaker 2: వచ్చేసి, వీడిది. మా టెస్టింగ్ అతనిది, రోహిత్.
+Speaker 1: ఇంకొంచెం పైకి వెళ్లి చెప్తా. ఆ, వీడు టెస్టర్. బ్యాక్ వెళ్ళు.
+Speaker 1: బ్యాక్ టు డైరెక్టరీ. అక్కడ పెండింగ్ అప్లికేషన్స్ ఉన్నాయి కదా. పైన. ఇది ఎవరి మీయా ఇవి?
+Speaker 2: ఆహా, కాదు అనుకుంటా. ఒక్కసారి చెక్ చేస్తాను.
+Speaker 1: సాయి, నేను ఏమైనా తెలుసుకున్నారా చూడు.
+Speaker 2: లేదు.
+Speaker 2: నాకు తెలిసి, నిజంగా డిస్ట్రిబ్యూటర్ అనుకుంటా.
+Speaker 1: ఎవరు లేరు. ఎవరు తెలవదు.
+Speaker 2: Might be. అప్లికేషన్ చూసాను కావచ్చు. అలా రారు.
+Speaker 1: మేము అదే. అంటే, మనం.
+Speaker 2: లేదంటే, రెస్టారెంట్ ఉండొచ్చు. వీళ్ళకి తెలిసిన వాళ్ళు ఎవరైనా రెస్టారెంట్ ఉండొచ్చు.
+Speaker 1: కావచ్చు.
+Speaker 2: ఒకసారి కాల్ చేసి కనుక్కోండి, లేదు అంటారు.
+Speaker 1: ఉమ్, సరే, సరే.
+Speaker 2: నేమ్ అయితే కాదు, పక్కా.
+Speaker 1: ఆ, అది మీరు కన్ఫర్మ్ చేసుకుంటున్నారు. మీరు ఆ కాదా అని తీసేయడానికి.
+Speaker 1: అదొకటి. ఇంకొకటి ఏందంటే, ఇవి.
+Speaker 2: మళ్లీ, ఇది లొకేషన్ కూడా ఆప్షనల్ అని పెట్టినాం. ఇది కూడా కంపల్సరీ తీసుకోవాలి.
+Speaker 1: ఏది?
+Speaker 2: ఇది ఫిక్స్ చేశాం. actually.
+Speaker 1: మేము actual గా, నేను ఇప్పుడు మీ మార్కెటింగ్ ఎవరైతే చేస్తున్నారో, శ్రీకాంత్ అనే ఆయనకి ఫోర్ థింగ్స్ మాండేటరీగా చెప్తున్నా. సో, ఆయన.
+Speaker 2: అంటే, మేము అప్లికేషన్‌లో అట్లా పెట్టినాం. మార్చాలి అది.
+Speaker 1: అదే మార్చండి. నేను ఆయనకి ఏం చెప్పినా అంటే, కచ్చితంగా మనం కీర్ణం షాప్ నేమ్ బ్రాకెట్ లో ఓనర్ నేమ్, ఫోన్ నంబర్, లొకేషన్, పిన్. పిన్ లొకేషన్, ప్లస్ ఈమెయిల్ ఐడి లేకపోయినా ఇంకేదో ఏదో చెప్పినా, ఫోన్ నంబర్, అడ్రస్. కచ్చితంగా మాన్యువల్ గా అప్డేట్ చేయాలి అని చెప్పినా, అది ఆయన అదే చేస్తున్నాడు.
+Speaker 1: కానీ అది పరిస్థితి.
+Speaker 2: ఓకే.
+Speaker 1: అయితే, ఇప్పుడు డిస్ట్రిబ్యూటర్ యాప్ లో నేను ఒక స్క్రీన్ షాట్ పెడుతున్నా.
+Speaker 1: గ్రూప్ లో స్క్రీన్ షాట్ పెడుతున్నా.
+Speaker 1: డెవలప్మెంట్ గ్రూప్.
+Speaker 1: యా, ఒకసారి క్లిక్ చేయండి.
+Speaker 1: ఇది ఆర్డర్ ఐడి కదా, ఫస్ట్ ఇది. 70.
+Speaker 2: అవును. కన్స్యూమర్ ఆర్డర్ ఐడి.
+Speaker 1: కన్స్యూమర్. ఆ, సరే. కింద సిద్ధి వినాయక కీర్ణం అని కనిపిస్తుంది. 7.
+Speaker 2: ఉమ్. అది
+Speaker 1: అది పైకి తీసుకురావడం పెద్ద చేయడం. Yes or no?
+Speaker 2: అంటే, నాకు కరెక్ట్ అర్థం కాలేదు.
+Speaker 1: ఇప్పుడు కాన్స్ అనేది బోల్డ్, పెద్ద, పెద్దగా వచ్చింది కదా.
+Speaker 2: ఉమ్.
+Speaker 1: కన్స్యూమర్ 70 అని చెప్పేసి.
+Speaker 2: ఉమ్.
+Speaker 1: ఆ ప్లేస్ లో సిద్ధి వినాయక పెట్టి, సిద్ధి వినాయక ప్లేస్ లో ఈ కన్స్యూమర్ ఆర్డర్ నెంబర్ పెట్టేస్తా.
+Speaker 2: అవునా, అలా రావాలా?
+Speaker 1: అనిపించింది.
+Speaker 2: అంటే, ఆర్డర్ నెంబర్ అంటే, ఓకే.
+Speaker 1: ఏమంటావ్, సీను?
+Speaker 2: అంటే, ఇది యాప్ లో కదా.
+Speaker 1: అవును.
+Speaker 2: లేదంటే, లిస్ట్ వచ్చినా సరే. ఇట్లా లిస్ట్ వచ్చి, ఆర్డర్స్ అన్నీ లిస్ట్ వచ్చి, అందులోకి వెళ్ళిన తర్వాత ఇవన్నీ డీటెయిల్స్ కనిపిస్తే, అట్లా ఏమైనా బాగుంటదా?
+Speaker 1: ఉమ్, ఇది, ఇది నాకేం చేంజ్ అవసరం లేదు అనిపిస్తుంది.
+Speaker 2: ఆ, కానీ శ్రీకాంత్ ఆడియో. ఏంటి?
+Speaker 2: అవునా.
+Speaker 1: కానీ శ్రీకాంత్ ఇది మానిటర్ చేయడు కదా ఫ్యూచర్ లో.
+Speaker 2: చేయడు, కానీ ఆయన ఒక ఐడియా, అంటే ఆయన ఒక ఇది అడిగిండు.
+Speaker 1: ఉమ్, చూడు.
+Speaker 2: లాగిన్ ఉంటే చెయ్.
+Speaker 1: జస్ట్ లాగా చేసుకుంటే బాగుంటది. కిందకి ఇప్పుడు మాకు ఆర్డర్స్ పెరుగుతున్నాయి. ఓకే. ఆర్డర్స్ పెరిగేసరికి ఏమవుతుందంటే, ఆ కిందకి వెళ్లి పైకి వచ్చి, ఈ ఉన్నాయి కొంచెం ప్రాబ్లం. ఇది ఆ గ్రిడ్ లిస్ట్ అట్లా మనం చేస్తే, చేయొచ్చు.
+Speaker 2: ఆ, అది, అది అడుగుతుంది.
+Speaker 1: ఇది చూసి కరెక్ట్ గా ఏదైతే చేయగలుగుతామో అది చెప్తాను. ఇంకా మంచిగా చేయొచ్చు actually అనుకుంటే.
+Speaker 2: ఉమ్.
+Speaker 1: నేను ఇప్పుడు ప్రయారిటీ వైస్ పాయింట్స్ చెప్పాను.
+Speaker 2: ఉమ్. ద
+Speaker 1: దాని ప్రకారం మీరు చేంజెస్ చేయండి.
+Speaker 1: అయితే, ఒక్కటి ఏందంటే, ఏదైనా షేర్డ్ లొకేషన్ ఉందా?
+Speaker 1: అంటే, ఎలా ఉంటది?
+Speaker 2: ఆ, పాయింట్స్ మేము రాయడానికి మాకు ఇప్పుడు ఏమైనా మరి ఇనిషియల్ గా ప్రిపేర్ స్టార్ట్ అవుతుంది కదా. కొంచెం.
+Speaker 1: Google టాక్ క్రియేట్ చేసేయమంటారా? మీరు ఎడిట్ చేసే.
+Speaker 2: ఆ, ఇవ్వండి. మేము ముగ్గురం ఎడిట్ చేసేటట్లు అందులో మీరు చూడండి. మీరు మేము చేసిన కొద్ది మీరు డన్ అయిపోతే, అది చెక్ పాయింట్ లాగా. అది
+Speaker 1: అది అయితే Google షీట్ పెట్టుకుందాము. దాంట్లో పెట్టేయొచ్చు.
+Speaker 2: ఓకే. ఏదో ఒకటి. అంటే, కీప్ నోట్స్ ఐడియా ఉందా నీకు?
+Speaker 1: ఉమ్, ఐడియా ఉంది. అంటే, కీప్ నోట్స్.
+Speaker 2: నోట్స్ లో లిస్ట్ ఉంటది చూసినావా? అంటే, మామూలుగా కీప్ అని ఉంటది. Google దే.
+Speaker 1: అదేనా? రైట్, రైట్. ఎల్లో కలర్ లో ఉంటది అదే కదా.
+Speaker 2: ఆ, ఎగ్జాక్ట్లీ. లిస్ట్, లిస్ట్ ఉందనుకో. ఫర్ ఎగ్జాంపుల్, ఆ లిస్ట్ అది మనం రాసిన పాయింట్ అయిపోయిందంటే, లిస్ట్ ని క్లిక్ చేసినాం అనుకో. అది కిందకి వెళ్ళిపోద్ది. అంటే, ఇట్ ఇస్ డన్ అని చెప్పేసి కిందకి వెళ్ళిపోద్ది.
+Speaker 1: ఉమ్.
+Speaker 2: అలాంటి ఏమైనా మీరు ఏమైనా ఉంటే చెప్పండి.
+Speaker 2: చూద్దాం ఒకసారి. ఎందుకంటే, ఈ WhatsApp లో అది ఎటో వెళ్ళిపోతుంది. మేము అడిగింది కూడా మర్చిపోతున్నాం.
+Speaker 1: ఆ.
+Speaker 2: ట్రాకింగ్ లేదు. బేసిక్ గా.
+Speaker 1: ట్రాకింగ్ లేదు. అది ప్రాబ్లం అవుతుంది. తర్వాత మళ్లీ గుర్తొస్తుంది. ఏదో ఇష్యూ వచ్చినప్పుడు మళ్లీ అవుతుంది.
+Speaker 2: ఓకే. క్రియేట్ చేసి ఇస్తాము.
+Speaker 1: ఓకే.
+Speaker 2: సీను, ఇంకొకటి. ఇప్పుడు మనము ప్రైసెస్ వేస్తుంటాం కదా. కస్టమర్ ప్రైస్, డిస్ట్రిబ్యూటర్ ప్రైస్ అని. మధ్యలో. అయితే, ఏమవుతుందంటే, ఒకసారి మనం స్క్రోల్ చూస్ చేసేసరికి, అక్కడ ఉన్న నెంబరు.
+Speaker 1: అచ్చా, బల్క్ ఇంపోర్ట్ లో అంటున్నారా మీరు?
+Speaker 2: ఆ, పైకి వెళ్ళిపోతే కిందకి 70. ఆ, సో స్క్రోల్ తీసేస్తారు. జస్ట్ టైపింగ్ ఏ పడితే బెటర్.
+Speaker 1: అచ్చా, అర్థమైంది. అది కాదు. ఇన్వెంటరీ.
+Speaker 2: ఇదే కదా.
+Speaker 1: రైట్, రైట్, రైట్. ఇప్పుడు నువ్వు రైట్ సైడ్ లో పైన నెంబర్ డౌన్ అని ఉంది చూసినావా? ఆ
+Speaker 2: ఆ, అదే.
+Speaker 1: ఓకే, తీసేస్తాం.
+Speaker 2: ఆ, అదే. తీసేసి అంతే. ఆ, ఓకే.
+Speaker 1: ఇంకోటి, ఇంకోటి ఏందంటే, మనం.
+Speaker 2: అచ్చా, ఒక్క నిమిషం, ఒక్క నిమిషం. ఈ ప్రొడక్ట్స్ కి వెళ్ళవా? ఒక్కసారి.
+Speaker 1: సింపుల్ గా తీసేస్తే సరిపోతుంది.
+Speaker 2: ఆ, ప్రొడక్ట్స్ లో న్యూ ప్రొడక్ట్ క్రియేట్ చేసుకోవచ్చు. యాడ్ ప్రొడక్ట్ కొట్టు. కొట్టిన తర్వాత వేరియంట్స్ లోకి వెళ్ళవా?
+Speaker 2: ఈ 5% GST ఉంది చూసావా? అది కింద ఉన్నది. ఓకే. ఆ, ఇక్కడ నేను 5% కొట్టిన తర్వాతనే ఇక్కడ పైన డిస్ట్రిబ్యూటర్ ప్రైస్ ఇవన్నీ చేయాల్సి వస్తుంది. ఓకే. దాని ప్రకారమే ఇక్కడ మనకు రిఫ్లెక్ట్ అవుతది. అయితే, ఇవి పైకి తీసుకురావచ్చా అని. అంతే, ఏం లేదు. ఫస్ట్ ఏందంటే, మౌస్.
+Speaker 1: HSN కోడ్ ఇస్తాం కదా.
+Speaker 2: ఆ, రైట్. అక్కడ బేసిక్ ఇన్ఫో ఉంది చూసావా? ఫస్ట్ ట్యాబ్ లో. అక్కడ ఇచ్చినా సరే. ఇప్పుడు నువ్వు టాక్స్ అండ్ ఇక్కడ ఇచ్చినా సరే, ఇక్కడ GST. ఓకే. సో, బేసిక్ గా ఏమంటున్నారు అంటే, ఇక్కడ HSN కోడ్ లోనే మీకు GST ఇవ్వాలి.
+Speaker 1: ఆ, లేదు, లేదు, లేదు. ఆ GST అక్కడ ఉంది చూసావా? అక్కడ తీసేసి ఇక్కడ ఈ పేజ్ లో ఎక్కడైనా పెట్టొచ్చా?
+Speaker 2: రైట్, అదే. ఇక్కడ పెట్టేస్తే, లెట్స్ సే 5% అనుకుంటే, ఇది మొత్తం ఆటోమేటిక్ గా 5% యాడ్ అయిపోతుంది.
+Speaker 1: ఆ, ఆ.
+Speaker 2: అవసరమైతే తగ్గించుకోవచ్చు. ఆటోమేటిక్ గా రావాలి.
+Speaker 1: ఆ, ఆ, అట్లా.
+Speaker 2: ఓకే, చేయొచ్చు. అది
+Speaker 1: అది, అది సెకండ్ పేజ్ లో వేరియంట్ లెవెల్ GST. అంటే, ఇప్పుడు డిఫరెంట్ వేరియంట్స్ కి సపోజ్ ఏదైనా ఆ సిట్యువేషన్ ఎన్కౌంటర్ అయింది అనుకోండి. మెయిన్ GST ఓవర్ రైడ్ చేస్తది. ఈ వేరియంట్ లెవెల్ GST తోనే. రైట్, నువ్వు పైన చూసుకో. పైకి
+Speaker 2: రైట్, నువ్వు పైన చూసుకో. పైకి వెళ్లి చెప్పు. కొంచెం పైకి వెళ్లి చెప్పు. ఇక్కడ వేరియంట్ చేసుకున్నాము. అక్కడ ఇప్పుడు ఆ, అది ఓకే. ఐ యామ్ ఫైన్ విత్ దట్. వేరియంట్ నేమ్ కింద. ఈ గ్రూప్ ఏ టైర్ మీకు ముందు ఫస్ట్ చూడండి.
+Speaker 1: ఓకే.
+Speaker 2: దట్ ఇస్ ఆల్సో ఫైన్.
+Speaker 1: అది ఒక్కటి ఎంటర్ చేయడానికి కిందకి పోవాల్సి వస్తుంది. ఆ
+Speaker 2: ఆ, అట్లా. అది పోయి ముందు పైకి రావాల్సి వస్తుంది.
+Speaker 1: వస్తుంది.
+Speaker 2: పెద్ద మానిటర్, మానిటర్ రూమ్ స్క్రీన్ అయితేనేమో ఏం కాదు. చిన్న లాప్టాప్ లలో కిందకి వెళ్లి పైకి వెళ్లి అట్లా అవుతుంది.
+Speaker 1: అలాంటి ఇప్పుడు ట్యాబ్. ఇప్పుడు ఫర్ ఎగ్జాంపుల్, ఐ విల్ టెల్ యు. సీ, నువ్వు ఒకసారి ఇక్కడ ట్యాబ్ ఇక్కడ MRP పైన క్లిక్ చేసి పెట్టు. బాక్స్ లో MRP బాక్స్ లో. కిందకి కాదు. స్క్రోల్ చేయకు. పైకి కాదు. స్క్రోల్ పైకి కాదు. ఆ, ఇప్పుడు ట్యాబ్ నొక్కుకుంటూ వెళ్ళు. నెక్స్ట్ ట్యాబ్. జస్ట్ ట్యాబ్. అంటే, నెక్స్ట్ ట్యాబ్ లోకి వెళ్ళడానికి. ట్యాబ్ నొక్కుకుంటూ వెళ్ళు. నొక్కుకుంటూ వెళ్ళు. వెళ్ళు. ఇంకా, ఇంకా. ఇంకా, ఇంకా.
+Speaker 2: ఆ. అ
+Speaker 1: అది పోవట్లేదు.
+Speaker 2: ఇది స్క్రోల్ అవ్వట్లేదు కిందకి. ఆ, ఓకే, అర్థమైంది.
+Speaker 1: ఉమ్. ఆ
+Speaker 2: ఆటో స్క్రోల్ లా కావాలి. ఇది ఇంతకు ముందు కూడా చూపించినాము. అది మర్చిపోతాం. ఇటువంటి పాయింట్స్ మర్చిపోతాం. ఇవి ఏందంటే, మనం మౌస్ ముట్టుకునే పని లేకుండా టప టప టప కీబోర్డ్ తోనే వేసుకుంటూ వెళ్ళిపోవచ్చు.
+Speaker 2: ఎందుకంటే, నువ్వు ఒక వారం రోజులు అప్డేట్ చేసిన ప్రొడక్ట్ ఇన్వాయిస్ ఇవ్వటం ఇన్వెంటరీ ఇవన్నీ. అట్లా.
+Speaker 2: అదే.
+Speaker 2: ఇంకొకటి.
+Speaker 1: ఏమైనా పెట్టమంటారా?
+Speaker 2: పెట్టమంటారా? వెనకాల ఈ ఆర్గానిక్ అని అంటే కొంచెం టెక్స్ట్ వస్తుంది. అంటే కొద్దిగా ఇన్ఫర్మేషన్ వస్తుంది. ఓ, థాంక్యూ.
+Speaker 1: ఆ, కస్టమర్ యాప్ లో.
+Speaker 2: ఆ.
+Speaker 1: ఒకసారి స్క్రీన్ షాట్ ఉంటది గ్రూప్ లో. అది కూడా ఒకసారి చూడండి.
+Speaker 2: అవును, అవును. వాంటెడ్ ఐడియా. లాస్ట్ పేజ్ లో కదా. ఆఫ్టర్ ఆర్డర్.
+Speaker 1: ఏంటిది, ఏంటిది? ఆర్డర్ అ
+Speaker 2: ఆర్డర్ అయిపోయింది. అయితే, ఎక్కువ మటుకు ఎట్లా ఉంటదో తెలుసు కదా. ఒక ఫీడ్బ్యాక్ ఏమో వచ్చాయి. ఇదంతా వస్తుంది అని ఒకటి ఉంది. అంటే, అదేం అంత ఇంపార్టెంట్. యాక్చువల్లీ, అది ఈజో గురించి ఆలోచించి యాడ్ చేస్తాం. ఈజో గురించి ఆలోచించి యాడ్ చేస్తాం. అంటే, ఆటోమేటిక్ గా డెలివరీ అవుతుంది. పిల్లలకు కొంచెం అట్లా పాయింట్.
+Speaker 1: ఆ రెండిట్లో తీసేసాం. ఇద్దరిలో తీసేసేయండి. ఇంకా మిగతా తీసేసేయండి.
+Speaker 2: క్లియర్ అయిపోతుంది కదా. లాస్ట్ ఆర్డర్ క్లియర్ అయిపోయింది అని పెట్టాం. ఓకే, ఫైన్.
+Speaker 1: ఆ, అదే, అదే.
+Speaker 2: అవును, అవును, అవును.
+Speaker 1: ఏం కాదు. ఉంటే.
+Speaker 2: నిజంగా ఏం కాదు. YouTube లో తీసేసారు. B2B లో అంతా ఉంది కదా. రఫ్ మోడల్ క్యాండిడేట్.
+Speaker 1: తొందర అయితే యాప్ కూడా డౌన్లోడ్ చేసుకుంటారు. చాట్, నాకు ఇవన్నీ తెలవదు. WhatsApp లో చెప్తారు. పంపిస్తారు టీవీ లో అంటారు. చెప్తున్నది పరిస్థితి.
+Speaker 2: దీంట్లో ఏదైనా పెట్టమంటారా?
+Speaker 1: ఏంటిది?
+Speaker 2: ఇప్పుడు దీని బదులు.
+Speaker 1: అది అర్థమైంది. అది చూస్తున్నా. ఒక్క నిమిషం. సో, పాయింట్
+Speaker 2: సో, పాయింట్ ఏందంటే, అది ఆర్డర్ నెంబర్ అయితే పైనే పెడుతుంది.
+Speaker 1: అదే. మనం అంటే, లేఔట్ కావాలంటే కింద పెట్టొచ్చు. ఆర్డర్ నెంబర్ పైన నేమ్ పెట్టమంటే పెట్టొచ్చు. అంటే, లేఔట్ వరకు.
+Speaker 2: ఈ 13 ఏదో బాగున్నట్టు ఉంది. 13, 15. 15 లో పేరు లేదు.
+Speaker 2: కింద ఉంది. అంటే, నేమ్ మార్చుకోవచ్చు కావాలంటే. టుమారో దగ్గర పెట్టొచ్చు కావాలి అంటే. కింద అది పెట్టి.
+Speaker 1: ఆ, ఆ, రైట్. 14 బాగుంది.
+Speaker 2: అట్లా.
+Speaker 1: లిస్ట్ వస్తే ఇంకా బెటర్ అనిపిస్తుంది. ఇప్పుడు మనకు డిస్ట్రిబ్యూటర్ యాప్ లో లిస్ట్ పెట్టింది చూసావా? ఆ, అట్లా.
+Speaker 1: అది డిస్ట్రిబ్యూటర్ యాప్ లోకి వెళ్ళు. లిస్ట్, లిస్ట్ అని పెట్టి లిస్ట్ ఇట్లా.
+Speaker 2: అచ్చా, ఇట్లా.
+Speaker 1: ఆ, ఇట్లా అయితే. మొబైల్ యాప్ లో ఇది స్క్రోల్ చేయడం కష్టం అవుతది యాక్చువల్లీ.
+Speaker 2: ఆ, మొబైల్ యాప్.
+Speaker 1: మొబైల్. అందుకే మొబైల్ లో పెట్టారు. కావాలి అంటే ఇది కూడా బానే ఉంది నన్ను అడిగితే.
+Speaker 2: ఓకే, ఓకే.
+Speaker 1: ఓకే.
+Speaker 2: చూడు, విచ్ ఇస్ ద బెటర్. ఏది ఫిట్ మంచి ఫిట్ అయితే అది చూడు. నాకు ఏదైనా కిరణ్ షాప్ నేమ్ హైలైట్ కావాలి.
+Speaker 1: ఓకే.
+Speaker 2: ఇప్పుడు 14 ఉంది చూసావా? 14 లో టుమారో అనే ప్లేస్ లో కిరణ్ షాప్ వచ్చి కింద ఆ టుమారో డెలివరీ అనేది కిందకి పంపించేస్తే సరిపోతుంది. పర్ఫెక్ట్.
+Speaker 1: ఇంకేదో ఐడియా వచ్చింది. ఐడియా కాదు.
+Speaker 2: ఐడియా కాదు. యాక్చువల్లీ క్వశ్చన్ ఉండే. ఆ, ఒకసారి అడ్మిన్ లోకి వెళ్ళావా? ఏదైనా ఒక అడ్మిన్. జోనో B2B లో.
+Speaker 1: ఇప్పుడు నాకు కన్స్యూమర్ ఎక్కడ ఉందో తెలవాలంటే ఎట్లా నాకు ఇప్పుడు? డి
+Speaker 2: డిస్ట్రిబ్యూటర్స్ కి వెళ్లి ఆ కన్స్యూమర్స్. ఓకే.
+Speaker 1: ఇప్పుడు ఒక పర్టికులర్ కన్స్యూమర్ ఉన్నాడు. ఆయన ఏ డిస్ట్రిబ్యూటర్ కిందో తెలవదు.
+Speaker 2: ఫర్ ఎగ్జాంపుల్, ఎర్జో కదా. ఇది ఎర్జో కదా. వాడి పేరేమో ఉండదబ్బా. వన్ మోహన్ అని నాకు వన్ మోహన్ అనే క్యాండిడేట్ బ్యాంక్ వాడు. వాడు పేమెంట్ గేట్వే తీయడా అంటే కథలు కథలు పడుతుంది వాడు. వాడు వాడిని యాక్సెప్ట్ చేసిన బై మిస్టేక్ అది ఎవరికి పంపించిన వాడికి కనిపిస్తలేడు. వన్ మోహన్ అనే క్యాండిడేట్. ఒకసారి చెక్ చేస్తారా?
+Speaker 1: ఓకే.
+Speaker 2: నాకు ఎట్లా తెలవాలి ఇప్పుడు అది ఎవడు ఉన్నాడు? ఎక్కడ.
+Speaker 2: చెక్ చేయాలి? ఆల్రెడీ అసైన్డ్ కన్స్యూమర్.
+Speaker 1: యాక్చువల్లీ ఇక్కడ ఒకటి ఉండే. కన్స్యూమర్ ట్యాబ్. యాక్చువల్లీ ఇది ఇక్కడే ఉండే. కన్స్యూమర్స్ ఒకటి ఉండే కదా సపరేట్ గా.
+Speaker 2: అసలు కన్స్యూమర్స్.
+Speaker 1: ఇంటర్నెట్ ఉంటే స్టార్టింగ్ లో.
+Speaker 2: ఉంటుంది, ఉంటుంది. కస్టమర్ బేస్ వాళ్ళు అంట.
+Speaker 1: ప్యూర్ కన్స్యూమర్స్ ఎప్పుడూ ఉండకపోతుండే. కస్టమర్ డిస్ట్రిబ్యూటర్ కింద కస్టమర్ బేస్ వాళ్ళు అంట.
+Speaker 2: లేదు, లేదు. కన్స్యూమర్స్ ఉండే. అంత లిస్ట్ ఉండే. నేను అప్పుడు చెప్పలేదు. డిస్ట్రిబ్యూటర్స్ సెపరేట్ ఇంకోటి కన్స్యూమర్స్ పెడదాము అని చెప్పి. తర్వాత దీంట్లోనే.
+Speaker 1: తర్వాత తీసేసారు.
+Speaker 2: ఉండే, ఉండే. నాకు గుర్తుంది.
+Speaker 1: ఉమ్.
+Speaker 2: యాక్చువల్లీ జస్ట్ డిస్ట్రిబ్యూటర్ దగ్గర. డిస్ట్రిబ్యూటర్ కింద ఎవరెవరు ఉన్నారో కన్స్యూమర్స్ అక్కడ చూపిస్తుంది.
+Speaker 1: అయితే ఇప్పుడు నాకు నేను చెప్పిన వన్ మోహన్ క్యాండిడేట్ ఇప్పుడు ఎక్కడ ఉందో తెలవదు. ఇప్పుడు ఫర్ ఎగ్జాంపుల్ నేను బాలాజీ డ్రై ఫ్రూట్స్ లోకి వెళ్ళండి. డిస్ట్రిబ్యూటర్ లో యాక్టివ్ డైరెక్టర్ లో యాక్టివ్ డైరెక్టరీ. అందులో కరెక్ట్ గా ఉన్నావు. అక్కడే ఉన్నావు. బాలాజీ, బాలాజీ డ్రై ఫ్రూట్స్ ఉంటది చూడు.
+Speaker 2: ఆ, అది క్లిక్ చెయ్యి. అందులో కన్స్యూమర్ లో వన్ మోహన్ క్యాండిడేట్ కనిపిస్తాడు నాకు. వాడు ఎవడో తెలవదు.
+Speaker 1: అని ఉందా? నెంబర్, నెంబర్ తో ఉంది.
+Speaker 2: నేను చూసినప్పుడు వన్ మోహన్ అని ఉండే. నేను పంపించినప్పుడు. అసైన్ చేసినప్పుడు. అసైన్ చేసినాక కూడా కనిపిస్తలేదు.
+Speaker 1: మై బి నేమ్ వన్ మోహన్ అని సేవ్ చేయలేదేమో.
+Speaker 2: అచ్చా.
+Speaker 1: కానీ ఏమైనా ఫిక్స్ చేయండి అబ్బా. ఈ నేమ్ లో ఆ ఫోన్ నెంబర్ రావడం, ఈమెయిల్ ఐడి, డిఫాల్ట్ ఈమెయిల్ ఐడి కొంచెం అది చేంజ్ చేయరా. బాగా ఇబ్బంది అవుతుంది. ఎవడో తెలవట్లేదు.
+Speaker 1: మాండేటరీగా నేమ్ అనేది ఉండాలి. వాడు చిన్న చెప్పిన మాండేటరీ నేమ్, ఫోన్ నెంబర్, అడ్రస్, లొకేషన్ అయితే ఉండేటట్టు చేయండి. కొంచెం ఏం చేసిండో తెలుస్తలేదు పరిస్థితి.
+Speaker 1: మై బి నేమ్ పెట్టలేదు అనుకుంటా.
+Speaker 2: వన్ మోహన్.
+Speaker 1: ఓకే. అయితే యాడ్ చేస్తాను. యాడ్ చేసి చెప్తాను.
+Speaker 1: లొకేషన్.
+Speaker 1: యాక్చువల్లీ ఇక్కడ అప్రూవ్ బటన్ ఉండే.
+Speaker 2: అప్రూవ్ బటన్ ఉండేది.
+Speaker 1: ఇది కూడా యాడ్ చేస్తాం. అయితే నాకు తెలిసి దాంట్లో కూడా పోయినట్టు ఉంది.
+Speaker 2: నమన్ ఇద్దరు అప్రూవ్ బటన్ తాను?
+Speaker 2: ఇక్కడ ఉండే. కన్స్యూమర్ నుంచి వస్తది ఇది.
+Speaker 1: ఇంకొకటి వచ్చేసి యాక్చువల్లీ మెయిన్ అనుకున్నది దీని కోసం. అవుట్ ఆఫ్ స్టాక్ థింగ్.
+Speaker 2: అయితే ఇప్పుడు మనం అనుకున్న అవుట్ ఆఫ్ స్టాక్ ఆప్షన్స్ సేమ్. టూ సైకిల్. ఒకటి డిస్ట్రిబ్యూటర్ టు అడ్మిన్. మీరు ఇంకొకటి కన్స్యూమర్ టు డిస్ట్రిబ్యూటర్.
+Speaker 1: ఇప్పుడు ఏంటి అంటే డిస్ట్రిబ్యూటర్ ఒక ఏదైనా ఎక్స్ వై జెడ్ అనే ప్రొడక్ట్ 100 అడిగిండు. మీ దగ్గర 20 ఉన్నాయి. 80 కావాలి ఇంకా.
+Speaker 2: సో మీరు ఏం చేస్తారు అంటే మీరు ఆర్డర్ తీసేసుకుంటారు. హోల్డ్ లెవెల్ ట్రైన్ చేయరు. బట్ మీకు ఒక పేజ్ వస్తది. సేయింగ్ దట్ మీ దగ్గర ఈ ప్రొడక్ట్ లో 20 ఉన్నాయి. ఇంకా 80 కొనాలి అని. ఆ 80 అనేది ఐదర్ రిలీజ్ చేయొచ్చు వేరే వాళ్ళకి. సారీ, ఆ 20 రిలీజ్ చేయొచ్చు. లేదంటే హోల్డ్ లో పెట్టుకోవచ్చు.
+Speaker 1: ఇదొకటి.
+Speaker 2: మళ్ళీ ఇంకొకటి వచ్చేసి ఒక డిస్ట్రిబ్యూటర్ కి లెట్స్ సే ఎక్స్ అనే ప్రొడక్ట్ చాలా మంది అడుగుతున్నారు. ఆ నోటిఫై బటన్ అది చెప్పిరు కదా అప్పుడు శ్రీనివాస్. దాని ప్రకారము మనం స్కోరింగ్ ఇస్తాం. అంటే స్కోరింగ్ అంటే ఎన్ని సార్లు వీళ్ళు అడిగారు అని చెప్పేసి. స్పామ్ చేయకుండా ఒక అకౌంట్ కి ఒకటేసారి ఇచ్చేటట్టు. అలా ఇచ్చేసి ఫిఫ్త్ వేరియంట్. ఏ వేరియంట్ అంటే ఆ వేరియంట్. దాని ప్రకారం చేయొచ్చు. అయితే ఇక్కడ ఇంకోటి ఏందంటే డిస్ట్రిబ్యూటర్ యాప్ నుంచి వన్ క్లిక్ టు బై అని చెప్పేసి పెడతారు అన్నమాట.
+Speaker 1: వాళ్ళు ఏదైతే అడిగిరో క్లిక్ చేయగానే డైరెక్ట్ ఆర్డర్ ప్లేస్ అయిపోతది. అదే ప్లేస్ అయిపోతది అంటే పేజ్ కి వెళ్తది. ఐదర్ ఆన్లైన్ క్యాష్ ఆన్ డెలివరీ వాడి ఇష్టం.
+Speaker 2: మీ దగ్గరికి వెళ్లి.
+Speaker 1: ఆ డిస్ట్రిబ్యూటర్ టు అడ్మిన్ ఎలా ఉంటది అంటే మీకు రిక్వెస్ట్ వస్తది. అంతే. బేసిక్ గా మీరు పంపియాలి కదా.
+Speaker 2: కన్స్యూమర్ నుంచి డిస్ట్రిబ్యూటర్ కి ఒక పేజ్ వస్తది. సేయింగ్ దట్ ఈ ప్రొడక్ట్ అని అడుగుతురు అని. వాడు సెలెక్ట్ చేసుకొని లెట్స్ సే 10 ప్రొడక్ట్లు ఉంటే మూడు సెలెక్ట్ చేసుకొని పంపించేస్తాడు మీకు ఒకటేసారి. లేదు అంటే అన్నీ కూడా ఒకసారి బై చేయొచ్చు. అంటే మనం ఊకే మళ్ళీ ఇవన్నీ యాడ్ చేసుకునే బటన్ పెట్టలే. మళ్ళీ సగం మంది పెట్టరు అని చెప్పేసి. ఒకటే బటన్ లో మొత్తం అయిపోతది.
+Speaker 1: ఇక్కడ మాకు ఏం కొన్ని క్వేరీస్ ఉండే అంటే ఇప్పుడు సెవెన్ కస్టమర్స్ ని డిస్ట్రిబ్యూటర్ అడిగితే డిస్ట్రిబ్యూటర్ నోటిఫై అవుతది. ఏంటంటే సెవెన్ కస్టమర్స్ ఆర్ ఆస్కింగ్ అబౌట్ దిస్ ప్రొడక్ట్ అని చెప్పేసి. ఒకవేళ మీ దగ్గర కూడా స్టాక్ లేదు. మీ దగ్గర కూడా స్టాక్ లేదు అనుకోండి. అప్పుడు ఇది కూడా కేసే కదా. అప్పుడు మీకు ఎలా అంటే ఇంపార్టెంట్ అన్నట్టు చూపిస్తాం అన్నమాట. ఎమర్జెన్సీ అన్నట్టు. అంటే ఇంతమంది కన్స్యూమర్లు అడుగుతురు జల్దీ అన్నట్టు. ఆ ఓకే. దీంట్లో క్వశ్చన్స్ మాకు ఏమున్నాయి అంటే ఈ మేజర్ క్వశ్చన్ వచ్చేసి ప్రొడక్ట్స్ ఒక లిమిట్ ఉండాలి కదా. అన్లిమిటెడ్ ఒక్కొక్కడు 10,000 20,000 పెడితే కష్టం అవుతుంది కదా. క్వాంటిటీ.
+Speaker 2: ఆ లెట్స్ సే ఇప్పుడు చుపా చుప్స్ ఉన్నాయి. 20,000 పెడతాడు టైం పాస్ కి. మీకు ఒక్కొక్క డిస్ట్రిబ్యూటర్ ఆర్డర్ రేషన్ అని చూపియము కదా స్క్రీన్ లో. అందరూ ఆర్డర్ రేషన్ చూపిస్తాం కదా ఫస్ట్. అలా అని చెప్పి ఒక డౌట్ ఉండేది. మళ్ళీ ఇంకో.
+Speaker 1: అది నాకు తెలీదు. నిజం చెప్పాలి అంటే. అంటే ఆ.
+Speaker 1: సాకేజ్ ఏమైనా చెప్తావా దీని పైన?
+Speaker 2: అచ్చా లేడా.
+Speaker 1: మీ స్టాండర్డ్ అంటే వాడు మిమ్మల్ని టార్చర్ పెట్టాలి అని స్పామ్ చేస్తే?
+Speaker 2: మళ్ళీ ఇంకొకటి ఏముంది అంటే ఆర్డర్ అనేది ఎక్స్పైర్ కావాలా. ఎట్లా అంటే మళ్ళీ స్టేల్ అయిపోతది. లెట్స్ సే 20 డేస్ బ్యాక్ అడిగిండు ప్రొడక్ట్. మీరు పట్టించుకోలేదు ఫర్ సం రీసన్. ఇప్పుడు 20 డేస్ తర్వాత పంపుతా అంటే నాకు కన్స్యూమర్స్ వెళ్ళిపోయారు అంటారు. ఆబియస్ గా అంతే కదా. సో ఆర్డర్ కి ఏమైనా ఎక్స్పైరీ ఉండాలా?
+Speaker 1: ఆ అదొక డౌట్ ఉండే. మళ్ళీ ఇంకోటి ఏమున్నాయి అంటే యాక్చువల్లీ ఇవాళ మీరు చెప్పింది ఇది అవుతది. అది పాయింట్. బేసిక్ గా మాకు ఏమున్నాయి అంటే లెట్స్ సే మీరు ఆర్డర్ తీసుకున్నారు. బేగం బజార్ మొత్తం దొరికిన ఒక ప్రొడక్ట్ దొరకలే. ఏం చేసినా దొరకలేదు.
+Speaker 2: ఆ అదే డౌట్ ఉండే. బట్ మీరు చెప్పారు క్యాన్సిల్ చేసేయొచ్చు అని చెప్పేసి. బట్ అక్కడ నోటిఫికేషన్. నోటిఫికేషన్ అంటే చూపిస్తాం. విక్టోరియల్ గా.
+Speaker 1: మళ్ళీ ఇంకోటి ఏంటి అంటే.
+Speaker 2: ఆ మళ్ళీ ఇంకోటి ఏంటంటే స్టాక్ కొత్తగా యాడ్ కాగానే డైరెక్ట్ కొత్త వాళ్ళకి పంపాలా పాత ఆర్డర్స్ వాళ్ళకి పంపాలా అని. ఇప్పుడు చుపా చుప్స్ ఉన్నాయి.
+Speaker 1: చుపా చుప్స్ ఉంటే అదే చుపా చుప్స్ మీరు 100 స్టాక్ ఇన్ చేశారు. 100 స్టాక్ ఇన్ చేస్తే ఆల్రెడీ 25 ప్రొడక్ట్స్ కొందరు కావాలి అని చెప్పి డిస్ట్రిబ్యూటర్స్ అడిగారు. ఇంకొకరు ఇవ్వాలనే వచ్చారు. ఓకే. లెట్స్ సే 75 ఒకరు అడిగిండు. ఇంకా మీ దగ్గర 25 మిగిలినాయి. ఈ 25 లో మళ్ళీ ఇవ్వాలనే కొందరు వచ్చి ఆర్డర్ చేశారు. ఇంకా 25 ఆర్డర్ చేశారు. అయిపోతాయి. మళ్ళీ దాని తర్వాత ఇప్పుడు వేరే వాళ్ళకి కావాలి అంటే లేదు అంటే సెకండ్ టైం వాళ్ళతో కూడా 75 ఆర్డర్ చేసిండు.
+Speaker 2: అప్పుడు మీ దగ్గర స్టాక్ లేదు కదా. సో ఫస్ట్ వాళ్ళకి పంపాలా లేదు అంటే ఇప్పుడు రీసెంట్ గా వచ్చిన వాళ్ళకి పంపాలా. అంటే బేసిక్ గా నేను ఏం అడుగుతున్నాను అంటే ఎవరైతే ఆర్డర్ లేనిది బుక్ చేశారో వాళ్ళని సపరేట్ గా చేశారా కలిపేస్తారా అని అందరిని కలిపి?
+Speaker 1: ఓకే. సో అంతే. ఓకే. ఫస్ట్ ఇన్ ఫస్ట్ అవుట్. అంతే కదా మీరు చెప్పేది.
+Speaker 2: ఓకే.
+Speaker 1: ఆ మళ్ళీ పార్షియల్ ఉంది అనుకుందాం. లెట్స్ సే ఒక ఆర్డర్ వచ్చింది. ఆ ఆర్డర్ లో ఎక్స్ వై జెడ్ త్రీ ప్రొడక్ట్స్ ఉన్నాయి. మీ దగ్గర జెడ్ ప్రొడక్ట్ లేదు. బట్ ఎక్స్ అండ్ వై ఉంది. సరే ఇంకా కాంప్లెక్స్ చేయాలంటే ఎక్స్ వై జెడ్ ఉంది. ఎక్స్ 20 ప్రొడక్ట్స్ అడిగిండు. వై 10 అడిగిండు. జెడ్ 30 అడిగిండు అనుకుందాం. జెడ్ అసలు మీ దగ్గర ఏం లేదు. వై వచ్చేసి ఆ 10 లో ఫైవ్ ఏ ఉన్నాయి మీ దగ్గర. ఎక్స్ వచ్చేసి ఆ ఆ లేదు లేదు. ఇక్కడ ఇప్పుడు ఏంటి అంటే ఆర్డర్ ని డివైడ్ చేసి పంపుతారా అన్ని కలిపి పంపుతారా?
+Speaker 2: ఆ సో మొత్తం ఆర్డర్ స్టేల్ లో పెట్టాలి. మీరు అన్ని కొనే వరకు.
+Speaker 1: అంతే కదా. నేను అడిగింది అర్థమైందా?
+Speaker 2: ఓకే.
+Speaker 1: ఓకే.
+Speaker 2: అర్థమైంది.
+Speaker 1: అంటే బేసిక్ గా.
+Speaker 2: అర్థమైంది. సో బేసిక్ గా ఏమంటున్నారు అంటే టూ ఆర్డర్స్ రావాలి.
+Speaker 1: ఆ కండిషన్ లో నేను చెప్పిన కండిషన్. ఒకటి వచ్చేసి ఉన్న ప్రొడక్ట్స్ పంపియాలి. ఇంకొకటి తర్వాత పెండింగ్ ఉంటే మళ్ళీ పంపుతాము అని చెప్పాలి.
+Speaker 2: అంటే లీడ్ ని ఎందుకు పోగొట్టుకోవడం అంటాను నేనైతే. మరి మీ బిజినెస్ వెళ్ళిద్ది నాకు.
+Speaker 1: అంతే.
+Speaker 2: పెండింగ్ అని పడుతది. మీరు కొన్నాక మీరు పంపియొచ్చు.
+Speaker 1: ఓకే. ఆ ఇది వచ్చేసి  ఓకే ఇది నోటిఫికేషన్. ఇది కాదు.
+Speaker 2: ఆ.
+Speaker 2: ఓకే.
+Speaker 1: అంతే. ఇవే ఉన్నాయి క్వరీస్.
+Speaker 2: ఆ నాకు తెలిసి ఆ.
+Speaker 2: ఐఓఎస్ యాక్చువల్లీ నిన్న అదే మాట్లాడాను. మేము ఈ మంత్ వర్క్ అలా ఒక పెడితే మనకి టూ మంత్స్ పడతది అంట అప్రూవల్ కి.
+Speaker 1: అంటే రెండు చేయాలి కదా ఐఓఎస్ లో. బి టు బి అసలు రెండు చేయాలి.
+Speaker 2: సో అన్ని ఒకసారి పెట్టేద్దాము అనుకున్నాం.
+Speaker 1: ఓకే.
+Speaker 2: రైట్. అది చేసేసుకుంటాం. మనకు కూడా పని అయిపోతది. పెండింగ్ ఏమి ఉండదు.
+Speaker 1: అంతే. వాడు టార్చర్ పెడతాడు. భరించాలి అంతే.
+Speaker 2: లేదు యాక్చువల్లీ మాకు కూడా అంతా టైట్ అవుతుంది. ఇంకోటి మాకు గవర్నమెంట్ ప్రాజెక్ట్ వచ్చింది స్పేస్ ఆఫ్.
+Speaker 1: ఆ వాడు టార్చర్. లేదు లేదు. మేము చేసిన దాంట్లో వాళ్ళు ఏం చేశారు మొత్తం మమ్మల్నే పంపించారు. నన్ను నమ్మని ఆడు ఎట్లా అయిపోయింది అంటే ఒకడు చెప్పితే వాళ్ళు ఎట్లా అంటే 10 నిమిషాలు అని చెప్పి మూడు గంటలు పెట్టి చూపించుకోవాలి లిటరల్ గా.
+Speaker 2: మళ్ళీ అయితే లంచ్ అంటారు. లేదు అంటే ఇది అంటారు.
+Speaker 1: నమ్మనైనా బచా ఇచ్చిండు. వాళ్ళ ఇంటి పక్కనే సెక్రటేరియట్. నాకు ఈ డికేలు సాగు వచ్చింది చెప్పాలి అంటే.
+Speaker 2: మళ్ళీ ఏమైనా అంటే ప్రాజెక్ట్ పోతే నన్ను అంటాడు.
+Speaker 1: స్పియర్స్ ఆఫ్.
+Speaker 2: లేదు లేదు. స్పియర్. స్పియర్ సాఫ్ట్.
+Speaker 1: స్పియర్ సాఫ్ట్ అని మార్కెట్ డొమైన్ దొరకక స్పియర్ సాఫ్ట్ అని పెట్టుకుందాం.
+Speaker 2: ఇది 2022 లో స్టార్ట్ చేసిండు. ఆ
+Speaker 1: ఆ మళ్ళీ 20.
+Speaker 2: లేదు లేదు. యాక్చువల్లీ నేను ఫస్ట్ జాయిన్ అయిన 2024 జాన్ లో అట్లా జాయిన్ అయ్యాను.
+Speaker 1: ఆ తర్వాత 2025 ఫోర్ ఎండింగ్ లో నవంబర్ జాయిన్ అయ్యిండు.
+Speaker 2: క్యాంపస్ ఏం కాదు. ఇంకా బేసిక్ గా నేను మా కజిన్ త్రూ వెళ్ళినా.
+Speaker 1: ఇంకా అట్లానే నవంబర్ కూడా వచ్చేసాడు.
+Speaker 2: స్టార్ట్ చేసింది 2022 23 24 బేసిక్ గా త్రీ ఇయర్స్ 25 కూడా ఈ త్రీ ఇయర్స్ వచ్చేసి మొత్తం వాడికి బ్రెడ్ అండ్ బటర్ క్యూఏ నే మొత్తం క్యూఏ నే.
+Speaker 1: ఎట్లా అంటే 95% క్యూఏ నే ఇంకా 5% కూడా డెవలప్మెంట్ ఏఐ కూడా కాదు.
+Speaker 2: తర్వాత 2025 ఎండింగ్ లోకి వెళ్లి ఏఐ మీద కొద్ది కొద్దిగా వచ్చింది. ఇప్పటికి కూడా మాకు మేజర్ 60 70% ఇన్కమ్ క్యూఏ నే.
+Speaker 1: అంటే మా వాడు కన్సల్టెన్సీ పెడతాడు.
+Speaker 2: ఇంకా కన్సల్టెన్సీ తెలుసు కదా. అంతే. కానీ మేమే ప్రాజెక్ట్ లో క్రియేట్ చేసుకుంటాం కాబట్టి ఇంకా మాకు సర్వీస్ ఉండదు.
+Speaker 1: అందుకే నాకు సడన్ గా ఎట్లా అంటే ఈయన మేము ప్రాజెక్ట్ చేసేస్తాము అంటాడు. అది మాకు ఇచ్చేస్తారు.
+Speaker 2: అది మాకు ఇచ్చేస్తారు. ఎట్లా అంటే 15 డేస్ లో ప్రాజెక్ట్ అయిపోవాలి. అది అర్థం కూడా కాదు.
+Speaker 1: టార్చర్ టార్చర్ ఉంటది.
+Speaker 2: సాయి తేజ అది ఏమైంది అంటే వాడు 15 డేస్ లీవ్ పెట్టి పోయిండు.
+Speaker 1: ట్రిప్ కి పోయిండు. ఇంకా ఇంకా టార్చర్ చూపిస్తాడు వాడికి. ఇంకా నాకు నమ్మనికి ఇంకా ఇదే పడుతుంది. ఇంకా అప్పటికి ప్రతి వీకెండ్ ఏదో డేస్ అయినా మిస్ గా అవుతుంది. ముందు వీక్ డేస్ అయినా చేసేది. ఈ మధ్య వీక్ డేస్ మొత్తం తగ్గిపోయినాయి.
+Speaker 2: ఆ మళ్ళీ అదొకటి మళ్ళీ ఇంకోటి ఏంటి క్లాడ్ అదంతా చెక్ చేస్తున్నాడు రీసెంట్ గా.
+Speaker 1: మళ్ళీ మేము ఒక ఇంటర్ ని హైర్ చేసుకున్నాం. వాడు పక్కకు లేకుండా పోయిండు. బేసిక్ గా అంటే వాడికి ఏం తెలియదు. మేము కూడా చానా ఎక్కువ ఇచ్చినాం వర్క్. వాడు నాకు చెట్టు కాదు ఇచ్చేది పైసలు లేదు ఏం లేదు. ఏంది ఇది అని మాట్లాడినాడు.
+Speaker 1: Thank you.
+Speaker 1: అంతే, A తీసుకుంటది. నేను మీకు అదంతా ట్రాన్స్క్రిప్ట్ అంతా పంపించేస్తా.
+Speaker 1: ఆ, వాడొచ్చు, వాడొచ్చు. ఏంటి అంటే, రెండు నాది ఉంటది, B2B లో కూడా ఒక టెస్ట్ స్టేషన్. దాంట్లో ఒకటి ఉంటది, ఈ 3 తప్ప మిగతావన్నీ వచ్చినాయి.
+Speaker 1: ఓకే,  ఓకే.
+Speaker 1: ఓకే.
+Speaker 1: ఓకే.
+Speaker 1: ఆహా.
+Speaker 1: ఓకే.
+Speaker 1: ఎంత, ఎంత ఎక్స్పెక్ట్ చేస్తున్నారు అంటే, ఇయర్ ఎండింగ్ వరకు ఏమైనా— ఆ, అ  ఆ, అంటే, అలా కాదు. అంటే, ఇయర్ ఎండింగ్ వరకు 2CR అట్లా ఏమైనా—  అంటే, మీ—  థర్డ్ క్వార్టర్, అవును.
+Speaker 1: ఎందుకంటే, మీరు అప్పుడే వన్, వన్ అండ్ హాఫ్ లాక్ దాటింది అనుకుంటా కదా. ఇది ఈసో.
+Speaker 1: వ్యూస్ కాదు, అమౌంట్. ఫైనాన్స్.
+Speaker 1: లేదు అనుకుంటా. మొన్న నేను చూస్తుంటే, అకౌంట్—  అచ్చా.
+Speaker 1: ఆ, ఈసోనే అంటుంది.
+Speaker 1: అచ్చా, ఓకే.
+Speaker 1: అదే, నాకు మొన్న సాయితేజ అంటుండే, పెద్ద ప్లాన్ ఏం చేశారు, బానే ఇంట్రెస్ట్ చూపిస్తున్నారు. బేసిక్‌గా, మాకు ముందు క్లైంట్స్ ఎట్లా ఉన్నారు అంటే, వాళ్లు కూడా వర్కింగ్ ప్రొఫెషనల్స్ అయ్యేసరికి, సరే, మీడియా సగం ఆడే ఉంటుంది బ్రెయిన్ వాళ్లది. అట్లా ఉండేసరికి, ఇంకా మాకే అనిపించింది, ఒక పాయింట్ ఆఫ్ వ్యూ లో, ఒక పాయింట్ ఆఫ్ టైం లో, ఇది మేము శని కాలం అయింది, ఏం నడుస్తలేవు, వాళ్లే కూడా అనుకున్నాం.
+Speaker 1: తర్వాత, ఇంకా అప్పుడు, అందుకే ఫస్ట్ ఏజో, సాయితేజ అన్నాడు, మొత్తం ఎంత మిలియన్, అంత మంచి చేసాము అనుకుంటే, ఓకే అంటే, ఎట్లైనా మంచిగానే చేస్తాము. అయితే అట్లా అనుకుంటే, అప్పుడే మీరు అకౌంటింగ్ అన్నారు, అదే వీక్ లో యాక్చువల్ గా మేము మాట్లాడిన వీక్ లోనే అన్నాం. ఇంకా మనం అనుకున్న అకౌంటింగ్ కూడా వస్తుంది, ఇంకా పనులు, పనులు అన్నీ అయితాయి అనుకుంటే అన్నారు. ఇంకా తర్వాత, వాడు అన్నుండే, నార్మల్ గా నా నుంచి మాట్లాడతాడు కదా, ఇంకా ఇంకోటి ఏంది అంటే, వాడి లైన్ ఆఫ్ బిజినెస్ కూడా కొద్దిగా మీ రిలేటెడ్. ఇంకా వాడికి ఇంకా ఎక్కువ అర్థమవుతుంది. వాడు చెప్తుంటే,  అంతే, ఇంకా వన్ ఇయర్ చూసి, తర్వాత ఇంకా అదే కదా, బెస్ట్.
+Speaker 1: నిజం చెప్పాలంటే, మీరే ఇన్ని ఇయర్స్ ఉన్నారు, నాకు ఇప్పుడే పిచ్చి లేస్తుంది, ఇప్పుడు మానేద్దాం అనుకున్నాను.
+Speaker 1: అదే అంటున్నాను.
+Speaker 1: ఓకే.
+Speaker 1: యాక్చువల్లీ, మైట్ బీ, ఇవాళ నైట్ ఇంటర్వ్యూ షెడ్యూల్ లేదు. అంటే, మేము ఒక ఏజెంట్ చేసాంలే, అదే ఇంటర్వ్యూ చేసాం అన్నమాట, ఫస్ట్ లెవెల్ స్క్రీనింగ్. మైట్ బీ, ఇవాళ నైట్ గాని, ఇవాళ నైట్ గాని, లేదా మార్నింగ్ వరకు షెడ్యూల్ అవుతుంది, ఒకసారి మళ్లీ గుర్తు చేస్తాను.
+Speaker 1: ఆ, చెప్పండి, మెయిల్ వస్తది. అతను రెస్యూమ్ లో పెట్టిన మెయిల్ కి ఒక ఇంటర్వ్యూ లింక్స్ షేర్ అవుతది. ఒకవేళ రెస్యూమ్ షార్ట్ లిస్ట్ అయితే, ఒకవేళ కాలేదు అంటే, ఇంకా నేను మాట్లాడతా, ఒకసారి ఏం కాదు. లింక్ అయినా మీకు వాట్సాప్ లోనే ఏమైనా పంపుతా, మీరు పంపించేసేయండి.
+Speaker 1: ఓ, నేను జాయిన్ అయ్యేటప్పుడు యాక్చువల్లీ 24, 23 ఉంటాయి, ఇప్పుడు 79 వరకు వచ్చాం. 79, 80.
+Speaker 1: లేదు, మన దాంట్లో 70% QAనే, మొత్తం. తర్వాత, మిగతా అంతా AI ఇంజనీర్ ఒక్కడే డెవలపర్ ఉంటాడు. అంటే, బేసిక్ గా AI ఇంజనీర్ ని వాడిని ప్యూన్ లాగా అన్నిటికీ వాడుకుంటారు మా దాంట్లో. ఎట్లా అంటే, ఏ వర్క్ ఇచ్చినా చేస్తాడు వాడు. ఇంకా అట్లా అని చెప్పి, మా అందరి ఇష్టం ఉన్నట్టు వాడతారు. అందుకే డెవలపర్స్, ఏంది అంటే, టెస్టింగ్ గా మమ్మల్ని అడిగితే, మేము చేయము వాళ్ల పెద్ద వర్క్. నేను దాని బదులు అలాంటి 10 అప్లికేషన్స్ బిల్డ్ చేసేస్తా అనుకుంటే, మాట్లాడితే వర్క్ చేస్తారు.
+Speaker 1: ఓకే.
+Speaker 1: షూర్.
+Speaker 1: రైట్, ఓకే, పక్కా, పెట్టుకుందాము. యాక్చువల్లీ, మెయిన్ రీసన్ ఇది కూడా ఉంది, నేను మర్చిపోయాను. ఎందుకో, Google మీట్ పెట్టినాను అంటే, మీరు చెప్పిన పాయింట్స్ అన్నీ మేము నోట్ చేసుకుంటున్నాం, మాకు పోతూనే ఉంటుంది. అది ఎటు పోతూనే, మాకు కూడా ఇది ఉంటది. లేకపోతే, Google మీట్ అయితే, ఇది ట్రాన్స్క్రిప్ట్స్, ఇవన్నీ ఉంటాయి కదా. ఇంకా దీంట్లో ఏమైనా మనకి యూస్ అవుతది అని చెప్పేసి, యాక్చువల్లీ నేను Google ది కూడా యాడ్ చేసినా, బట్ మర్చిపోయినా ఏంటి అంటే, అది లాంగ్వేజ్ ఇంగ్లీష్ లో పెట్టిన. ఇప్పుడు అది ఎట్లైనా తీసుకోదు. ఇంకా నాదే లోకల్ దే, ఏజెంట్ వాడుకుంటా.
+Speaker 1: ఓకే.
+Speaker 1: వస్తాను.
+Speaker 1: షూర్.</code></pre>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/stock-demand-requests/"><span class="rel">follows</span>Out-of-Stock Requests — Proposal</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

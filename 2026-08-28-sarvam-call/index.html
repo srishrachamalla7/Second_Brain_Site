@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sarvam AI call — call transfer, pricing, enterprise plan — Srish</title>
+<meta name="description" content="Call between the Voice Agent (TX Hospital) team (Spearsoft side) and Sarvam AI , 2026-08-28, about switching the TX Hospital voice agent to Sarvam. Written by an agent from the raw">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Sarvam AI call — call transfer, pricing, enterprise plan</h1>
+  <div class="meta">2026-08-28<br><span class="tag">voice-agent</span><span class="tag">sarvam</span><span class="tag">call-transfer</span><span class="tag">pricing</span><span class="tag">cpaas</span><span class="tag">enterprise</span></div>
+  <p>Call between the Voice Agent (TX Hospital) team (Spearsoft side) and <strong>Sarvam AI</strong>, 2026-08-28, about switching the TX Hospital voice agent to Sarvam. Written by an agent from the raw transcript (saved verbatim at <code>inbox/raw/Transcripts/28-08-2026_sarvam_call_internal_english.txt</code>).</p>
+<p>Speaker labels in the transcript are ASR-unreliable, and <strong>both sides have an "Ajay"</strong>. Spearsoft side: Rishesh (ticket author) + Ajay. Sarvam side: Ajay (support, went through the ticket) + Raul (co-founder). Not clear from the transcript whether Rishesh is Srish or a teammate.</p>
+<h2>Summary (English)</h2>
+<ul><li><strong>Why switch:</strong> the current platform (an indie voice-agent platform, called</li></ul>
+<p>"Etsy" in the transcript) has bad support; Retell AI and Vapi ("Rettle", "Wappy") are tied to Twilio, which gives no Indian numbers; Plivo ("Plevo") pushes enterprise. Sarvam free trial (1,000 credits) worked well. Volume: ~10,000 minutes/month now, expected to grow.</p>
+<ul><li><strong>Call transfer (the missing feature):</strong> Sarvam partners with <strong>Gupshup</strong></li></ul>
+<p>("Gobis") as its CPaaS. Transfer to a human/landline/SIP works on Gupshup infrastructure — testable <strong>by Monday</strong> if numbers are rented from Sarvam. Exotel ("Cleo"?) etc. on the roadmap, ~next month.</p>
+<ul><li><strong>Pricing (current pay-as-you-go):</strong> ₹4.5/min per agent · ₹115/number/month</li></ul>
+<p>rental · +₹0.4/min for the human-transferred portion (30s pulse = ₹0.2) · ₹0.35/min for SIP-destination transfer. Worked example from the call: 3-min call (2 min agent + 1 min human) ≈ ₹1.6 telephony + ₹9 agent ≈ ₹10.2 total.</p>
+<ul><li><strong>Current provider cost:</strong> "we are getting everything in 4 rupees, actually.</li></ul>
+<p>Including telephony" — the benchmark Sarvam pricing is being compared against.</p>
+<ul><li><strong>Enterprise plan:</strong> only for volumes <strong>&gt; 3 lakh minutes/month</strong>, via MSA.</li></ul>
+<p>New subscription pricing plans coming in ~2 weeks (lower per-minute rate).</p>
+<ul><li><strong>White-labelling:</strong> possible, to be discussed separately.</li><li><strong>Credits:</strong> Sarvam will add ~3,000 test credits after Spearsoft emails the</li></ul>
+<p>org ID/email + the competitor proposal screenshot.</p>
+<ul><li><strong>Recordings &amp; transcripts of transferred calls:</strong> available (from next week</li></ul>
+<p>for transfers).</p>
+<ul><li><strong>Inbound call issue:</strong> Sarvam test number (080 65 355 040) intermittently</li></ul>
+<p>busy/disconnected with no concurrent call; agent is attached to the number. Sarvam to investigate ("I see a lot of calls" — keep reporting).</p>
+<h2>Decided</h2>
+<ul><li>Sarvam is the switch target, pending pricing fit; call transfer testable</li></ul>
+<p>Monday on Gupshup infrastructure.</p>
+<ul><li>Spearsoft emails org ID/email + competitor proposal to unlock the 3,000 test</li></ul>
+<p>credits.</p>
+<ul><li>Enterprise plan ruled out at current volume (10K min/mo ≪ 3 lakh threshold).</li></ul>
+<h2>To do</h2>
+<ul><li>☐ Spearsoft: email Sarvam (org ID/email + competitor proposal screenshot).</li><li>☐ Test call transfer on Monday (Gupshup infra).</li><li>☐ Re-test the inbound number busy/disconnect issue; keep reporting to Sarvam.</li><li>☐ Compare Sarvam pricing vs current provider (~₹4 all-in incl. telephony).</li><li>☐ Watch for the new subscription plans (~2 weeks).</li></ul>
+<blockquote>"If you're already renting phone numbers through Sarvam, we have partnered with Gupshup only. So this call transfer feature will be automatically enabled for you, starting next week." — Sarvam (Ajay/Raul), 2026-08-28</blockquote>
+<blockquote>"We generally offer enterprise plans only if the volume is greater than 3 lakh minutes per month." — Sarvam (Ajay/Raul), 2026-08-28</blockquote>
+<hr>
+<h2>Transcript (English, verbatim)</h2>
+<p>Copied byte-for-byte from the raw file (evidence stays at <code>inbox/raw/Transcripts/28-08-2026_sarvam_call_internal_english.txt</code>).</p>
+<pre><code>Speaker 1: I guess.
+Speaker 2: Oh, hi. There&#x27;s a problem with my generator. The runner is running a bit. It&#x27;s in a different meeting.
+Speaker 1: Oh, sure. Like, can we wait for, like, a couple of minutes? My co-founder will be joining the call.
+Speaker 2: Yeah, yeah, sorry. We&#x27;ll wait for a few minutes.
+Speaker 1: Sure. Thanks.
+Speaker 1: Uh, so, Raul, our co-founder is here.
+Speaker 1: Uh, hey Raul, good morning.
+Speaker 2: Hi sir, good morning. Just wait for a couple of minutes. The runner is joining. It&#x27;s in a different meeting.
+Speaker 1: Sure.
+Speaker 2: But can you brief about the problem statement? Because—
+Speaker 1: Uh, yes. So, Raul, actually, we are from Space Software. We do voice agents and AI services. So, we have a client right now, which is in a hospital. That&#x27;s where we are creating a customer support agent for bookings and all. Okay. So, the thing is, like, we are focusing on all the inbound calls, and we are bifurcating to each receptionist and oral. If everything looks good, we are booking the calls. So, what is happening right now is we are using a service called Etsy. But we are not happy with the service and all, so we want to switch to another services, something like we tried with Rettel AI and a couple of other things, but the problem was linking with Twilio. Twilio is not giving any Indian members, and there were a couple of other issues also. Okay. And  And we found out Sarvam was very good, and we tried with the free account. I think we got 1,000 credit. Like, we liked it a lot. So, for this, we tried everything. The only thing we did not test is one, like, from the free account at least, we couldn&#x27;t transfer the call to the human or any other phone numbers whilst talking with the voice agent. And coming to the numbers, you can expect around, I think, 10,000 minutes per month.
+Speaker 2: Okay.
+Speaker 1: At least for now.
+Speaker 2: With maybe, like, can help you out with the call transfer? I think we posted yesterday. Can you check on our platform? Let&#x27;s see.
+Speaker 1: Yes, sir. Yesterday I was searching for the document about the—
+Speaker 2: The document has been yet to update. So, if I will get back on the documentation, we are yet to update the documentation, but we tried pushing it to prod.
+Speaker 1: Yes, sir.
+Speaker 2: It&#x27;s under Settings. You should be able to see something called Call Transfer.
+Speaker 2: Call Forwarding. Can you just check?
+Speaker 1: Yes.
+Speaker 2: Yeah.
+Speaker 1: That&#x27;s great to check, Ajay or Rishesh.
+Speaker 2: Yes, yes. Let me check.
+Speaker 1: Uh, so. Can you share more details on the call forward
+Speaker 2: Can you share more details on the call forwarding field? Let&#x27;s say, where do you want to transfer? Is it any particular phone number? Y
+Speaker 1: Yes. It&#x27;s a landline number.
+Speaker 2: Okay. Got it. Or is it, like, in any human-agent call center where they will give you some SIP URIs that you need to configure?
+Speaker 1: Uh, right now we have both, actually. Some are the landline numbers, some are the— some software they&#x27;re using it, where they&#x27;re handling through the laptops.
+Speaker 2: Is that one also joined?
+Speaker 1: Like, sorry, I was on another call, but a little delayed.
+Speaker 2: No problem, sure.
+Speaker 1: Yes, sir.
+Speaker 2: I&#x27;ll give you a brief— sorry, we just now started. The team wants a call forwarding support for their agent.
+Speaker 1: Okay.
+Speaker 2: That&#x27;s what we are discussing right now.
+Speaker 1: Yeah. Rishesh, I went through your ticket. So, basically, you have three questions, right? One, how would we enable a call transfer for you on the post-prod webhook? And third, on the enterprise plan update, let&#x27;s go through these points one by one. On live call transfers, what&#x27;s it kind of provided? Are you currently live on?
+Speaker 2: Uh, for the transfer, I think— Ajay, do you know the company name? I think they have some in-house application where they&#x27;re using a software to— what do you call it— connect to that particular number with some PCs and all, I think. Something like a call center thing.
+Speaker 1: No, they provide telephony provider on which you&#x27;re live with.
+Speaker 1: Uh, yeah. He didn&#x27;t give it, but we are wired from the service  He didn&#x27;t give it, but we are wired from the service itself.
+Speaker 1: We are currently using Etsy.
+Speaker 2: No, the problem is trying to— to make sure that what is the phone number you&#x27;re currently using on Sarvam platform?
+Speaker 1: Okay, Sarvam I don&#x27;t think— okay, we wired a number with our credits.
+Speaker 2: Yeah, yeah. What is that number?
+Speaker 1: Oh, that&#x27;s fine. The number is different. So you are planning to rent numbers from Sarvam only, right, for your campaigns?
+Speaker 2: Yes, for now, yes.
+Speaker 1: Yeah.
+Speaker 2: Okay.
+Speaker 1: Then we can help you with the call transfer. Okay, I&#x27;ll release the con— we are in the final stage of testing of the call transfer on bogus connection. To be more concise, so every voice agent that needs to talk to your customer, the way in which the industry model is, they need to be on mobile carrier, right? The agent has to call the customer and speak to them, or maybe if the customer has to call back on the same phone number, for the agent to speak. Are you focused with me until now?
+Speaker 2: Actually, I didn&#x27;t get the point of the— I mean, I didn&#x27;t get the last point completely.
+Speaker 1: Okay, what I&#x27;m saying is, so you&#x27;re building voice agents to reach out to your customers, right?
+Speaker 2: Yes.
+Speaker 1: So the voice agent— I mean, they should be a call going out to your customer, or your customer will be given a phone number so that they will call you back so that the agent can speak to them, both outbound and inbound. So for the calls to happen, they have to go on the mobile network.
+Speaker 2: Yes.
+Speaker 1: It could be likes of Airtel, Tata Telecom, or Jio, etc. End of the day, they should be intersection place where the agent will be able to talk to your customer on the mobile network.
+Speaker 2: Yes.
+Speaker 1: So the call transfer as a capability should also be provided by the telecom providers, and this is also one part to it. These telecom providers talk to— work with the providers called CPaaS, like communication platform and service to give you an example, like Zotal, Gobis, Cleo, or the mainstream— yeah, mainstream providers out there who help you give the infrastructure to make the calls with your end customer, working with the telecom providers, or sometimes the advanced features like call forwarding too.
+Speaker 2: Yes.
+Speaker 1: Are you with me until now? Okay.
+Speaker 2: Yes.
+Speaker 1: So, yeah. There are different— we need to put separate efforts. First of all, to work with different CPaaS providers like Nivo or Gobis to have the calling activity in place, outbound calling or inbound calling. And on top of it, we also need to have a separate integration effort for call transfer to work. Let&#x27;s say if you&#x27;re talking to an agent, and in between if you want to transfer to a human agent whenever the agent cannot answer, that&#x27;s an additional effort we need to put in place by calling the APIs or configuration. Okay, now transfer the call to the human agent.
+Speaker 1: Asking— creating an agent to just ask you to transfer to the human agent is very simple. We already do it. But the complexity comes where we need to work with the CPaaS or the telephony providers to also enable the call forwarding whenever the call is already in place.
+Speaker 2: Sure.
+Speaker 1: Are you with me until now?
+Speaker 2: Yes, yes.
+Speaker 1: So, obviously, we are also solving for it as outside the box solution, but to start with, we are going with the provider Gobis. Gobis is one of the CPaaS providers on which the call transfer could be enabled.
+Speaker 2: Yes. I
+Speaker 1: f you&#x27;re already renting phone numbers through Sarvam, we are— we have partnered with Gobis only. So this call transfer feature will be automatically enabled for you, starting next week.
+Speaker 2: Okay.
+Speaker 1: Yeah. Only if you&#x27;re bringing the— if you&#x27;re renting out the phone number on Sarvam platform.
+Speaker 2: Got it.
+Speaker 1: Or if you&#x27;re okay— if you&#x27;re also having an account with Gobis also, you can help you, but only on the Gobis telephony infrastructure you will be able to help you on next week. Parallel efforts are also being put to support providers like Exotel, Cleo, etc. Those are on our roadmap, might be done by next month.
+Speaker 2: Okay.
+Speaker 1: But if you want to immediately test out the call transfer, by Monday you should be able to do it on Gobis infrastructure. This is how the call transferring part.
+Speaker 2: Understood.
+Speaker 1: Yeah.
+Speaker 2: Any confusion around it or I happy to help or answer cross-questions?
+Speaker 1: Uh, no. It&#x27;s clear. Like, what you&#x27;re saying, there&#x27;s nothing that— like, we&#x27;ll get the access on Monday for call transfer then, which is fine.
+Speaker 2: Okay. And
+Speaker 1: And like, the other thing which we are thinking here is, like, the enterprise plans and all.
+Speaker 2: Understood.
+Speaker 1: For that, I will ask— requesting for your call volumes monthly, right? So yes, it&#x27;s almost 10,000 minutes a month for now, but later it will increase for sure.
+Speaker 2: Okay.
+Speaker 1: Before that, I want to tell you about our company, so we&#x27;ll be on the same page. So basically, we are from Spearsoft where we provide AI services. Not only one, like, we are into text, image, and audio, and videos and all. So right now, we are into the segment of voice agents where we have a couple of clients. One of them is one of the hospital. The other one a little bit small. And for the hospital guy itself, since he was a little bit urgent, we took a service called Etsy. So this guy is an indie developer where he developed the same voice agent platform for him. Where the problem is, he was giving everything something like call transfer, SAP trunking, and all. But the problem was, since I think due to some conflicts, the support and of the application is not that good. So we want to change it from this platform to the other platform. So we tried with Rettle AI, Wappy, and all, but we all know, like, these guys are directly connected with Twilio, and Twilio is not giving Indian numbers for free. I mean, there are no Indian numbers at all.
+Speaker 2: Yeah.
+Speaker 1: So we were thinking, and we tried with Plevo, and Plevo guy also not what do you call, suitable for, like, some of the small developers and all. Like, he wants to go with enterprise solutions and all that stuff. So then come up with Etsy, and we are using it, and in a couple of days we want to switch from that platform to another. And we tested Sarvam with a free trial. It was pretty good, and we liked it. Only thing was, like, we talked before, like, there was lack of voice transfer, sorry, agent transfer. So now we understood this. So now what we are thinking is, we want to talk about the enterprise pricing and what do you call, white labeling and all, if it is possible.
+Speaker 2: Understood.
+Speaker 1: We can discuss on white labeling separately. But with respect to enterprise plans, we generally offer enterprise plans only if the volume is greater than 3 lakhs minutes per month. But saying that, we are going to launch more pricing plans in coming weeks, maybe in two weeks from now, where if you take a subscription model with us, the per minute charge of voice agent will be much lesser than what it is right now. So I can discuss internally with the team also if you can do some— any change in pricing here, but enterprise volume is going to generally— if it&#x27;s more than 3 lakhs minutes per month.
+Speaker 2: Okay.
+Speaker 1: Oh, sorry, one second for breaking you. Actually, can you tell me, like, last month how many minutes was consumed by TX?
+Speaker 2: How many? Min
+Speaker 1: Minutes, minutes. Okay. You mean  You mean— you mean for that agent, huh?
+Speaker 2: Yes, sir.
+Speaker 1: So, actually, we are only testing it, right? But see, minimum they would have minimum of 10,000. It would be more than that, but it is in testing phase. So we are using that as an alternate member, okay?
+Speaker 2: Understood.
+Speaker 1: So, yeah.
+Speaker 2: Yeah. For any enterprise thing, we generally go with the MSA agreement, mutual service agreement, with respect to giving the custom pricing. So that requires upwards of 3 lakhs per minute.
+Speaker 1: Okay. What would be the rate percentage of— per minute?
+Speaker 2: For non-enterprise plans?
+Speaker 1: Yes.
+Speaker 2: Understood. I&#x27;ll share my screen. I&#x27;ll help you with the plans. Just give me a minute.
+Speaker 2: Can you see my screen?
+Speaker 1: Uh, yes.
+Speaker 2: Yeah. So, currently— okay, we are going to get business and scale plans coming soon in coming weeks, two, three weeks at max. So, but as of now, we only have pay-as-you-go plan, which costs you around 4.5 rupees per minute per agent. Because you are going to also rent phone numbers from us, so you&#x27;ll get around 115. Each number will cost 115 rupees per month. And additional 0.4 rupees per minute, but we&#x27;ll charge you in 30 seconds, so it&#x27;s 0.2 rupees. That is 25 for 30 seconds pulse on telephony. If you&#x27;re going to leverage call transfer the tool for transfer the duration only, not the entire conversation. Let&#x27;s say if the call is going to happen for 3 minutes, in first 2 minutes agent has spoken, and additional 1 minute the human has spoken, for that additional human, we&#x27;ll charge additional 0.4 rupees per minute for that particular transfer duration.
+Speaker 1: Okay. So can we get the recording also of the transferred thing?
+Speaker 2: Yes.
+Speaker 1: It will be available for next two, next week. Might not be available right next week, but we do get recordings. We do get transcripts, etc., that from the human transferred lab also.
+Speaker 2: Okay.
+Speaker 1: Yeah.
+Speaker 2: What is this? 30 pais? Third one?
+Speaker 1: Third point, okay. So basically, like I mentioned, so the entire conversation should happen for 3 minutes, right? I&#x27;ll share in Etsy in one second.
+Speaker 1: I&#x27;ll help you with the—  Can you see the Excel?
+Speaker 2: Yes.
+Speaker 1: Let&#x27;s say the entire call happened for 3 minutes. First 2 minutes, agent has spoken to your customer. Okay.
+Speaker 1: Last 1 minute, human is speaking to your customer. Because the call has been transferred.
+Speaker 2: Yes.
+Speaker 1: Right?
+Speaker 2: Yes.
+Speaker 1: So let&#x27;s say this is first 1 minute. Second 1 minute. And third 1 minute.
+Speaker 2: Okay.
+Speaker 1: So first 1 minute, it&#x27;s 0.4 rupees, that is 45 per minute. And since the human is not in the call yet, there&#x27;s no charge. Next 1 minute, it&#x27;s 0.4 paisa per minute again. And last 4 minutes also is 0.4 minute 45 per minute. Here in the second minute also, like here, let&#x27;s say this is second minute. This is third minute.
+Speaker 1: Here it&#x27;s 0.4 again.
+Speaker 1: Let&#x27;s say this 1 minute is 2. There are 2 kinds of transfer. So you can transfer to the mobile number, or you can transfer to the ship destination, SAP destination. I&#x27;m assuming you&#x27;re aware of these phone number destination, SAP destination.
+Speaker 2: As possible, can you tell about that?
+Speaker 1: Okay. There are 2 ways of having a telephony connection available in industry. One on the mobile number side. Second is ship destination. It&#x27;s like a physical address of to which the mobile— the call has to be forwarded.
+Speaker 2: Okay.
+Speaker 1: So basically, that should be a normal number. The other one should be some application number.
+Speaker 2: Yes. Kind of a server address kind of thing.
+Speaker 1: Yes.
+Speaker 1: For discussion purpose, I&#x27;m explaining more on the mobile number part. But if it&#x27;s a ship destination, it&#x27;s 0.35 per minute.
+Speaker 1: So the overall cost for 3 minutes will come to be 1.
+Speaker 1: 2 rupees here because 45 is into 2, plus. Here.
+Speaker 1: Let me just—  Add—  So 1.6 rupees for 3 minutes. This is on the telephony rental part.
+Speaker 2: Yes.
+Speaker 1: Can you add this one also? Let&#x27;s say, I think in the website you mentioned 4.5 rupees.
+Speaker 2: 4.5.
+Speaker 1: So. Change this tab again. So into 4.5, because the call has happened for 2 minutes, right?
+Speaker 2: Yes.
+Speaker 1: It will be 9.
+Speaker 1: 9 plus 1.2. 10 points.
+Speaker 2: Okay.
+Speaker 1: Yeah.
+Speaker 1: I&#x27;ll drop you my email so at the same chart here. Let me do that right away.
+Speaker 1: If you can, like, do us on, like, the estimated volume segmentation. I just understood that it&#x27;s 10,000 per minute. 10,000 minutes is only for the pilot point of view, but if you can help us with the barcode number, we can see if you can make any provision for you separately.
+Speaker 2: Sure.
+Speaker 1: Yeah.
+Speaker 1: And apart from pricing, are you facing any other issues on platform? Any feedback you would like to share with us?
+Speaker 2: We did not test much, actually. Okay, we just checked it, and we thought of looking at. So, and this is something multi-speciality hospital, but for the doctor appointment, we have had an MOU. So here we wanted to go with your server. So that&#x27;s where we wanted to understand the rate card at all.
+Speaker 1: Understood.
+Speaker 2: If we are comfortable with, then we will immediately replace that and try to use yours.
+Speaker 1: Sure.
+Speaker 2: Yeah.
+Speaker 1: Basically, they&#x27;re basically we are getting everything in 4 rupees, actually.
+Speaker 2: Including telephony, sir?
+Speaker 1: Yeah, yeah.
+Speaker 2: Understood. Main on the—
+Speaker 1: Add a C. Add a C.
+Speaker 2: Sorry, can you—
+Speaker 1: It&#x27;s A-D-S-E-Y.
+Speaker 2: A-D-E-S-Y.
+Speaker 1: E-S-Y, okay. Got it.
+Speaker 2: Not in that voice agent. It&#x27;s called one.
+Speaker 1: One call. Oh, on
+Speaker 2: Oh, one, okay.
+Speaker 1: Yeah.
+Speaker 2: Understood. If you can also put one email and write to us, like having— One
+Speaker 1: Sure.
+Speaker 2: Sure, sure. If you are comfortable, then immediately we are ready. Okay, we wanted to test it, actually. Nana, do we have 3 credits to test now, Ajay?
+Speaker 1: If you do not have 3 credits, I can bump you up around 3,000 credits, sir.
+Speaker 2: Yeah, could you please?
+Speaker 1: I mean, I need your organization ID or the email address which the platform has, I mean, you have gotten kind of thing.
+Speaker 2: Yeah, sure. Ajay, please.
+Speaker 1: Yes.
+Speaker 2: Please send an email. Okay, then we will add another 3,000 credits. Please try to test as early as possible. And can we test the transfer also now? For testing also, it is not possible now?
+Speaker 1: We can help you on— I really leverage to you on email, sir, or we can— we&#x27;ll try to respond.
+Speaker 2: Okay.
+Speaker 1: It&#x27;s not possible today.
+Speaker 2: Yeah.
+Speaker 1: Okay.
+Speaker 2: Okay, thank you.
+Speaker 1: Yeah, but yeah, before me giving 3,000 credits, I would like you to send it on email and also help us in the competitors proposal also that was given to you, so that accordingly we can—
+Speaker 2: Yes, we&#x27;ll send you the screenshot.
+Speaker 1: Yeah, on the same email if you can send it.
+Speaker 2: Yeah, sure, sure. Thank you.
+Speaker 1: Thank you so much.
+Speaker 2: Anything else, Rish, Ajay?
+Speaker 1: No, sir. One more thing, sir.
+Speaker 2: Yeah.
+Speaker 1: Like, we are took, like, by a number with OBs only, OB service. Like, while we testing, I set up the inbound call setup.
+Speaker 2: Okay.
+Speaker 1: Like, many times while calling to that inbound number, the number is disconnected or getting some busy message. Even no one is in call, like, concurrently.
+Speaker 2: Are you adding 9 plus 1 plus 9110 while you&#x27;re calling to this number?
+Speaker 1: Yes, yes.
+Speaker 2: Plus 9110. Yeah, we are adding in suffix.
+Speaker 1: Okay. Did you attach any agent repeat?
+Speaker 2: I mean, only buying a phone number would not help, right? You also need to create an agent and attach the agent to the phone number.
+Speaker 1: Yes, sir. We are, like, coming.
+Speaker 2: Yeah, we are committed an agent setup agent and.
+Speaker 1: And show us once.
+Speaker 2: I can help, like a helper.
+Speaker 1: Okay.
+Speaker 1: Let me share this.
+Speaker 2: Are you able to see me?
+Speaker 1: So, not yet.
+Speaker 2: I can see your display picture only.
+Speaker 1: All right, so Ajay, you want to show the server portal, right? I can do that if you want.
+Speaker 2: Oh, yes. Now we can see. Yes.
+Speaker 1: Yeah, with no replacements.
+Speaker 2: No, I can&#x27;t see the screen. You&#x27;re on Google Meet.
+Speaker 1: Okay.
+Speaker 2: Fine. I&#x27;ll show it. One second.
+Speaker 1: Oh, sorry. There&#x27;s no stop.
+Speaker 2: It&#x27;s okay, it&#x27;s okay. Can you see this?
+Speaker 1: Yeah, I can see the screen here.
+Speaker 2: Okay.
+Speaker 1: So this is our agent. And this is our mobile number.
+Speaker 2: Okay. Can you go to inbound calls one?
+Speaker 1: Yes.
+Speaker 2: Can you click on this one?
+Speaker 2: Okay.
+Speaker 1: Let me call this number once.
+Speaker 2: 080 65.
+Speaker 1: It&#x27;s 080 65 355 040.
+Speaker 2: Yes.
+Speaker 1: Yes.
+Speaker 2: Hello.
+Speaker 1: What&#x27;s that?
+Speaker 2: If you prefer language, English, Telugu, or Hindi.
+Speaker 1: I can speak English.
+Speaker 2: How can I help you today?
+Speaker 1: Thank you so much.
+Speaker 2: I can see the call is being connected here.
+Speaker 1: Like, very few times. Like, it&#x27;s getting some busy message. Or it&#x27;s disconnected in between. We are facing this issue.
+Speaker 2: We&#x27;ll check because I see a lot of calls but yeah, keep us posting and write to me on the email also. Like, I see many calls that they say 30 minutes of call too, but we&#x27;ll get it checked.
+Speaker 1: Sure.
+Speaker 2: Sure.
+Speaker 1: Yeah.
+Speaker 2: Good. Thank you so much.
+Speaker 1: Just ensure that you note my email address. I put it on the chart. For any query, you can just write to me on that.
+Speaker 2: Yeah.
+Speaker 1: Sure.
+Speaker 2: Thank you so much for. Sure
+Speaker 1: Sure. Yes. Thank you, sir.
+Speaker 2: Thank you.</code></pre>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/2026-08-28-edesey-call/"><span class="rel">mentions</span>Edesey support call — bug reports with Surajit (current platform)</a></li><li><a href="/2026-09-03-voice-agent-call-scoring-review/"><span class="rel">mentions</span>Voice agent call scoring review — 20 of 34 leads succeeded, the same day the client wrote &quot;not even a single conversion&quot;</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

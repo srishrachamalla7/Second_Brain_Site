@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TX Hospital client call — voice agent issues — Srish</title>
+<meta name="description" content="Call between TX Hospital (client) and the Spearsoft side, 2026-08-27. Speaker 1 is the TX Hospital representative (speaks of &quot;my management&quot;); Speaker 2 is the Spearsoft-side conta">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>TX Hospital client call — voice agent issues</h1>
+  <div class="meta">2026-08-27<br><span class="tag">voice-agent</span><span class="tag">hallucination</span><span class="tag">language</span><span class="tag">live-issues</span></div>
+  <p>Call between TX Hospital (client) and the Spearsoft side, 2026-08-27. Speaker 1 is the TX Hospital representative (speaks of "my management"); Speaker 2 is the Spearsoft-side contact — addressed as "Ajay" in the opening, though "Sish" appears mid-call, so treat the name as unconfirmed. Written by an agent from the raw transcript (saved verbatim at <code>inbox/raw/Transcripts/27-08-2026_tx_call_client_telugu.txt</code>).</p>
+<h2>Summary (English)</h2>
+<p>The client checks whether the team has listened to the recent call recordings. The team works ~24/7, replays recordings to find where calls go wrong, and redirects uncertain calls to a human receptionist for now. The client reports concrete failures:</p>
+<ul><li>A neurology request was answered "we don't have a neurology department".</li><li>A colleague booking an appointment was routed to <strong>nephrology</strong> doctors</li></ul>
+<p>instead — department mismatch.</p>
+<ul><li>A real patient selected Telugu, the agent kept speaking English, the patient</li></ul>
+<p>got frustrated and <strong>hung up</strong>.</p>
+<ul><li>Even internal testing is failing.</li></ul>
+<p>The client asks to keep both phone numbers on the site so the original flow is never disturbed. The Spearsoft side explains: multiple connectors/integrations are in play (Gemini gives some data, "mobile number" gives some), Gemini sometimes misinterprets, and the same agent works fine in the <strong>UAE</strong> but differs in live (India) calls. They ask for <strong>two more weeks</strong>; the client agrees — focusing on the AI calling itself, with receptionist fallback for rare cases. The client also mentions "another agent is falling into place" and that only one number is kept on the site.</p>
+<h2>Decided</h2>
+<ul><li><strong>Two more weeks</strong> to fix the AI calling; the client will wait.</li><li>Receptionist fallback stays for uncertain/rare cases meanwhile.</li><li>Client will share the failing recordings ("the post").</li><li>Numbers stay on the site; original flow untouched.</li></ul>
+<h2>To do</h2>
+<ul><li>☐ Spearsoft: keep fixing — focus on basic patient conversation alignment.</li><li>☐ Client: share the failing recordings.</li><li>☐ Fix department routing (neurology/nephrology mismatch) and language switching.</li></ul>
+<hr>
+<h2>Original (Telugu, verbatim)</h2>
+<pre><code>Speaker 1: హాయ్ సర్.
+Speaker 1: హాయ్ అజయ్.
+Speaker 2: హాయ్ సర్.
+Speaker 1: హాయ్ సర్.
+Speaker 2: హాయ్, ఆడిబుల్?
+Speaker 1: హాయ్, హాయ్.
+Speaker 2: హాయ్.
+Speaker 1: హావ్ యు సర్?
+Speaker 2: ఐ యామ్ డూయింగ్ గుడ్ సర్. హౌ అబౌట్ యు?
+Speaker 1: యా యా, గుడ్. థాంక్యూ సర్.
+Speaker 2: యా.
+Speaker 1: సర్, హావ్ యు లిసెన్ టు ద రికార్డింగ్స్ సో ఫార్?
+Speaker 2: యెస్, యెస్.
+Speaker 1: డైరెక్ట్ ఏఐ కాలింగ్. జస్ట్ లైక్, వి.
+Speaker 1: ఆర్ లైక్ అప్సైడ్ డౌన్.
+Speaker 2: యా.
+Speaker 1: సో, హౌ డు వి ప్రొసీడ్ విత్ దిస్ సర్?
+Speaker 2: ఓకే.
+Speaker 2: హౌ ఇట్ ఇస్ లైక్, వి ఆర్ యాక్చువల్లీ ఫైండింగ్, వెన్ ఎవర్ వి సీ సం రికార్డింగ్ అండ్ దెన్ వి ఆర్ ట్రయింగ్ టు సీ వేర్ ద ప్రాబ్లమ్ ఇస్, టు ఫిక్స్ దట్. అండ్ వి ఆర్ వర్కింగ్ లైక్, ఆల్మోస్ట్ 24/7 పీపుల్ ఆర్ వర్కింగ్. సమ్ టైమ్స్ ద బ్యాక్ ఎండ్ ఇస్ గివింగ్ సం ట్రిగ్గర్స్. సో, సమ్ హౌ, దేర్ ఆర్ ఫ్యూ కన్సర్న్స్, బట్ విచ్ వాట్ వి ఆర్ డూయింగ్ ఇస్, వేర్ ఎవర్ ద ప్రాబ్లమ్, వి ఆర్ యాంటిసిపేటింగ్, వి ఆర్ మూవింగ్ ఫర్ ఏ రిసెప్షనిస్ట్. ఓకే.
+Speaker 2: అంటిల్, అంటిల్ వి గెట్ ఎవ్రీథింగ్ ఇస్ పాజిటివ్. సో, వెన్ ఎవర్ ఇట్ సీస్ సంథింగ్, దెన్ వి ఆర్ రీడైరెక్టింగ్ టు ద రిసెప్షనిస్ట్.
+Speaker 1: దట్ ఇస్ ఓకే సర్. బట్ బిఫోర్ గోయింగ్ టు రిసెప్షనిస్ట్ ఓన్లీ, ద డిపార్ట్మెంట్ ఇట్ సెల్ఫ్ ఇస్ గెట్టింగ్ రాంగ్.
+Speaker 1: వాట్ ఇస్ ద ఏఐ ఇస్ డూయింగ్? ఫర్ ఎగ్జాంపుల్, ఇఫ్ ఐ లుక్ ఫర్ ఎనీ న్యూరాలజీ కైండ్ ఆఫ్ థింగ్, ఇట్ ఇస్ సింప్లీ సేయింగ్ దట్ వి డోంట్ హావ్ ద న్యూరాలజీ డిపార్ట్మెంట్ అట్ ఆల్. అండ్ వి డోంట్.
+Speaker 2: దట్ వాస్ ద ఫస్ట్ వన్, రైట్?
+Speaker 1: యా, ఈవెన్, ఈవెన్ లాస్ట్ డే సర్. లాస్ట్ డే ఈవెన్ ఇట్ హాపెన్డ్ విత్ వన్ ఆఫ్ మై కొలీగ్ ఇట్ సెల్ఫ్. సో, దే ట్రై టు బుక్ ఆన్ అపాయింట్మెంట్, బట్ స్టిల్, ఇట్ ఇస్ సేయింగ్ సంథింగ్. ఇన్స్టెడ్ ఆఫ్ న్యూరాలజీ, దే ఆర్ బుకింగ్ డాక్టర్స్ ఫ్రమ్ నెఫ్రాలజీ, సంథింగ్ లైక్ దట్. మిస్ మ్యాచ్ ఆఫ్ ద డిపార్ట్మెంట్ ఇస్ దేర్.
+Speaker 2: వెన్, వెన్ ఇట్ వాస్? ఐ డిడ్ నాట్ సీ ఇట్ ఎస్టర్డే, బిఫోర్ ఎస్టర్డే.
+Speaker 1: ఐ విల్ షేర్ యు ద రికార్డింగ్స్ సర్. ఐ విల్ షేర్ యు ద పోస్ట్.
+Speaker 2: ఎనీ ప్లేస్? బికాజ్ లాస్ట్, లాస్ట్ ఎవరీ రికార్డింగ్, వి హర్డ్ దట్. ఓకే, ద ఇనిషియల్ వాస్, యెస్, ఇట్ వాస్ ద యూరాలజీ వాస్ ద ఇష్యూ ద డే వన్. ఐ రిమెంబర్. ఇట్ వాస్ ఫిక్స్డ్.
+Speaker 1: ఐ విల్ షేర్ యు ద రికార్డింగ్ సర్. ఓకే, ఓకే.
+Speaker 2: సో, వాట్ ఐ వుడ్ రిక్వెస్ట్ యు, లైక్, జస్ట్, విల్, విల్ కంటిన్యూ ద సేమ్. ఓకే, గివ్ మీ సమ్ మోర్ టైమ్. సో, సమ్ టైమ్స్, లైక్, హౌ ఇట్ గోస్, సమ్ టైమ్స్ ద ఏజెంట్ విల్ హాలోజినేట్ ఏ థింగ్, సం దేర్ ఓన్ వే. గివింగ్ మెడికల్ అడ్వైస్.
+Speaker 1: హా సర్, హా సర్. ఇట్స్ లైక్ గోయింగ్ ఏ లిటిల్ రెలవెంట్. వాట్స్ హాపెనింగ్ ఇస్ లైక్, ఈవెన్ ఇంటర్నల్ టెస్టింగ్ ఇస్ ఆల్సో గెట్టింగ్ ఫెయిల్డ్.
+Speaker 1: హా. సో, హౌ అబౌట్ ద రియల్ టైమ్ పేషెంట్, యు నో దట్.
+Speaker 1: సో, హౌ అబౌట్ ద రియల్ టైమ్ పేషెంట్, యు నో దట్. లాస్ట్ టైమ్ వాట్ హాపెన్డ్, వన్ పేషెంట్ గాట్ రియల్లీ ఫ్రస్ట్రేటెడ్ వెన్ ద ఏఐ ఏజెంట్ ఇస్ ఆస్కింగ్ టు సెలెక్ట్ ద లాంగ్వేజ్. వెన్ హి సెలెక్టెడ్ తెలుగు, ఏఐ ఏజెంట్ ఇస్ టాకింగ్ ఇన్ ఇంగ్లీష్.
+Speaker 2: యా.
+Speaker 1: సో, హి వాస్ టాకింగ్ సంథింగ్ ఎల్స్, అండ్ ఏజెంట్ ఇస్ ఆన్సరింగ్ సంథింగ్. అండ్ హి గాట్ ఫ్రస్ట్రేటెడ్, అండ్ హి రిజెక్టెడ్ ద కాల్.
+Speaker 2: యెస్, యెస్.
+Speaker 1: సో, ఇన్ దిస్ వే, దట్స్ ద రీసన్ ఐ ఆస్క్డ్ యు టు కీప్ ద నంబర్స్, బోత్ ద నంబర్స్ ఆన్ ద సైట్. సో, దట్ ద ఒరిజినల్ ఫ్లో షుడ్ నాట్ గెట్ డిస్టర్బ్డ్. దిస్ ఇస్ ద రీసన్.
+Speaker 2: యా యా, ఐ ఆల్సో టోల్డ్ ద సేమ్. లెట్స్ హావ్ సం క్లారిటీ. సో, సమ్ టైమ్స్, యా, ఐ అండర్స్టాండ్. ఐ సా దట్ ఆల్సో, దట్ రికార్డింగ్ ఆల్సో. ఈవెన్, వి ఆర్ ట్రయింగ్ టు కాల్ దోస్ గైస్, విచ్ ఎవర్ వి ఆర్ గెట్టింగ్. వి ఆర్ ట్రయింగ్, అండ్ వి ఆర్ టెల్లింగ్ దట్, ఓకే, ఇట్స్ నాట్ ద టిఎక్స్ ఇష్యూ. వి ఆర్ యాక్చువల్లీ ట్రయింగ్ దిస్ బికాజ్ ఆఫ్ అస్. ప్లీజ్ అపాలజైజ్. వి ఆర్, వి ఆర్ టెల్లింగ్ టు దెమ్. ఓకే.
+Speaker 1: దట్స్ ఏ నైస్ ఆఫ్ యు సర్.
+Speaker 2: వి వాంటెడ్ టు టెల్ దట్, ఓకే, దట్ వి డోంట్ వాంట్ టు హావ్ సం నెగటివ్ ఇంప్రెషన్ అట్ ఆల్ ఆన్ యు. సో, యాస్, అండ్ వెన్ వి గెట్ ద కాల్, ఈవెన్ దో దే డోంట్ టాక్, మే బి ఈవెన్ ఇఫ్ దోస్ ఆర్ పర్సన్స్ ఆర్ ఫ్రమ్ యువర్ సైడ్ ఆల్సో, వి ఆర్ టాకింగ్. వి ఆర్ కాలింగ్ దెమ్. వి ఆర్ కాలింగ్ దెమ్, అండ్ వి ఆర్ ట్రయింగ్ టు అండర్స్టాండ్. ఈవెన్ వెన్ వి హావ్ సం కన్సర్న్స్, వి ఆర్ అడ్రెస్సింగ్ ప్రాపర్లీ, అండ్ దట్ టైమ్ ఓన్లీ. బట్, వాట్ ఇస్ హాపెనింగ్ ఇస్, సీ, వి యూస్ మల్టిపుల్ కనెక్టర్స్ హియర్. ఓకే, సో, జెమినై విల్ గివ్ సం డేటా, అండ్ దెన్ మొబైల్ నెంబర్ విల్ గివ్ సం డేటా. సో, వి ఆర్ హావింగ్ సం ఇంటిగ్రేషన్స్ ఇన్ పార్ట్. సో, హియర్, సో, సమ్ టైమ్స్, ద జెమినై ఇస్ గివింగ్ సం రాంగ్ ఇంటర్ప్రిటేషన్. సో, దేర్ యాక్చువల్లీ, దేర్ వుడ్ బి సం. టెంపరేచర్ వుడ్ బి డిఫైన్డ్. సో, దట్ వి ఆర్ యాక్చువల్లీ మూవింగ్ హియర్ అండ్ దేర్ అండ్ సీ హౌ ద బెస్ట్ ఇట్ ఇస్ గివింగ్.
+Speaker 2: అండ్ ద సర్ప్రైజ్ ఇస్, ఇన్ యుఏఈ, ఇట్ ఇస్ ఆల్ వర్కింగ్ ఫైన్. ఓకే, బట్ వెన్ ఇట్ కేమ్ టు లైవ్, వి సా దట్ డిఫరెన్సెస్. సో, దట్స్ ఆల్సో వి ఆర్ వర్కింగ్ ఆన్ నౌ.
+Speaker 1: దట్స్ రైట్ సర్. ఐ నీడ్ రియల్ టైమ్ ఎక్స్పీరియన్స్ ఓన్లీ, సో దట్ ఐ కెన్ టెల్ టు మై మేనేజ్మెంట్.
+Speaker 2: అండర్స్టూడ్. ఐ వుడ్ రిక్వెస్ట్, నో, నో, ఐ వుడ్ రిక్వెస్ట్, విల్, విల్, వి విల్ సీ అనదర్ టు వీక్స్ ఆఫ్ టైమ్.
+Speaker 1: ఓకే, ఓకే. ఈచ్ టైం టు వర్క్ ఆన్ ద, యు నో, యా, ఆన్ ద కాలింగ్, టు ఫోకస్ ఆన్ ద ఏఐ కాలింగ్ ఇట్ సెల్ఫ్. సో, ఇఫ్ ఇట్ ఇస్ ఏ రేర్ కేస్, అండ్ ఇట్ హాస్ టు పుష్ టు ద రిసెప్షన్, దెన్ ఐ కెన్ గెట్ ఇట్, దెన్ నో ప్రాబ్లమ్. ఫర్ మీన్ వైల్, ఐ నీడ్ టు ఇంప్రోవైజ్ అట్లీస్ట్ ద బేసిక్ కాన్వర్సేషన్ ఆఫ్ ద పేషెంట్ షుడ్ బి ప్రాపర్లీ అలైన్డ్.
+Speaker 2: యెస్, యెస్, యెస్. ఐ యామ్ సారీ ఫర్ దట్, బట్ యెస్.
+Speaker 1: అరే, నో, నో, ఐ యామ్ నాట్ ఎక్స్పెక్టింగ్ ఐస్. ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్, ఐ యాస్. వి ఆర్ టెస్టింగ్ ఇన్ మల్టిపుల్ వేస్. వి ఆర్ షిఫ్టింగ్ ద లాంగ్వేజెస్. వి ఆర్ ఆస్కింగ్ ఇంగ్లీష్, తెలుగు, హిందీ, ఇన్ వన్ కాల్ ఇట్ సెల్ఫ్. బట్, సమ్ హౌ, వెన్ ఇట్ గోస్ టు లైవ్, సర్, ఇట్ ఇస్ మేకింగ్ సం నాయిస్. గివ్ అస్ అనదర్ టు వీక్స్, బ్రో. సో, సర్, విల్, విల్ ట్రై టు కమ్ అప్ విత్ ద బెస్ట్.
+Speaker 1: డన్ సర్, డన్ సర్, డన్ సర్. ఓకే.
+Speaker 2: శిష్, డు యు హావ్ ఎనీథింగ్?
+Speaker 1: నో.
+Speaker 2: శిష్, నో సర్, నథింగ్.
+Speaker 1: ఓకే. ఓకే, దట్స్ వాట్
+Speaker 2: ఓకే, దట్స్ వాట్ ఐ టోల్డ్, వెను అజయ్ ఆల్సో, వెన్ ఎవర్ వెను వాంటెడ్ టు టాక్, ప్లీజ్ లెట్ మీ కనెక్ట్.
+Speaker 1: థాంక్యూ సో మచ్. ఐ థాట్ ఆఫ్ కనెక్టింగ్ టు అజయ్ పర్సనల్లీ రిగార్డింగ్ ద గుడ్ దట్ ఐ హావ్ యు.
+Speaker 2: ఇఫ్ ఇట్ ఇస్ గోయింగ్ రాంగ్, ఐ షుడ్ బి మై ఫేస్. ఐ షుడ్ హావ్ మై ఫేస్.
+Speaker 1: దట్స్ ద గ్రేట్ ఆఫ్ యు సర్. థాంక్యూ సో మచ్.
+Speaker 2: ఇఫ్ ఇట్ ఇస్ గోయింగ్ వర్తి, దెన్ యు కెన్ టాక్.
+Speaker 1: ఈవెన్, ఈవెన్ ఐ యామ్ లుకింగ్ ఫర్ ద బెటర్ మెన్ ఫ్రమ్ యువర్ సైడ్ అస్ వెల్.
+Speaker 2: యా.
+Speaker 1: బికాజ్ యు, అస్ యు నో, దేర్ ఇస్ అనదర్ ఏజెంట్, ఈవెన్ ఫాలింగ్ ఇన్ ప్లేస్. సో, ఐ కెప్ట్ ఇట్ ఓన్లీ ఆర్ నెంబర్ ఆన్ ద సైట్, నాట్ ది అదర్ నెంబర్.
+Speaker 2: ఓకే, థాంక్యూ, థాంక్యూ.
+Speaker 1: థాంక్యూ సో మచ్.
+Speaker 2: గివ్ మీ సం టైం.
+Speaker 1: షూర్ సర్, షూర్ సర్, షూర్. ఓకే, థాంక్యూ, థాంక్యూ గైస్.
+Speaker 2: థాంక్యూ సో మచ్.
+Speaker 1: బై సర్. బ
+Speaker 2: బై.</code></pre>
+<h2>Translation (English) — line by line</h2>
+<pre><code>Speaker 1: Hi sir.
+Speaker 1: Hi Ajay.
+Speaker 2: Hi sir.
+Speaker 1: Hi sir.
+Speaker 2: Hi, audible?
+Speaker 1: Hi, hi.
+Speaker 2: Hi.
+Speaker 1: How are you, sir?
+Speaker 2: I&#x27;m doing good, sir. How about you?
+Speaker 1: Yeah yeah, good. Thank you, sir.
+Speaker 2: Yeah.
+Speaker 1: Sir, have you listened to the recordings so far?
+Speaker 2: Yes, yes.
+Speaker 1: Direct AI calling. Just like, we are like upside down.
+Speaker 1: We&#x27;re like upside down.
+Speaker 2: Yeah.
+Speaker 1: So, how do we proceed with this, sir?
+Speaker 2: Okay.
+Speaker 2: What it&#x27;s like is — we are actually finding, whenever we see a recording, then we are trying to see where the problem is, to fix that. And we are working like, almost 24/7 people are working. Sometimes the backend is giving some triggers. So, somehow, there are a few concerns, but what we are doing is — wherever the problem is, we are anticipating, we are moving it to a receptionist. Okay.
+Speaker 2: Until, until we get everything positive. So, whenever it sees something, then we are redirecting to the receptionist.
+Speaker 1: That is okay, sir. But before going to the receptionist only, the department itself is getting wrong. What is the AI doing? For example, if I look for any neurology kind of thing, it is simply saying that we don&#x27;t have the neurology department at all. And we don&#x27;t.
+Speaker 2: That was the first one, right?
+Speaker 1: Yeah, even, even last day, sir. Last day even it happened with one of my colleagues itself. So, they try to book an appointment, but still, it is saying something. Instead of neurology, they are booking doctors from nephrology, something like that. Mismatch of the department is there.
+Speaker 2: When, when was it? I did not see it yesterday, or the day before.
+Speaker 1: I will share you the recordings, sir. I will share you the post.
+Speaker 2: Any place? Because last, last time every recording, we heard that. Okay, the initial one was, yes, it was the urology issue on day one. I remember. It was fixed.
+Speaker 1: I will share you the recording, sir. Okay, okay.
+Speaker 2: So, what I would request you — just, will, we&#x27;ll continue the same. Okay, give me some more time. So, sometimes, like, how it goes — sometimes the agent will hallucinate a thing, in their own way. Giving medical advice.
+Speaker 1: Ha sir, ha sir. It&#x27;s like going a little relevant. What&#x27;s happening is like — even internal testing is also getting failed.
+Speaker 1: Ha. So, how about the real-time patient, you know that.
+Speaker 1: So, how about the real-time patient, you know that. Last time what happened — one patient got really frustrated when the AI agent is asking to select the language. When he selected Telugu, the AI agent is talking in English.
+Speaker 2: Yeah.
+Speaker 1: So, he was talking something else, and the agent is answering something [else]. And he got frustrated, and he rejected the call.
+Speaker 2: Yes, yes.
+Speaker 1: So, in this way — that&#x27;s the reason I asked you to keep the numbers, both the numbers on the site. So that the original flow should not get disturbed. This is the reason.
+Speaker 2: Ya ya, I also told the same. Let&#x27;s have some clarity. So, sometimes, ya, I understand. I saw that also, that recording also. Even, we are trying to call those guys, whichever [numbers] we are getting. We are trying, and we are telling them that — okay, it&#x27;s not the TX issue. We are actually trying this because of us. Please apologize. We are, we are telling to them. Okay.
+Speaker 1: That&#x27;s nice of you, sir.
+Speaker 2: We wanted to tell that, okay, that we don&#x27;t want to have any negative impression at all on you. So, yes, and when we get the call, even though they don&#x27;t talk, maybe even if those persons are from your side also, we are talking. We are calling them. We are calling them, and we are trying to understand. Even when we have some concerns, we are addressing them properly, and at that time only. But, what is happening is — see, we use multiple connectors here. Okay, so, Gemini will give some data, and then the mobile number will give some data. So, we are having some integrations in part. So, here, sometimes, the Gemini is giving some wrong interpretation. So, there actually, there would be some — temperature would be defined. So, that we are actually moving here and there and see how the best it is giving.
+Speaker 2: And the surprise is — in UAE, it is all working fine. Okay, but when it came to live, we saw those differences. So, that&#x27;s also we are working on now.
+Speaker 1: That&#x27;s right, sir. I need real-time experience only, so that I can tell to my management.
+Speaker 2: Understood. I would request — no, no, I would request — we&#x27;ll, we&#x27;ll, we will see another two weeks of time.
+Speaker 1: Okay, okay. Each time to work on the, you know, ya, on the calling — to focus on the AI calling itself. So, if it is a rare case, and it has to push to the reception, then I can get it, then no problem. For meanwhile, I need to improve at least the basic conversation — the patient should be properly aligned.
+Speaker 2: Yes, yes, yes. I am sorry for that, but yes.
+Speaker 1: Arey, no, no, I am not expecting [perfection] — [stammering] ... We are testing in multiple ways. We are shifting the languages. We are asking English, Telugu, Hindi, in one call itself. But, somehow, when it goes to live, sir, it is making some noise. Give us another two weeks, bro. So, sir, we&#x27;ll, we&#x27;ll try to come up with the best.
+Speaker 1: Done, sir. Done, sir. Done, sir. Okay.
+Speaker 2: Sish, do you have anything?
+Speaker 1: No.
+Speaker 2: Sish, no sir, nothing.
+Speaker 1: Okay. Okay, that&#x27;s what...
+Speaker 2: Okay, that&#x27;s what I told — when Ajay also, whenever he wanted to talk, please let me connect.
+Speaker 1: Thank you so much. I thought of connecting to Ajay personally regarding the good word that I have for you.
+Speaker 2: If it is going wrong, I should have my face [I&#x27;ll take responsibility]. I should have my face.
+Speaker 1: That&#x27;s great of you, sir. Thank you so much.
+Speaker 2: If it is going worthy, then you can talk.
+Speaker 1: Even, even I am looking for a better man from your side as well.
+Speaker 2: Ya.
+Speaker 1: Because you, as you know, there is another agent, even falling in place. So, I kept it only our number on the site, not the other number.
+Speaker 2: Okay, thank you, thank you.
+Speaker 1: Thank you so much.
+Speaker 2: Give me some time.
+Speaker 1: Sure sir, sure sir, sure. Okay, thank you, thank you guys.
+Speaker 2: Thank you so much.
+Speaker 1: Bye sir. B...
+Speaker 2: Bye.</code></pre>
+<p><em>Translation notes: the transcript is Telugu script transcribing mostly English speech (phonetic) plus some Telugu; the English above restores what was said. "శిష్" ("Sish") at the end is unclear — possibly a name or interjection. "వెను" is likely "వెన్" ("when"). Speaker identities: 1 = TX Hospital representative, 2 = Spearsoft side (addressed as "Ajay" in the opening; treat as unconfirmed).</em></p>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice agent internal call — why &quot;heart problem&quot; returned a kidney doctor — Srish</title>
+<meta name="description" content="A 103-minute working call between Srish (Srish Rachamalla) and Harshita (Harshita) on the TX Hospital Voice Agent (TX Hospital), walking through the UAT bug list one item at a time">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Voice agent internal call — why &quot;heart problem&quot; returned a kidney doctor</h1>
+  <div class="meta">2026-09-01<br><span class="tag">voice-agent</span><span class="tag">edesey</span><span class="tag">debugging</span><span class="tag">department-matching</span><span class="tag">prompt</span><span class="tag">uat</span><span class="tag">tx-hospital</span></div>
+  <p>A 103-minute working call between <strong>Srish</strong> (Srish Rachamalla) and <strong>Harshita</strong> (Harshita) on the TX Hospital Voice Agent (TX Hospital), walking through the UAT bug list one item at a time with the transcripts open on a screen share. Nishita and Sudheer logged most of the bugs being reviewed; neither was on the call. A third speaker (a senior, briefly) joined about an unrelated leads application — see <em>Unrelated thread</em> below.</p>
+<p>The call ended with the root cause of the worst-looking bug found and explained. Written by an agent from the raw transcript, saved verbatim at <code>inbox/raw/Transcripts/01-09-2026_edsey_call_intenal_eng_tel.txt</code>.</p>
+<blockquote><strong>On the transcript below.</strong> The ASR is poor — it renders English speech in Telugu script, mangles names, and drops words. Srish said so on the call: <em>"the ASR text is not that accurate, but the LLM is handling perfectly, so don't completely depend on it, but you will understand what is going on."</em> Read it for the shape of the discussion, not for exact wording.</blockquote>
+<hr>
+<h2>The headline: why <code>heart problem</code> returned a kidney doctor</h2>
+<p>This was the bug that made the agent look like it was hallucinating. It was not. Three ordinary steps chained into a wrong answer, and each step was individually reasonable.</p>
+<pre><code>CALLER SAYS:  &quot;heart problem&quot;
+      |
+      v
+STEP 1  ── GPT-4o-mini &quot;translates&quot; it to clinical English
+           &quot;heart problem&quot;  -&gt;  &quot;cardiovascular disease&quot;
+           the word HEART is now gone
+      |
+      v
+STEP 2  ── the hardcoded shortcut in the code checks:
+              words ∩ {heart, cardiac, cardio, palpitation, palpitations}
+           &quot;cardiovascular&quot; is not in that set — exact match, not prefix
+           SHORTCUT NEVER FIRES. nobody notices.
+      |
+      v
+STEP 3  ── falls through to a keyword search that RANKS BY WORD COUNT
+
+              64.00   NEPHROLOGY        cardiovascular x0   disease x96
+               1.50   CARDIAC SCIENCES  cardiovascular x2   disease x1
+               1.12   CARDIAC SCIENCES  cardiovascular x1   disease x1
+      |
+      v
+RESULT:  NEPHROLOGY  — a kidney doctor for a heart complaint</code></pre>
+<p><strong>The kidney list does not contain the word "cardiovascular" even once.</strong> It wins because it says the word <em>"disease"</em> 96 times. The one document that literally contains the phrase "cardiovascular disease" scores 1.50 and loses by a factor of forty.</p>
+<p>The search picks the winner by counting how often a word appears, not by how meaningful the word is.</p>
+<h3>The second one is simpler</h3>
+<pre><code>$text &quot;hand pain&quot;:
+   597.37   NEURO SCIENCES    hand x288   pain x640
+   255.40   ORTHOPAEDICS      hand x0     pain x385</code></pre>
+<p><strong>Orthopaedics has 4,377 keywords and not one of them is "hand".</strong> Neurology does have hand words — numbness, carpal tunnel — so neurology wins fairly. It is the only list that mentions hands at all. Same for fingers; "foot" appears only as <code>diabetic foot</code> under Endocrinology.</p>
+<p>That one is not clever. Hands, fingers and feet were left out of the bone list.</p>
+<h3>The data behind it</h3>
+<p><code>symptom_mappings</code> — a MongoDB collection of 46 documents covering 25 departments, each holding 1,500–1,600 hardcoded keywords.</p>
+<pre><code>  ORTHOPAEDICS               4377 keywords   95,425 chars
+  NEURO SCIENCES             3369 keywords   80,453 chars
+  MEDICAL GASTROENTEROLOGY   2197 keywords   51,198 chars
+  ...
+  INTERNAL MEDICINE             0 keywords        0 chars   &lt;- empty
+  INTERNAL MEDICINE             0 keywords        0 chars   &lt;- empty
+  INTERNAL MEDICINE             0 keywords        0 chars   &lt;- empty
+  GYNAECOLOGY                   0 keywords        0 chars   &lt;- empty
+  ENT                           0 keywords        0 chars   &lt;- empty</code></pre>
+<p>Duplicate documents per department, five of them empty, sizes varying by two orders of magnitude. The query takes only the top result, so the biggest document tends to win regardless of relevance.</p>
+<h3>Why the keyword lists exist at all</h3>
+<p>Harshita's reason is a good one: callers speak Telugu and Hindi, so the lists carry local phrasings that map back to a department. The translation step exists for the same reason.</p>
+<p>The problem is that translation runs <em>first</em> and destroys the exact word the shortcut is looking for. Srish's point on the call: <strong>the tool is never given a whole sentence.</strong> The agent already sends a short concern — <code>headache</code>, <code>kidney stone</code>, <code>heart problem</code> — so most of that machinery is being applied to input it was not designed for.</p>
+<hr>
+<h2>What was already fixed, during the call</h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>Change</th><th>By</th></tr></thead><tbody><tr><td><code>check_availability</code></td><td>Now returns only the <strong>next 7 days</strong> of dates instead of 488</td><td>Harshita</td></tr><tr><td><code>check_availability</code></td><td>Returns <strong>dates only</strong>, not slots, when no date is given</td><td>Harshita</td></tr><tr><td>Tool <code>message</code> fields</td><td>Being shortened</td><td>Harshita</td></tr><tr><td>Department matcher</td><td>A fix was pushed, but it was <strong>unclear whether production was updated</strong> — this needs confirming</td><td>Harshita</td></tr></tbody></table></div>
+<hr>
+<h2>Decided</h2>
+<ul><li><strong>Booking IDs are exactly five digits and never start with zero.</strong> Below or</li></ul>
+<p>above that, the agent must not call the backend — it says the ID does not look right and asks again. Confirmed against the database: 586 of 586 appointments match, range 10394–99999. Reason for the leading-zero rule: if an ID were <code>01234</code>, some layers would drop the zero and the same bug returns wearing a different hat.</p>
+<ul><li><strong>B05 (invented ID "1234") is a prompt bug, not a backend one.</strong> The agent</li></ul>
+<p>fabricated the number itself; the backend simply answered the question it was asked.</p>
+<ul><li><strong>B13 and B14 were triaged wrongly, and Srish said so on the call.</strong> The</li></ul>
+<p>agent was speaking failure scripts — <em>"no doctor is available at Uppal"</em>, <em>"I am unable to check the Uppal branch"</em> — <strong>with no tool call at all</strong>. Nothing was called, so nothing failed and nothing found nothing. Merged into a new bug, B23.</p>
+<ul><li><strong>B08 (Telugu selected, agent replies in English) is rejected</strong> — an Edesey</li></ul>
+<p>platform issue, not the prompt.</p>
+<ul><li><strong>B11 (wrong doctor name in confirmation) is not an issue.</strong> Traced live on</li></ul>
+<p>the call: "Srikanth" was the <em>patient's</em> name and was used correctly.</p>
+<ul><li><strong>Ophthalmology handling goes in the prompt, not the backend.</strong> TX Hospitals</li></ul>
+<p>has no ophthalmologist at any branch. When someone asks for one, the agent should offer a general physician or a receptionist transfer — never invent an eye specialist. Explicitly rejected doing this in the backend: <em>"it should not be from backend, it should be from prompt itself."</em></p>
+<ul><li><strong>Test on a separate deployment.</strong> A second API subdomain (UAT2) for these</li></ul>
+<p>changes rather than pushing straight to the environment QA is testing against. <em>"Don't try to push it with that, because even we are unsure."</em></p>
+<h3>An open design question, not yet decided</h3>
+<p>Srish's instinct is to <strong>remove the big keyword-mapping database entirely</strong> and have the agent work out the department itself. The counter-argument raised is that the lists are what handle Telugu and Hindi phrasings.</p>
+<p>Worth noting the choice is only ever between <strong>25 departments</strong>. Picking one of 25 labels does not obviously need 100,000 keywords, and a bigger list makes the frequency scoring worse, not better — the largest document wins more often.</p>
+<hr>
+<h2>Wanted next: <code>check_availability</code> should return date ranges</h2>
+<p>Srish's spec, in his words on the call: when a date is given, return the slots for that date. When no date is given, return <strong>ranges</strong>, not a wall of dates:</p>
+<pre><code>    1–7 available
+    8–14 available          (excluding 11, 12)
+    15–21 available</code></pre>
+<p>Excluded dates in brackets. Far shorter than a list, and readable aloud.</p>
+<hr>
+<h2>To do</h2>
+<ul><li>☐ Confirm whether the department-matcher fix actually reached production</li></ul>
+<p>or only local — this was left genuinely unresolved on the call</p>
+<ul><li>☐ Stand up the UAT2 subdomain and point testing at it</li><li>☐ <code>check_availability</code> — date-range format with exclusions</li><li>☐ Add <code>hand</code>, <code>finger</code>, <code>foot</code>, <code>wrist</code>, <code>thumb</code>, <code>palm</code> to the</li></ul>
+<p>Orthopaedics keywords and the body-part shortcut</p>
+<ul><li>☐ Check the override keywords on the <strong>raw</strong> concern before translating,</li></ul>
+<p>then again after — roughly three lines, and it fixes the <code>heart problem</code> family outright</p>
+<ul><li>☐ Deduplicate <code>symptom_mappings</code>; delete the five empty documents</li><li>☐ Strip the instruction sentences out of tool <code>message</code> fields</li><li>☐ Reject empty required parameters on the webhooks</li><li>☐ Ask Nishita for the transcript behind the patient-name/doctor-name</li></ul>
+<p>report — it could not be reproduced from the transcripts available</p>
+<ul><li>☐ Chase Edesey on call recordings, which are still not saving</li><li>☐ Email to the senior about the agentic-AI research (see below)</li></ul>
+<hr>
+<h2>Decisions that changed my own earlier analysis</h2>
+<p>Two calls I had made were wrong, and the transcripts settled it:</p>
+<div class="tablewrap"><table><thead><tr><th>Was</th><th>Now</th></tr></thead><tbody><tr><td>B13 — "backend error surfacing correctly"</td><td>No backend error. <strong>No tool call at all.</strong></td></tr><tr><td>B14 — "working as designed"</td><td>Same. The agent invented the bad news.</td></tr></tbody></table></div>
+<p>The cause was a hole in the prompt: the guard against inventing facts listed only <strong>positive</strong> ones — a branch name, a doctor's name, a time, a booking ID. Nothing stopped the agent inventing a <strong>negative</strong>: <em>"no doctor is available"</em>, <em>"I cannot check that branch"</em>. A polished failure sentence was sitting there with no precondition on it, so when the audio was unintelligible and the agent had to say something, that was the nearest thing to hand.</p>
+<hr>
+<h2>Unrelated thread — agentic AI for the leads application</h2>
+<p>A senior joined mid-call about a different application entirely. The ask, in plain terms:</p>
+<pre><code>   predictive  -&gt;  generative  -&gt;  AGENTIC
+                   (where we are)   (where he wants to go)</code></pre>
+<p>Today the LLM takes an input and produces an output — a workflow. Post scheduling is generative. Mails are predictive. He wants an <strong>agent</strong> that decides for itself what to do and when: scheduling and posting combined, campaign information pulled in, results evaluated, multiple tools available to it, including marketing tools.</p>
+<p>Wanted from Srish: <strong>a research document</strong> — how agents could be integrated, what the outputs would be, and how much it would actually help. He also asked for it in writing by email, copying Kamal, because a previous verbal explanation had not landed.</p>
+<hr>
+<h2>Transcript (verbatim — Telugu/English ASR mix)</h2>
+<p>Copied byte-for-byte from the raw file (evidence stays at <code>inbox/raw/Transcripts/01-09-2026_edsey_call_intenal_eng_tel.txt</code>).</p>
+<pre><code>Speaker 1: Hi, 122? You&#x27;re traveling with 122, bro. I had సెంటర్‌లో ఒక ప్రాంప్ట్, ఎందుకు ఏమవుతుందో నాకు సైజుగా అయినా ఎక్కడో చూసిండు. యూట్యూబ్‌లోనే, ఇన్‌స్టాగ్రామ్‌లోనే. వాయిస్ ఏజెంట్స్ అంటే ప్రాంప్ట్ టైం కి ఏముంటదో అని చెప్పి ఫిక్స్ అయినా నేను. అక్కడ ప్రాంప్ట్ ఏజెంట్ నాకు అర్థం కాదు అంటే, నేను అన్నా, &quot;సర్, అది డే వన్&quot; అని చెప్పి నేను ఒక ప్రాంప్ట్‌తో ఉండదు. అప్డేట్ చేస్తూ ఉండాలి అనుకుంటే నేను చెప్పిన అప్పుడే అనుకుంటా అంటే, అవును అన్నా, ఇంకెన్ని రోజులు అనుకుంటా.
+Speaker 1: వన్ మంత్ ఉంది, దగ్గర దగ్గరగా ఇంకెన్ని అనుకుంటా అంటే, ఇంకా నేను ఏమంటానో, ఏమంటానో. నువ్వేం చెప్తలేవు నాన్న, అబ్బా. ఏమన్నా నేను? నువ్వేం చెప్తలేవు అంటే, చెప్పు అంటున్నా. నిన్న నైట్ అసలు ఎంత? నిన్న ఫోన్ చేసినావు కదా, పిచ్చ నిద్రలో ఉంటా నేను. ఫోన్ చేసిండు, చేసా చెయ్యి అన్నాడు. మధ్యలో ఫోన్ చేసినావా? ఎప్పుడో 10:30 కి స్టార్ట్ చేసిండు నిన్న. మళ్లీ 2:30 వరకు చేసినా. ఆయన బాధ అంటే, ఆయన పాయింట్ ఆఫ్ వ్యూ కూడా కరెక్టే, బ్రో. ఇప్పుడు TX తోనే ఒక్కసారి లోపలికి వెళ్తే ఇంకా మంచిగా వస్తాయి కదా, బ్రో. వేరే ఇది క్లోజ్ చేసుకుందాము అని ఆయన చాట్.
+Speaker 1: చూసినావు బ్రో, ఆర్టిఫాక్ట్?
+Speaker 2: చూసినా, ఎక్స్ప్లనేషన్ కూడా పెట్టినావు కదా.
+Speaker 1: ఆ, అదే. నేను ఎట్లైనా లేచే వరకు, జానీ గారు లేట్ అయితే అప్పటికైనా మీరు చూస్తారు అని చెప్పి ముందే పెట్టినా అందుకే.
+Speaker 1: హర్షిత్, డిడ్ యు సీ ఇట్?
+Speaker 2: What do you think after reading it?
+Speaker 3: Some tools need to be changed. I&#x27;ve changed it, so check availability.
+Speaker 2: Okay.
+Speaker 3: Only for one week, yes, I mean not the dates.
+Speaker 2: One second.
+Speaker 3: And the messages.
+Speaker 2: What did you do for check availability?
+Speaker 3: I have changed it to respond quicker. The dates available dates will only come in the next 7 days.
+Speaker 2: Okay, not slots.
+Speaker 3: Not slots. Only dates.
+Speaker 2: Perfect.
+Speaker 2: And yes. And also.
+Speaker 3: The messages.
+Speaker 2: Yes. One more thing is, I think I didn&#x27;t remember the tool. I think this itself, this one itself. Check availability should take input as the available date and based on that it should give the slot. Okay. Something like if I say 31st of August 2026, it should give me the slots when I give that. Otherwise it should give me the days when they are available. Not with days format. Okay, something like 31, 1, 2, 3, something like this. You should use a function similar to to. 127 is available. 8 to 14 is available. 15 to 21 is available. Something like that.
+Speaker 3: Okay.
+Speaker 2: Yes. He is not available in between. Keep a practice. Okay, in the bracket mention what is not available. Mention like excluding those dates right now. Something like this.
+Speaker 2: And.
+Speaker 2: Actually I couldn&#x27;t found a vertical joint couple of the other one.
+Speaker 2: Yes, not 31. It should give 488 dates. Yes.
+Speaker 2: Yes. You understood this also. Like it is creating a subprompt.
+Speaker 3: Yes. The messages.
+Speaker 2: Yes. So what I will say is, or you do it, try to, you know, host it in a different thing. Okay.
+Speaker 2: Give me a new API. What do you call it? New subdomain. And we&#x27;ll test it with that. Infrastructure as code.
+Speaker 3: Okay.
+Speaker 3: Okay. Like create UAT2. Something like this. Okay.
+Speaker 2: Don&#x27;t try to push it with that. Because even we are unsure.
+Speaker 2: And there is one more thing I&#x27;m not sure from where is it getting. Like optimologist. Okay. In all the branches we don&#x27;t have optimologist. Okay. In TX there is no optimologist.
+Speaker 3: Okay.
+Speaker 2: Whenever we asked optimologist, for some reason it is giving some name. Even in the before test case where I think I was testing it. Even it gave me some other name. Yesterday she gave the agent is Sarita. Before it was giving some other name. But I&#x27;m not sure why is it giving the name. In the prompt we mentioned, don&#x27;t give the name if it is on now. Okay. So I asked the same thing to AI. While giving a transcript and all. Then we like it was saying that.
+Speaker 3: She is.
+Speaker 2: There is someone similar to Sarita and all. Okay. I think there were some names.
+Speaker 3: Okay.
+Speaker 2: Shruti. Yes. Shruti. And there was one more name. Based on that it like it is thinking there might be some people and they&#x27;re giving it.
+Speaker 3: Okay. She should refuse.
+Speaker 2: Yes.
+Speaker 2: And there was one more thing. Agent invents appointment ID. I think yes. This was also one thing which is  okay. I don&#x27;t think B05 is completely from backend. It should be from both frontend and backend.
+Speaker 3: Hmm.
+Speaker 2: Okay. Which is one year too if there is no booking ID. Or appointment ID with that number. You have to just say there is no appointment number on the field. Okay. I&#x27;ll just see. CFCC. Okay.
+Speaker 3: I think so this is agent conversation only.
+Speaker 2: Oh.
+Speaker 3: Because it should only get the booking ID. Then it will check in the backend.
+Speaker 2: One second.
+Speaker 3: The user should get.
+Speaker 2: I&#x27;ll do one thing. I&#x27;ll get my headset. I can&#x27;t hear clearly.
+Speaker 3: Okay.
+Speaker 2: Can you hear me now?
+Speaker 3: Yes.
+Speaker 2: Yes. Perfect.
+Speaker 2: Okay. Okay. What you are saying might be.
+Speaker 3: So. So  So basically here the user is coming and asking for the cancelling the appointment.
+Speaker 2: Uh.
+Speaker 3: Yes.
+Speaker 2: The agent should ask them.
+Speaker 2: Yes. L
+Speaker 3: Like what is here booking.
+Speaker 2: Yes, yes. That.
+Speaker 3: It should be asking it. It is directly taking 1, 2, 3, 4, 5 hours the booking ID and checking in the backend.
+Speaker 2: Right. That is what I was saying.
+Speaker 3: No.
+Speaker 2: This is not only backend issue. We have to work from the frontend. I mean these are prompt itself. But only thing what I&#x27;m mentioning is if that particular agent idea is not present it should say something like this. Never invent ID if it is out. Okay.
+Speaker 3: Okay.
+Speaker 2: You understood what I&#x27;m talking about.
+Speaker 3: To the backend check like 1, 2, 3, 4 IDs.
+Speaker 2: Yes.
+Speaker 3: Should be avoided.
+Speaker 2: No, no. Not like that.
+Speaker 2: Okay. I&#x27;ll tell you.
+Speaker 2: First let me open the transcript.
+Speaker 2: Okay. I&#x27;m not sure what happened. Welcome to TX Hospital. Okay. Let me share my screen otherwise.
+Speaker 2: Okay. Can you see this?
+Speaker 3: Yes.
+Speaker 2: Okay. Welcome to TX Hospital. This call will be recorded for quality and training. Okay. Telugu అలాగే ఈరోజు నేను మీకు ఎలా సహాయం చేయగలను. నేను ఒక అపాయింట్మెంట్.
+Speaker 2: ఎయిడ్ అంటే ఐడి చెప్పాను. చెప్తా.
+Speaker 2: క్యాన్సిల్ చేయిస్తారా? రైట్. క్యాన్సిల్ చేస్తారా?
+Speaker 2: గెట్ బుకింగ్? ఓకే. ఇట్ ఇన్వెంటెడ్ ఇట్ సెల్ఫ్. ఓకే. స్టేటస్ ఇస్ నాట్ ఫౌండ్. రైట్. ఓకే.
+Speaker 2: దెన్ ఓకే. ఐ విల్ జస్ట్ చేంజ్ ఇట్ టు ఐ వాస్ థింకింగ్ ఇట్ వాస్ సంథింగ్ ఎల్స్. ఐ విల్ జస్ట్ చేంజ్ ఇట్ టు దిస్. ఆ ఫర్.
+Speaker 2: ఎల్స్.
+Speaker 2: ఓకే.
+Speaker 3: It should have asked.
+Speaker 2: One second.
+Speaker 2: హలో.
+Speaker 4: హలో. నేను లైన్ లో ఉన్నాను.
+Speaker 2: అవును.
+Speaker 4: మీరు మాట్లాడేది ఏంటి?
+Speaker 4: హలో.
+Speaker 4: ఉన్నాడు. మేము మీటింగ్ లో అదే అడిగితే ఆమె ఏమంటుంది అంటే.
+Speaker 4: No.
+Speaker 2: సర్, మీ వాయిస్ బ్రింక్ అవుతుంది.
+Speaker 4: Yeah.
+Speaker 2: అమ్మాయి హలో.
+Speaker 2: హలో.
+Speaker 4: కమల్. ఇప్పుడు మీరు చెప్పినప్పుడు మళ్ళీ చెప్పండి.
+Speaker 2: నేను ఏం అడిగింది అంటే ప్రెడిక్టివ్ ప్రెడిక్టివ్ మోడల్ మోడలింగ్ జనరేటివ్ అజెంటిక్. నెక్స్ట్ ఫేర్నెస్ వస్తుంది. ఇవి మోడల్స్ అంటారు. దీంట్లో ఇప్పుడు వచ్చేసి మనం డెవలప్ చేసింది జనరేటివ్ మోడల్ లో అని చెప్తే మీకు అర్థం అవ్వట్లేదు. మోడలింగ్ టైప్ లో ఎక్స్ప్లెయిన్ చేసిన అర్థం అవ్వట్లేదు. నేను చాలా డీటెయిల్ గా ఎక్స్ప్లెయిన్ చేశాను. ఆమెకి  స్ట్రీట్.
+Speaker 4: అవును సార్.
+Speaker 2: ఇప్పుడు మనకి రిక్వెస్ట్.
+Speaker 4: ఆహా, రిక్వైర్మెంట్ ఏందంటే సార్, ఇప్పుడు మాది ఆ వచ్చేసి జనరేటివ్ మోడల్ లో ఉంది. లీడ్స్ పియర్ గాని, సోషల్ పియర్ గాని, యాడ్స్ పియర్ గాని.
+Speaker 2: ఓకే.
+Speaker 4: అండ్ మెనీ జనరల్ రీసెర్చ్ చేసి, ఇప్పుడు అజెంటిక్ మోడల్ కి టర్న్ అయిపోయినాయి అన్ని. ఓకే.
+Speaker 2: ఓకే. స
+Speaker 4: సో అజెంటిక్ మోడల్ కి టర్న్ అయిపోయింది. టర్న్ కావడానికి ఇప్పుడు ఏమున్నాయి? ఏమేమి పేర్స్ ఉన్నాయి? ఏం మోడలింగ్స్ ఉన్నాయి? ఏ పేర్స్ ఏమున్నాయో కనుక్కోమన్నాను ఆమెని. సపోజ్ ఆమెకు అది అర్థం అవ్వట్లేదు.
+Speaker 4: అవును సార్.
+Speaker 2: ఇది చెప్పాను అంటే తెలుగు చెప్పాను. ఇప్పుడు సోషల్ పియర్ ఉందనుకో. వచ్చేసి ఇప్పుడు ఇప్పుడు మనం పోస్టింగ్ షెడ్యూలింగ్ వచ్చేసి జనరేటివ్ మోడల్ లో చేశాం. ఓకే.
+Speaker 2: ఇప్పుడు అజెంటిక్ మోడల్ లో షెడ్యూలింగ్ విత్ పోస్టింగ్ కంబైన్డ్ చేస్తుంది. సో దాని మీద రీసెర్చ్ చేయమని చెప్పాను ఆమెకి. మెయిల్స్ పియర్ లో ప్రెడిక్టివ్ గా ఉంది. ఏజెంటిక్ మనము ఇంకా అప్లై చేయలేదు. సో అజెంటిక్ మీద జనరల్ రీసెర్చ్ చేయమని చెప్పాను. కాకపోతే మనకు అర్థం అవ్వట్లేదు.
+Speaker 4: అవును సార్, అర్థమైంది.
+Speaker 2: మీకు అర్థమైంది.
+Speaker 4: నాకు అర్థమైంది సార్. బేసిక్ గా మీరు ఏమంటున్నారు అంటే ఇప్పుడు సింపుల్ వర్క్ ఫ్లో లాగా ఉంది.
+Speaker 4: ఏ మోడల్ ఎట్లా పని చేస్తే కూడా తెలియట్లేదు అంటున్నా.
+Speaker 2: ఓకే.
+Speaker 4: అంటే జనరల్ బేసిక్స్. ఇప్పుడు మోడల్ ఎట్లా పని చేస్తే తెలుస్తున్నాయి కదా ఆమెకి.
+Speaker 2: అవును సార్.
+Speaker 4: ఇది ఇట్లా దీని ఫంక్షనాలిటీ కూడా ఉంటదని తెలిసేది.
+Speaker 2: అవును సార్.
+Speaker 4: ఆ ఏ మోడల్స్ ఇది ఏ ఫోర్ మోడల్స్ ఉంటాయి అని చెప్తే ఆమెకు అర్థం అవ్వట్లేదు.
+Speaker 2: ఓకే.
+Speaker 4: ఒక్కసారి చెప్పవచ్చు ఆమెకి.
+Speaker 2: ఓకే.
+Speaker 4: నేను డీటెయిల్ గా చెప్పినా కాకపోతే ఆమెకు అర్థమైతది ఆయన. బ్రిటిష్ ఇప్పుడు కథలకి ఏం కావాలో నీకు అర్థమైంది.
+Speaker 2: నాకు అర్థమైంది సార్.
+Speaker 4: నేను రీఫ్రెష్.
+Speaker 2: ఎస్ సార్. సర్ ఏమంటున్నాడు అంటే ఏమంటున్నారు అంటే బేసిక్ గా ఇప్పుడు మనకి ఉన్న అప్లికేషన్ సింగల్ వే సార్. బేసిక్ గా మనం ఏదైనా వర్క్ ఫ్లో లాగా ఉంటది అన్నమాట. ఇన్పుట్ తీసుకొని దాని ప్రకారం మనం ఇచ్చిన వర్క్ చేసి అవుట్ పుట్ ఇస్తది. సర్ ఏమంటున్నాడు అంటే ఏజెంట్ పెట్టాలి. ఏజెంట్ షుడ్ అండర్స్టాండ్ ఎప్పుడు ఏం పెట్టాలి అని. ఇప్పుడు యాడ్ ఇప్పుడు పోస్టింగ్ ఉంది సార్. పోస్ట్ పెట్టినప్పుడు మెయిల్ పెట్టడం గాని అలాంటివి మొత్తం ప్లాన్ చేయాలి. ఆటోమేటిక్ గా ఏజెంట్ హ్యాండిల్ చేయాలి. మనం చెప్పాల్సిన అవసరం లేదు.
+Speaker 4: ఏజెంట్ హ్యాండిల్ చేయాలి. ఏజెంట్ ఇంప్లిమెంటేషన్ ఇయ్యాలి మనకు అంతే.
+Speaker 2: ఆ.
+Speaker 4: అది మనమే చేసుకోవాలి.
+Speaker 2: అవును సార్. అంటే ఏజెంట్ బేసిక్ గా స్టార్టింగ్ లో ఇయ్యాలి. ఆ అ
+Speaker 4: ఆ అదే.
+Speaker 2: ఆ వర్క్ ఫ్లో. ఆ వర్క్ ఫ్లో మిస్ అవుతుంది దాంట్లో. అప్లికేషన్ లో.
+Speaker 4: ఉమ్.
+Speaker 2: ఆమె ఏమంటుంది? డీటెయిల్ గా ఎక్స్ప్లెయిన్ చేశాను కాకపోతే అర్థం కాదు ఆమె కోసం.
+Speaker 4: ఓకే.
+Speaker 4: శ్రీనిష, ఆమె నీ కాల్ లోకి తీసుకొని మాట్లాడతావా?
+Speaker 2: ఆ ఇప్పుడు టి హెచ్ సి మాట్లాడుతున్నాను సార్. తర్వాత ఒక్కసారి మాట్లాడతా.
+Speaker 4: అంటే ఇక్కడ ప్రాబ్లం ఏం వచ్చింది అంటే నాన్న, నువ్వు ఇప్పుడు నువ్వు చెప్పిన కమల్ చెప్పిన ఆమె నాకు ఒక క్లియర్ గా చెప్తలేదు అన్నట్టు మాట్లాడిస్తున్నాను.
+Speaker 2: ఓకే.
+Speaker 4: నీకు మెయిల్ పెట్టగలుగుతావా? ఇదే పాయింట్ ని.
+Speaker 2: అవును సార్.
+Speaker 4: ఆ.
+Speaker 2: పెడుతున్నాను సార్.
+Speaker 4: మెయిల్ కమల్ ని కూడా పెట్టి పెట్టు. ఏం వర్క్ చేయాలని. తర్వాత ఆమె ఏం వస్తదో అప్పుడు చూద్దాం. ఇది అవుతుంది అంటే ఇప్పుడు నీ ఫోన్ మీటింగ్ లోకి వెళ్ళిపోతా.
+Speaker 2: అవును సార్.
+Speaker 4: మరి లాస్ట్ వీక్ కమల్ ని ఇంకో చెప్పినప్పుడు ఇంకోటి చెప్పారు అని.
+Speaker 2: అవును సార్.
+Speaker 4: సో దేర్ ఇస్ ఏ కన్ఫ్యూషన్. సో వి షుడ్ బి ఇన్ ఏ అఫీషియల్ వే. ఓకే. సో ఇది అయిపోయాక మీటింగ్ ఏంటంటే ఈమెయిల్ పెట్టినాను వాట్ యాక్చువల్లీ వి ఆర్ ఎక్స్పెక్టింగ్.
+Speaker 2: ఓకే.
+Speaker 4: కమల్ ఆ మెయిల్ లో నీకు ఏమన్నా ఆ కామెంట్ తీసి ఉంటే నువ్వు మళ్ళీ నువ్వు రెస్పాండ్.
+Speaker 2: ఓకే. ఓ
+Speaker 4: ఓకేనా? అవు
+Speaker 2: ఓకే.
+Speaker 4: సరే.
+Speaker 2: సరే.
+Speaker 4: అవును సార్.
+Speaker 2: హలో.
+Speaker 1: ఎస్.
+Speaker 2: ఎస్. సో బి 05 ఇస్ ఫ్రమ్ ప్రాంప్ట్ ఇట్ సెల్ఫ్.
+Speaker 1: ఎస్.
+Speaker 2: ఓకే. చెక్ అవైలబిలిటీ. ఎస్. దిస్ వన్.
+Speaker 2: లెట్ మీ ఓపెన్ దిస్.
+Speaker 2: ఇన్ మై ట్రాన్స్క్రిప్ట్ ఐ థింక్.
+Speaker 2: లెట్ ఇస్ ఫ్రమ్.
+Speaker 2: నిషిత ఐ గెస్.
+Speaker 2: ఓకే. బోత్ రికార్డ్ ఫీల్డ్స్ ఆర్ ఎంప్టీ. డాక్టర్ ఐడి హెల్త్ నేమ్.
+Speaker 2: ద ఏజెంట్ హాడ్ పిక్ అప్ ది టూల్ రన్ ది సెర్చ్ ఎనీవే అండ్ రిటర్న్ ఫాక్ట్.
+Speaker 1: దిస్ వన్ యాక్చువల్లీ ఇది కాంటాక్ట్లీ కెప్టెడ్ లైక్ ద యూసర్ విల్ కం ఇన్ ద స్టార్టింగ్ అండ్ హి విల్ ఆస్క్ ఫర్ ఏ డాక్టర్.
+Speaker 1: దెన్ ఇఫ్ వి ఆస్క్ డేట్ అండ్ బ్రాంచ్ దిస్ టెస్టింగ్ టీమ్ హాస్ రిజెక్టెడ్ ఇట్ లైక్ దే ఆర్ టెల్లింగ్ దట్ ఇఫ్ దే టోల్డ్ ద డాక్టర్ ద బ్రాంచ్ యు హావ్ టు ఓన్లీ సే అండ్ ద డేట్ ఆల్సో ఇన్ ద నెక్స్ట్ టర్న్ యు హావ్ టు ఆస్క్ ద డేట్ ఇన్స్టెడ్ ఆఫ్ ఆస్కింగ్ బిఫోర్. సో వి హావ్ కెప్ట్ ఇట్ లైక్ దట్.
+Speaker 1: వి ఆర్ యాక్సెప్టింగ్ ఎంప్టీ స్ట్రింగ్స్.
+Speaker 2: ఓకే. ఫస్ట్ లెట్ మీ ఫైండ్ ది ట్రాన్స్క్రిప్ట్. ఐ యామ్ నాట్ షూర్ హూ గేవ్ దిస్.
+Speaker 2: ఆ.
+Speaker 2: వన్ టూ త్రీ ఫోర్.
+Speaker 2: ఓకే. దిస్ ఇస్ ఫిక్స్డ్. ఓకే.
+Speaker 2: సో ఆల్ ఆఫ్టర్ దిస్.
+Speaker 2: రికార్డింగ్ ఇస్ స్టిల్ నాట్ ఫిట్టింగ్ ఇట్.
+Speaker 2: ఓకే. హియర్ ఇస్ మెన్షన్.
+Speaker 2: ఓకే. హూస్ ఫంక్షన్ ఇస్ కలెక్టెడ్ అవర్స్ ఆర్ ఎడ్సీస్.
+Speaker 1: ఇట్స్ ఎడ్సీ.
+Speaker 2: ఎడ్సీస్ ఆ.
+Speaker 1: ఎస్.
+Speaker 2: ఓకే.
+Speaker 2: ఓకే. ఫ్రమ్ ది అవుట్పుట్ యు కెన్ రిమూవ్ డాక్టర్ ఐడి యాక్చువల్లీ.
+Speaker 2: అండ్ ఇఫ్ యు రిమెంబర్ బిఫోర్ ఆల్సో ఐ సెడ్ దిస్ ట్రై టు వాట్ యు కాల్డ్ షార్టెన్ ఇట్ ఇన్స్టెడ్ ఆఫ్ ఫీడింగ్ ఎవ్రీథింగ్.
+Speaker 2: ఆల్ ది టైమ్స్.
+Speaker 1: యా అవైలబిలిటీస్.
+Speaker 2: అండ్ హియర్ గివింగ్ అవైలబుల్ స్లాట్స్ అండ్ ఈవెన్ మెసేజ్ ఐదర్ గివ్ మెసేజ్ దట్ వుడ్ బి బెటర్ దెన్ అవైలబుల్ స్లాట్స్.
+Speaker 1: ఓకే.
+Speaker 2: అండ్ వాట్ ఇస్ దిస్ ఇష్యూ అప్ టు ఫైవ్ క్వశ్చన్స్ ఇన్ ఏ సింగల్ టర్న్.
+Speaker 2: వన్ ఐ థింక్ ఇట్ షుడ్ బి.
+Speaker 2: ఒక క్షణం.
+Speaker 2: డాక్టర్ లవ్ వివరాలు చూస్తున్నాను.
+Speaker 2: వైడ్ వెయిట్.
+Speaker 2: డాక్టర్ మనోజ్ గారు.
+Speaker 2: డాక్టర్ ఓకే.
+Speaker 2: మా దగ్గర లేదు.
+Speaker 2: మీరు కావాలంటే నేను వేరే డాక్టర్. దిస్ ఇస్ కరెక్ట్ ఓన్లీ.
+Speaker 1: ఎస్.
+Speaker 2: ఓకే. ఇట్ ఇనిషియేటెడ్ ట్రాన్స్ఫర్ కాల్ విచ్ ఇస్ గుడ్.
+Speaker 2: విత్ ఏజెంట్ ఇస్ దిస్ అచ్చా.
+Speaker 2: దిస్ ఇస్ నాట్ అవర్స్ నో లైక్ దిస్ ఇస్ బుకింగ్ టెస్ట్ ఐ డోంట్ నో వై దే మెన్షన్ ఇట్.
+Speaker 2: దట్ ఇస్ వాట్ ఐ వాస్ థింకింగ్ ఫర్ మీ ఇట్ వాస్ నెవర్ సీన్ బుకింగ్ టెస్ట్.
+Speaker 2: లెట్స్ సి హూ గేవ్ దిస్.
+Speaker 2: ఐ థింక్ ఇట్ ఫ్రమ్ సుధీర్.
+Speaker 2: నిషితాస్ అడ్జెక్టెడ్ మాన్యువల్లీ.
+Speaker 2: వేర్ ఇస్ సచిన్.
+Speaker 2: షుడ్ బి సంథింగ్.
+Speaker 2: అజయ్ యు నో.
+Speaker 2: హలో బ్రో బ్రో ఇది మిక్స్.
+Speaker 2: అండ్ మ్యాచ్ అయింది.
+Speaker 2: నిన్న చెక్ చేయలేదు బ్రో అనవసరంగా ప్రాంప్ట్ కి ఇచ్చిన.
+Speaker 2: రైట్.
+Speaker 2: ఇది ఇది బ్రో.
+Speaker 2: దీంట్లో చూడండి.
+Speaker 2: ఇది రెండు దీంట్లో.
+Speaker 2: నేను అనవసరంగా దానికి ఇచ్చాను బ్రో.
+Speaker 2: ఓకే.
+Speaker 2: ఏంటది బి.
+Speaker 2: 16.
+Speaker 2: ఓకే.
+Speaker 2: నేమ్ కన్ఫర్మ్డ్ అండ్ నెక్స్ట్ క్వశ్చన్ ఆస్క్డ్ ఇన్ ద సేమ్ రిప్లై. ఐ థింక్ ఎస్.
+Speaker 2: దిస్ వాస్ బై నిషిత.
+Speaker 2: ఈవెన్ దిస్ ఇస్ దిస్.
+Speaker 2: ఓకే లెట్ మీ చెక్ ఆర్ అదర్ ఏజెంట్ ఇస్ యూస్డ్.
+Speaker 2: ఓకే వాట్ వాస్ దిస్ నేమ్ కన్ఫర్మ్డ్ అండ్ ద నెక్స్ట్ క్వశ్చన్ ఆస్క్డ్ ఇన్ ద సేమ్ రిప్లై.
+Speaker 2: బ్రో మీరు ఏం?
+Speaker 2: యా ఎంచుకున్న బ్రాంచ్ ఈ.
+Speaker 2: సమస్యకు డాక్టర్ అందుబాటులో లేరు.
+Speaker 2: ఓకే ఐ థింక్ ఇట్ హల్యూసినేట్.
+Speaker 2: ఓకే.
+Speaker 2: ఐ థింక్ ఇట్ వాస్.
+Speaker 2: ఆఫ్టర్ ద యూసర్ ప్రొవైడ్ ద నేమ్ ద ఏజెంట్ కన్ఫర్మ్.
+Speaker 2: విచ్ ఇస్ దిస్ డే 11/9. ఓకే 11/9 ఏ.
+Speaker 2: ఇదేంటి బ్రో నిన్ననో మొన్ననో.
+Speaker 2: ఆ రోజే మనకి.
+Speaker 2: అదే. సాటర్డే.
+Speaker 2: ఎస్టర్డే సండే. సండే కాదు ఎస్టర్డే మండే.
+Speaker 2: సండే.
+Speaker 2: సండే.
+Speaker 2: రైట్ ఆ సారీ సారీ.
+Speaker 2: ఓకే దీంట్లో అన్ని టికెట్స్ ఓకే.
+Speaker 2: ఇందులో ఏజెంట్ ఓకే ఓకే.
+Speaker 2: ఐ విల్ టెక్ ది ఐడి కెన్ యు ప్లీజ్ క్యాన్సల్ ద అపాయింట్మెంట్.
+Speaker 2: ఓకే 90 క్యాన్సల్ ప్లీజ్.
+Speaker 2: ఓకే దిస్ ఇస్ బుకింగ్.
+Speaker 2: బ్రో ఇది రికార్డింగ్ అడుగు కదా వాడిని.
+Speaker 2: ట్రాన్స్క్రిప్ట్  అలాగే హి ఆస్క్డ్ ఇట్ ఫినిష్ ద రికార్డింగ్.
+Speaker 2: ఓకే వాట్ ఇస్ హి డిడ్ నాట్ ఆఫ్టర్ దిస్.
+Speaker 2: వి షుడ్ ఫాలో.
+Speaker 2: ఓకే ఎవ్రీ టైం బుకింగ్ ఐడి విల్ బి ఫైవ్ డిజిట్ రైట్.
+Speaker 2: ఎస్ ఓకే ఐ విల్ డు ఫర్ షూర్ రైట్.
+Speaker 2: ఎస్ ఎస్ ఇట్ ఇస్ ఫైవ్ డిజిట్. ఓకే ఐ విల్ ట్రై టు స్కిప్ ఇట్ ఫ్రమ్ ప్రాంప్ట్ లెవెల్ ఇట్ సెల్ఫ్ ఇఫ్ ఇట్ ఇస్ నాట్ ఫైవ్ డిజిట్.
+Speaker 2: ఓకే ఇఫ్ దేర్ ఇస్ సంథింగ్ లైక్ బుకింగ్ ఐడి 01234 ఓకే ఆ.
+Speaker 2: ఫర్ మెసేజెస్ అండ్ ఆల్ ఇట్ విల్ ఈవెన్ షో జీరో ఆల్సో రైట్.
+Speaker 2: డు వన్ థింగ్ డు వన్ థింగ్ జస్ట్ మెన్షన్ ఇన్ ది ఫంక్షన్ నెవర్ స్టార్ట్ బుకింగ్స్ విత్ జీరో.
+Speaker 2: ఆర్ ఎల్స్ డోంట్ ఎవర్ ఇంక్లూడ్ జీరో ఇన్ ది బుకింగ్.
+Speaker 2: ఐడిస్ ఓకే.
+Speaker 2: టెల్ యు వాట్ హాపెన్స్ ఇస్ బికాజ్ లైక్ లెట్స్ సే వి హావ్ ఫోర్ జీరోస్ అండ్ వన్ బుకింగ్ ఐడి ఇస్ వన్ దే విల్ థింక్.
+Speaker 2: ఓకే అగైన్ ఇట్ విల్ బి ఏ ప్రాబ్లం.
+Speaker 2: ఓకే.
+Speaker 2: మెయిన్ బ్రాంచ్ ఇస్ బంజారా హిల్స్.
+Speaker 2: యా.
+Speaker 2: దేర్ ఇస్ నో డాక్టర్. ఎస్ దిస్ ఇస్ వాట్ ఐ వాస్ సేయింగ్.
+Speaker 2: సీరియస్ యా మెసేజ్ దిస్ షుడ్ నాట్ బి దిస్ బిగ్ హర్షిత్.
+Speaker 2: ఓకే.
+Speaker 2: ఐ విండర్ వాట్ ఓకే.
+Speaker 2: మీరు చెక్ కళ్ళు.
+Speaker 2: ఓకే వాట్ షుడ్ ఓకే దెన్ వాట్ షుడ్ వి డు ఇఫ్ దే ఆస్క్ ఫర్ ఆప్టర్ వన్ ఇఫ్ వి డోంట్ హావ్ ఆప్టర్ వన్ వాట్ షుడ్ వి డు  వి షుడ్ చెక్ ఫర్ అనదర్ డిపార్ట్మెంట్ హూ విల్ ట్రీట్ ఫర్ దట్ ఆర్ ఎల్స్ జనరల్ మెడిసిన్.
+Speaker 2: షూరా యా ఓకే సో.
+Speaker 2: ఓకే దెన్ సో వాట్ యు ఆర్ సేయింగ్ ఇస్.
+Speaker 2: ఓకే.
+Speaker 2: సో యు కెన్ డు ఇట్ ఫ్రమ్ బ్యాక్ ఎండ్ ఇట్ సెల్ఫ్ రైట్ వెన్ దే ఆస్క్ ఫర్ ఆప్టర్ వన్ వే సచ్ ఇస్ డాక్టర్ జస్ట్ సే దేర్ ఆర్ నో ఆప్టమాలజిస్ట్ హియర్ అండ్ హి సజెస్ట్ యు ఓకే ఐ థింక్ నో నో నో నో ఐ విల్ నో నో ఇట్ షుడ్ నాట్ బి ఫ్రమ్ బ్యాక్ ఎండ్ ఇట్ షుడ్ బి ఫ్రమ్ ప్రాంప్ట్ ఇట్ సెల్ఫ్ వి హావ్ టు సే ఇఫ్ దేర్ ఇస్ నో ఆప్టమాలజిస్ట్ ఆర్ ఎనీ అదర్ వి హావ్ టు వాట్ యు కాల్ సజెస్ట్ జనరల్ మెడిసిన్ వాట్ ఇస్ దట్ యా జనరల్ మెడిసిన్ షూరా ఆ.
+Speaker 2: ఆర్ ఎల్స్ వి హావ్ టు చెక్ హూ విల్ సీ దిస్ హూ విల్ లైక్ ద ఆల్టర్నేటివ్ ఫర్ ఆప్టమాలజీస్ యు హావ్ టు చెక్ ఇట్ విచ్ డిపార్ట్మెంట్ విల్ గో త్రూ దిస్.
+Speaker 2: ఆర్ రిసెప్షనిస్ట్ ట్రాన్స్ఫర్ కెన్ బి డన్ నో డిడ్ హి ఆస్క్ దిస్ క్వశ్చన్ టు వెయిన్ ఆర్ సం వన్ బిఫోర్ నో నో వి డిడ్ నాట్ ఆస్క్ దిస్.
+Speaker 2: ఐ డోంట్ థింక్ ఆస్కింగ్ నౌ విల్ బి కరెక్ట్ సొల్యూషన్.
+Speaker 2: వాట్ డు యు సే ట్రాన్స్ఫర్.
+Speaker 2: ఇట్ టు ట్రాన్స్ఫర్ యా రిసెప్షనిస్ట్.
+Speaker 2: విల్ సీ ఫస్ట్ లైక్ దేర్ ఇస్ ఎనీ డిపార్ట్మెంట్ విచ్ ఇస్ విచ్ వర్క్స్ ఫర్ అస్ ఆన్ ఆల్టర్నేటివ్ ఫర్ దిస్ ఐ హావ్ ఏ లిస్ట్ ఐ విల్ టెల్ యు వాట్ ఆల్ వి హావ్ లైక్ యాడెడ్ దిస్ ఓకే డిఫరెంట్ యాడెడ్ హియర్.
+Speaker 2: షో యు హియర్.
+Speaker 2: ఎస్ ఓకే ఐ డోంట్ నో వై ఇట్ డిడ్ నాట్ యాడ్ బట్ ఎస్ కార్డియాక్ సైన్సెస్ కార్డియో థెరపిక్ వాస్కులర్ సర్జరీ క్రిటికల్ కేర్ మెడిసిన్ డెంటల్ డర్మటాలజిస్ట్ ఎండోక్రైనాలజీ ఎన్టి జనరల్ అండ్ లాబ్స్కోపిక్ సర్జ్ ఇంటర్నల్ మెడిసిన్ లివర్ ట్రాన్స్ప్లాంటేషన్ సర్జరీస్ ఆర్.
+Speaker 2: ఫిజియోథెరపీ సైకియాట్రిక్స్.
+Speaker 2: ఓకే దేర్ ఇస్ నో జనరల్ మెడిసిన్ ఆర్ జనరల్ సైన్స్ ఆల్సో నో ఇంటర్నల్ మెడిసిన్ ఆర్ జనరల్ మెడిసిన్ విల్ బి దేర్ బట్ హియర్ ఇట్స్ నాట్ దేర్ ఇట్ కేమ్ ఫ్రమ్ ది బ్యాక్ ఎండ్ ఇట్ సెల్ఫ్.
+Speaker 2: ఇట్స్ దేర్ ఐ హావ్ సీన్ షూరా టెల్ మీ ద నేమ్ యా యా జస్ట్ ఐ విల్ టెల్ యు ఓకే.
+Speaker 2: ఇట్స్ రాజేష్ ఉక్కల.
+Speaker 2: రాజేష్ ముక్కల వాట్ ఇస్ ఏ డాక్టర్ ఐ మీన్ స్పెషలైజేషన్ హి ఇస్ డిపార్ట్మెంట్ ఇస్ ఇంటర్నల్ మెడిసిన్ బట్ హి స్పెషలైజేషన్ ఇస్ జనరల్ ఫిజిషియన్ లైక్ జనరల్ మెడిసిన్ ఓకే లెట్ మీ ఆస్క్ యు సంథింగ్ లైక్ దిస్ ఆ డు యు హావ్ డెంటల్ అండ్ వాట్ యు కాల్ మాక్సిలఫికల్ కేర్ ఆర్ క్రిటికల్ కేర్ మెడిసిన్ యా యా వి హావ్ వాట్ ఇస్ దట్ స్పెషలైజేషన్ ఆర్ ది డిపార్ట్మెంట్.
+Speaker 2: ఆర్ ఎల్స్ ఐ లెట్ మీ సీ.
+Speaker 2: ఎక్స్.
+Speaker 2: ఓకే ఐ కాంట్ ఫిల్టర్ ఆన్.
+Speaker 2: ఓకే ఈవెన్ ఇన్ నియర్లెస్ట్ దేర్ ఇస్ నో డిపార్ట్మెంట్ జనరల్ థింగ్ నో అచ్చా ఓకే ఓకే ఐ థింక్ వి హావ్ టు టేక్ దిస్ ఎస్ ఓకే ఎస్ అండ్ అదర్ డాక్టర్స్ వన్ ద స్పెషలైజేషన్ వన్స్ హలో.
+Speaker 2: పాస్పోర్ట్ ఆధార్ కార్డు అన్ని వాట్సాప్ లో ఉంటాయి చూడరా ఆ ఏదైనా ఉందా అదే ఉంది ఉంది ఒకసారి చిరంజీవి వాట్సాప్ పెట్టా వాట్సాప్ ఆ పంపుతాను అదే ఓటర్ ఐడి కోసం అంట చిరంజీవి పెట్టు చిరంజీవి పెట్టు ఆ.
+Speaker 2: మీరు కాల్ చేస్తున్న వ్యక్తి వేరే.
+Speaker 2: ఎస్ సో.
+Speaker 2: జనరల్ ఫిజిషియన్ ఓకే ఇన్ దిస్.
+Speaker 2: ఓకే ఫ్రమ్ యువర్ టూల్ యు ఆర్ గెట్టింగ్ డిపార్ట్మెంట్ ఆర్ దిస్ వన్ వాట్ విల్ యు గెట్ విల్ గెట్ బోత్ డిపార్ట్మెంట్ అండ్ స్పెషలైజేషన్ అచ్చా దిస్ ఇస్ స్పెషలైజేషన్ ఓకే సో ఆప్టమాలజీ ఇస్ ఏ డిపార్ట్మెంట్ నాట్ స్పెషలైజేషన్ ఎస్.
+Speaker 2: హలో దాని నుంచి.
+Speaker 2: శ్రీ శ్రీ నారాయణ నారాయణ హలో ధనంజీ అడిగిన అంటగా అన్ని డాక్యుమెంట్స్ పర్ఫెక్ట్ అది.
+Speaker 2: పాస్పోర్ట్ ఆధార్ కార్డు వాట్.
+Speaker 2: పర్ఫెక్ట్ అదే చెప్తున్నాను పెట్టిన నీకు ఓకే.
+Speaker 2: సారీ ఆ ఎస్ సో వాట్ ఐ యామ్ సేయింగ్ ఇస్ ఓకే ఆప్తమాలజీ ఇస్ దిస్ ఓకే డిపార్ట్మెంట్ ఇస్ దిస్.
+Speaker 2: ఓకే.
+Speaker 2: వెన్ వి డు సజెస్ట్ దట్.
+Speaker 2: ఓకే.
+Speaker 2: సో.
+Speaker 2: వాట్ యు ఆర్ సేయింగ్ ఇస్.
+Speaker 2: జనరల్ వేర్ ఇస్ దిస్ గై.
+Speaker 2: యు హావ్ జనరల్ ఫిజిషియన్ ఉమ్ రైట్ ఎస్ సో డిపార్ట్మెంట్ షుడ్ బి ఇంటర్నల్ మెడిసిన్ అండ్ జనరల్ ఫిజిషియన్ జనరల్ ఫిజిషియన్ ఎస్ షూరా ఎస్ శ్రీ ఆర్ షుడ్ వి ఆస్క్ నో.
+Speaker 2: దే హావ్ గివెన్ ఇన్ ద ఎక్సెల్ షీట్ ఇట్ ఇస్ లైక్ దట్ ఓన్లీ ఓకే నో నో వాట్ ఐ యామ్ ఆస్కింగ్ ఇస్ ది ఆప్టమాలజీ థింగ్ ఐ యామ్ సేయింగ్ ఇఫ్ దేర్ ఇస్ ఆన్ వాట్ యు కాల్ నో బ్రాంచ్ ఆర్ నో థింగ్ మెన్షన్ ఫ్రమ్ అవర్ బ్యాక్ ఎండ్ సేయింగ్ దట్ దిస్ గై ఇస్ నాట్ దేర్ అండ్ ఆల్ ఓకే దెన్ షుడ్ వి ఆ.
+Speaker 2: వాట్ యు కాల్డ్ షుడ్ వి సజెస్ట్ దెమ్ టు గో టు జనరల్ ఫిజిషియన్ రైట్ అండ్ జనరల్ ఫిజిషియన్స్ ఆర్ ఓన్లీ అవైలబుల్ ఇన్ కాచిగూడా ఐ థింక్ సం వన్ ఇన్సిడెంట్ బంజారా హిల్స్ బట్ ఐ కాంట్ సీ ది నేమ్ ఈ 30 రోజులు అరవింద్ రెడ్డి మియాపూర్ ఇస్ ఓకే దేర్ ఇస్ వన్ గై కాచిగూడా దేర్ ఇస్ వన్ గై అచ్చా ఇంటర్నల్ మెడిసిన్ అండ్ జనరల్ ఫిజిషియన్ బోత్ ఆర్ సేమ్ ఓకే ఓకే ఉప్పల్ ఓకే వాట్ అబౌట్ బంజారా హిల్స్ దిస్ గై నో.
+Speaker 2: ఐ థింక్ ఎస్ దిస్ గై ఇస్ జనరల్ పర్ఫెక్ట్ సో ఎస్ వి గాట్ ది అవుట్పుట్ అండ్ వి హావ్ టు జస్ట్ సే దిస్ గై ఇస్ జనరల్ ఫిజిషియన్ ఐ మీన్ ఐ మీన్ జనరల్ మెడిసిన్ అండ్ జనరల్ ఫిజిషియన్ ఆర్ డిఫరెంట్.
+Speaker 2: సీ మై హిస్టరీస్ ఉమ్.
+Speaker 2: ఓకే ఫైన్ ఐ విల్ గివ్ ద ట్రాన్స్క్రిప్ట్స్ టు ఏఐ అండ్ విల్ టెల్ యు ఓకే సో వి హావ్ ఓకే వన్ ఇన్ ఎవ్రీథింగ్ ఫైన్ సో వేర్ ఇస్ దిస్ ఆర్టిఫాక్ట్.
+Speaker 2: వాట్ ఇస్ దిస్.
+Speaker 2: ఓకే ఐ యామ్ అనబుల్ టు చెక్ ఉప్పల్ బ్రాంచ్ వై వాట్ హాపెన్డ్.
+Speaker 2: డాక్టర్ అపాయింట్మెంట్ కావాలి ఓకే గణేష్.
+Speaker 2: కి సారాయి ఉన్నదేమో ఓకే లేడీ.
+Speaker 2: సరే మీరు ఏ బ్రాంచ్.
+Speaker 2: ఏ బ్రాంచ్ గురించి నేను వాట్.
+Speaker 2: ఇస్ దిస్.
+Speaker 2: క్షమించండి ఉప్పల్ బ్రాంచ్ గురించి నేను ఆ.
+Speaker 2: తనకి చేయలేకపోతున్నాను దయచేసి మా.
+Speaker 2: సో ఇవాళ కాలేజీ కాబట్టి అనుకుంటున్నాను అదే టూల్ కాల్ కాలేదు బట్ ఎందుకు.
+Speaker 2: అని చెప్పి చూస్తున్నా యాక్చువల్లీ ఇది ఉప్పల్ అని అర్థం చేసుకోండి విచ్ ఇస్ కరెక్ట్ టూల్ కాల్ చేయాలి కదా ఇది ఎప్పుడు అయ్యింది ఒక టూల్ కాల్ కూడా చేయాలి యాక్చువల్లీ 125 డే 31 నిన్న.
+Speaker 2: టూల్ కాల్ ఎందుకు చేయలేదు 125 కి ఓకే వేరే వాటికి వేసిందా లేడీ.
+Speaker 2: 125 కదా.
+Speaker 2: ఏజెంట్ టి ఎక్స్ నాట్.
+Speaker 2: 125 ఇదేనా.
+Speaker 2: గణేష్ ది రైట్ ఇదే సో 11:48 కి వేసిందా చేసింది ఓకే డాక్టర్ అపాయింట్మెంట్ గణేష్.
+Speaker 2: ఓకే అలాగే మీరు ఏ బ్రాంచ్ రావాలనుకుంటున్నారు మీ బ్రాంచ్.
+Speaker 2: భూపాల్ బ్రాంచ్ క్షమించండి ఉప్పల్ బ్రాంచ్ లో ప్రస్తుతం డాక్టర్ అందుబాటులో లేరు ఆ అదేంటి.
+Speaker 2: ఏది శ్రీ ఇది భూపాల్.
+Speaker 2: మైట్ బి ఉప్పల్ భూపాల్ లాగా వచ్చింది బట్ ఫైన్ ఉప్పల్ బ్రాంచ్ లో ప్రస్తుతం డాక్టర్ అందుబాటులో లేరు అలా చెప్పేసింది ఏంటిది కాలేజీ చేయలేదు అసలు ఏ డాక్టర్ లేదు ఏం లేదు ఇది.
+Speaker 2: అదేనా శ్రీ నాకు ఉప్పల్లేనా ఉప్పల్లే ఇంకోటి దాని ముందు కాల్ మళ్ళీ నో డాక్టర్.
+Speaker 2: అవైలబుల్ అట్ దిస్ బ్రాంచ్ విల్ చెక్ అదర్ బ్రాంచ్ క్షమించండి ఉప్పల్ ఆ రైట్ ఇది వర్కింగ్ అస్ డెసిగ్నేటెడ్ వీడు పొందా ఒక్క నిమిషం క్షమించండి ఉప్పల్ బ్రాంచ్ లో ప్రస్తుతం.
+Speaker 2: ఓకే ఈ ఐడి వేరే యాక్చువల్లీ తప్పు ఇది బట్ ఫైన్ ద రియల్.
+Speaker 2: ఇష్యూ ఇన్ ద డేటా బిహైండ్ ఇఫ్ ఉప్పల్ జెన్యూస్ నో డాక్టర్ ఫర్ ఏ కామన్ కన్సర్న్ లైక్ ఫీవర్ అసలుకి ఇది తీసుకోలేవాడు తీసుకోలేదు కదా ఫీవర్ ఓకే చూడండి వేరే బ్రాంచ్ చెక్ అదర్ బ్రాంచెస్ జనరల్ మెడిసిన్ హెల్త్ కన్సర్న్ ఇక్కడ ఏమైనా చెప్పిరా వీళ్ళు బాగా రికార్డింగ్ ఉంటే బాగుంటుంది అది తప్పు శ్రీ అట్లా తీసుకోవద్దు జనరల్ మెడిసిన్ అనేది ఇచ్చేసింది.
+Speaker 2: అదే తీసుకోండి ఇది.
+Speaker 2: చానా ఘోరంగా ఉంది యాక్చువల్లీ.
+Speaker 2: రాంగ్ డాక్టర్ నేమ్ కన్ఫర్మేషన్.
+Speaker 2: ఓకే అలాగే ఆ.
+Speaker 2: ఆస్క్ మీ టు స్పీక్ ఇన్ తెలుగు క్షమించండి నేను తెలుగులోనే మాట్లాడుతున్నాను ఆ.
+Speaker 2: డాక్టర్ రోజుతో.
+Speaker 2: డాక్టర్ ఓకే రాజు ఓకే రాజుతో అపాయింట్మెంట్ కావాలి ఆ.
+Speaker 2: మీరు డాక్టర్ శివ.
+Speaker 2: ఓకే రోజా ఇది.
+Speaker 2: వారి గురించి అడుగుతున్నారా అవును అంటే దయచేసి అవును అని చెప్పండి లేదంటే మీరు అనుకుంటున్న డాక్టర్ పేరు మళ్ళీ చెప్పండి లేదు డాక్టర్ రాజు.
+Speaker 2: తో అపాయింట్మెంట్ కావాలి ఆ.
+Speaker 2: ఫస్ట్ ఏమని తీసుకుంది ఆ.
+Speaker 2: రాజు మళ్ళీ.
+Speaker 2: రాజు తీసుకుంది ఓకే.
+Speaker 2: క్షమించండి నేను డాక్టర్ రాజు గారి గారి.
+Speaker 2: ని కనుక్కోలేకపోతున్నాను మీరు డాక్టర్ శివ గారి గురించి అడుగుతున్నారా లేక మీ ఆరోగ్యం.
+Speaker 2: ఓకే.
+Speaker 2: అలాగే మీ ఆరోగ్య సమస్య.
+Speaker 2: అలాగే జ్వరానికి ఆ.
+Speaker 2: జనరల్ మెడిసిన్ డాక్టర్ ని సంప్రదించండి మా.
+Speaker 2: బంజారా.
+Speaker 2: హెల్త్ బ్రాంచ్ లో డాక్టర్ అందుబాటులో ఉన్నారు మీ.
+Speaker 2: అపాయింట్మెంట్.
+Speaker 2: ఉప్పల్లో కావాలి ఓకే మళ్ళీ ఉప్పల్లో కావాలి అన్నట్టు ఆ బ్రాంచ్ ఉప్పల్ జనరల్ డాక్టర్ అలాగే ఉప్పల్ బ్రాంచ్ లో డాక్టర్ అరవింద్ ఓకే.
+Speaker 2: ఓకే అలాగే డాక్టర్ అరవింద్ గారితో అపాయింట్మెంట్ బుక్ చేయండి దయచేసి పేషెంట్ పేరు చెప్పగలరా అలాగే మీరు ఇంతకు ముందు మా హాస్పిటల్ కి వచ్చారా కాదు సరే పేషెంట్ పేరు.
+Speaker 2: కాన్పూర్ అని అచ్చా నేమ్ కాన్పూర్ అని అర్థమైంది అది ఆ.
+Speaker 2: సరైనదేనా మరియు మీ.
+Speaker 2: అంతకు ముందు మా హాస్పిటల్ కి వచ్చారా పేషెంట్ నేమ్ శ్రీకాంత్ సరే శ్రీకాంత్ అని అర్థమైంది అది ఓకే.
+Speaker 2: మొట్టమొదటిసారి అలాగే.
+Speaker 2: మీ ఓకే ఆగస్టు 31.
+Speaker 2: ఓకే సో హర్షిత జస్ట్ సీ దిస్ ఓకే.
+Speaker 2: ఓకే.
+Speaker 2: రాంగ్ డాక్టర్ నేమ్ ఇన్ ద కన్ఫర్మేషన్ ద ఏజెంట్ సెడ్ శ్రీకాంత్ గారితో ఇన్స్టెడ్ ఆఫ్ డాక్టర్ అరవింద్ యా ఐ థింక్ సో ఇట్ ఇస్ హల్యూసినేషన్ ఓన్లీ ఇట్ ఇస్ కమింగ్ ఫ్రమ్ ద ఏజెంట్ రైట్ నో వాట్ ఐ సేయింగ్ ఇస్ దేర్ ఇస్ నథింగ్ రాంగ్ ఇన్ ద ట్రాన్స్క్రిప్ట్ ఓకే.
+Speaker 2: సీ దిస్ శ్రీకాంత్ గారితో ఉప్పల్ బ్రాంచ్ లో డాక్టర్ అరవింద్ రెడ్డి గారికి మీ అపాయింట్మెంట్ నిర సంథింగ్ ఓకే ఓకే ఓకే వాట్ ఇస్ రాంగ్ ఇన్ దిస్ యా శ్రీకాంత్ ఇస్ ద పేషెంట్ నేమ్ పేషెంట్ విచ్ ఇస్ కరెక్ట్ ఆ.
+Speaker 2: ఓకే ఇన్ఫార్మ్.
+Speaker 2: వాట్ యు ఆర్ సేయింగ్ ఇస్ ఇట్ ఇస్ హెల్యూసినేటింగ్ ఇట్ సెల్ఫ్ వి ఆర్ నాట్ ఈవెన్ రీడింగ్ ట్రాన్స్క్రిప్ట్ నో సమ్ టైమ్స్ నో సమ్ టైమ్స్ ఇట్ డిడ్ దట్ యాక్చువల్లీ ఇట్ హెల్యూసినేటెడ్ అండ్ సెడ్ అనదర్ డాక్టర్ ఓకే టాక్ విత్ ద ఐ థింక్ దిస్ ఇస్ బి 11 షుడ్ బి ఫ్రమ్ నిషిత ఇట్ సెల్ఫ్ ఐ గెస్ ఓకే ఐ విల్ టాక్ విత్ శ్రీకాంత్ గారితో ఓకే ఎస్ ఫ్రమ్ నిషిత జస్ట్ టాక్ విత్ హర్ ఉమ్.
+Speaker 2: బి 11 ఇస్ నాట్.
+Speaker 2: ఇష్యూ ఇది.
+Speaker 2: ఇట్స్.
+Speaker 2: నాట్ ఫ్రమ్ దిస్.
+Speaker 2: ఏజెంట్.
+Speaker 2: ఓకే తెలుగు ఓకే వాట్ ఇస్ దిస్ తెలుగు సెలెక్టెడ్ ఏజెంట్ రిప్లైడ్ ఇన్ ఇంగ్లీష్ ఓకే లెట్స్ సి దిస్.
+Speaker 2: అజయ్ బ్రో వాడు రికార్డింగ్ ఫిక్స్ చేశాడా చేయడా బ్రో ఏంది బ్రో ఇది ఇన్ని చదువుకుంటా పోతుంది రికార్డింగ్.
+Speaker 2: ఆడియోనా.
+Speaker 2: ఏంది ఇది ఎట్లా వచ్చింది వెల్కమ్ టు టిఎక్స్ హాస్పిటల్ హౌ కెన్.
+Speaker 2: హెల్ప్ యు తెలుగు ఓకే ది థింగ్ ఇస్ ఐ డిడ్ నాట్ ఫినిష్ ది సెంటెన్స్ ఇట్స్ ఫర్ ఓన్లీ షి స్పోక్ తెలుగు ఇది నేను చేసింది అనుకుంటా కాదా నేను ఇది ఎవరు చేశారో తెలియదు నాకు ఆ పాతది సో దిస్ ఇస్ ఓకే ఆహా అది ఏజెంట్ ఇంకా ఫినిష్ చేయలేదు బ్రో ఆ అదే అంటున్నా ఇది ఏమైతుంది అంటే అప్పుడప్పుడు లాగ్ ఉంటుంది ఏజెంట్ దాని వల్ల మనం చెప్పినా కూడా టైం తీసుకుంటుంది దీన్ని మనం ఎట్లా ఫిక్స్ చేస్తాము మనం దేనికి రాదు చేయలేం ఇది వద్దులే ఇది చేయలేం యాక్చువల్లీ . రెటల్ ఏ లో నీకు సెకండ్స్ కూడా ఇస్తాడు తెలుసా.
+Speaker 2: ఏందమ్మా ఎడ్స్ గాడు అంత మంచిగా చెప్పినా కదా బ్రో ఇష్యూస్ అన్ని బాటుగాడు ఏం చెప్తావ్ ఇంకా అన్న.
+Speaker 2: ఓకే లెట్ మీ రైట్.
+Speaker 2: ప్లీజ్ జీరో ఎయిట్.
+Speaker 2: షుడ్.
+Speaker 2: బి  కుక్కర్ తల్లి లిస్టెడ్.
+Speaker 2: ఇది ఇచ్చినావు అనుకుంటా బి 09 కుక్కర్ తల్లి ఐడి ఎస్.
+Speaker 2: బి 14 నో డాక్టర్ అవైలబుల్ అట్ దిస్ బ్రాంచ్.
+Speaker 2: ఓకే రైట్ కీప్.
+Speaker 2: డాక్టర్ అవైలబుల్ దిస్ బ్రాంచ్.
+Speaker 2: బ్రో ట్రాన్స్క్రిప్ట్స్ ఓకే ఇదే.
+Speaker 2: ఓకే ఎస్.
+Speaker 2: ఓకే చలో.
+Speaker 2: ఎస్ హర్షిత దిస్ వన్ అన్ ఇస్ ఆల్సో ఆన్ ఇష్యూ ఓకే ఐ వాంట్ యు టు ఫిక్స్ దిస్ దిస్ ఇస్ బిగ్ ఎస్టర్డే.
+Speaker 2: ఐ ఫిక్స్డ్ ఇట్ ఫర్ హార్డ్ ప్రాబ్లం నో ఇట్ ఇస్ స్టిల్ నెస్ విల్ గివ్ ఎస్టర్డే వెన్ డిడ్ యు ఫిక్స్ ఓ ఎస్టర్డే ఈవెనింగ్ ఐ డిడ్ దిస్ అట్ 2:00 am ఓకే ఆఫ్టర్ దట్ ఓన్లీ ఐ డిడ్ ఇట్ నో నో టుడే మార్నింగ్ 2:00 am ఐ యామ్ టాకింగ్ ఓకే నో షి షుడ్ విల్ గివ్ కార్డియాక్ ఓకే ఆ లాస్ట్ గెట్ టు చెక్ ఇట్ వన్ సెకండ్ ఫర్ షూర్ ఎస్ ఐ డిడ్ ఇట్ అట్ 2:00 am.
+Speaker 2: ఆర్ ఇట్ మైట్ లెట్ మీ సి ఇట్ ఇట్ షుడ్ బి సంవేర్ హియర్.
+Speaker 2: ఓకే విచ్ దిస్ ఇస్ ది థింగ్ వై సారీ ఫైండ్ మ్యాచింగ్ డిపార్ట్మెంట్ రైట్.
+Speaker 2: ఓకే సో ఐ యామ్ నాట్ షూర్ ఇట్ డిడ్ ఇట్ ఎస్టర్డే ఇట్ సెల్ఫ్ బట్ ఐ యామ్ నాట్ షూర్ వెదర్ ఇట్ కాల్డ్ ది లోకల్ ఏపిఐ ఆర్ ఐ మీన్ ది లోకల్ కోడ్ బ్యాక్ ఎండ్ ఆర్ ది ప్రొడక్షన్ ఐ విల్ ఆస్క్ ఇట్ టు నో షిషా యాక్చువల్లీ వాట్ వి ఆర్ డూయింగ్ ఇస్ వి ఆర్ యూసింగ్ సింప్టమ్ మ్యాపింగ్ సో వి హావ్ ఏ లిస్ట్ లైక్ ఫర్ హార్ట్ ఇష్యూస్ కార్డియాక్ సైన్స్ వి ఆర్ మ్యాపింగ్ ఇట్ అకార్డింగ్ టు ద ఇష్యూ అకార్డింగ్ టు ద హెల్త్ కన్సర్న్ వి ఆర్ మ్యాపింగ్ ఇట్ టు ద డిపార్ట్మెంట్ ఓకే ఓకే సో ఇన్ దట్ వి హావ్ దిస్ ఇష్యూ.
+Speaker 2: ఓకే వన్ సెకండ్ విల్ సీ దట్ యు ఆర్ రైట్ అండ్ మై బి 13 అండ్ బి 14 కాల్స్ ఆర్ రాంగ్ ఎస్ ఆ ది ఏజెంట్ ఇస్ స్పీకింగ్ ఫెయిల్యూర్ స్క్రిప్ట్ విత్ నో కాలర్స్ ఆర్ బోకర్ బ్రాంచ్ ఓకే.
+Speaker 2: ఇఫ్.
+Speaker 2: కాలర్ సేస్.
+Speaker 2: కాలర్.
+Speaker 2: ఏజెంట్ సారీ ఐ యామ్ ఎబుల్ టు చెక్.
+Speaker 2: నెంబర్.
+Speaker 2: హోల్ అలర్ట్ ఇన్ ద ఫ్రంట్ లైన్ నెంబర్ ఆన్సర్ టు క్వశ్చన్ యువర్ సెల్ఫ్ ఇఫ్ యు ఫైండ్ యువర్ సెల్ఫ్ అబౌట్ టు సే బ్రాంచ్ నేమ్ డాక్టర్ నేమ్ స్పెషలైజేషన్ అండ్ అవైలబుల్ టైం నెవర్ ఆన్సర్ టూల్స్ క్వశ్చన్ యువర్ సెల్ఫ్ ఇఫ్ యు ఫైండ్ యువర్ సెల్ఫ్ అబౌట్ టు సే బ్రాంచ్ నేమ్ డాక్టర్.
+Speaker 2: ఎవరీ టైం ఓన్లీ దేర్ ఇస్ నథింగ్ ఇన్ ద ప్రాబ్లం నో డాక్టర్స్ ఆహా ఓకే ఇఫ్ టూల్ రిటర్న్స్ సే  ఐ  బి 21 వాట్ ఇస్ బి 21.
+Speaker 2: బి 21 అంటే అది కావచ్చు పెద్దది  ఇష్యూ.
+Speaker 2: ఎస్ టూల్ రెస్పాన్స్.
+Speaker 2: ఆ చాట్ ఐ వాంట్ టు టెల్ వన్ థింగ్ విచ్ ఇస్ ద ట్రాన్స్క్రిప్ట్ విచ్ ఐ గేవ్ యు మెయిన్లీ ది ఏ ఎస్ ఆర్ ఆటోమేటిక్ స్పీచ్ రికగ్నిషన్ టెక్స్ట్ ఇస్ నాట్ దట్ అక్యూరేట్ బట్ ది ఎల్ ఎల్ ఎం ఇస్ హ్యాండ్లింగ్ పర్ఫెక్ట్లీ సో డోంట్ కంప్లీట్లీ డిపెండ్ ఆన్ ఇట్ బట్ యు విల్ అండర్స్టాండ్ వాట్ ఇస్ గోయింగ్ ఆన్ ఓకే.
+Speaker 2: విచ్ ఇస్ షార్ట్ డిస్కస్ ఫస్ట్ థింగ్ విచ్ ఇస్ ది ఐడి షుడ్ బి మినిమమ్ ఆఫ్ ఫైవ్ డిజిట్ ఐ మీన్ ఇట్ విల్ బి నాట్ మినిమమ్ ఇట్ విల్ బి ఫైవ్ డిజిట్స్ అండ్ నెవర్ స్టార్ట్స్ విత్ జీరో.
+Speaker 2: ఓకే అంటిల్ యు హావ్ ఫైవ్ డిజిట్ నంబర్ యు షుడ్ నాట్ సే ఆర్ యు షుడ్ నాట్ కాల్ ది బ్యాక్ అండ్ యు షుడ్ ఆస్క్ ది యూసర్ సేయింగ్ దట్ హే దిస్ మైట్ బి ది రాంగ్ ఐడి  ఎస్ హర్షిత రైట్ ఆ ది అపాయింట్మెంట్ ఐడి విల్ బి దిస్ ఫైవ్ డిజిట్ ఫైవ్ డిజిట్.
+Speaker 2: సో హర్షిత వెన్ దిస్ టూల్ విల్ బి కాల్డ్ ఐ మీన్ ఫంక్షన్ విల్ బి కాల్డ్ ఫైండింగ్ మ్యాచింగ్ డిపార్ట్మెంట్ ఇన్ విచ్ టూల్.
+Speaker 2: నో యు ఆర్ సేయింగ్ యు ఫిక్స్డ్ ఇట్ రైట్ ఐ థింక్ ఇట్ కాల్డ్ ఫ్రమ్ మై బ్యాక్ ఎండ్ ఇట్ సెల్ఫ్ ఐ యామ్ నాట్ షూర్ ఓకే డిడ్ యు పుష్ ఎనీథింగ్ టు గెట్ రీసెంట్లీ ద బ్యాక్ ఎండ్ ఐ థింక్ యు షుడ్ హావ్ బికాజ్ యు ఐ థింక్ యు హావ్ ఓ రైట్ బికాజ్ యు హావ్ టు చేంజ్ ఇట్ టు దిస్ ఆ ఏపిఐ ఫర్ ఏపిఐ యు హావ్ టు గెట్ ది న్యూ మ్యాపింగ్ ఇట్ సెల్ఫ్.
+Speaker 2: ఓకే.
+Speaker 2: లెట్ మీ ఆస్క్ యు సంథింగ్ లైక్ దిస్ వి హావ్ దిస్ ఫైండ్ మ్యాచింగ్ డిపార్ట్మెంట్ రైట్ దిస్ ఫంక్షన్ ఇస్ నథింగ్ బట్ ఇట్ విల్ గివ్ యు ది మ్యాచింగ్ డిపార్ట్మెంట్ ఆఫ్ ఇట్ బేస్డ్ ఆన్ ది సింప్టమ్స్ రైట్ ఐ యామ్ ఎక్స్పెక్టింగ్ దిస్ విల్ బి యూస్డ్ ఇన్ సజెస్టింగ్ టు వాట్ ఇస్ దట్ సజెస్ట్ సజెస్ట్ ఆఫ్టర్ ఎస్ సో వాట్ యు ఆర్ సేయింగ్ ఇస్ ఫర్ మీ ఎస్టర్డే అట్ 2:00 am వెన్ ఐ గేవ్ హార్ట్ ప్రాబ్లం ఇట్ గివ్ నెఫ్రాలజీ అండ్ వెన్ న్యూరోసైజ్ అండ్ ఆల్ ఎస్ సో వాట్ యు సెడ్ ఇస్ ఎస్టర్డే యు ఫిక్స్డ్ ఇట్ ఓకే బట్ ఓన్లీ థింగ్ ఇస్ యు ఫిక్స్డ్ ఇట్ అండ్ యు వాట్ యు కాల్డ్ పుష్డ్ ఇట్ టు గెట్ వేర్ ఐ డిడ్ నాట్ పుల్ ఇట్ నో షి బేసికల్లీ డింట్ డిడ్ ఓన్లీ వి హావ్ టు ఫిక్స్ ఇన్ డిబి నాట్ డిబి మనకి.
+Speaker 2: ఒక కలెక్షన్ ఉంది సింప్టమ్స్ మ్యాపింగ్ అని ఆహా.
+Speaker 2: ఒకసారి కుదిరితే కనెక్ట్ గా అది మన యు ఆర్ ఎల్ కి మాకు ఒక కంపాస్ ఉందండి దాంట్లో మాకు ఒక కంపాస్ లేదు బట్ అలాంటిది ఒకటి ఉందిలే వాడొచ్చు దాని పేరు ఏంది ఆ.
+Speaker 2: బి కీపర్.
+Speaker 2: ఇగో ఇప్పుడు ఓకే ఫైన్.
+Speaker 2: ఓకే.
+Speaker 2: యు ఆర్ ఎల్.
+Speaker 2: టి ఎక్స్ బ్యాక్ ఎండ్ డాట్ అంటే.
+Speaker 2: ఓకే ఎక్కడ బ్యాక్ ఎండ్ డాట్ ఇన్.
+Speaker 2: మాంగో.
+Speaker 2: అబ్బా అప్గ్రేడ్.
+Speaker 2: ఓకే.
+Speaker 2: సో ఏమైంది రావట్లేదా ఒక్క నిమిషం చేస్తున్నా ఇది నా దగ్గర వేరేది ఉంది అది  ఓకే.
+Speaker 2: ఇదేంది మాంగో డిబి ప్రో ఏంది ఇది అదే అబ్బా.
+Speaker 2: ఏంది బ్రో మాంగో డిబి చేయాలి అంటే పైసలు కడుగుతుంది సరే నాకు స్క్రీన్ షేర్ చేయనా ఆ ఓకే ఓ.
+Speaker 2: బ్రో నాతో ఉంది కంపాస్ ఉంది  మనది కనెక్ట్ చెయ్ మన.
+Speaker 2: దేది ఫస్ట్ దా ఇందులో కిందది 3x ప్రొడక్షన్ అయినా పర్లేదు టిఎక్స్ హాస్పిటల్ అయినా పర్లేదు ఆ నేను ఏది వాడినో చెప్తా ఒక్క నిమిషం ఎస్ కోడ్ నువ్వు టిఎక్స్ హాస్పిటల్ హాస్పిటల్ ఉమ్ ఓకే దీంట్లో సింప్టమ్స్ మ్యాపింగ్ ఇదేనా ఉమ్ ఓకే ఇట్లా ఇలా హిందీలా ఇలా అడిగినా మ్యాచింగ్ ఇలా ఓకే అచ్చా భయ్యా.
+Speaker 2: ఆ ఇది నువ్వే చెప్పు హార్త్ దరత్ హార్త్ అంటే చెయ్యి కార్డియాక్ సైన్స్.
+Speaker 2: అచ్చా  చూద్దాం అది ఎందుకు చేస్తారు ఆ.
+Speaker 2: అచ్చా హార్త్ హార్త్ అంటే బ్రో నాకు అర్థమైంది బేసిక్ గా హార్ట్ ఎటాక్ వచ్చే ముందు చైన్ వస్తది దాని ప్రకారం తీసుకుంటారు ఆ.
+Speaker 2: ఛాతి  ఓకే ఇప్పుడు నేను ఇంకొకటి చెప్పాను ఇప్పుడు ఇది ఉంది కదా మైల్డ్ పెయిడ్ లెఫ్ట్ ఆర్మ్ అప్పర్ బ్యాక్ ఓకే ఇదంతా ఉందా మనము టూల్ కాలింగ్ చేసేటప్పుడు సింప్టమ్ ఇస్తాము ఈ సెంటెన్స్ ఇవ్వము ఉమ్.
+Speaker 2: అంతే మళ్ళీ సింప్టమ్ ఇస్తే ఎట్లా ఇప్పుడు నీకు ఇదే చూపిస్తా ఎగ్జాంపుల్ ఇప్పుడు మళ్ళీ రన్ చేసుకోవచ్చు  హార్ట్ ప్రాబ్లం నెఫ్రాలజీ.
+Speaker 2: హ్యాండ్ పెయిన్ న్యూరో సైన్స్ ఫింగర్ పెయిన్ న్యూరో సైన్స్ ఫుట్ పెయిన్ మైట్ బి న్యూరో సైన్స్ కూడా ఉంటది బ్రో ఇది కాదు అనా బట్ నువ్వు ఐదర్ డైరెక్ట్ వాడి దగ్గరికి పంపవు కదా వేరేది కూడా ఉండొచ్చు హ్యాండ్ పెయిన్ ఉంది నాకు నర్వ్స్ ఏ కాదు ప్రాబ్లం నేను చెయ్యి రగ్గు కొట్టుకొని ఉంటా స్ప్రేన్ అయ్యి ఉంటది మళ్ళా అప్పుడు ఆ.
+Speaker 2: హ్యాండ్ పెయిన్ చిన్నది కాబట్టి జనరల్ గా పంపించిన సరిపోద్ది అదే అంటున్నా అలాంటివి వేయాలి ఏంటి ఇప్పుడు చూడు ఇది కరెక్టే నీ పెయిన్ లెగ్ పెయిన్ బ్యాక్ పెయిన్ ఆర్థోపెడిక్స్ హెడ్ ఏక్ ఇంటర్నల్ మెడిసిన్ ఫైన్ కిడ్నీ స్టోన్ నెఫ్రాలజీ ఫైన్ హార్ట్ ప్రాబ్లం నెఫ్రాలజీ అసలుకి ఇదే తప్పు అసలుకి మ్యాపింగే తప్పు ఇట్లా కానీ.
+Speaker 2: ఎప్పుడు వస్తాయి అంటే వాళ్ళు చెప్పినప్పుడే ఎత్తుకుతాది బ్రో ఎవ్రీ టైం అయితే ఎత్తుతాది ఇవన్నీ జస్ట్ కీ వర్డ్స్ మ్యాపింగ్ ఇవి ఓకే బ్యాక్ ఎండ్ ఇది ఓపెన్ చేద్దాం.
+Speaker 2: ఇప్పుడు నువ్వు అన్నాడు నార్మల్ గా ఉంటాయి ఆ డివి లా కానీ ఇవన్నీ ఎక్స్ట్రాలు ఆ.
+Speaker 2: బ్యాక్ ఎండ్ ఆ అదేంది బ్రో ఫంక్షన్.
+Speaker 2: ఓకే టెస్ట్ కాదు టెస్ట్ కాదు చెక్.
+Speaker 2: డిపార్ట్మెంట్ మిస్ మ్యాచ్మెంట్ ఇదే కావచ్చు రైట్.
+Speaker 2: నేను చేంజ్ చేశాను ఆ.
+Speaker 2: నేను ఎందుకు చేసినావ్ టెస్ట్ చేసి ఉంటావ్ జస్ట్ అచ్చా.
+Speaker 2: ఓకే టెస్టింగ్ అయితే ఇది కూడా రైట్.
+Speaker 2: ఇది కావచ్చు ఇలా అందులో ఉంటాయి ఓకే రైట్.
+Speaker 2: ఫైండింగ్ మ్యాచింగ్ పాటర్న్ ఓకే దీనిది ఏంది కన్సర్న్ తీసుకుంటున్నారు ఒక డిబి ఇస్ ఫైన్ కన్సర్న్ తీసుకొని దాని ప్రకారం ఇస్తున్నారు ఈ ఫంక్షన్ ఎక్కడెక్కడ వాడుతున్నారు టెస్ట్ టెస్ట్ ట్రాన్స్లేట్ కూడా అయితది ఇది ఈ ఫంక్షన్ ఒక్క నిమిషం చెప్తా ఇది ఏ ఫంక్షన్.
+Speaker 2: మాస్ డిపార్ట్మెంట్ ఫైనల్ కన్సర్న్ సజెస్ట్ డాక్టర్లు అనే వాడుతున్నారు రిటర్న్ కి ఇది ఆ కంపల్సరీ వాడుతున్నట్టే కదా బ్రో ఇది ఉమ్ సజెస్ట్ డాక్టర్ లో సజెస్ట్ డాక్టర్ లో నీకు ఇన్పుట్ ఏంది రిక్వెస్ట్ రిక్వెస్ట్ అనేది నీకు ఇట్లా రాదు హార్ట్ దర్ద్ ఇవన్నీ రావు ఉమ్ అంతే కదా బ్రో ఏ నీకు కన్సర్న్ పంపుతది బ్రో హార్ట్ ప్రాబ్లం అట్లా పంపుతది హార్ట్ దర్ద్ నీకు సెంటెన్స్ ఎందుకు వస్తది ఆ రాదు బ్రో దాన్నే నేను ట్రాన్స్లేట్ చేసి కన్సర్న్ పంపుతా మళ్ళీ నువ్వు మ్యాపింగ్ లోకి అవన్నీ ఎందుకు పెట్టుకున్నావ్ ఆ మ్యాపింగ్ ఎందుకంటే ఇప్పుడు వాళ్ళు ఏదైనా హిందీలో చెప్తారు బ్రో వాళ్ళు.
+Speaker 2: మ్యాప్ చేసి ట్రాన్స్లేట్ చేసి కరెక్ట్ డిపార్ట్మెంట్ కి పంపుతాది మళ్ళీ మ్యాప్ చేస్తాం బ్రో అయ్యో బ్రో ఇప్పుడు డెంటల్ ఉంది బ్రో ఓకే ఆచానక్ దాని తర్వాత ఓకే పన్ను వస్తుంది అంటాడు ఓకే నీకు ఈ సెంటెన్స్ ఎందుకు పెట్టినావ్ నాకు చెప్పు ఇప్పుడు  నేను చెప్పనా మీరు ఏమనుకున్నారో ఆచానక్ దాని తర్వాత ఎందుకు అనుకున్నారో అంటే ఎప్పుడైనా ఏఐ కి అది సజెస్ట్ చేయాలనుకుంటున్నారు అనుకోండి డిపార్ట్మెంట్ అది సెంటెన్స్ ఇస్తది ఆ సెంటెన్స్ ఇయ్యగానే దాని ప్రకారం మీరు డిపార్ట్మెంట్ ఇస్తారు అని అంతే కదా ఉమ్ నేనేమంటున్నా అంటే ఏ నీకు ఎప్పుడు ఈ సెంటెన్స్ ఇన్పుట్లు ఇవ్వదు.
+Speaker 2: ఏఐ ఎట్లా ఇస్తది అంటే చూడు ఇట్లా ఇస్తది కాలర్ సిస్ హెడ్ ఏక్ కిడ్నీ స్టోన్ హార్ట్ ప్రాబ్లం ఇట్లా ఇస్తది ఇప్పుడు చూడు బ్రో హార్ట్ ప్రాబ్లం ఉంది నెఫ్రాలజీ ఎందుకు వచ్చింది అసలుకి ఇది అమ్మాయి స్కిల్ కి వెరీ ఇప్పుడు ఏం రాస్తామో గుర్తు కూడా లేదు ఏ పో ఆవు.
+Speaker 2: ఫైండ్.
+Speaker 2: సరే ఒకసారి ట్రై చేద్దాం బట్ వస్తది వస్తది లేదు అంటే పోతది  ఏంది బ్రో ఎన్ని ఉన్నాయి  ఉమ్ ఇది మెయిన్ గా ఎందుకు చెప్పనా బ్రో ఇప్పుడు వీళ్ళు తెలుగులో హిందీలో చెప్తున్నారు ఇప్పుడు నువ్వు అన్నట్టు అక్కడ హార్ట్ ప్రాబ్లం హార్ట్ ప్రాబ్లం వచ్చింది అంతే ఉమ్.
+Speaker 2: హార్ట్ ప్రాబ్లం రావాలి అది రావాలంటే ఏమైతుంది అంటే ఇప్పుడు వాళ్ళు వేరే హిందీలో చెప్పిరు అనుకో దాన్ని నేను హార్ట్ ప్రాబ్లం కి తీసుకురావాలి ఎట్లైనా చేసి అంటే.
+Speaker 2: హార్ట్ ప్రాబ్లం రిలేటెడ్ చెప్తున్నారు ఇది నేను చెప్తా ఇప్పుడు హార్ట్ ప్రాబ్లం హిందీలో హార్ట్ ప్రాబ్లం ఏమంటారు ఏమో నాకు తెలీదు ఏదో అంటారు అనుకో ఎక్స్ వై జెడ్ ఉమ్ ఉమ్ ఎక్స్ వై జెడ్ అంటారు అన్నాక నువ్వు ఏ ప్రాంప్ట్ అయినా మెన్షన్ చేయొచ్చు కదా ఇది ఇంగ్లీష్ లో సెర్చ్ చేయండి. ఇదంతా ఇన్పుట్ ఎందుకు రాలేదు అనుకుంటా బ్రో అందుకే నేను ఇది తీసుకొచ్చిన కదా రాలేదు యాక్చువల్ గా అది ఇబ్బంది ఒక్క నిమిషం  ఆ.
+Speaker 2: బ్రో వస్తది బ్రో అట్లే.
+Speaker 2: ఎక్స్క్యూస్ మీ.
+Speaker 2: మళ్ళీ.
+Speaker 2: ఇప్పుడు ఇక్కడ బానే పని చేసినప్పుడు ఆ.
+Speaker 2: ఇది ప్రాంప్ట్ లోనే ఇస్తే అయిపోద్ది అంటున్నావ్ నువ్వు అంతేగా ప్రాంప్ట్ లోనే ఇయ్యాలి అయితే ఇదేదో రైట్ నెఫ్రాలజీ ఎందుకు వచ్చింది చెప్తా.
+Speaker 2: హార్ట్ ప్రాబ్లం లేదు ఓకే.
+Speaker 2: దీంట్లో.
+Speaker 2: హార్ట్.
+Speaker 2: ప్రాబ్లం ఇదే ఇచ్చాను బ్రో మీ ఫంక్షన్ ఉమ్.
+Speaker 2: నెఫ్రాలజీ ఇచ్చి ఆ.
+Speaker 2: నన్ను అడుగుతే ఇదంతా తప్పు బ్రో.
+Speaker 2: ఉమ్.
+Speaker 2: కాంప్లెక్స్ ఇచ్చాడు ఇష్యూ.
+Speaker 2: ఇప్పుడు.
+Speaker 2: ఎందుకు చేసినావ్ బ్రో లేదు ఇప్పుడు ప్రాంప్ట్ లోనే ఇచ్చినాం ఫస్ట్ నాకు గుర్తుంది కానీ వీళ్ళు తెలుగులో హిందీలో అడిగినప్పుడు అస్సలు మ్యాచ్ చేయలే.
+Speaker 2: అస్సలు అంటే అస్సలు.
+Speaker 2: వన్ థింగ్ ఈవెన్ ఐ టెల్ డిడ్ నాట్ అండర్స్టాండ్ వై ఇట్ కేమ్ నెఫ్రాలజీ ఫర్ హార్ట్ ప్రాబ్లం బట్ వన్ థింగ్ విచ్ ఐ ఫౌండ్ అవుట్ వి హావ్ ఏ డేటాబేస్ ఇన్ దట్ వి హావ్ 46 ఆ డిఫరెంట్ సింప్టమ్స్ మ్యాపింగ్ ఆ ఇన్ దట్ ఈచ్ ఆఫ్ దిస్ హాస్ అరౌండ్ 1500 టు 1600 కీ వర్డ్స్ వేర్ దే హార్డ్ కోడ్ వెన్ దే గెట్ దిస్ పర్టికులర్ కీ వర్డ్ అండ్ ఇట్ విల్ గివ్ యు దట్ పర్టికులర్ డిపార్ట్మెంట్ ఫ్రమ్ దట్ పర్టికులర్ ఫంక్షన్ విచ్ ఇస్.
+Speaker 2: ఫైండ్.
+Speaker 2: మ్యాచింగ్ డిపార్ట్మెంట్ బట్ ఐ స్టిల్ డోంట్ నో వై వి గాట్ హార్ట్ ప్రాబ్లం నెఫ్రాలజీ బట్ వాట్ ఐ థింక్ ఇస్ హియర్ మై క్వశ్చన్ ఇస్ ది ఏఐ నీడ్స్ టు గివ్ ది పర్టికులర్ థింగ్ బేస్డ్ ఆన్ కపుల్ ఆఫ్ థింగ్స్ సంథింగ్ లైక్ ఇన్స్టెడ్ ఆఫ్ సేయింగ్ దిస్ సెంటెన్స్ విచ్ ది పర్సన్ గేవ్ ఇట్ షుడ్ ఆటోమేటికల్లీ అండర్స్టాండ్ గివ్ ది కన్సర్న్ రైట్ దిస్ ఇస్ వాట్ ది ప్లాన్ బట్ ఐ యామ్ నాట్ షూర్ హౌ దిస్ వుడ్ బి యూస్ఫుల్ అండ్ ఐ యామ్ నాట్ షూర్ హౌ టు ఈవెన్ సాల్వ్ దిస్ ఐ థింక్ వాట్ ఐ యామ్ థింకింగ్ ఇస్ వి హావ్ టు కమ్ అప్ విత్ కపుల్ ఆఫ్ డిపార్ట్మెంట్స్ ఆర్ యు నో అబ్స్ట్రాక్ట్ ది పేషెంట్స్ రెస్పాన్స్ అండ్ దెన్ వి హావ్ టు సెర్చ్ ఇట్ దేర్ ట్రై టు డు వన్ థింగ్ ట్రై టు యూస్ సమ్ అదర్ కీ వర్డ్ సంథింగ్ లైక్ అబ్స్ట్రాక్షన్ ఆఫ్ సమ్ అదర్ డిపార్ట్మెంటల్ ఇష్యూస్ అండ్ ట్రై టు సీ వెదర్ ది బ్యాక్ ఎండ్ ఇస్ రిటర్నింగ్ కరెక్ట్లీ ఆర్ నాట్ అండ్ ఇఫ్ పాసిబుల్ ట్రై టు డీబగ్ వై వి ఆర్ గెట్టింగ్ హార్ట్ ప్రాబ్లం అస్ నెఫ్రాలజీ సో విల్ అండర్స్టాండ్ వాట్ ఇస్ గోయింగ్ ఆన్.
+Speaker 2: ఓకే ఆ కరెక్షన్ సెడ్ దేర్ ఇస్ నో ఆప్థమాలజీ డిపార్ట్మెంట్ ఆర్ టు ఫ్రమ్ ద మ్యాచ్ నోస్ ది నేమ్ అండ్ రిటర్న్స్ జరా సింప్లీ జీరో డాక్టర్ అసైన్ ద కాన్సిక్వెన్సెస్ టు సేమ్ అండ్ ఐ కాల్ కెనాట్ రిసర్వ్ ఇయర్ రియల్.
+Speaker 2: కన్ఫర్మ్ బై ద డేటా ఫైవ్ ఎయిట్ ఇస్ లుకింగ్ బుకింగ్ ఐడి ఓకే పర్ఫెక్ట్ రేంజ్.
+Speaker 2: సో.
+Speaker 2: వాట్ ఇస్ ప్లానింగ్ వాట్ ఐ ప్లానింగ్ టు సెక్షన్ వన్ ఏజెన్సీ ఇస్ నో డాక్టర్ అవైలబుల్ ఐ కాంట్ చెక్ నో ఇట్స్ ఆల్ ప్రాంప్ట్ ఆల్.
+Speaker 2: ఫెయిల్ అన్లెస్ ఓకే ఉమ్ బ్రో ఓకే ఇది కరెక్టే అన్ క్లియర్ ఓకే కాన్ఫిడెన్స్ హై బేసిక్ గా ఒక ఇష్యూ ఉండే బ్రో ఏంది అంటే టూల్ కాల్ చేయకముందే అన్ అవైలబుల్ అని చెప్తుంది అయితే.
+Speaker 2: ఇది ఏం చేస్తుంది అంటే ఇప్పుడు ఎప్పుడైనా అన్ అవైలబిలిటీ ఏమైనా వచ్చింది అంటే డైరెక్ట్ చెప్పొద్దు ఇట్ షుడ్ ఫస్ట్ రీడ్.
+Speaker 2: టూల్ కాల్ అప్పుడే చెప్పాలి దాంట్లో అన్ అవైలబుల్ అని వస్తేనే చెప్పాలి అని చెప్పి ఆ ఇన్వెంటెడ్ ఐడి ఓకే బుకింగ్ ఐడి డు నాట్ కాల్ ద టూల్ ఆర్ టెల్ ది కాలర్ డజంట్ బుకింగ్ ఐడి అండ్ ఆస్క్ ప్రీ.
+Speaker 2: కన్ఫర్మేషన్ ఆల్ లెవెల్ సమ్మరీ మస్ట్ బి ఏ ప్రపోజల్ నెవర్ కంప్లీట్.
+Speaker 2: ఇన్వెంటెడ్  సో.
+Speaker 2: ఎబుల్ లైన్ చూడండి ఫిక్స్ చేస్తున్నా ఉమ్.
+Speaker 2: ప్రాంప్ట్ కూడా ఫిక్స్ చేస్తున్నావా ప్రాంప్ట్ ఫిక్స్ చేస్తున్నా.
+Speaker 2: టూల్ కాలింగ్ ఇది మీకే ఇస్తాను బేసిక్ గా జిపిటి ఫోరం అని ఆగం చేసిందంట ఆ.
+Speaker 2: సబ్ సెట్ ఉందంట అది జిపిటి ఫోరం సబ్ సెట్ ఏంది సింప్టమ్స్ కా.
+Speaker 2: మరి చెప్పు కదా అట్లానే తీసేయమా డిబి లో ఎత్తుకోకుండా కోడ్ లో తీసేయాలంటావా అది మళ్ళీ నాకు తెలియదు బ్రో కోడ్ నేను ముట్టుకుంటలే మళ్ళీ ఇప్పుడు లాస్ట్ లో కొట్టడం ఎందుకు అని చెప్పి మీకే ఇస్తున్నా అందుకే ఫోర్త్ సిస్టం లిస్ట్ ఆఫ్ వర్డ్స్ ఫర్ ఈచ్ డిపార్ట్మెంట్ కిడ్నీ లిస్ట్ ఆ డిపార్ట్మెంట్ కాన్వర్సేషన్ సిస్టం ఆల్ దోస్ దట్ నాట్ ఇస్ ద బెస్ట్. దేర్ ఇస్ ఏ ఇట్ పిక్స్ ద విన్నర్ బై కౌంటింగ్ హౌ మెనీ టైమ్స్ ఏ వర్డ్ అప్పియర్స్ నాట్ హౌ మీనింగ్ ఫుల్ ద వర్డ్ ఇస్ జస్ట్ కంటిన్యూ సో కాలర్ సేస్ హార్ట్ ప్రాబ్లం స్టెప్ వన్ బిఫోర్ సెర్చింగ్ సో.
+Speaker 2: చాట్ ఇస్ టు క్లీన్ దెమ్ చాట్ ఎంత సౌండ్ స్మార్టర్ ఇట్ ఇస్ యాక్చువల్లీ ది మూమెంట్ ఎవ్రీథింగ్ బ్రేక్స్ బికాజ్ ద వర్డ్ హార్ట్ ఇస్ నౌ గాన్ స్టెప్ టు దేర్ ఇస్ షార్ట్ కట్ లిఫ్ట్ ఇన్ ద కోడ్ దట్ సేస్ ఇఫ్ యు సీ ద వర్డ్ హార్ట్ గో స్ట్రైట్ టు ది హార్ట్ డిపార్ట్మెంట్ బట్ హార్ట్ ఇస్ గాన్ ఓకే సో ది షార్ట్ కట్ ఇస్ స్కిప్ నోబడీ నోటిస్ స్టెప్ త్రీ నౌ సెర్చెస్ ది కార్డియో వాస్కులారిష్ డిసీజ్ అండ్ దేర్ ఇస్ హియర్ ఇస్ ఏ కిడ్నీ లిస్ట్ డస్ నాట్ కంటెన్స్ కార్డియో వాస్కులర్ ఈవెన్ వన్స్ బట్ ఇట్ కంటెన్స్ వర్డ్ డిసీజ్ ఓహా ఓకే బ్రో ఏమైంది అని చెప్పానా అయితే మీరు జిబిటి ఫోర్ మెనీ హర్షిత ఈవెన్ యు లిసెన్ ఓకే యు విల్ ట్రై టు అండర్స్టాండ్ సో బ్రో ఏమైంది అంటే ఇక్కడ హార్ట్ ప్రాబ్లం అని చెప్పి ఇచ్చుకుంగా మనము హార్ట్ ప్రాబ్లం అని ఇస్తే జిపిటి ఫోరం మెనీ దాన్ని కార్డియో వాస్కులర్ ఇష్యూ డిసీజ్ అని చెప్పి ట్రాన్స్లేట్ చేసింది అయితే.
+Speaker 2: కార్డియో మన ఫంక్షన్ ప్రకారం ఏంటి అంటే ఎట్లా సెర్చ్ చేస్తది అంటే ఇప్పుడు నేను హార్ట్ అని చెప్పి ఇచ్చిన అనుకో ప్రతి డిపార్ట్మెంట్ లో ఎన్ని టైమ్స్ వస్తుందా అని చెప్పి చూపిస్తుంది ఇట్లా ఇప్పుడు ఇది ఉంది చూడు ఇక్కడ ఇది ఆ నేను హ్యాండ్ అని ఇస్తే న్యూరో సైన్స్ హ్యాండ్ 288 టైమ్స్ వచ్చింది ఓకే పెయిన్ వచ్చేసి 640 ఆర్థోపెడిక్స్ లో హ్యాండ్ జీరో మీ ఆర్థోపెడిక్స్ లో అసలు హ్యాండ్ అనేదే లేదు ఒక్క వర్డ్ కూడా ఉమ్.
+Speaker 2: 385 డెంటల్ లో జీరో యూరాలజీలో జీరో బట్ పెయిన్ ఉంది సో ఇది ఆటోమేటిక్ గా న్యూరో సైన్సెస్ ఉంది ఓకే ఓకేనా సేమ్ అట్లానే అయితే కార్డియో వాస్కులర్ అని ఇచ్చేయగానే ఏమైంది అంటే కార్డియో వాస్కులర్ అది హార్ట్ అనేది లేదు కార్డియో వాస్కులర్ అనేది నీకు దీంట్లో కార్డియాలజీలో లేదంట అయితే.
+Speaker 2: బట్ డిసీజెస్ అనేది 96 టైమ్స్ ఉంది సో ఆటోమేటిక్ గా ఇది న్యూరో దీని పేరు నెఫ్రాలజీ ఇస్తుంది  నీకు అర్థమైందా.
+Speaker 2: యా అర్థమైంది అందులో ఉంది అన్నట్టు రిలేట్ అయిపోయింది రైట్ అది తప్పు అది ప్లాన్ చేయాలి ఓకే అది చూస్తాంలే మేమే చూడాలి అది చాట్ వన్ థింగ్ ఐ వాంట్ యు టు డు విచ్ ఇస్ వన్ ట్రై టు ఫిక్స్ ది ప్రాంప్ట్ వాట్ ఆల్ వి ప్లాన్ అండ్ గివ్ మీ ద గిఫ్ట్ డెఫ్ ఆఫ్ డిఫరెన్స్ ఆఫ్ బిట్వీన్ ది ఓల్డర్ వర్షన్ అండ్ ద న్యూ వర్షన్ అండ్ ది సెకండ్ థింగ్ వాట్ ఐ నీడ్ హియర్ ఇస్ ఐ వాంట్ యు టు ఆ యాడ్ దిస్ థింగ్ ఇన్ ది ఆర్టిఫాక్ట్ సో ఎవరీ వన్ కెన్ యు నో ది డెవలపర్స్ కెన్ రీడ్ దిస్ అండ్ ట్రై టు అండర్స్టాండ్ వేర్ ఎగ్జాక్ట్లీ వేర్ వి ఆర్ లూసింగ్ ఇట్ అండ్ వన్ మోర్ థింగ్ ఐ నీడ్ ఏ సొల్యూషన్ ఫర్ దిస్ హౌ వి ఆర్ ట్రయింగ్ టు సాల్వ్ దిస్ లైక్ ఐదర్ వి హావ్ టు రిమూవ్ ది మ్యాపింగ్ థింగ్ ఐ థింక్ వి షుడ్ రిమూవ్ ద మ్యాపింగ్ ఆఫ్ దిస్ బిగ్ డేటాబేస్ ఇస్ వాట్ ఐ యామ్ థింకింగ్ బట్ అట్ ది ఎండ్ అఫ్ ది డే జస్ట్ టెల్ మీ వాట్ కాల్ డు యు టేక్ ఆన్ దిస్ పార్ట్ బ్రో ఇది చెప్తున్నావ్.
+Speaker 2: అది స్క్రీన్ షాట్ అన్నా లేకుంటే కాపీ చేసి ఇస్తావా అదే ఇప్పుడు మొత్తం ఆర్టిఫాక్ట్ లోనే పెడుతున్నా ఇంకా బెస్ట్ గా మీకే కావాలి అంటే ఈ ఆర్టిఫాక్ట్ కొత్త వర్షన్ సపరేట్ గా మీకే ఇస్తా గ్రూప్ లో పెడతా మళ్ళీ  సరే లేకపోతే పెట్టు కదా కనెక్ట్ అయినట్టు ఉంటది ఏ మళ్ళీ నన్ను తిడుతుంది బ్రో నా బాధ అది ఏమని ఏదో ఒకటి అంటా ఇంకెప్పుడు ఇంకెప్పుడు ఇప్పుడు స్నేహాది ఉంది మళ్ళీ ఆమె చూడాలి నాకు 5:30 కి కాల్ ఉంది నేను దానికి ప్రిపేరే కాదు మళ్ళీ అదే చూడాలి నాకు.
+Speaker 2: నిజంగా బ్రో మానేద్దామా అనుకుంటున్నా కానీ వేరే దిక్కు లేదు అని చెప్పి మూసుకుంటా జాబే మానేద్దాం.
+Speaker 2: నేను ఇది కూడా ఇస్తా మీకు ఆ మొత్తం మనం మాట్లాడింది ఏమేమి ఫిక్స్ చేయాలి బ్యాక్ ఎండ్ అనేది మైట్ బి ఆ.
+Speaker 2: 103 మినిట్స్ ఆ.
+Speaker 2: మర్చిపోయాను బ్రో మెయిల్ రాయమని.
+Speaker 2: హే చాట్ ఐ వాంట్ యు టు రైట్ ఎనీ ఇమెయిల్స్ ఇన్ దట్ ఆ.
+Speaker 2: ఇన్ ది అప్లికేషన్ ఆఫ్ లీడ్స్ టిల్ నౌ వి ఆర్ హావింగ్ ది వర్క్ ఫ్లో కైండ్ ఆఫ్ థింగ్ వేర్ ది ఏజెంట్ ఆర్ సారీ ది ఎల్ ఎల్ ఎం ఇస్ ఓన్లీ టేకింగ్ ద ఇన్పుట్ అండ్ క్రియేటింగ్ ది అవుట్పుట్ ఇట్ కెన్ బి సిమిలర్ టు అస్ ప్లేన్ జనరేషన్ జనరేటింగ్ ఆన్ ఇమేజ్ ఆర్ జనరేటింగ్ ఆన్ ఈమెయిల్ ఇస్ ఓకే థింగ్ హియర్ ది ప్లాన్ హియర్ ఇస్ టు రీసెర్చ్ అబౌట్ హౌ కెన్ వి ఇంటిగ్రేట్ ఏఐ ఏజెంట్స్ వేర్ ఇట్ కెన్ డు కపుల్ ఆఫ్ థింగ్స్ సంథింగ్ లైక్ క్రియేటింగ్ ఆన్ హార్డ్నెస్ సిస్టం టు దట్ అండ్ సం.
+Speaker 2: థింగ్ లైక్ స్కెడ్యూలింగ్ ఆటోమేటికల్లీ అండ్ సేవింగ్ ఇట్ అండ్ హౌ కెన్ వి డు దట్ అండ్ గివింగ్ ఇట్ మల్టిపుల్ టూల్స్ సంథింగ్ లైక్ సమ్ అదర్ టూల్స్ విచ్ విల్ బి యూస్డ్ ఫర్ మార్కెటింగ్ సో ఇట్ కెన్ యాస్ ఇట్ దట్ అండ్ ట్రై టు క్రియేట్ ఇట్ అండ్ సంథింగ్ అదర్స్ లైక్ గెట్టింగ్ ది ఇన్ఫర్మేషన్ ఆఫ్ ది ఆ.
+Speaker 2: క్యాంపెయిన్ ఇట్ సెల్ఫ్ అండ్ బేస్డ్ ఆన్ దట్ ఇట్ ఇస్ ఇవాల్యూటింగ్ ఇట్ సెల్ఫ్ ఐ యామ్ జస్ట్ గివింగ్ యు ఆన్ ఎగ్జాంపుల్ బట్ దేర్ మైట్ బి లాట్ అండ్ లాట్ వేర్ వి హావ్ టు ఎక్స్ప్లోర్ ఇట్ దిస్ ఇస్ వాట్ కమల్ వాస్ ట్రయింగ్ టు డిస్కస్.
+Speaker 2: ఆ ఇన్ ద మార్నింగ్ అండ్ దిస్ ఇస్ వాట్ వి నీడ్ ది వాట్ వి నీడ్ ఇస్ ఏ రీసెర్చ్ డాక్యుమెంట్ ఫ్రమ్ యువర్ సైడ్ హౌ కెన్ వి ఇంక్లూడ్ దిస్ అండ్ వాట్ విల్ బి ది అవుట్పుట్స్ అండ్ హౌ వాట్ కెన్ వి డు దిస్ అండ్ హౌ గుడ్ విల్ బి ఇట్ విల్ బి హెల్ప్ ఫుల్ ఫర్ ఎవరీ వన్ ఆర్ ఫర్ ది అప్లికేషన్.
+Speaker 2: చాట్ ఫర్ బి 08 దిస్ ఐ రెడ్ ద ట్రాన్స్క్రిప్ట్ దిస్ ఇస్ ఆన్ ఇష్యూ ఫ్రమ్ ది టూల్ నాట్ టూల్ ఫ్రమ్ ది అప్లికేషన్ ఇట్ సెల్ఫ్ విచ్ ఇస్ ఎడసి ఇన్ దిస్ కేస్ సో వి కెన్ జస్ట్ రిజెక్ట్ ఇట్ అండ్ ది అదర్ థింగ్ వాట్ ఐ వాంట్ టు మెన్షన్ ఇస్ వాట్ డు యు మీన్ బై బ్లాక్ బై బి 21 ఐ వాంట్ ఏ క్లియర్ ఎక్స్ప్లనేషన్ ఆన్ దట్ అండ్ ది అదర్ పార్ట్ విచ్ ఐ వాంట్ టు టెల్.
+Speaker 2: వెన్ యు సే టూల్ కాల్స్ ఆర్ ఫీల్డ్ చేంజెస్ ఆన్ బ్యాక్ ఎండ్ ఐ వాంట్ ఇట్ విత్ ఆన్ ప్రూఫ్ ఫర్ ఎవిడెన్స్ వాట్ షుడ్ బి దేర్ అండ్ హౌ వి హావ్ టు డు ఇట్.
+Speaker 2: 447.
+Speaker 2: ఓకే ద పేషెంట్ నేమ్ ఇస్ డాక్టర్  ఆ హర్షిత కెన్ యు ఆస్క్ దిస్ క్వెరీ టు నిషిత వేర్ ద పేషెంట్ నేమ్ అండ్ డాక్టర్ నేమ్ షి వాస్ సేయింగ్ రైట్ ఐ థింక్ ఇట్ వాస్ బి 11 ఐ విల్ ఆస్క్ హర్ షి వెంట్ టు లంచ్ అచ్చా అచ్చా ఫైన్ ఐ విల్ ఆస్క్.
+Speaker 2: అండ్ కమింగ్ టు దిస్ ఐ థింక్ వాట్ ద క్యూటీ మెన్షన్ టాస్క్ కరెక్ట్ ఇష్యూ బట్ ఐ ఫీల్ దట్ ఇస్ కరెక్ట్ వాట్ దే మెన్షన్ వాస్ కరెక్ట్ లెట్ మీ గివ్ యు దట్ పర్టికులర్ శాంపిల్ ఆర్ యు కెన్ జస్ట్ ఫైండ్ ఇట్ వేర్ ఇట్ కేస్ శ్రీకాంత్ గాట్ బుక్డ్ బట్ ఐ యామ్ నాట్ షూర్ వాట్ ఇస్ ద ఇష్యూ హియర్.
+Speaker 2: ఓకే.
+Speaker 2: బ్రో ఆగు అయిందా పెట్టేసినావా అయిపోయినట్టు ఒక్క నిమిషం అక్క ఆర్టిఫాక్ట్ క్రియేట్ చేసి మీకు ఇచ్చేసి వెళ్తా నాకు కూడా ఆకలి వేస్తుంది లంచ్ కి వెళ్తా.
+Speaker 2: సరే.
+Speaker 2: బ్రో ఒక్కసారి ఆర్టిఫాక్ట్ చెక్ చేయాలి దాంట్లో బ్యాక్ ఎండ్ ఎట్లా ఫిక్స్ చేయాలో కూడా పెట్టినాం అప్డేటెడ్ దేనా ఇప్పుడు అప్డేట్ చేసినా అప్డేట్ అదే అప్డేట్ చేసిన కొత్తగా క్రియేట్ అయితలేదు మళ్ళీ కొత్త చాట్ కి వెళ్ళిపో మళ్ళీ ఎందుకు అని తింటా.
+Speaker 2: పేస్ట్ సెవెన్.
+Speaker 2: సో.
+Speaker 2: నీ దాంట్లోనే చేంజెస్ అన్ని ఇది.
+Speaker 2: టూల్స్ కదా బ్రో నీకు ఇచ్చింది ఆ.
+Speaker 2: ఎక్స్పెక్టెడ్.
+Speaker 2: బ్యాక్ ఎండ్ బ్యాక్ ఎండ్ కి సపరేట్ అని రాసిన ఫిల్టర్ వేసినా సెవెన్ ఉన్నాయి బ్యాక్ ఎండ్.
+Speaker 2: ఓకే వచ్చినాయి ఒక్కసారి చూడు అర్థమైతది ఆ.
+Speaker 2: ఓకేనా బ్రో డన్ బ్రో.</code></pre>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/2026-09-01-voice-agent-sudheer-test-review/"><span class="rel">follows</span>Voice agent test review with Sudheer — 29 test calls, ~30% failed</a></li><li><a href="/2026-09-03-voice-agent-call-scoring-review/"><span class="rel">mentions</span>Voice agent call scoring review — 20 of 34 leads succeeded, the same day the client wrote &quot;not even a single conversion&quot;</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

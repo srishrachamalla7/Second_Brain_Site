@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edesey support call — bug reports with Surajit (current platform) — Srish</title>
+<meta name="description" content="Support call with Surajit (Soji/Sojith) — the indie developer of Edesey , the current voice-agent platform the Voice Agent (TX Hospital) team is planning to leave for Sarvam (see S">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Edesey support call — bug reports with Surajit (current platform)</h1>
+  <div class="meta">2026-08-28<br><span class="tag">voice-agent</span><span class="tag">edesey</span><span class="tag">support</span><span class="tag">bugs</span><span class="tag">carrier</span><span class="tag">testing</span></div>
+  <p>Support call with <strong>Surajit</strong> (Soji/Sojith) — the indie developer of <strong>Edesey</strong>, the current voice-agent platform the Voice Agent (TX Hospital) team is planning to leave for Sarvam (see <a href="/2026-08-28-sarvam-call/">Sarvam AI call — call transfer, pricing, enterprise plan</a>; the Sarvam call's ASR spells it "Etsy" / "A-D-S-E-Y"). The TX Hospital client is complaining about call issues, so the platform has to work while the switch is evaluated. 2026-08-28. Written by an agent from the raw transcript (saved verbatim at <code>inbox/raw/Transcripts/28-08-2026_edesey_call_spearsoft_english.txt</code>).</p>
+<p>Speaker 2 is <strong>Srish</strong> (ASR writes "Rish"/"Swish") with teammate <strong>Ajay</strong> (probably Ajay); Speaker 1 is <strong>Surajit</strong>; Speaker 3 is Kishan (briefly). The transcript is Malayalam-script ASR mixed with English.</p>
+<h2>Summary (English)</h2>
+<ul><li><strong>Bugs reported (with a live screen-share reproduction):</strong></li><li><strong>Auto-refresh / "hard restart"</strong> while creating agents or tools — all</li></ul>
+<p>unsaved changes lost; happens on multiple pages (agents, tools, call transfer numbers). Surajit suspects the page autosaves while a tool is being created; he'll check.</p>
+<ul><li><strong>No delete-agent option</strong> (delete works only from inside the agent);</li></ul>
+<p>Surajit will add a delete feature.</p>
+<ul><li><strong><code>{{ current_datetime }}</code> variable not capturing</strong> — Surajit: single curly</li></ul>
+<p>brace, not double; and the variable is already provided server-side (no need to create it). Wrong time was also reported (showed 3:08 PM, not Indian time) — likely a <strong>timezone</strong> issue; Surajit wants the conversation ID.</p>
+<ul><li><strong>JSON import for custom tools</strong> loses everything on refresh; Surajit will</li></ul>
+<p>add a <strong>copy/paste pop-up</strong> for JSON.</p>
+<ul><li><strong>Call transfer config</strong> refreshes and drops the entered numbers. Surajit:</li></ul>
+<p>only one transfer method is needed ("normal transcript" transfer — direct "transfer to customer support" works, <strong>no IVR keypad</strong> "press 1, press 2"); the new "database transfer" feature is not enabled for them.</p>
+<ul><li><strong>Recordings not visible</strong> in the Edesey UI (visible in their own API-based</li></ul>
+<p>dashboard); Surajit: "recording failed" — being checked.</p>
+<ul><li>Export adds a <strong>"reading ID"</strong> field not present in the JSON.</li><li><strong>Natural sounds repeating</strong> 4–5× and not continuing (maybe LLM/prompt —</li></ul>
+<p>add to the system prompt); Surajit wants conversation IDs.</p>
+<ul><li><strong>Carrier issue:</strong> calls not reachable / ringing out — Surajit says it's the</li></ul>
+<p><strong>provider/carrier side</strong> ("BSNLGO" per transcript); he'll provide <strong>another number</strong> to map with the agent.</p>
+<ul><li><strong>Agent not transferring calls</strong> — Surajit wants the conversation ID from</li></ul>
+<p>call history; three conversation IDs were shared during the call.</p>
+<ul><li><strong>Testing-services pitch (Srish):</strong> Spearsoft started 2022 as a testing</li></ul>
+<p>agency (~70% of revenue still from testing) — offered to connect Surajit with the testing team lead. Surajit isn't hiring an agency now but wants pricing.</p>
+<ul><li><strong>Prompt optimization:</strong> prompts at ~26,000 chars (down from ~48,000) — better</li></ul>
+<p>accuracy; structured prompts reduce hallucination; plan to cut further.</p>
+<ul><li>Surajit asked for screenshots/recordings + conversation IDs on email for any</li></ul>
+<p>reproducible issue.</p>
+<h2>Decided</h2>
+<ul><li>Surajit will: add delete-agent + JSON copy/paste pop-up, check the auto-refresh,</li></ul>
+<p>fix the date-time variable/timezone, provide a new phone number, check the recording failure.</p>
+<ul><li>Srish to send conversation IDs + issue details (screenshots/recordings) to</li></ul>
+<p>Surajit's email; share testing-service pricing info.</p>
+<h2>To do</h2>
+<ul><li>☐ Send conversation IDs + issue screenshots/recordings to Surajit's mail.</li><li>☐ Test the date-time variable fix; confirm current time (timezone).</li><li>☐ Test direct "transfer to customer support" once enabled (no IVR keypad).</li><li>☐ Map the new number to the agent when Surajit provides it.</li><li>☐ Send testing-service pricing info to Surajit (optional, follow-up).</li></ul>
+<blockquote>"Complaining might be the conversation part, right? … If you can pinpoint — in this conversation ID, this natural sound is coming multiple times — that becomes a concrete thing for me. I can then go back to the logs." — Surajit</blockquote>
+<blockquote>"It would be better if you structured the prompts properly … then the agent would not hallucinate." — Srish</blockquote>
+<hr>
+<h2>Transcript (verbatim — Malayalam/English mix)</h2>
+<p>Copied byte-for-byte from the raw file (evidence stays at <code>inbox/raw/Transcripts/28-08-2026_edesey_call_spearsoft_english.txt</code>).</p>
+<pre><code>Speaker 1: ജോയിൻ ആയിട്ടുണ്ട്, ബ്രോ.
+Speaker 2: ഓക്കേ.
+Speaker 1: സ്ക്രീൻ ഷെയർ യെസ് ആണോ? എനിക്ക് മനസ്സിലാകുന്നില്ല, നെറ്റ്—
+Speaker 2: ഫൈൻ, ഫൈൻ.
+Speaker 1: ഹായ്, സോജി.
+Speaker 2: യാ, ഹായ്.
+Speaker 1: യാ, we have switched with me.
+Speaker 2: ഓക്കേ, യാ.
+Speaker 1: ഹായ്, മൈ കോളീഗ്.
+Speaker 2: ഹായ്, സോജിത്. ക്യാൻ യു ഹിയർ മി? യെസ്, ഐ ക്യാൻ ഹിയർ. യെസ്. സോ, സോജിത്, actually we were using your application. Some couple of days, you know, right? So everything was good, but recently there were a couple of— I don&#x27;t say issues, like there were a couple of things it was really bothering us, you know. Sometimes it was working fine, sometimes what is happening is our clients are complaining something like, &quot;Hey, it is—&quot; sometimes not working correctly, you know. I&#x27;m not talking about the agent part, I&#x27;m talking about the part of agent is getting the incoming data, which is the— Might be— what do we call this? Something like a service given by Twilio or someone.
+Speaker 1: ഓക്കേ, ഓക്കേ.
+Speaker 2: ഓക്കേ. So we were just trying to do, like, we were even exploring your application some last 2 days, you know, like exploring everything, documentations, etc., etc. And what we found here is sometimes the application is hard restarting. Okay, let&#x27;s say I&#x27;m updating something, it is restarting again, I need to do from first. I tried to debug it, since even we are developers, okay, so if we tell you it would be easy for you and all. So I tried to debug it, but we couldn&#x27;t understand why it is refreshing multiple times. And I was checking a couple of console logs, like there were a lot of logs showing as an issue and all. And— ഓക്ക
+Speaker 1: ഓക്കേ. Do you have any reference, like can I see?
+Speaker 2: So you want— I think I can replicate it if you want. Do you want me to show?
+Speaker 1: That would be helpful.
+Speaker 2: യെസ്. Don&#x27;t mind, actually, I&#x27;m running a couple of Docker containers, so it would be pretty slow.
+Speaker 1: So in which page you are getting this issue mainly?
+Speaker 2: Mainly in the page, creating agents.
+Speaker 1: ഓക്കേ.
+Speaker 2: And it is loading multiple times.
+Speaker 1: ഓക്കേ.
+Speaker 2: യെസ്. Or else, give me a second, I&#x27;ll try to stop the Docker.
+Speaker 1: ഓക്കേ. I&#x27;
+Speaker 2: I&#x27;ll try to document, take a note of it.
+Speaker 2: Yes, my— it is, what do you call, my note taker is running, I can share to the transcript if needed.
+Speaker 2: Okay, I&#x27;ll just try to stop this.
+Speaker 2: Yes.
+Speaker 1: ഓക്കേ.
+Speaker 3: കിഷാൻ.
+Speaker 2: ഓക്കേ. Is my screen visible now?
+Speaker 1: യെസ്, യെസ്.
+Speaker 2: ഓക്കേ.
+Speaker 2: Like, even I did not, what do you call, note everything, I think, but we can see it now.
+Speaker 1: ആ.
+Speaker 2: One major thing I want to say, which is I&#x27;m not sure whether this is intentional or not, which is once we create the agent, we can&#x27;t, what do you call, delete it, okay? There&#x27;s no option for that.
+Speaker 1: ഓക്കേ, you can go inside and then delete it.
+Speaker 2: Is it okay?
+Speaker 1: യാ, you can go inside.
+Speaker 2: So just go to the top, right, okay, I&#x27;ll see. This should be delete option, yeah, fine.
+Speaker 2: See, just saying, to be on the same page, I&#x27;m not complaining, okay?
+Speaker 1: നന്നായി.
+Speaker 2: See, I know you are an indie developer, but I was just being helpful for you since we got it and all.
+Speaker 2: And the other thing, which is, okay, I don&#x27;t want to change it, okay, I can do that otherwise. Which is, we have this, right? Sometimes— like, as per the documentation and all, we have this, which is, if we use these tags, it will automatically give us the timestamps, right? The current date, current time, and current date-time. But if I use the same thing, what is happening here is, let me show you that. I think I added it here, yes. It is not detecting for some reason.
+Speaker 1: ഓക്കേ, see, for example, the variable is like single put, okay?
+Speaker 2: ഓക്കേ.
+Speaker 1: ഓക്കേ, so your variable should not double put, single put. So if you see in the black waste, blackish part, it is coming only for one.
+Speaker 1: Just click on that.
+Speaker 1: Click outside.
+Speaker 2: ഓക്കേ, outside.
+Speaker 1: ഓക്കേ, do one thing, just create the new— ഓക്കേ, just go to this variable, current date-time, current date-time, and just text the right side, just remove the curly bracket in, and then again add that, and add that.
+Speaker 1: ഓക്കേ.
+Speaker 2: Still not captured.
+Speaker 1: യെസ്, or else I will try to do it again. I tried this, actually.
+Speaker 2: സീ. ഓ
+Speaker 1: ഓക്കേ, it should have come. ठीक है, I&#x27;ll see.
+Speaker 2: Because the reason I kept two braces is because like it is what it is, like this I just copied it and—
+Speaker 1: It should, both should work, actually. It was just showing at the section, so that&#x27;s why.
+Speaker 1: It&#x27;s not captured. Current date-time is in an undefined variable. Click on this.
+Speaker 2: യെസ്.
+Speaker 1: You create.
+Speaker 1: Not the curly brace, single bracket, it should. Otherwise the variable name itself will be current bracket then curly bracket like that.
+Speaker 2: ഓക്കേ.
+Speaker 1: Click on this undefined variable, click on this plus, plus that&#x27;s it.
+Speaker 2: ഓക്കേ, so do I need to add something like date?
+Speaker 1: You can. If you want, you can add default value, you can add, but you don&#x27;t need it.
+Speaker 2: ഓക്കേ, so basically— അച്ചാ, ഓക്കേ, fine. So it will take the current day. It will give me current date and time, right?
+Speaker 1: റൈറ്റ്, റൈറ്റ്.
+Speaker 2: ഓക്കേ, I think, yes, then this would be helpful. We can test. And the other thing, which I want to say, I think, yes, this might be the reason. I&#x27;ll just test and the browser call is not working.
+Speaker 1: യാ, ഈ റിപ്പോർട്ട് I will check.
+Speaker 2: ഓക്കേ.
+Speaker 2: Do you want to show me logs?
+Speaker 1: നോ, browser call I will check. I think this is the reported issue, but fine.
+Speaker 1: I&#x27;ll check. This will be done today. The eyelet is working, but I created your agent to a new system, so that&#x27;s why it&#x27;s an issue.
+Speaker 2: ഓക്കേ.
+Speaker 2: And one more thing, might be a suggestion, not a bug, okay? So I&#x27;m in this agent, right? When I try to go back, again it is not taking me here, okay? Again I need to go to dashboard and all. It would be easy if we go back to the same agent.
+Speaker 1: ആ.
+Speaker 2: Like the breadcrumbs I&#x27;m talking about.
+Speaker 1: Understood. Breadcrumbs is there, upper is done.
+Speaker 2: I mean, it is not relevant, irrelevant it is.
+Speaker 1: ഓക്കേ.
+Speaker 2: Right, like it is taking me to the dashboard, again I need to touch.
+Speaker 1: ആ, ഓക്കേ.
+Speaker 2: And the other thing, I think, yes, this is the other one. Let&#x27;s say, okay, for just, what do you call, reproducing the bug, I&#x27;m doing it, okay?
+Speaker 1: ഓക്കേ. So
+Speaker 2: So just, let&#x27;s say, I have an agent.
+Speaker 1: ഓക്കേ.
+Speaker 2: Let&#x27;s call it this.
+Speaker 2: And what I want to do is, I just want to save these functions into that, okay, for tools, custom tools and all. So what I&#x27;ll do normally, since first thing, I can either import it, okay, there is a bug there also, I&#x27;ll show you that. Which is, let&#x27;s say we have this account, a thing, which is restricted environment, okay? I&#x27;ll just copy it.
+Speaker 2: I&#x27;ll paste it. Sometimes what happens is, it will automatically refresh, and all my— what do you call, changes will be gone.
+Speaker 1: ഓക്കേ.
+Speaker 1: It will be helpful if I provide a pop-up feature so that you can pop it.
+Speaker 2: Yes, since we are using JSON, it is right, we can directly copy JSON and push it. That would be much helpful.
+Speaker 1: I&#x27;ll provide that.
+Speaker 2: See, I did not do anything, it just refreshed.
+Speaker 1: Did you click on the other page? No.
+Speaker 2: No, I did not.
+Speaker 1: ഓക്കേ, understood. You&#x27;re trying.
+Speaker 2: This is not only happening for tools page, this is happening for multiple pages. ഓക്കേ.
+Speaker 2: Only thing is, I couldn&#x27;t reproduce it much time.
+Speaker 1: ഓ, so basically I think in the page itself also we are making, we are saving the data, although you are creating a tool, automated, that&#x27;s why it keeps reloading, I think.
+Speaker 2: അച്ചാ, ഓക്കേ. I&#x27;ll, I&#x27;
+Speaker 1: I&#x27;ll, I&#x27;ll check this part.
+Speaker 2: Yes, I&#x27;m not sure about this. And coming to this, this is fine, this is not a problem. I think in this, I guess. There was an issue, which I felt I forgot what it is, sorry. But there was some issue in this page also, I forgot which one was that.
+Speaker 1: ഓക്കേ, I will see.
+Speaker 2: And yes, I think these are all good. Yes, even this was happening, the same thing. We have this call transfer, right? When I try to add, sometimes what is happening, it is refreshing, and everything will be lost. The same issue which I&#x27;ve shown before. Because I was trying to add these numbers multiple times, so it was happening a lot. And this is not working, so at least for my agent.
+Speaker 1: യാ, so basically you don&#x27;t need both, like this normal transcript or this transfer, and then again the database transfer. You can use either. അച്ചാ, normally this first one is working, so like we didn&#x27;t enable the new database transfer or the new feature.
+Speaker 2: ഓക്കേ, so it is either this or this, not adding.
+Speaker 1: യാ, you don&#x27;t, so basically like normally you have seen on the call, if you suppose I need to transfer the call to customer support, right? So when I can directly say transfer to customer support, that would work. Then when the, like then I would not do, okay, enter the phone again, enter the keypad, press one, press two, those things, actually.
+Speaker 2: അച്ചാ.
+Speaker 1: So that should.
+Speaker 2: ഓക്കേ.
+Speaker 1: And yes, this is voice engine part. This is fine.
+Speaker 2: I think tools is okay, like everything was good, apart from that import thing which we were discussing about.
+Speaker 1: യാ, I&#x27;ll add that too.
+Speaker 2: I think there is, yes, I&#x27;m not sure, might be, I&#x27;m not used to it. Let&#x27;s say we have these parameters, right? Okay, let&#x27;s say we have these parameters, and when I try to test it, okay, okay.
+Speaker 2: Okay, then, sorry, what I remembered was, even this app, if I have parameters, like it was not showing me the parameter input while testing. Might be, I might be skipping something. Yes, like you have seen this, right? When I try to go back to the from agents to this, and it came, yes, this one, and yes, I think if we were trying to test it, but same thing, like I was saying, right, it was refreshing multiple times. So basically what we do is, like I&#x27;ll use Claude Code, and I&#x27;ll ask, it was this scenario, something like this. I&#x27;ll show you that. I&#x27;ll just copy and paste it.
+Speaker 2: Okay, I&#x27;ll just copy this and paste this.
+Speaker 2: So while doing that, what is happening was, it was refreshing and all.
+Speaker 1: ഓക്കേ, understood.
+Speaker 2: Yes.
+Speaker 1: I think, yes. And yesterday I was saying, right, like I think Ajay mentioned you, like for some reason it was not saving, and it was not saving, so I tried to do it multiple times, it did not save, but later you fixed it. And one more thing is, the accuracy, okay, in this part, we have this editor, right, Markdown editor. I think, sorry, this is not Markdown editor, normal editor.
+Speaker 2: Normal editor, yeah.
+Speaker 1: Yes, yes. Okay, if I press backspace, okay, come on, it is working now. Might be, might be.
+Speaker 2: Also, one thing to say, like you have 26,000 characters, right? So the agent would work better if you have structured properly. It&#x27;s like same thing, you might be able to achieve a lot less characters also than the agent would have to finish properly.
+Speaker 1: ഓക്കേ. So
+Speaker 2: So it would be better if you structured the prompts properly. Okay, and then the agent would not hallucinate. So while trying to build the agent, you can follow that.
+Speaker 1: Understood.
+Speaker 2: Okay, actually before it was around 48,000, then we changed it to 26,000, but yes, we&#x27;ll plan to decrease this more. Now the accuracy is a little bit better than before, but which is fine. Now, yes, what you said is correct, but only thing is, okay, let me test this call, because I was working on this current date and time, okay?
+Speaker 1: ഓക്കേ, ഓക്കേ.
+Speaker 2: So I want to see whether is it getting correct date.
+Speaker 1: So current date also, okay, current date time, you don&#x27;t need to create a variable. That is already added to the form, okay, from the backend server. Like for example, if you don&#x27;t have the variable, on the call you just ask, what is the current date time, right? Then it would properly.
+Speaker 2: Yes, it was not saying accurately, so that is the reason I added it.
+Speaker 1: ഓക്കേ, what was the issue, madam? Can you.
+Speaker 2: If you can sign up, for example, you&#x27;re saying not accurately, it would be helpful if you can share the conversion ID with me, okay, so then I can check. Ideally it should work.
+Speaker 1: Yes, current date it mentioned, actually, but current time.
+Speaker 2: Yes, date was correct, but time was different, I guess.
+Speaker 1: Not sure which one was that.
+Speaker 2: And one more thing, we can&#x27;t see the recording, I forgot to mention.
+Speaker 1: Recording failed, okay.
+Speaker 2: This is happening from a couple of days, actually, but we, what we, I think this is in your UI, itself, because we are using your APIs and we created our own dashboard. In that, we can see the recordings.
+Speaker 1: ഓക്കേ.
+Speaker 2: Yes, if I&#x27;ll try, I&#x27;ll try to find, I think Ajay, you tested it, right? Date time.
+Speaker 1: Yes, please.
+Speaker 2: ഓക്കേ.
+Speaker 1: This one again.
+Speaker 2: This one. The time is 3:08 PM, okay? And it was saying the.
+Speaker 1: ഓ, ശരി, I think you can see this problem actually, not Indian time, that might be the problem.
+Speaker 2: Might be. Just try to fix this one also.
+Speaker 1: Can you share this conversion ID?
+Speaker 2: Yes.
+Speaker 1: Yes, send it to me.
+Speaker 2: I&#x27;ll put it in this chat.
+Speaker 1: Yes, fine.
+Speaker 2: Okay.
+Speaker 2: I think I&#x27;ll just, if an additional note, everything. But if I&#x27;ll try to find, I&#x27;ll let you know.
+Speaker 1: യാ, sure, sure, you can just share that.
+Speaker 2: Yes, actually, and what were we thinking to ask? One is this, IVR thing, pressing numbers, we got the answer for that, date and time, and what else?
+Speaker 1: That&#x27;s it, Rish, I think.
+Speaker 2: Yes, one more thing, Surajit, where I don&#x27;t want to, if possible you try to delete it, okay? I&#x27;ll just show you, showing reproducing. Just I want to import, okay? I&#x27;ll just try to, I think, yes, this one was added.
+Speaker 1: ഓക്കേ.
+Speaker 2: I just, what you call, exported, then I did this, and I&#x27;m getting this. I did nothing.
+Speaker 1: ഓക്കേ, ഓക്കേ.
+Speaker 2: And yes, this was the ID. Reading ID, and I checked the complete JSON, and I did not have anything called reading ID in the JSON.
+Speaker 1: Understood, understood, okay.
+Speaker 2: But if I refresh, I can see this.
+Speaker 1: ഓക്കേ, one second.
+Speaker 1: ഓക്കേ, thanks, I&#x27;ll check this issue.
+Speaker 2: ഓക്കേ. And please, don&#x27;t try to delete anything. You just tell us, we&#x27;ll try to delete.
+Speaker 1: I will delete, I&#x27;ll provide the feature to delete.
+Speaker 2: Sure.
+Speaker 1: So yeah, okay.
+Speaker 2: And yes, one more query I have, which is, we have this selection for language, right? In this, we have a section at the end which has four different languages.
+Speaker 1: യാ, it&#x27;s about multilingual also, so that&#x27;s the reason.
+Speaker 2: Yes. So if I press this, does it support, it will tell, what you call, add everything, right?
+Speaker 1: യാ, it will work.
+Speaker 2: ഓക്കേ.
+Speaker 2: So I don&#x27;t need to add languages again in this at all.
+Speaker 1: No, so this was the first version, so it will work, it works similarly, okay? So basically, like if you need English, Hindi, or Telugu and Tamil, the new feature is added, so English you can select, and then from the add language you can select the languages. It works similarly.
+Speaker 2: All the same.
+Speaker 1: Yeah, it works similarly. That&#x27;s the UI thing.
+Speaker 2: Understood.
+Speaker 1: So if I had added this add language, because, so for example, you have the four languages, and the selection is English, Hindi, maybe Telugu, Tamil, Malayalam. Suppose you need English, Hindi, or multilingual, three combination. That is not present in the dropdown.
+Speaker 2: Yes.
+Speaker 1: Right? So that is why you can add that from the add language also. You can select any language. It will work. That&#x27;s how it is.
+Speaker 2: ഓക്കേ, understood.
+Speaker 2: I think, yes.
+Speaker 2: I think, yes, that might be the things we found.
+Speaker 1: Yes, please edit the JSON, right?
+Speaker 2: Yes, actually, I can&#x27;t reproduce that. I was trying to show him the same thing. Actually, what just happened?
+Speaker 1: So one thing you can do, like if you&#x27;re facing an issue, maybe you can take a screenshot, or maybe some recording, okay? Just send it to me, to the mail ID, right?
+Speaker 2: ഓക്കേ.
+Speaker 1: That would be good.
+Speaker 2: ഓക്കേ, actually, what is happening is, sometimes even if I select here, and if I type anything, it will add here, okay?
+Speaker 1: ഓ, card selected problem, ഓ, that might be the issue, okay.
+Speaker 2: Yes, I&#x27;m not sure what is the issue, but yes, we&#x27;ve thought that, like we found that. Now it is working fine. Not sure why, what happened. Yes, see this.
+Speaker 1: യാ, യാ, understand.
+Speaker 1: I&#x27;ll check.
+Speaker 2: And share your call ID.
+Speaker 1: Surajit.
+Speaker 2: Like a.
+Speaker 2: Ajay, your voice is getting weak.
+Speaker 2: We are facing this issue many times. Like we are adding some natural sound.
+Speaker 1: ഓക്കേ.
+Speaker 2: Now, Swish, hello?
+Speaker 1: Yes, now it&#x27;s better. Yes, yes, now it&#x27;s better.
+Speaker 2: യാ, I share your call ID, Surajit.
+Speaker 2: Where we are facing issue, like we are adding some natural sounds, like and f. They are like, it was repeating the same sound multiple times.
+Speaker 1: ഓക്കേ, ഓക്കേ.
+Speaker 2: And it was not continuing also. It&#x27;s maybe from LLM or what, but we are facing like four to five times yesterday.
+Speaker 1: ഓക്കേ.
+Speaker 2: I mean, that kind of actually a prompt also, but Ajay wants to say that you can add it in your system prompt itself.
+Speaker 1: Okay, I&#x27;ll check, yeah.
+Speaker 2: I think, yes. So that&#x27;s all. For now, at least, like if we find anything, we&#x27;ll let you know. One more thing, Surajit.
+Speaker 2: Yes, only a thing, Surajit, like we said, like actually, our client is complaining, okay? So that is the reason we want to talk with you today.
+Speaker 1: Sure, sure, but complaining it might be the conversation part, right?
+Speaker 2: Yeah, might be in the conversation part itself, yes. I think.
+Speaker 1: Like if you can see, if you, for example, understand, there might be some issue, but what issue, if you can, like if you can pinpoint, okay, so suppose like you&#x27;re saying complaining, fine, but I would not be able to take any action on that. But if you can say, okay, for example, in this conversation ID, this natural sound is coming multiple times, like that becomes a concrete thing for me. I can then go back to the logs and check what is the issue, or maybe I can update the prompt also. That&#x27;s it.
+Speaker 2: No, no, no. We are not talking about issues from software, okay? I&#x27;m talking about the connection part. Sometimes if you call, it is not picking up. I mean, picking up in a sense, sometimes it is saying, not reachable, something like this. Sometimes it is saying, like the ring is out, the ring is, but like you&#x27;ll get it right if the network is pretty low. We can&#x27;t call the other guy correctly. It is happening something like that.
+Speaker 1: ഓക്കേ, ഓക്കേ, യാ, like this is coming from the provider side, this carrier.
+Speaker 2: Yes.
+Speaker 1: BSNLGO, right? Those providers are, that we are using. So I learned also this number, you reported, right? The call was not getting picked up or something, not getting transferred, right?
+Speaker 2: Yes.
+Speaker 1: Yeah, so there&#x27;s also the same problem was happening. I&#x27;ll do one thing, I&#x27;ll provide maybe, I&#x27;ll check if the issue still comes, I&#x27;ll provide another number, okay, that you can map with the agent. I think you are not exposing the number to the customer side, so you can transfer.
+Speaker 2: Yes, we can do it usually.
+Speaker 1: Yeah, yeah, so that you can do.
+Speaker 2: Yes, yes, actually, since you&#x27;re talking about transfer, yes, I got, remember, for some reason, I added the prompt and everything, but the agent is not transferring the call. Do you want to test it once?
+Speaker 1: Can you share the conversation ID or something, if I can check then?
+Speaker 2: Agent, can you share your agent number?
+Speaker 1: No, not my agent number. For example, suppose you&#x27;re testing, then you have to call transfer, right?
+Speaker 2: Yes.
+Speaker 1: Conversation ID, from the call history. So like it&#x27;s like I&#x27;m transferring, in this call it is not getting transferred. So that is—
+Speaker 2: Yes. And this call, while I was speaking, it ended up, not sure what happened.
+Speaker 1: Okay, share this call.
+Speaker 2: Okay.
+Speaker 2: Ajay, can you find that, not transferring?
+Speaker 2: Like it was not transferring.
+Speaker 2: You tested it, I tested it, I remember. And meanwhile, Surajit, I just want to say something, like which is, we all know, like even we are from startup and all, and we started our company in 2022 as a testing agency, okay? Till now, at least our 70% of bread and butter is from testing itself. So we were just thinking, we can provide a testing service for you also.
+Speaker 1: Okay, so normally how does that work, in terms of pricing and all?
+Speaker 2: Like actually, I&#x27;m an AI engineer here, okay? So FDE and all, so I can connect you with our testing team. The in-charge for testing guy, so he can talk about this. It&#x27;s not like since we are using it, I&#x27;m saying, okay, it&#x27;s, I know, even like if you don&#x27;t know, even I meant, you don&#x27;t know, which is, even what you call, I&#x27;m also an ND developer, okay? I&#x27;ve created around 150 plus applications. I know how hard it will be to manage multiple things, okay? So I was just thinking, since we can even talk about this, so it would be beneficial for you and us.
+Speaker 1: Okay, okay, let me see, yeah.
+Speaker 2: Yes, do you want me to arrange a call with them, or?
+Speaker 1: Okay, so right now, maybe I&#x27;m not in a position to hire an agency for the testing part. Okay, so let me see. It would be helpful if I can get some idea of the pricing part. Okay, so then I&#x27;ll be able to think about, I&#x27;ll be able to decide on this.
+Speaker 2: Sure, no problem.
+Speaker 2: Ajay, did you get it, Ajay?
+Speaker 1: No, Swish, we will test it again later.
+Speaker 2: Sure. So, Surajit, I think we shared you three conversations. I understand, I will try to send another one, and if you find any bugs, I will let you know about that.
+Speaker 1: Sure, sure, I have noted down these conversation IDs.
+Speaker 2: Okay.
+Speaker 1: If you want, I can send you the transcript so it would be helpful.
+Speaker 2: Transcript, I&#x27;ll figure out. I just need the conversation ID and the issue you&#x27;re facing.
+Speaker 1: No, no, not those transcripts, this call transcript I&#x27;m talking about.
+Speaker 2: Okay, okay.
+Speaker 1: No, I don&#x27;t need, I have noted down those things. All this will be helpful.
+Speaker 2: Okay.
+Speaker 1: Okay, okay.
+Speaker 2: Okay, sorry. I think that&#x27;s all from my side.
+Speaker 1: Okay, okay, bye, thank you.
+Speaker 2: Thank you, Surajit.
+Speaker 1: Bye.
+Speaker 2: Bro, bro, అంతా అయిపోయినాక నాకు వద్దు, టెస్టింగ్ అంటాడు.</code></pre>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/2026-08-28-sarvam-call/"><span class="rel">mentions</span>Sarvam AI call — call transfer, pricing, enterprise plan</a></li><li><a href="/2026-09-01-voice-agent-sudheer-test-review/"><span class="rel">mentions</span>Voice agent test review with Sudheer — 29 test calls, ~30% failed</a></li><li><a href="/2026-09-03-voice-agent-call-scoring-review/"><span class="rel">mentions</span>Voice agent call scoring review — 20 of 34 leads succeeded, the same day the client wrote &quot;not even a single conversion&quot;</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

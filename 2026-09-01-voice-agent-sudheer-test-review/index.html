@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice agent test review with Sudheer — 29 test calls, ~30% failed — Srish</title>
+<meta name="description" content="A screen-share working call between Srish (Srish Rachamalla) and Sudheer (Sudheer) on the TX Hospital Voice Agent (TX Hospital), the same day as Voice agent internal call — why &amp;qu">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Voice agent test review with Sudheer — 29 test calls, ~30% failed</h1>
+  <div class="meta">2026-09-01<br><span class="tag">voice-agent</span><span class="tag">tx-hospital</span><span class="tag">uat</span><span class="tag">testing</span><span class="tag">bugs</span><span class="tag">edesey</span><span class="tag">telugu</span><span class="tag">prompt</span></div>
+  <p>A screen-share working call between <strong>Srish</strong> (Srish Rachamalla) and <strong>Sudheer</strong> (Sudheer) on the TX Hospital Voice Agent (TX Hospital), the same day as <a href="/2026-09-01-voice-agent-internal-call/">Voice agent internal call — why &quot;heart problem&quot; returned a kidney doctor</a> but a different conversation: that one was root-causing the department matcher with the developer, this one is Srish and the tester walking the fresh UAT bug list <strong>call recording by call recording</strong>, opening each conversation ID on the platform and watching what the agent actually said.</p>
+<p>They finished by counting. <strong>29 test calls were made. 8 produced a real bug — 10 if you count the two they argued about. Roughly 30%.</strong> Srish's reaction: <em>"30% అంటే పెద్ద నెంబరే"</em> — 30% is a big number.</p>
+<p>Written by an agent from the raw transcript, saved verbatim at <code>inbox/raw/Transcripts/01_09_2026_Sudheer_tx_voice_agent_issues_call_telugu.txt</code>.</p>
+<blockquote><strong>On the transcript below.</strong> Telugu with heavy English code-mixing, and the ASR is poor — it writes English speech in Telugu script, mangles doctor and branch names, and the speaker diarisation swaps the two of them in places. Read it for the shape of the discussion, not for exact wording. The work discussion is included in full and unedited. Two personal phone calls that came in mid-session have been cut out and marked; nothing else was removed.</blockquote>
+<hr>
+<h2>The count</h2>
+<pre><code>29 TEST CALLS  ─────────────────────────────────────────────
+
+ passed   ███████████████████████████████████░░░░░   21   ~72%
+ failed   ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░    8   ~28%
+                                                     ─────
+ failed, if the 2 disputed ones count                10   ~34%
+
+ how they got to 29:   25 (numbered list)  +  4 (26, 27, 28, 29)
+ counting started from issue #5 onward
+ both testers ran calls  —  &quot;ఇద్దరం చేసినాం&quot;</code></pre>
+<pre><code>WHERE THE 8 BUGS SIT
+
+  prompt / conversation control   ████████████  4
+  name &amp; entity matching          ██████        2
+  tool-call behaviour             ███           1
+  language / handoff wording      ███           1</code></pre>
+<p>Srish's read on the trend, and the one genuinely good piece of news:</p>
+<blockquote><em>"కొత్తవి వచ్చినాయి కానీ పాతవి అయితే రిపీట్ కావట్లేదు బ్రో. మెయిన్ గా అది కావాలి మనకి."</em> New ones showed up, but the old ones are not coming back. That is what matters to us.</blockquote>
+<blockquote><em>"వాయిస్ ఏజెంట్ ఇట్లా ఉంటది — ఒకటి చేస్తే ఇంకోటి పోతది. లక్ ఏందో తెలుసా? పాత ఇయర్ పోవట్లేదు."</em> A voice agent is like this: fix one thing and another breaks. The luck is that the old ones aren't breaking.</blockquote>
+<hr>
+<h2>The bugs</h2>
+<h3>B1 — Two questions in one breath (the worst one)</h3>
+<p>Srish called this out directly: <em>"అన్నిటికన్నా పెద్ద మిస్టేక్ అంటే ఇదే బ్రో"</em> — of everything here, this is the biggest mistake.</p>
+<pre><code>USER:   &quot;నాకు ప్రాబ్లం ఉంది&quot;        (I have a problem)
+          |
+          v
+AGENT (one single turn, no pause):
+
+   &quot;క్షమించండి, ఈ సమస్యకు నేను డాక్టర్ ని సూచించలేను.&quot;
+    Sorry, I can&#x27;t suggest a doctor for this problem.
+          +
+   &quot;మీరు రిసెప్షన్ తో మాట్లాడితే వారు మీకు సహాయం చేయగలరు.&quot;
+    Reception can help you.
+          +
+   &quot;నేను ట్రాన్స్ఫర్ చేయమంటారా?&quot;       &lt;-- QUESTION 1
+          +
+   &quot;ఏ బ్రాంచ్?&quot;                       &lt;-- QUESTION 2, before answer 1
+          |
+          v
+USER has no gap to answer in. Says &quot;Uppal branch&quot; just to get past it,
+which answers Q2 — Q1 is never answered, and the agent carries on as
+if it were.</code></pre>
+<p><em>"నేను అక్కడ ఆన్సర్ చేద్దాం అనేలోపు మళ్లీ మీరు ఏ బ్రాంచ్ కి కనెక్ట్ చేయాలి అని అట్లా క్వశ్చన్ మార్క్ వెళ్తుంటే వెళ్తూనే ఉంది."</em> — before I can answer, the next question mark has already gone past, and it just keeps going.</p>
+<p>The same defect in its milder form is the one on the numbered list: <em>after the user gives their name, the agent confirms it and asks the next question in the same response, instead of waiting.</em> Srish on how hard it is to fix: <em>"ఈ సేమ్ రెస్పాన్స్ ఏం చేయలేం బ్రో"</em> — there is nothing we can do about the same-response thing. It is the one old bug that will not go away.</p>
+<h3>B2 — "గారు" gets glued onto the doctor's name</h3>
+<p>This one is clean and fixable, and it explains a whole family of "doctor not available" reports.</p>
+<pre><code>USER SAYS:      &quot;డాక్టర్ మనోజ్ గారు&quot;
+                 Doctor Manoj  +  గారు  (Telugu honorific, = &quot;sir/madam&quot;)
+                      |
+                      v
+AGENT PARSES:   first name = &quot;Manoj&quot;
+                last name  = &quot;Gargan&quot;        &lt;-- the honorific became a surname
+                      |
+                      v
+DB LOOKUP:      Manoj Gargan   -&gt;  no such doctor
+                      |
+                      v
+AGENT SAYS:     &quot;క్షమించండి, బంజారా హిల్స్ బ్రాంచ్ లో డాక్టర్ మనోజ్ గారు అందుబాటులో లేరు.&quot;
+                 Sorry, Dr Manoj is not available at Banjara Hills.
+
+REALITY:        Dr Manoj exists, at that branch, and is available.</code></pre>
+<p>Sudheer: <em>"ఆ గార్గన్ కూడా సపరేట్ నేమ్ గా తీసుకుంది"</em> — it took "Gargan" as a separate name. Srish's fix direction: the matcher has to accept related and partial names, and honorifics have to be stripped before lookup — <em>"నేమ్ తప్పు తీసుకోవడానికి ఏం చేయాలి అంటే రిలేటెడ్ నేమ్స్ ఇవ్వాలి."</em></p>
+<h3>B3 — Doctor exists in the branch, agent says they don't</h3>
+<p>Reported case: <strong>Dr Ramesh Vasa, Miyapur, nephrology.</strong> The agent told the caller the doctor is not available at that branch, even though the doctor is in the database under that same branch. Both of them checked it live on the call and confirmed the doctor is there. Srish: <em>"ఓకే, ఇది మంచి బగ్ యాక్చువల్లీ"</em> — this is a good bug.</p>
+<p>Suspected to be the same root cause as <strong>B2</strong> (name matching), but not proven — here the agent transcribed "Ramesh Vasa" correctly and still failed. Left open.</p>
+<h3>B4 — Doctor list offered before the caller asked for one</h3>
+<p>The caller gave <strong>only the branch</strong> (Banjara Hills) — no doctor name, no health concern — and the agent went straight into the doctor-suggestion flow and read out a list.</p>
+<p>Both testers hit this <strong>on simultaneous calls</strong>: <em>"ఇద్దరం సైమల్టేనియస్ గా కాల్ చేసినాం. ఇద్దరికి వచ్చింది ఇష్యూ."</em></p>
+<p>Ajay reported the same shape of thing independently — the agent volunteers something new before being told: <em>"చెప్పకముందే ఏదో కొత్త ఇది పెట్టిందంట."</em></p>
+<h3>B5 — Agent repeats a question it has already been answered</h3>
+<p>From the list: <em>user appears confused and asks a question during the appointment booking flow; the agent repeats a previous question instead of addressing it, even after the user has provided the answer.</em> Reproduced from the recording at 5:59.</p>
+<h3>B6 — <code>check_availability</code> called five times for one question</h3>
+<pre><code>USER asks once:   &quot;Is Dr Manoj available?&quot;
+
+  tool call 1  -&gt;  same answer
+  tool call 2  -&gt;  same answer
+  tool call 3  -&gt;  same answer
+  tool call 4  -&gt;  same answer
+  tool call 5  -&gt;  same answer
+
+  final reply to caller: correct.
+  cost, latency and log noise: 5x.</code></pre>
+<p><em>"ఐదు సార్లు చెక్ చేసింది"</em> — it checked five times. Srish noted the end result was still right (<em>"ఎండ్ ఆఫ్ ది డే మనకి సేమ్ ఏ ఇచ్చింది"</em>), so it is not a correctness bug, but the tool must not be re-called once it has answered: <em>"ఒక్కసారి ఆ టూల్ కాల్ చేస్తే మళ్ళీ కాల్ చేయొద్దు."</em></p>
+<p>Latency itself was checked on the call and is <strong>fine</strong> — <em>"క్విక్ రెస్పాన్స్ ఏ ఉంది"</em>.</p>
+<h3>B7 — HR / job-vacancy flow: offers a phone number, then refuses it</h3>
+<p>Handling a "job vacancy at TX Hospital" caller, the agent listed the branches (Uppal, Miyapur, Kachiguda, Banjara Hills) correctly, then began giving a reception number and cut itself off mid-sentence:</p>
+<pre><code>&quot;My reception number is ...&quot;   -&gt;   &quot;క్షమించండి, నేను ఫోన్ నెంబర్ ఇవ్వను.&quot;
+                                     Sorry, I don&#x27;t give phone numbers.</code></pre>
+<p>It starts to do the thing, then announces it is not allowed to. The caller is left with a half-answer.</p>
+<h3>B8 — Eye doctor: transfer vs general physician, and the two of them disagreed</h3>
+<p>The logged issue reads: <em>when the user asks for an eye doctor and the agent identifies the doctor is unavailable, the agent does not offer to transfer to a receptionist — instead it suggested a general physician.</em></p>
+<p>What Srish saw in the recording was the exact opposite: the agent <strong>only</strong> offered the receptionist transfer and never suggested a general physician.</p>
+<pre><code>    LOGGED BUG            SRISH&#x27;S RECORDING
+    ----------            -----------------
+    offered GP            offered receptionist transfer
+    no transfer offer     no GP suggestion
+                          ^ opposite behaviours, same bug id</code></pre>
+<p>Srish sent the conversation ID over so it can be settled from one recording rather than from memory. <strong>Unresolved on the call.</strong></p>
+<p>Worth noting this rubs against the decision taken in <a href="/2026-09-01-voice-agent-internal-call/">Voice agent internal call — why &quot;heart problem&quot; returned a kidney doctor</a> the same day: TX Hospitals has no ophthalmologist at any branch, and the agent should offer <em>either</em> a general physician <em>or</em> a receptionist transfer, from the prompt. If both are acceptable, this may not be a bug at all — but the expected behaviour has to be written down before it is tested again.</p>
+<h3>The two disputed ones</h3>
+<div class="tablewrap"><table><thead><tr><th></th><th>What happened</th><th>Why it was argued</th></tr></thead><tbody><tr><td>No symptoms given → agent assumed <strong>General Medicine</strong></td><td>Caller gave a branch and nothing else; agent picked General Medicine</td><td>Srish: <em>"ఇది ఫీచర్ కాదా బ్రో?"</em> — isn't that a feature? Logged as a wrong assumption anyway</td></tr><tr><td>Issues #2 and #3 on the list</td><td>Same conversation ID, same underlying issue, filed twice</td><td>Counted once, but Srish said count it: <em>"ఇప్పుడు నువ్వు చెప్పిన ప్రతి దాంట్లో ఏది మిస్ కాలే బగ్"</em> — if it was missed, it is a bug</td></tr></tbody></table></div>
+<p>Srish's rule for the count, and it is the right one: <strong>anything the agent got wrong is counted, even the ones we can explain away.</strong> <em>"పోయేదేముంది కానీ 30%."</em></p>
+<hr>
+<h2>Not bugs — settled on the call</h2>
+<div class="tablewrap"><table><thead><tr><th>Reported as</th><th>Verdict</th></tr></thead><tbody><tr><td>Dr Shivaroja / Yellaturi shown under <strong>Neuro Sciences</strong> when Anaesthesia was expected</td><td><strong>Correct.</strong> There are two similarly-named doctors. The one the agent returned is a Movement Disorder Specialist under Neuro Sciences, and her record matches.</td></tr><tr><td>Dr Manoj listed under <strong>Anaesthesia and Pain</strong> but described as Critical Care</td><td><strong>Correct.</strong> Critical care is his specialisation inside that department.</td></tr><tr><td>Agent said "గారు" so we can't tell if the doctor is male or female</td><td><strong>Not a bug — Telugu.</strong> <code>గారు</code> is a respect suffix with no gender. Sudheer: <em>"అది జెండర్ ఈక్వాలిటీ ఏం లేదు. జెండర్ తోటి ఏం సంబంధం లేదు. రెస్పెక్ట్."</em> Srish had assumed female from it. If gender matters to a caller, the agent has to say it explicitly.</td></tr><tr><td>Appointment number came through as <code>0000...</code></td><td><strong>Not the agent.</strong> That was the caller ID on the test line, not a booking ID.</td></tr><tr><td>"Uppal" missing from the transcript</td><td><strong>ASR, not the agent.</strong> <em>"నేను ఉప్పల్ బ్రాంచ్ అంటే అది ఆ ఉప్పలే కట్ చేసేసింది"</em> — the transcriber dropped the word; the agent heard it fine.</td></tr></tbody></table></div>
+<hr>
+<h2>Platform and infrastructure — still broken, not the agent's fault</h2>
+<pre><code>  [ ] call recordings still not saving        &quot;ఏంటి బ్రో, రికార్డింగ్ వస్తలేదు&quot;
+  [ ] mobile calls do not connect at all      only browser calls work
+  [ ] browser calls also drop mid-call
+  [ ] low balance warning on the account
+  [ ] Edesey UI changed under them — have to log out and back in to see it</code></pre>
+<p>These are the <a href="/2026-08-28-edesey-call/">Edesey support call — bug reports with Surajit (current platform)</a> items, still open. Srish on the vendor changing the interface without warning, unedited: <em>"ఏదో పైసలు కట్టినాం కదా అని చెప్పి, అయ్యో వీడు ఇవే మొత్తం మార్చిండు దరిద్రుడు."</em></p>
+<p>The recordings gap is the expensive one. Srish's point: <em>"ట్రాన్స్క్రిప్ట్ రికార్డింగ్ ఉంటే లొల్లు ఉండదు"</em> — with the transcript and the recording there is no argument. Every disagreement on this call, B8 included, existed only because they were working from memory instead of a recording.</p>
+<hr>
+<h2>Other things that came up</h2>
+<ul><li><strong>Nishita's "technical issue" report.</strong> Nishita reported that at the very</li></ul>
+<p>end of a booking flow the agent says <em>"క్షమించండి, మాకు కొన్ని సాంకేతిక సమస్యలు ఎదురవుతున్నాయి"</em> — sorry, we are facing some technical problems — and fails to book. Checked live: <strong>not a context-length problem.</strong> That conversation was around 3,000 tokens; even the long ones run 6,000–7,000, and 14,000–21,000 would still be fine. Cause not found. Still open.</p>
+<ul><li><strong>Date and time.</strong> The agent gets today's date right; the <strong>time</strong> drifts.</li></ul>
+<p><em>"డేట్ అయినా కరెక్ట్ చెప్తాది కానీ టైం మెయిన్ గా... పైన కింద వస్తది."</em> Needs spot-checking.</p>
+<ul><li><strong>They were testing production, not UAT.</strong> <em>"యుఎటి చేయలేదు బ్రో. ఇదే చేశాం."</em></li></ul>
+<p>This matters — the UAT2 subdomain agreed in <a href="/2026-09-01-voice-agent-internal-call/">Voice agent internal call — why &quot;heart problem&quot; returned a kidney doctor</a> is exactly the fix for it.</p>
+<ul><li><strong>"User has selected English" is leaking into the conversation start</strong> — a</li></ul>
+<p>prompt line surfacing where it should not.</p>
+<ul><li><strong>Analytics check requested.</strong> Someone asked, in English on the call, for the</li></ul>
+<p>new analytics to be compared against the old: event counts verified, the search-concept behaviour looked at, and a plain yes/no on whether everything is working. <em>"Just compare with the old analytics and let me know whether everything is fine. If not, just tell me."</em></p>
+<ul><li><strong>Scenarios not yet tested.</strong> Deactivating a doctor and then calling in is one</li></ul>
+<p>of several scenarios still untouched: <em>"డాక్టర్ ని యాక్టివ్ చేసి చూడడం. అలా కొన్ని సినారియోస్ ఉన్నాయి. చూస్తాం మేము."</em></p>
+<ul><li><strong>Everyone is working nights.</strong> <em>"ఏంది బ్రో, ఇంత నైట్ వర్క్ చేస్తారా మీరు కూడా?"</em> —</li></ul>
+<p><em>"మళ్లీ ఇది క్రిటికల్ ఉందని అంటున్నారు, అందుకని."</em> It is being called critical, so there is no choice.</p>
+<ul><li><strong>Sudheer did not want to re-raise a bug</strong> in case it looked like Srish was</li></ul>
+<p>refusing to accept bugs — <em>"శ్రీష్ బగ్గు ఒప్పుకోవట్లేదు అన్నట్టు ఉంటది."</em> Srish told him to raise it anyway. Worth keeping: a tester who self-censors is a worse problem than any bug on this list.</p>
+<hr>
+<h2>Decided</h2>
+<ul><li><strong>Count every wrong answer as a bug</strong>, including the ones with an</li></ul>
+<p>explanation. The number is ~30% and it gets reported as ~30%.</p>
+<ul><li><strong>The <code>గారు</code> honorific must be stripped before any doctor lookup</strong>, and the</li></ul>
+<p>matcher must accept related and partial names.</p>
+<ul><li><strong>A tool must not be re-called once it has answered</strong> within the same turn.</li><li><strong>B8 gets settled from the conversation ID, not from memory.</strong> ID already</li></ul>
+<p>sent.</p>
+<ul><li>Srish will write the transcript points up and hand them over, so Sudheer has</li></ul>
+<p>something to show when asked: <em>"నీకు కూడా రేపు ఎవరు అడిగితే యూస్ అయితది."</em></p>
+<h2>To do</h2>
+<ul><li>☐ Fix the same-response problem — agent must ask <strong>one</strong> question and stop</li><li>☐ Strip Telugu honorifics (<code>గారు</code>) before doctor-name lookup; add related and</li></ul>
+<p>partial name matching</p>
+<ul><li>☐ Find why Dr Ramesh Vasa (Miyapur, nephrology) is reported unavailable</li></ul>
+<p>when the record exists in that branch</p>
+<ul><li>☐ Stop the doctor-suggestion flow firing when the caller has given only a</li></ul>
+<p>branch</p>
+<ul><li>☐ Suppress repeat tool calls inside a single turn</li><li>☐ HR / vacancy flow — decide whether the reception number is given or not,</li></ul>
+<p>and make the agent do only that</p>
+<ul><li>☐ Settle B8 from the conversation ID and **write down the expected</li></ul>
+<p>ophthalmology behaviour** before the next test round</p>
+<ul><li>☐ Reproduce Nishita's "technical issue" failure — it is not context</li></ul>
+<p>length</p>
+<ul><li>☐ Spot-check the time the agent reports</li><li>☐ Stop "user has selected English" leaking into the conversation</li><li>☐ Move testing to the UAT2 subdomain instead of production</li><li>☐ Chase Edesey again: recordings, mobile calls, dropped browser calls,</li></ul>
+<p>account balance</p>
+<ul><li>☐ Compare new analytics against old; confirm event counts</li><li>☐ Test the untouched scenarios — deactivated doctor, and the rest</li></ul>
+<h2>Open questions</h2>
+<ul><li>Is "no symptoms given → General Medicine" a bug or a feature? Undecided.</li><li>Is B3 the same name-matching root cause as B2, or something else?</li><li>Why is <code>check_availability</code> re-firing five times when the first answer was</li></ul>
+<p>already correct?</p>
+<hr>
+<p>Both of them think this is close to the end. <em>"మైట్ బి ఇది లాస్ట్ మేజర్ టెస్టింగ్ అనుకుంటున్నా. తర్వాత అంతా మంచిగానే అయితది అనుకుంటున్నా."</em> — this might be the last major round of testing; after this it should all be fine. The reply was <em>"చూద్దాం"</em> — we'll see.</p>
+<hr>
+<h2>Transcript (Telugu/English ASR mix, verbatim)</h2>
+<p>Copied from the raw file. Two personal phone calls that interrupted the session were cut and are marked in place; the work discussion is unedited. The untouched original stays at <code>inbox/raw/Transcripts/01_09_2026_Sudheer_tx_voice_agent_issues_call_telugu.txt</code>.</p>
+<pre><code>Speaker 1: అంటే అట్లా అని కాదు, కానీ ఇష్యూస్ అయితే ఎందుకంటే మనం మన— మీకు ఇష్యూస్ అయితే, సేమ్ మళ్లీ రిపీట్ అవుతుంది.
+Speaker 2: ఒక్కసారి చూపిస్తా, బ్రో.
+Speaker 1: మీకు, మీకు ఒకసారి నేను ఇష్టం, నేను షేర్ చేస్తాను. మీకు అది పంపియమని చెప్తాను, ఒక్క నిమిషం. ఫ
+Speaker 2: ఫైన్, ఫైన్.
+Speaker 1: ఓకే, ఓకే.
+Speaker 2: బ్రో, ఒక్క నిమిషం. బ్రో, హెడ్‌సెట్ పెట్టుకుంటున్నా.
+Speaker 1: ఆ.
+Speaker 2: వినిపిస్తుందా, బ్రో?
+Speaker 1: ఆ, వినిపిస్తుంది.
+Speaker 2: ఓకే.
+Speaker 1: ఏదో, ఏదో చెప్తున్నావు, బ్రో. హెడ్‌సెట్ పెట్టుకున్నావు.
+Speaker 2: ఆ, తను నీ ఇష్టం. ఇంకా, ఇంకా చేస్తుంది తను. నేను అచ్చినవన్నీ పంపిస్తాను.
+Speaker 1: ఓకే. ఏంది బ్రో, ఇంత నైట్ వర్క్ చేస్తారా మీరు కూడా?
+Speaker 2: అది వర్క్ ఉన్నప్పుడు తప్పదు కాబట్టి.
+Speaker 1: అంతే అంటావ్.
+Speaker 2: మళ్లీ ఇది క్రిటికల్ ఉందని అంటున్నారు, అందుకని.
+Speaker 1: ఇప్పుడు ఇది టెస్ట్ చేసినావు, బ్రో. ప్రాడ్ లో ఉంది, అదే యుఎటిది.
+Speaker 2: యుఎటి చేయలేదు, బ్రో. ఇదే చేశాం, యుఎటి చేయలేదు.
+Speaker 1: టైం పట్టిందా, బ్రో, ఇంత?
+Speaker 2: ఆ, టైం అంతే పట్టలేదు, కానీ చేయలేదు.
+Speaker 1: లేదు బ్రో, యాక్చువల్లీ బేసిక్. ఓకే, చూపిస్తున్నా.
+Speaker 1: ఆఫ్టర్ యూసర్ ప్రొవైడ్, ద ఏజెంట్ కన్ఫర్మ్స్ ద నేమ్ అండ్ ఇమిడియట్లీ ఆస్క్స్ ద నెక్స్ట్ క్వశ్చన్ ఇన్ ద సేమ్ రెస్పాన్స్.
+Speaker 1: బ్రో, ఈ సేమ్ రెస్పాన్స్ ఏం చేయలేం బ్రో. ఇది దమ్ దమ్ చేస్తుంది.
+Speaker 2: నెక్స్ట్ వచ్చేసి, ద యూసర్ ఓన్లీ సెలెక్టెడ్ ద బంజర్ అండ్ డిడ్ నాట్ ప్రొవైడ్ ఏ స్పెసిఫిక్ డాక్టర్ నేమ్. హౌ ఎవర్, ఆర్ హౌ ఎవర్, ద ఏజెంట్ డైరెక్ట్లీ ట్రిగ్గర్స్ ద డాక్టర్ సజెషన్ ఫ్లో, ప్రొవైడ్స్ ఏ లిస్ట్ ఆఫ్ డాక్టర్. ఓకే, ఇది చెక్ చేస్తా. ఒక్క నిమిషం.
+Speaker 1: స్క్రీన్ షేర్ చేయనా, బ్రో? నన్ను ఒకసారి.
+Speaker 2: ఆ, చేయండి. చేయండి.
+Speaker 1: బ్రో, అండి వన్ నేమ్ వద్దు, బ్రో.
+Speaker 2: వద్దు, వద్దు.
+Speaker 1: ఏంటి బ్రో?
+Speaker 2: వాట్ ఇస్ దిస్?
+Speaker 1: నువ్వు డెవలప్మెంట్ దాంట్లో ఉంటే అర్థమవుతుంది బ్రో. అందరికంటే ఫ్రెండ్లీ బ్రో నేను.
+Speaker 2: నాకు కొత్త కదా మీకు.
+Speaker 1: మళ్లీ ఇంకోటి, మనం అంతా సేమ్ ఏజెంట్. ఓకే, దొబ్బింది ఏదో. ఆత్ వేయండి.
+Speaker 1: ఫస్ట్, ఈ అప్లికేషన్ లోకి వెళ్లి బయటికి రావాలి బ్రో. నీ అమ్మ దమ్ దమ్ ఉంది అయితే.
+Speaker 1: ఏదో పైసలు కట్టినాం కదా అని చెప్పి, అయ్యో వీడు ఇవే మొత్తం మార్చిండు దరిద్రుడు.
+Speaker 1: ఓకే, ఇదే ఇదే. లో బ్యాలెన్స్ ఆ.
+Speaker 2: ఆ, కావాల్సినప్పుడు బ్రౌజర్ కాల్ అయితేనే అవుతుంది. మొబైల్ కాల్ అవ్వట్లేదు.
+Speaker 1: ఆ, అది చెప్పినా బ్రో, ఈ అజయ్ అడుగుతా అన్నాడు. మనది ఏమైందో నాకు తెలియదు.
+Speaker 2: బ్రౌజర్ కాల్ కూడా ఓకే, కట్ అవుతుంది.
+Speaker 1: అవునా?
+Speaker 2: ఆ.
+Speaker 1: ఏంటి బ్రో, రికార్డింగ్ వస్తలేదు. సర్వ్ అయిపోతుంది. ఓకే, కన్సర్న్ ఏంటి ఇక్కడ?
+Speaker 1: వన్ సెకండ్.
+Speaker 1: రైట్. ఆ,  ద యూసర్ ఓన్లీ సెలెక్టెడ్ ది బంజర్. బంజర్ డిడ్ నాట్ ప్రొవైడ్ ఏ స్పెసిఫిక్ డాక్టర్ నేమ్ ఆర్ హెల్త్ కన్సర్న్. ఓకే.
+[ personal phone call — removed ]
+Speaker 1: బ్రో, సారీ బ్రో. ఓకే. ఆ, చెప్పు.
+Speaker 2: ఆ, ఓకే.
+Speaker 1: ఇక్కడ వీళ్ళు ఏమంటున్నారు అంటే, ఇందులో నిన్ను బంజారా హిల్స్ ఇవ్వకముందే నాకు డాక్టర్ లిస్ట్ ఇచ్చింది. హెల్త్ కన్సర్న్ తోని అని చెప్పి అన్నారు కదా బ్రో.
+Speaker 2: అవును, అవును.
+Speaker 1: ఓకే. ఆ, అప్ప.
+Speaker 1: బుక్ చేయాలి.
+Speaker 1: వాడి ఒకటి. గీ. గీత. అచ్చా, నేమ్ గీత.
+Speaker 2: నేమ్ గీత.
+Speaker 1: ఆ, రాలేదు.
+Speaker 1: ఎప్పుడు రాలేదు. ఓకే. బంజారా హిల్స్. ఓకే.
+Speaker 1: బ్రాంచ్ నెంబర్. హెల్త్ కన్సర్న్. జనరల్ మెడిసిన్. అచ్చా.
+Speaker 2: ఉమ్.
+Speaker 1: ఆ, ఇద్దరికి వచ్చింది. ఇద్దరం సైమల్టేనియస్ గా కాల్ చేసినాం. ఇద్దరికి వచ్చింది ఇష్యూ.
+Speaker 2: అవును.
+Speaker 1: ఓకే.
+Speaker 2: ఎందుకు వచ్చింది?
+Speaker 1: బ్రో, ఇది 30th ఆగస్ట్ 7:32. బ్రో, నేను ఇది ఫిక్స్ చేసినా.
+Speaker 2: ఐడియా అది పెట్టారా?
+Speaker 1: ఆ, అదే ఉంది బ్రో. మన.
+Speaker 2: ఇందులో సీరియల్ నెంబర్ చెప్పు బ్రో, ఒకసారి. మీరు ఇప్పుడు నేను టీమ్స్ లో పెట్టాను కదా, మీరు ఇష్యూస్.
+Speaker 1: సెకండ్, సెకండ్, సెకండ్ వన్.
+Speaker 2: సెకండ్ వన్.
+Speaker 1: అసలు ఇక్కడ ఐడియా లేదు కదా బ్రో.
+Speaker 2: ఏ, ఉంది బ్రో. బ్రాకెట్ లో ఉంది, చూడు.
+Speaker 1: లాస్ట్ లో.
+Speaker 2: ఒక్క నిమిషం.
+Speaker 1: ఆ, లేదు లేదు బ్రో. మీకు సారీ, సారీ. నీకు అన్నీ సెలెక్ట్ అయ్యి వచ్చినాయి. ఒక్క నిమిషం, నేను చెక్ చేస్తా. సారీ.
+Speaker 2: ఇక్కడ ఉంటావు బ్రో.
+Speaker 1: ఇక్కడే అంటే ఉంటా బ్రో.
+Speaker 2: ఏంటి?
+Speaker 1: ఓకే. దగ్గరనే అయితే.
+Speaker 2: ఆ, దగ్గరనే.
+Speaker 1: ఇప్పుడు చూడు బ్రో, ఒకసారి.
+Speaker 2: ఓకే. దాని యూసర్ అప్పియర్స్ కన్ఫ్యూజ్డ్ అండ్ ఆస్క్ ఏ క్వశ్చన్ డ్యూరింగ్ ది అపాయింట్మెంట్ బుకింగ్ ఫ్లో. ద ఏజెంట్ రిపీట్స్ ఏ ప్రీవియస్ క్వశ్చన్. ఇన్స్ట్రక్టర్ అడ్రెస్సింగ్ ఈవెన్ ఆఫ్టర్ ది యూసర్ ప్రొవైడ్స్.
+Speaker 2: కాల్ ఫైనల్ కన్ఫర్మేషన్.
+Speaker 2: ఓకే, ఏంది ఇది?
+Speaker 1: 5:59.
+Speaker 2: పర్ఫెక్ట్.
+Speaker 1: ఓకే.
+Speaker 2: ద యూసర్ అప్పియర్స్ కన్ఫ్యూజ్డ్. ఓకే.
+Speaker 1: హాస్పిటల్ హెచ్ ఆర్. షాప్ వేకెన్సీ. మా టిఎక్స్ హాస్పిటల్ బ్రాంచ్.
+Speaker 2: లో ఉద్యోగ ఖాళీ.
+Speaker 2: ల కోసం.
+Speaker 1: అభ్యర్థులు నేరుగా మా బ్రాంచ్ రావాలి.
+Speaker 2: ఓకే, పర్ఫెక్ట్. ఏ బ్రాంచ్ కి? వెళ్ళండి.
+Speaker 2: ఓకే.
+Speaker 1: మీరు ఏ బ్రాంచ్ కి వెళ్ళు.
+Speaker 2: వెళ్ళాలనుకుంటున్నారా?
+Speaker 1: వెళ్ళాలనుకుంటున్నారా? మాకు ఉప్పల్ మియాపూర్ కాచిగూడ మరియు బంజారా హిల్స్ బ్రాంచ్ లో బ్రాంచ్లు ఉన్నాయి.
+Speaker 2: జాబ్ వేకెన్సీస్ కోసం పర్టికులర్ గా ఏ బ్రాంచ్ కి వెళ్ళాలి? ఏమైనా ఐడియా ఉంటే మీకు.
+Speaker 1: ఆ, లేదు.
+Speaker 2: ఏ బ్రాంచ్? ఓకే.
+Speaker 1: ఓకే. మై రిసెప్షన్ నెంబర్ ఇస్ సారమ్మకు  ఫోన్ నెంబర్ ఇస్ సారమ్మకు ఓరు. సారీ, ఓకే. క్షమించండి, నేను ఫోన్ నెంబర్ ఇవ్వను. బేసిక్ గా ఫోన్ నెంబర్ ఇవ్వమని అంటున్నాను. ఒకసారి ఫోన్ నెంబర్ ఇవ్వమని అంటున్నాను బ్రో.
+Speaker 2: మేబీ. ఆ, అంటే ఏం చేయలేదు. రైట్.
+Speaker 1: అదే బ్రో, ట్రాన్స్క్రిప్ట్ రికార్డింగ్ ఉంటే లొల్లు ఉండదు. ఈ ట్రాన్స్క్రిప్ట్ బట్టి.
+Speaker 2: అదే.
+Speaker 1: లేదు, వద్దండి. డాక్టర్ ఆ.
+Speaker 1: డాక్టర్. అంటే మనోజ్ గారు అవైలబుల్ గా ఉన్న
+Speaker 2: అంటే మనోజ్ గారు అవైలబుల్ గా ఉన్నారా?
+Speaker 1: ఉన్నారా?
+Speaker 2: ఓకే. అక్షయ్ కుమార్ శత్రం.
+Speaker 1: ఏమో.
+Speaker 2: ఆ, బ్రాంచ్ నేమ్ లేదు. డాక్టర్ ఐడి మనోజ్ పర్ఫెక్ట్. అవైలబుల్ స్లాట్స్.
+Speaker 1: ఉమ్.
+Speaker 2: ఓకే.
+Speaker 1: ఆ, బ్రాంచ్ నేమ్.
+Speaker 2: డిపార్ట్మెంట్ అనస్థీషియా అండ్ పెయిన్. వీడు మనోజ్ ఏనా?
+Speaker 1: ఆ, మనోజ్.
+Speaker 2: డాక్టర్ మనోజ్. రైట్.
+Speaker 1: పర్ఫెక్ట్. మళ్లీ చెక్ చేసింది. ఎందుకు చేసింది?
+Speaker 2: బట్ ఫైన్. ఎండ్ ఆఫ్ ది డే మనకి సేమ్ ఏ ఇచ్చింది.
+Speaker 1: ఓ, ఓ, ఓ.
+Speaker 2: ఐదు సార్లు చెక్ చేసింది.
+Speaker 1: డాక్టర్ మనోజ్ గారు మా.
+Speaker 1: బంజారా హిల్స్ బ్రాంచ్ లో అందుబాటులో ఉన్నారు. మీరు అక్కడే బుక్ చేయాలి.
+Speaker 2: చేయాలనుకుంటున్నారు.
+Speaker 1: లేదా నేనే మీ బ్రాంచ్. ఓకే. ఈరోజు అవైలబుల్ గానే ఉన్నారా? 7:00 కి.
+Speaker 2: ఏమైనా డైరెక్ట్ ఆ సర్ నేరుగా.
+Speaker 1: డైరెక్ట్ హాస్పిటల్ కి వెళ్దాం అనుకుంటున్నాం.
+Speaker 2: ఓకే.
+Speaker 1: ఆ, ఓకే.
+Speaker 2: ఆ, ఓకే. డాక్టర్ మనోజ్ గారు ఈరోజు ఓకే అవైలబుల్ గా ఉన్నారు.
+Speaker 1: ఈయన ఎవరు? అసలుకి డాక్టర్ మనోజ్.
+Speaker 2: ఆ.
+Speaker 1: కన్సల్ట్ క్రిటికల్ కేర్ స్పెషలిస్ట్.
+Speaker 2: ఆ, అక్కడే యాక్చువల్లీ తను ఏందంటే అనస్థీషియా స్పెషలిస్ట్ అని.
+Speaker 1: ఆహా.
+Speaker 2: డాక్టర్.
+Speaker 1: అనస్థీషియా డిపార్ట్మెంట్.
+Speaker 2: అంటే.
+Speaker 1: స్పెషలైజేషన్ వచ్చేసి ఇది.
+Speaker 2: అంటే దాంట్లో ఒక పార్ట్ కదా బ్రో.
+Speaker 1: ఓకే, ఓకే. ఆ.
+Speaker 2: అయితే ఇక్కడ డాక్టర్ మనోజ్ గారు ఈరోజు అవైలబుల్ గానే ఉన్నారో న్యూరోలో.
+Speaker 1: చేయాలనుకుంటున్నారు.
+Speaker 2: ఆ, ఇది ఏంది బ్రో? అవైలబుల్ గా ఏది బ్రో? ఈరోజు.
+Speaker 1: అందుబాటులో ఉన్నారు. మీరు అపాయింట్మెంట్ బుక్ చేయాలనుకుంటున్నారా? లేదా నేరుగా వెళ్తారా?
+Speaker 2: పర్ఫెక్ట్.
+Speaker 1: న్యూరాలజీ స్పెషలిస్ట్ నారని హాస్పిటల్.
+Speaker 2: బంజారా హిల్స్ న్యూరాలజీ కోసం సెర్చ్ చేసింది.
+Speaker 1: ఆ, డాక్టర్ శివరూజ.
+Speaker 2: ఈయన గురించి చెప్పింది.
+Speaker 1: అవును, మా బంజారా హిల్స్ బ్రాంచ్ లో డాక్టర్ శివరూజ.
+Speaker 2: ఆ, ఓకే.
+Speaker 1: ఇక్కడ మిస్టేక్ అయింది కదా బ్రో. ఇప్పుడు ఆమె న్యూరాలజీ డిపార్ట్మెంట్ అని ఉంది కదా.
+Speaker 2: ఉమ్.
+Speaker 1: యాక్చువల్లీ తను అనస్థీషియా డిపార్ట్మెంట్.
+Speaker 2: ఎవరు?
+Speaker 1: ఇక్కడ రోజా అని ఉంది కదా పేరు.
+Speaker 2: లేదు బ్రో. న్యూరో సైన్స్.
+Speaker 1: న్యూరో సైన్స్ ఇక్కడ ఉంది బ్రో. కన్సల్టెంట్ న్యూరాలజిస్ట్.
+Speaker 2: ఓకే, ఓకే.
+Speaker 1: మైట్ బీ సేమ్ ఇలా అంటే ఇంకా ఒక ఆమె అనస్థీషియా ఒక ఆమె ఉందా? కరెక్ట్.
+Speaker 2: మేబీ. ఆ, మేబీ. శివ అనేది ఉండే
+Speaker 1: శివ అనేది ఉండాలి.
+Speaker 2: బ్రో, ఇది ఒక్కసారి.
+Speaker 1: ఆ, శివరాత్రి. ఓకే.
+Speaker 2: అవును, మా బంజారా హిల్స్ బ్రాంచ్ లో డాక్టర్ శివరూజ ఎలా ఎల్లోటూరి గారు ఉన్నారు.
+Speaker 1: ఎల్లోటూరి గారు ఈయన బాయ్ ఫేమి ఎట్లా తెలుసు బ్రో? నేనైతే ఫీమేల్ అనుకుంటున్నాను.
+Speaker 2: ఎవరైనా గారు అని వస్తది కాబట్టి. ఎందుకంటే రెస్పెక్ట్. ఇప్పుడు డాక్టర్ అన్నప్పుడు రెస్పెక్ట్ తోటి గారు అనే ఉంటది కదా.
+Speaker 1: అమ్మాయికి కూడా గారే అంటారా?
+Speaker 2: ఆ, అది జెండర్ ఈక్వాలిటీ ఏం లేదు. జెండర్ తోటి ఏం సంబంధం లేదు.
+Speaker 1: ఓకే.
+Speaker 2: రెస్పెక్ట్.
+Speaker 1: ఉమ్.
+Speaker 2: మెథడ్ మరియు మెథడ్. మెథడ్ ఎడిటింగ్ వచ్చింది.
+Speaker 1: ఆ, అదే.
+Speaker 2: మెథడ్.
+Speaker 1: వైల్డ్ మెథడ్. ఓకే.
+Speaker 2: న్యూరో సైన్స్.
+Speaker 1: ఆ, మూమెంట్ డిసార్డర్.
+Speaker 2: మూమెంట్ డిసార్డర్ స్పెషలిస్ట్.
+Speaker 1: ఆ, ఉంది బ్రో. తన పేరు మీదే ఉంది. మూమెంట్ డిసార్డర్ స్పెషలిస్ట్.
+Speaker 2: ఆ, ఆమెనే. అది టూల్ కాల్ పక్కా కరెక్ట్ వస్తది బ్రో.
+Speaker 1: బ్రెయిన్ రిలేటెడ్ అడుగుదాం. బ్రెయిన్ రిలేటెడ్. నార్మల్ న్యూరో అంటే బ్రెయిన్ రిలేటెడ్ వస్తది.
+Speaker 2: ఓకే.
+Speaker 1: ఆ, అంతే బ్రో. బ్రెయిన్ రిలేటెడ్.
+Speaker 2: ఓకే.
+Speaker 1: ఓకే, బంజారా హిల్స్. ఓకే.
+Speaker 2: మళ్లీ నేను ఉప్పల్లో బుక్ చేయండి.
+Speaker 1: ఓకే.
+Speaker 2: ఉప్పల్లో బుక్.
+Speaker 1: 8 నిమిషం అండి.
+Speaker 2: ఓకే.
+Speaker 1: మల్లెలూరు సార్.
+Speaker 2: డాక్టర్ల వివర. మళ్లీ ఒక్కసారి మై.
+Speaker 1: మళ్లీ ఒక్కసారి.
+Speaker 2: ఉమ్.
+Speaker 1: సరే, తీసుకోండి. నేను ఇక్కడ ఉంటాను మరి.
+Speaker 2: ఉమ్.
+Speaker 1: మళ్లీ ఒకసారి డాక్టర్ వివరాలు చెప్తారా? కచ్చితంగా ఒక డాక్టర్ రోజా. డాక్టర్ రోజా గారు మా.
+Speaker 2: బంజారా హిల్స్ బ్రాంచ్ లో అందుబాటులో ఉన్నారు.
+Speaker 1: ఓకే, కరెక్ట్ కదా బ్రో? ఇదైతే.
+Speaker 2: అవును.
+Speaker 1: ఆ రోజు ఆ రోజా గారితోనే బుక్ చేయాలి.
+Speaker 2: లేదా హిందీ మూవీ దూసరి.
+Speaker 1: బ్రో, నన్ను అడిగితే.
+Speaker 2: బ్రో.
+Speaker 1: ఆగమేమి అయింది బ్రో? బానే చెప్పింది కదా బ్రో.
+Speaker 2: ఆ, కానీ మరి ఆమె ఇక్కడ.
+Speaker 1: ఒక్కసారి అడుగుదాం బ్రో.
+Speaker 2: నువ్వు అడుగుతావా? ఇది బానే ఉంది కానీ మళ్లీ నేను అడిగితే మళ్లీ అది ఎట్లానో అయితది.
+Speaker 1: ఓకే, ఓకే.
+Speaker 2: మళ్లీ నేను అడిగితే వీళ్ళు ఎట్లా ఉంటది అంటే శ్రీష్ భగ్గు ఒప్పుకోవట్లేదు అన్నట్టు ఉంటది.
+Speaker 1: ఎందుకు మళ్లీ?
+Speaker 2: అదే.
+Speaker 1: డ్యూరింగ్ ద అపాయింట్మెంట్ బుకింగ్ ఫ్లో, ద ఏజెంట్ ఆస్క్స్.
+Speaker 2: బ్రో, నీకైతే ఓకే కదా? నీ టైం ఏం తింటలేగా.
+Speaker 1: ఆ, పర్లేదు, పర్లేదు.
+Speaker 2: ఓకే. డ్యూరింగ్ ద అపాయింట్మెంట్ బుకింగ్ ఫ్లో, ద ఏజెంట్ ఆస్క్స్ ద నేమ్ కన్ఫర్మేషన్. నెక్స్ట్ క్వశ్చన్ ఇస్ ద సేమ్ రెస్పాన్స్.
+Speaker 1: ఇన్స్టెడ్ ఆఫ్ వెయిటింగ్ ఫర్ ద యూసర్ టు రెస్పాండ్.
+Speaker 2: బ్రో, నాకు ఇది కావాలి బ్రో.
+Speaker 1: ఆ, ఏమంటాం? కాన్వర్సేషన్ ఐడి.
+Speaker 2: ఐడియా బ్రో.
+Speaker 1: ఐడి ఉంటేనే వస్తది.
+Speaker 2: అని నేను చెక్ చేస్తాను. ఓకే.
+Speaker 1: వెన్ ద యూసర్ ఆస్క్స్ ఫర్ ఆన్ ఐ డాక్టర్ అండ్ ద ఏజెంట్ ఎడిఫై డాక్టర్స్ అన్ అవైలబుల్, ద ఏజెంట్ డస్ నాట్ సజెస్ట్ ఆన్సర్ టు ద హ్యూమన్ రిసెప్షనిస్ట్.
+Speaker 2: బ్రో, ఇది కరెక్టే బ్రో. నీకు ఎక్స్ప్లెయిన్ చేసినా చూడు. థర్డ్ ది.
+Speaker 1: ఆ, మీరు ఏమన్నారంటే జనరల్ ఫిజిషియన్ చెప్పాలని అన్నారు కదా. జనరల్ ఫిజిషియన్ కన్సల్ట్ అవ్వాలని.
+Speaker 2: ఉమ్.
+Speaker 1: అట్లా చెప్పట్లేదు కదా. జస్ట్ మా రిసెప్షనిస్ట్ కి కాల్ డైవర్ట్ చేస్తా అని.
+Speaker 2: డైవర్ట్ చేస్తా అన్నాడా?
+Speaker 1: ఆ, మీకు కాల్ ట్రాన్స్ఫర్ చేయాలా అని అడిగింది.
+Speaker 2: లేదు బ్రో, నువ్వు అలా చెప్తున్నావ్. ఒక్కసారి లైన్ చదువు. వెన్ ద యూసర్ ఆస్క్స్ ఫర్ ఆన్ ఐ డాక్టర్ అండ్ ద ఏజెంట్ ఐడెంటిఫైస్ ద డాక్టర్ ఇస్ అన్ అవైలబుల్, ద ఏజెంట్ డస్ నాట్ ఆఫర్ టు ట్రాన్స్ఫర్ ట్రాన్స్ఫర్ ద యూసర్ టు రిసెప్షనిస్ట్.
+Speaker 1: ఎక్స్పెక్టెడ్.
+Speaker 2: ఇన్స్టెడ్, ఇట్ సజెస్టెడ్ జనరల్ ఫిజిషియన్. ఇది ఎక్స్పెక్టెడ్ కదా బ్రో.
+Speaker 1: కానీ సజెస్ట్ చేయలేదు బ్రో అది.
+Speaker 2: లేదు బ్రో, ఇది సజెస్ట్. ఇన్స్టెడ్, ఇట్ సజెస్టెడ్ జనరల్ ఫిజిషియన్ అని ఉంది మళ్లా.
+Speaker 1: ఈ పాయింట్ లో అయితే రాసి.
+Speaker 2: ఒక్క నిమిషం. ఇది నేను కూడా చేశాను ఈ ఇష్యూ. నేను చెక్ చేస్తా.
+Speaker 1: ఒకసారి నీకు ఐడి పెడతాను, చూడండి ఒకసారి.
+Speaker 2: ఓకే బ్రో.
+Speaker 1: పంపాను.
+Speaker 2: ఒక్క నిమిషం. ప్రాంప్ట్ ఇచ్చేస్తే పని అయిపోతుంది.
+Speaker 1: అండ్ మోర్ ఓవర్ చాట్, ఇట్స్ బీన్ ఏ వెల్. ఐ యామ్ నాట్ షూర్ అబౌట్ ద ఈవెంట్ కౌంట్ అండ్ ఆల్. ఐ వాంట్ టు లుక్ ఇంటు ఇట్ అండ్ లెట్ మీ నో వెదర్ ఎవ్రీథింగ్ ఇస్ వర్కింగ్ ఫైన్ ఆర్ నాట్. అండ్ ఎస్, దిస్ ఇస్ వాట్ ఐ నీడ్ ఫ్రమ్ యు. జస్ట్ కంపేర్ విత్ ద ఓల్డ్ అనాలిటిక్స్ అండ్ లెట్ మీ నో వెదర్ ఎవ్రీథింగ్ ఇస్ ఫైన్.
+Speaker 2: ఇఫ్ నాట్, జస్ట్ టెల్ మీ. అండ్ ఐ థింక్ దేర్ ట్రై టు సెర్చ్ ఫర్ ది సెర్చ్ కాన్సెప్ట్ థింగ్. సో, వి మైట్ అండర్స్టాండ్ ఇఫ్ దేర్ ఆర్ ఎనీ అదర్ న్యూ ఇన్పుట్స్ అండ్ ఆల్.
+Speaker 1: పర్ఫెక్ట్. చలో.
+Speaker 2: ఆ, ఇదా బ్రో.
+Speaker 1: ఆ, ఓకే.
+Speaker 2: ఓకే, దేనిది బ్రో ఇది?
+Speaker 1: డ్యూరింగ్ ద అపాయింట్మెంట్ ఐ డాక్టర్ ద.
+Speaker 2: ఓకే.
+Speaker 1: ఆ, వెల్కమ్ టు టిఎస్ హాస్పిటల్. తెలుగు అలాగే ఈరోజు నేను టుడేస్ డేట్ చెప్పగలరా? చెప్పిందా బ్రో, కరెక్టే?
+Speaker 2: చెప్పింది బ్రో, ఇది ఫైన్. బానే వర్క్ అయింది.
+Speaker 1: అప్పుడప్పుడు చెక్ చెయ్ బ్రో. ఇది అప్పుడప్పుడు కొద్దిగా పైన కింద అయితది. డేట్ అయినా కరెక్ట్ చెప్తాది కానీ టైం మెయిన్ గా.
+Speaker 2: పైన కింద వస్తది.
+Speaker 1: డాక్టర్ అపాయింట్మెంట్ సరే, దయచేసి ఆ పేషెంట్ పేరు చెప్పండి. సుధీర్ ఆ పేరు సుధీర్. ఇది కరెక్టేనా? మీరు దీనికి ఎన్ని సార్లు చెప్పినా మీరు ఓ ఇంతకు ముందు ఎప్పుడైనా వచ్చారా?
+Speaker 2: బ్రో, ఇదే మళ్లీ చెప్పు.
+Speaker 1: ఒక్క నిమిషం.
+Speaker 2: ఓకే, ఓకే.
+Speaker 1: మనం.
+[ personal phone call — removed ]
+Speaker 2: బ్రో, సారీ బ్రో. ఆ, ఇక్కడ.
+Speaker 1: ఓకే, పర్లేదు.
+Speaker 2: ఉమ్, చెక్ అవైలబిలిటీ.
+Speaker 1: నువ్వు పర్లేదు అని చెప్పలేదు కదా.
+Speaker 2: ఆ, ఇదే మొదటిసారి. సరే, మీరు ఇది చూడు బ్రో. మీరు ఏ బ్రాంచ్ కి రావాలనుకుంటున్నారు?
+Speaker 1: మాకు బంధ.
+Speaker 1: రాయల్స్. ఓకే, ఇవన్నీ చెప్పింది. ఇట్స్ ఫైన్.
+Speaker 2: నువ్వు బ్రాంచ్ అన్నావా బ్రో? ఉప్పల్ అన్నావా?
+Speaker 1: ఆ, ఇప్పుడు ఈ ట్రాన్స్క్రిప్ట్ ఏం చేస్తుందంటే కొన్ని వాయిస్ అది రికగ్నైజ్ చేయలేకపోతుంది. నేను ఉప్పల్ బ్రాంచ్ అంటే అది ఆ ఉప్పలే కట్ చేసేసింది మొత్తం.
+Speaker 2: ఆ, అయితే ఉప్పల్ కరెక్టే కదా. టూల్ కాలేజ్.
+Speaker 1: ఆ, కరెక్ట్.
+Speaker 2: ఉమ్, ఉప్పల్ బ్రాంచ్. సరే, మీరు ఏ.
+Speaker 1: ఏ సమస్య రాకుండా.
+Speaker 2: ఆ, నాకు ప్రాబ్లం ఉంది.
+Speaker 1: ఏ ప్రాబ్లం?
+Speaker 2: అచ్చా, ఏ ప్రాబ్లం. క్షమించండి, కంటిన్యూ సమస్యలు నేను డాక్టర్ ను సూచించలేను.
+Speaker 2: మీరు.
+Speaker 2: ఓ.
+Speaker 1: అన్నిటికన్నా పెద్ద మిస్టేక్ అంటే ఇదే బ్రో. ఇప్పుడు చూడు, ఇప్పుడు నేను అక్కడ ఆన్సర్ చేద్దాం అనేలోపు మళ్లీ మీరు ఏ బ్రాంచ్ కి కనెక్ట్ చేయాలి అని అట్లా క్వశ్చన్ మార్క్ వెళ్తుంటే వెళ్తూనే ఉంది.
+Speaker 2: ఆ, బ్రో, బ్రో, ఒక్కసారి చదువా. క్షమించండి, కంటిన్యూ సమస్యలు.
+Speaker 1: సమస్యకు నేను డాక్టర్ ని సూచించలేను.
+Speaker 2: ఓకే.
+Speaker 1: మీరు రీసెర్చ్ మినిస్టర్ తో మాట్లాడితే వారు మీకు సహాయం చేయగలరు. నేను ట్రాన్స్ఫర్ చేయమంటారా? ఏ బ్రాంచ్ రీసెర్చ్ మినిస్టర్ ట్రాన్స్ఫర్. చూడండి, ఒకటేసారి మూడు నాలుగు క్వశ్చన్స్ అడిగింది.
+Speaker 2: చేయమంటారా? ఏ బ్రాంచ్? రెండు క్వశ్చన్లు అడిగింది బ్రో.
+Speaker 1: ఆ, అదే.
+Speaker 2: రెండు అడిగింది. బట్, స్టిల్ ఇది ఆపలేకపోతున్నాను బ్రో. దందా. అదే, అదే.
+Speaker 2: అంటే.
+Speaker 1: నేను మళ్లీ ఏ బ్రాంచ్?
+Speaker 2: ఉమ్, చెప్పు.
+Speaker 1: ఇక్కడ ఉప్పల్, ఉప్పల్ బ్రాంచ్ అని ఎందుకు చెప్పానంటే ఇక్కడ రెండు క్వశ్చన్లు అడిగింది. నేను ట్రాన్స్ఫర్ చేయమంటారా అంటే నేను చేయాలనా వద్దా అన్న ముందుకే అది ఏ బ్రాంచ్ అని మళ్లీ అడుగుతుంది. సో, నేను ఏం చేసినా ఉప్పల్ బ్రాంచ్ అని చెప్పా మళ్లీ.
+Speaker 2: ఉమ్.
+Speaker 1: ఉమ్, ఉప్పల్ బ్రాంచ్. సరే, మిమ్మల్ని ఉప్పల్.
+Speaker 2: ఓకే, ఇదేదో దొబ్బింది.
+Speaker 1: ఫైన్.
+Speaker 2: నేను ఇది మార్క్ చేస్తా.
+Speaker 1: నేను టూ ఫిక్స్.
+Speaker 2: ఓకే.
+Speaker 1: ఆ, బ్రో, వీలైతే ఇది ఒక్కటే అడుగు బ్రో. ఆమెని ఆ లాస్ట్ ఆమె ఏమంటుందంటే లాస్ట్ కి వెళ్ళాక సం టెక్నికల్ ఇష్యూ వల్ల నేను బుక్ చేయలేకపోతున్నా అని చెప్పిందంట బ్రో. లాస్ట్ కి.
+Speaker 2: అవునా?
+Speaker 1: అదే ఇష్యూ లో మనం లాస్ట్ కి వెళ్తే.
+Speaker 2: ఇది ఇదేనా? థర్డ్ వన్ ఆమె చెప్పేది?
+Speaker 1: ఇది కాదు, ఇది ఫస్ట్. మీరు ఏదో అన్నారు కదా, తనకి ఇష్యూ అది కరెక్ట్ గానే ఉంది కదా బ్రో అని అన్నారు కదా. సో, నేను తనని అడిగాను.
+Speaker 2: ఓకే.
+Speaker 1: అది లాస్ట్ లోకి వెళ్తే సం టెక్నికల్ ఇష్యూ వల్ల నేను బుక్ చేయలేకపోతున్నాను అని చెప్పిందంట.
+Speaker 2: లాస్ట్ లో ఎక్స్ప్లెయిన్ చేసేసరికి అర్థం కాలేదా? క్షమించండి, మాకు కొన్ని సాంగ్.
+Speaker 1: సాంకేతిక సమస్యలు ఎదురవుతున్నాయి. ఇది  కాంటెక్స్ట్ పర్లేదు.
+Speaker 1: అరౌండ్ 3000 టోకెన్స్.
+Speaker 2: ఫైన్.
+Speaker 1: అంతా ఇదేం కాదు.
+Speaker 1: అదర్ లాంగ్వేజ్.
+Speaker 2: ఓకే, 6000 టోకెన్స్. 7000, బట్ స్టిల్ అది 7000, 14000 మధ్య ఇంకా ఇంకోటి కూడా సెవెన్ అనుకోని 21000. స్టిల్ ఫైన్. ఓకే, డ్యూరింగ్ ద అపాయింట్మెంట్ బుకింగ్ లో. ఓకే, ఆ.
+Speaker 2: ఐడి ఈవెన్ ద డాక్టర్స్ అవైలబుల్. ఇట్ ఇస్ టెల్లింగ్. ఓకే, నైస్.
+Speaker 1: నేను డాక్టర్ నాలెడ్జ్ గారితో బంజారా వెళ్తున్నా. జీరో టు అపాయింట్మెంట్ బుక్ చేస్తారా?
+Speaker 2: మనోజ్ గార్.
+Speaker 1: కుడ్ నాట్ ఫైండ్ ద డాక్టర్ ఇన్ ద డేటాబేస్.
+Speaker 2: అలాగే డాక్టర్ మనోజ్ గారికి బంజారా హిల్స్ బ్రాంచ్ లో అందుబాటులో ఉన్నారా?
+Speaker 1: అది చెక్.
+Speaker 2: చెక్ అవైలబిలిటీ.
+Speaker 1: డాక్టర్ మనోజ్ గార్. ఓకే, డాక్టర్ మనోజ్ గారు బంజారా హిల్స్ బ్రాంచ్ లో జీరో జీరో జీరో జీరో అపాయింట్మెంట్ బుక్ చేస్తారా? ఏంది బ్రో, ఇంత జీరో జీరో నువ్వేనా?
+Speaker 2: ఆ, నేను కాదు. ఇది నాది కాదు.
+Speaker 1: మనోజ్ అంటే తనది. ఆ
+Speaker 2: ఆ, నెంబర్ నీదే కదా బ్రో?
+Speaker 1: నెంబర్ నాది కాదు బ్రో.
+Speaker 2: ఆ, నెంబర్ నాదే. తను మాట్లాడుతుంది కానీ నెంబర్ నాది.
+Speaker 1: అచ్చా, అచ్చా. ఓకే.
+Speaker 2: ఆ, క్షమించండి, బంజారా హిల్స్ బ్రాంచ్ లో డాక్టర్ మనోజ్ గారు అందుబాటులో లేరు.
+Speaker 1: ఓకే, మైట్ బి. ఇక్కడ ఏమైంది అంటే డాక్టర్.
+Speaker 1: మనోజ్ గారు అన్నావు కదా. ఇది మనోజ్ గార్గన్ తీసుకుంది.
+Speaker 2: ఆ,  ఓకే. ఇది కూడా మంచిదే.
+Speaker 1: బేసిక్ గా ఏమైతే ఉంటాయి అంటే నేమ్ తప్పు తీసుకుంది కదా. నేమ్ తప్పు తీసుకోవడానికి ఏం చేయాలి అంటే రిలేటెడ్ నేమ్స్ ఇవ్వాలి. మీరు డాక్టర్ మనోజ్ గారు, డాక్టర్ మనోజ్ అంటున్నారా? లేదంటే గార్గన్ వచ్చింది కదా అని చెప్పి.
+Speaker 2: అవునండి, ఆ గార్గన్ కూడా సపరేట్ నేమ్ గా తీసుకుంది.
+Speaker 1: ఆ, దాని వల్ల అవైలబిలిటీ లేదు.
+Speaker 2: అంతే కదా బ్రో. మిగతా అంతా డాక్టర్ మనోజ్ గారు గాని వేరే.
+Speaker 1: అవును.
+Speaker 2: మళ్ళీ ఇది కూడా ఒకటి ఫిక్స్ చేయాలి బ్రో. ఒక్కసారి ఆ టూల్ కాల్ చేస్తే మళ్ళీ కాల్ చేయొద్దు కానీ మళ్ళీ ఏదో తలకాయ నొప్పి ఉంటది.
+Speaker 1: లేటెన్సీ ఏమైనా స్లో అనిపించిందా బ్రో? ఈ మధ్య.
+Speaker 2: స్లో ఏమైతే ఏం లేదు బ్రో.
+Speaker 1: బానే ఉంది కదా.
+Speaker 2: క్విక్ రెస్పాన్స్ ఏ ఉంది. అట్లా ఏం లేదు.
+Speaker 1: ఈవెన్ డాక్టర్ ఇస్ అవైలబుల్.
+Speaker 1: కాన్వర్సేషన్.
+Speaker 1: ఆ, ఓకే. పర్ఫెక్ట్. డ్యూరింగ్ అపాయింట్మెంట్, యూసర్ ప్రొవైడ్స్ ఓన్లీ బ్రాంచ్ నేమ్. కార్చి బ్రో, కార్చి కూడా బ్రాంచ్ ఉందా మనకి?
+Speaker 2: ఉంది.
+Speaker 1: ఉంది.
+Speaker 2: అంత యూసర్ డజంట్ ప్రొవైడ్ ఎనీ సింప్టమ్స్. ఓకే.
+Speaker 1: బ్రో, ఇది ఫీచర్ కాదా బ్రో?
+Speaker 2: ఏది బ్రో?
+Speaker 1: నువ్వు ఏం సింప్టమ్స్ ఇయ్యకుండా అంటే జనరల్ మెడిసిన్ వర్డ్.
+Speaker 2: ఇది సజెస్ట్ డాక్టర్ కన్సర్న్ సజెస్ట్ ఇన్ ద పేషెంట్.
+Speaker 1: లేదులే, తప్పు.
+Speaker 2: ఆ, సాయిరామ్.
+Speaker 1: ఏంది బ్రో, బట్ స్టిల్ ఫైన్ లే.
+Speaker 2: పర్ఫెక్ట్.
+Speaker 1: రాంగ్.
+Speaker 2: అసప్షన్.
+Speaker 1: బ్రో, కొత్తవి వచ్చినాయి కానీ పాతవి అయితే రిపీట్ కావట్లేదు బ్రో. మెయిన్ గా అది కావాలి మనకి. పాతవి రిపీట్ కావడం.
+Speaker 2: పాతవి అంటే ఇప్పుడు ఇది ఉంది కదా బ్రో. టూ క్వశ్చన్స్ ఆన్సర్ సింగిల్ బ్రీత్ లో.
+Speaker 1: అది బ్రో, అది దందం బ్రో. కష్టమే.
+Speaker 2: అదే.
+Speaker 1: ఎందుకు యూసర్ ఆస్క్ ఫర్ డాక్టర్ రమేష్ బాస్ ఆఫ్ ద డాక్టర్ అవైలబుల్ ఇన్ ద అసిస్టెంట్ డాక్టర్ ప్లేస్ అండర్ హాఫ్ ఆఫ్ ద ఏజెంట్ ఇన్ కరెక్ట్లీ ఇన్ఫార్మ్స్. సో డాక్టర్ ఇస్ నాట్ అవైలబుల్ ఇన్ ది అప్రోచెస్ ఆఫ్ సర్కర్స్. ఈవెన్ దో డాక్టర్ ఇస్ రిచ్ అండర్ ద సేమ్ బ్రాంచ్ ఇన్ డేటాబేస్.
+Speaker 2: రెండు సార్లు ఏందంటే.
+Speaker 1: రమేష్ వాసా.
+Speaker 2: ఆ, ఉన్నాడు. డాక్టర్ ఉన్నాడు. నేను చెక్ చేశాను.
+Speaker 1: ఆహా, ఇది కూడా సేమ్ స్టోరీ బ్రో.
+Speaker 2: వీడియో ఎస్ఎస్ఏ.
+Speaker 1: ఓకే.
+Speaker 2: డబల్ ఇస్ ఓకే.
+Speaker 1: ఇది కూడా ఆలోచించాలి. ఓకే, పర్ఫెక్ట్.
+Speaker 2: ఇది కూడా అంతే ఉంటుంది.
+Speaker 1: ఓకే, ఇది మంచి బగ్ యాక్చువల్లీ.
+Speaker 1: ఓకే, రమేష్ వాసా అని కరెక్టే తీసుకుంది ఈసారి పేరు.
+Speaker 2: ఇప్పుడు రమేష్ వాసా ని డాక్టర్ లేడు అనుకుంటా బ్రో.
+Speaker 1: ఉన్నాడు బ్రో, నేను చూసా.
+Speaker 2: అవును.
+Speaker 1: సారీ.
+Speaker 2: డాక్టర్ రమేష్ వాసా.
+Speaker 1: రైట్, ఉన్నాడు.
+Speaker 2: ఉన్నాడు, బట్ ఓకే.
+Speaker 1: వీడు ఒక్కడే నా నెఫ్రాలజిస్ట్ రైట్. ఇద్దరు ఒక్కరే.
+Speaker 2: ఉమ్.
+Speaker 1: అది ఎందుకు రాలేదు?
+Speaker 2: ఎందుకు, ఎందుకు?
+Speaker 1: బ్రాంచ్ నేమ్ మియాపూర్.
+Speaker 2: డాక్టర్ రమేష్ వాసా.
+Speaker 1: అంతా కరెక్ట్ గా వచ్చింది కదా.
+Speaker 2: మియాపూర్.
+Speaker 1: రమేష్ వాసా.
+Speaker 2: ఇంకా అది ఉంది.
+Speaker 1: మైట్ బి.
+Speaker 2: పేరు డాక్టర్ ఉంది కదా. డాక్టర్ నేమ్.
+Speaker 1: ఓకే, ఇది కూడా చూడాలి బ్రో.
+Speaker 2: ఓకే.
+Speaker 1: వితౌట్ యూసర్ ఎక్స్ప్రెస్ సెలెక్టింగ్ ఆన్సర్.
+Speaker 2: ఆ, ఇది అజయ్ కూడా అన్నాడు యాక్చువల్లీ నాతోనే. చెప్పకముందే ఏదో కొత్త ఇది పెట్టిందంట.
+Speaker 1: ఏంటి బ్రో?
+Speaker 2: ఫస్ట్ ఒకటి ఏదో చెప్తుందంట. చెప్పకముందే.
+Speaker 1: ఓకేనే.
+Speaker 2: ఆహా, దానికన్నా ముందు యూసర్ హాస్ సెలెక్టెడ్ ఇంగ్లీష్ అని వస్తుంది చూడండి.
+Speaker 1: ఎక్కడ?
+Speaker 2: ఫస్ట్ స్టార్ట్. ఆ, ఆ అందులోనే.
+Speaker 1: ఓకే.
+Speaker 2: మైట్ బి.
+Speaker 1: ఇది మమ్మీ. ఇదేదో ప్రాంప్ట్ యాడ్ చేసింది.
+Speaker 1: ఓకే, ఫైన్. ఇది కూడా చూడాలి.
+Speaker 1: ఓకే.
+Speaker 2: ఈవెన్ బ్రో.
+Speaker 1: చేసిన టెస్ట్ చేసిన ప్రతి దాంట్లో ఒక బగ్ వచ్చిందా బ్రో?
+Speaker 2: ఆ, లేదు. కొన్ని సక్సెస్ అయినాయి బ్రో. ట్రాన్స్క్రిప్ట్ అంటే డైరెక్ట్ బుకింగ్ కన్ఫర్మేషన్ అయినాయి కొన్ని.
+Speaker 1: అంటే పర్సెంటేజ్.
+Speaker 2: ఆ, ఒక్క నిమిషం.
+Speaker 1: చెప్పు.
+Speaker 2: బ్రో, ఒక్క నిమిషం బ్రో.
+Speaker 1: ఓకే.
+Speaker 2: మెట్లే కూర్చున్నావే.
+Speaker 1: ఎందుకు?
+Speaker 2: దమ్ము వస్తుంది.
+Speaker 1: అంతే కదా.
+Speaker 2: ఏం చేస్తున్నావ్ దాన్ని?
+Speaker 1: టికెట్ ఎట్లా వస్తది?
+Speaker 2: హాలిడే ఫైల్ ఉంది అంటుంది. కీబోర్డ్ తో
+Speaker 1: కీబోర్డ్ తోటి?
+Speaker 2: కీబోర్డ్ తోటి హాలిడే ఫైల్ ఉంది అంటుంది. అందుకే తీసుకుంటే.
+Speaker 1: స్క్రీన్ షాట్ తీసి పెట్టు.
+Speaker 2: ఆ, ఇప్పుడు మనతో కొంచెం డిజే.
+Speaker 1: ఓకే.
+Speaker 2: ఆ, ఇప్పుడు వచ్చింది.
+Speaker 1: ఉమ్, క్లిక్.
+Speaker 2: నెట్ స్ట్రాంగ్.
+Speaker 1: వస్తది.
+Speaker 2: ఎందుకు రాలే?
+Speaker 1: అదే, అప్పుడప్పుడు బగ్ అయితే ఉంటది. రీసెంట్, రీసెంట్ లోకి వెళ్లి తీసేసి మళ్ళీ పెట్టాలి.
+Speaker 2: కీబోర్డ్ అన్నప్పుడు రెండు పెట్టు. ఆల్రెడీ ఫైల్ పేరు ఉంది, మళ్ళీ ఉంచాలా అనిపిస్తుంది.
+Speaker 1: ఆ, ఆ బ్రో.
+Speaker 2: అయితే ఎన్ని టెస్ట్లు చేసినావ్ బ్రో? కౌంట్ చేద్దాం ఒకసారి.
+Speaker 1: ఆ, చూడు.
+Speaker 2: సో, బేసిక్ గా నాకు ఒక నెంబర్ రాని బ్రో. అసలుకి ఎన్ని ఇష్యూస్ వస్తున్నాయి.
+Speaker 1: ఆ, బానే చేసినావ్.
+Speaker 2: ఇద్దరం చేసినాం.
+Speaker 1: ఓకే.
+Speaker 2: ఇవి 25 ఉన్నాయి బ్రో. అంతే కదా.
+Speaker 1: ఓకే.
+Speaker 2: ఇవి 25. నేను ఫైవ్ తర్వాత నుంచే కౌంట్ చేస్తున్నా.
+Speaker 1: ఆ, ఫైవ్ తర్వాత.
+Speaker 2: ఫైవ్. ఓకే.
+Speaker 1: ఆ, 26, 27, 28, 29. 29 లో నాకు ఎన్ని ఇచ్చారు?
+Speaker 2: వన్, టూ, త్రీ.
+Speaker 1: ఫోర్, ఫైవ్,  టోటల్ ఎయిట్ బ్రో. ఎయిట్.
+Speaker 2: ఇంకొకటి ఫోర్త్ జూలై.
+Speaker 1: ఆ, ఈవెన్ డాక్టర్ ఇస్ అవైలబుల్. లేదు బ్రో, చూసినాము. పేరు తప్పు ఇచ్చింది. యాక్చువల్లీ రెండు ఒకటే. సరే, ఓకే, ఫైన్. కౌంట్ చేద్దాం. ఇది కూడా కౌంట్ చేద్దాం. సో, టోటల్ గా ఎయిట్. నువ్వు అన్నట్టు.
+Speaker 2: ఎన్ని వచ్చినాయి బ్రో? మనకి 25 ప్లస్ ఫోర్ ఆ?
+Speaker 1: 29.
+Speaker 2: 29 వచ్చినాయి. 29 లో ఉమ్, ఎయిట్ అంటే ఎంత?
+Speaker 1: ఒక 10 వేసుకోరా?
+Speaker 2: ఆ, 10.
+Speaker 1: ఆ, 29 లో.
+Speaker 2: బ్రెయిన్ వద్దులే.
+Speaker 1: 8 డివైడెడ్ బై 29.
+Speaker 2: 30%.
+Speaker 1: ఆ, 30% అంటే పెద్ద నెంబరే.
+Speaker 2: అంటే దీంట్లో నేను చేయలేనిది నేను చెప్తా.
+Speaker 1: బట్ అది కూడా కౌంట్ చేయాల్సింది యాక్చువల్లీ.
+Speaker 2: ఆ, అదే.
+Speaker 1: బ్రో, నాకు ఇది చెప్పలే బ్రో. ఇదొక్కటి.
+Speaker 2: ఏది?
+Speaker 1: ఐడి కావాలి. సెకండ్ ది?
+Speaker 2: సెకండ్.
+Speaker 1: ఇదొక్కటి ఐడి కావాలి.
+Speaker 2: బట్ ఫైనల్లీ, ఇప్పుడైతే నేను బగ్ అన్నట్టే కౌంట్ చేస్తా.
+Speaker 1: ఓకే.
+Speaker 2: ఎందుకంటే ఇప్పుడు నువ్వు చెప్పిన ప్రతి దాంట్లో ఏది మిస్ కాలే బగ్.
+Speaker 1: అన్ని 100% అని చెప్తా.
+Speaker 2: సో, ఇది కూడా కౌంట్ చేద్దాంలే. పోయేదేముంది కానీ 30%.
+Speaker 1: సెకండ్ అండ్ థర్డ్. సెకండ్ అండ్ థర్డ్ సేమ్ బ్రో. సేమ్ ఐడి లోనే సేమ్ ఇష్యూ. రెండు ఇష్యూస్ వచ్చినాయి.
+Speaker 2: థర్డ్, ఇప్పుడు నువ్వు నాకు పంపించిందేనా? కాదు. థర్డ్.
+Speaker 1: అందులో లేదు. అది
+Speaker 2: అది రిసెప్షనిస్ట్ కి పోయింది. ఇది జనరల్ ఫిజిషియన్ కి పోయింది.
+Speaker 1: నీకు అర్థమైందా?
+Speaker 2: నువ్వు నాకు పంపించింది దాంట్లో.
+Speaker 1: ఆ, ఓకే. నేను ఐడి ఇచ్చాను. ఐడి సెట్ చేసి నీకు పంపిస్తా.
+Speaker 2: ఉమ్, పర్లేదులే. నార్మల్.
+Speaker 1: ఆ, అట్లా అంటే 10 బ్రో.
+Speaker 2: ఇది, ఇది లేదుగా.
+Speaker 1: పైన దాంట్లో.
+Speaker 2: ఆ, 10.
+Speaker 1: అంతే. 30% దగ్గర దగ్గర. 29%.
+Speaker 2: ఉమ్, ఓకే.
+Speaker 1: ఇంకా చూడు బ్రో. ఐ యామ్ నాట్ టెస్ట్ అయితే.
+Speaker 2: ఆ, అంటే.
+Speaker 2: డాక్టర్ ని యాక్టివ్ చేసి చూడడం. అలా కొన్ని సినారియోస్ ఉన్నాయి. చూస్తాం మేము. చేస్తాం.
+Speaker 1: ఓకే బ్రో. ఇదిగో, నాకు ఓకే బ్రో. చూడు, మైట్ బి ఇదర్ లాస్ట్ మేజర్ టెస్టింగ్ అనుకుంటున్నా. తర్వాత అంతా మంచిగానే అయితది అనుకుంటున్నా.
+Speaker 2: చూద్దాం. చూద్దాం.
+Speaker 1: ఓ, హోప్ ఫర్ ద బెస్ట్.
+Speaker 2: హోప్ ఫర్ బెస్ట్ కదా బ్రో. నన్ను వేసుకుంటున్నాడు చెప్పాలి అంటే.
+Speaker 1: అదే, అదే అర్థమైంది.
+Speaker 2: నేను యాక్చువల్లీ దిగా ఇట్లా. దిగిపోయి.
+Speaker 1: ఆ,  నేను డే వన్ చెప్పినా బ్రో. వాయిస్ ఏజెంట్ ఇట్లా ఉంటది అంటే ఒకటి చేస్తే ఇంకోటి పోతది. లక్ ఏందో తెలుసా? పాత ఇయర్ పోవట్లేదు.
+Speaker 2: పాతే పోతే మళ్ళీ మళ్ళీ కూర్చోవాలి. పాతే పోతే.
+Speaker 1: అది దమ్ దమ్ అవుతది.
+Speaker 2: అవును.
+Speaker 1: ఓకే బ్రో. మళ్ళా నేను నీకు ట్రాన్స్క్రిప్ట్ ది పాయింట్స్ ఇస్తా. నీకు కూడా రేపు ఎవరు అడిగితే యూస్ అయితది.
+Speaker 2: ఓకే, ఓకే.
+Speaker 1: నాకు కొద్దిగా టైం.
+Speaker 2: మైట్ బి.
+Speaker 1: వన్ సెకండ్. రికార్డ్ అయిందా? మళ్ళీ కాలేదా? ఏంది?
+Speaker 2: ఫక్ అయింది. రైట్, పర్ఫెక్ట్. నేను నీకు ట్రాన్స్క్రిప్ట్ ఇస్తా బ్రో. నీకు ఎవరైనా అడిగితే యూస్ అయితది. చూడు.
+Speaker 1: ఓకే, ఓకే.
+Speaker 2: ఓకే బ్రో. థాంక్స్ బ్రో.
+Speaker 1: థాంక్యూ బ్రో. బాయ్.
+Speaker 2: బాయ్ బ్రో.
+Speaker 1: ఓకే.</code></pre>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/2026-09-01-voice-agent-internal-call/"><span class="rel">follows</span>Voice agent internal call — why &quot;heart problem&quot; returned a kidney doctor</a></li><li><a href="/2026-08-28-edesey-call/"><span class="rel">mentions</span>Edesey support call — bug reports with Surajit (current platform)</a></li><li><a href="/2026-09-03-voice-agent-call-scoring-review/"><span class="rel">follows</span>Voice agent call scoring review — 20 of 34 leads succeeded, the same day the client wrote &quot;not even a single conversion&quot;</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guitar + ML: Complete Beginner Guide — Srish</title>
+<meta name="description" content="Guitar + Machine Learning: The Complete Beginner Guide For: Srish Goal: build a thing that listens to a song and tells you what to play on guitar, and a thing that listens to YOU p">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">reference</span>
+  <h1>Guitar + ML: Complete Beginner Guide</h1>
+  <div class="meta">2026-08-31<br><span class="tag">guitar</span><span class="tag">machine-learning</span><span class="tag">music</span><span class="tag">learning</span></div>
+  <h2>Guitar + Machine Learning: The Complete Beginner Guide</h2>
+<p><strong>For: Srish</strong> <strong>Goal: build a thing that listens to a song and tells you what to play on guitar, and a thing that listens to YOU playing and tells you what you got wrong.</strong></p>
+<p>Written assuming you know how to code and how to call an API, but have never trained a neural network. Every concept is explained from zero. Read top to bottom.</p>
+<hr>
+<h2>Table of Contents</h2>
+<ol><li><a href="#1-the-two-apps-you-are-actually-building" rel="noopener">The two apps you are actually building</a></li><li><a href="#2-how-a-computer-even-hears-sound" rel="noopener">How a computer even "hears" sound</a></li><li><a href="#3-the-spectrogram-turning-sound-into-a-picture" rel="noopener">The spectrogram: turning sound into a picture</a></li><li><a href="#4-what-a-neural-network-actually-is" rel="noopener">What a neural network actually is</a></li><li><a href="#5-cnn-the-network-that-looks-at-pictures" rel="noopener">CNN: the network that looks at pictures</a></li><li><a href="#6-rnn-and-lstm-the-network-with-a-memory" rel="noopener">RNN and LSTM: the network with a memory</a></li><li><a href="#7-transformers-in-one-page" rel="noopener">Transformers, in one page</a></li><li><a href="#8-why-guitar-is-hard-the-fretboard-problem" rel="noopener">Why guitar is HARD (the fretboard problem)</a></li><li><a href="#9-the-full-pipeline-stage-by-stage" rel="noopener">The full pipeline, stage by stage</a></li><li><a href="#10-pretrained-models-you-can-use-today" rel="noopener">Pretrained models you can use TODAY</a></li><li><a href="#11-the-datasets" rel="noopener">The datasets</a></li><li><a href="#12-who-already-did-this-and-how" rel="noopener">Who already did this, and how</a></li><li><a href="#13-app-2-the-practice-scorer-the-easy-win" rel="noopener">App 2: the practice scorer (the easy win)</a></li><li><a href="#14-your-actual-build-plan" rel="noopener">Your actual build plan</a></li><li><a href="#15-code-you-can-copy-and-run" rel="noopener">Code you can copy and run</a></li><li><a href="#16-how-to-know-if-it-works-metrics" rel="noopener">How to know if it works (metrics)</a></li><li><a href="#17-hardware-reality-check" rel="noopener">Hardware reality check</a></li><li><a href="#18-traps-that-will-waste-your-weekends" rel="noopener">Traps that will waste your weekends</a></li><li><a href="#19-glossary" rel="noopener">Glossary</a></li><li><a href="#20-sources" rel="noopener">Sources</a></li></ol>
+<hr>
+<h2>1. The two apps you are actually building</h2>
+<p>You described one idea. It is actually two, and they have wildly different difficulty.</p>
+<pre><code>+---------------------------------------------------------------+
+|  APP A: &quot;SONG  -&gt;  TAB&quot;                             HARD       |
+|                                                                |
+|  You give it:  a full song (drums, vocals, bass, guitar)       |
+|  It gives you: guitar tablature                                |
+|                                                                |
+|  Difficulty: this is an open research problem.                 |
+|  Even paid products get this partly wrong.                     |
++---------------------------------------------------------------+
+
++---------------------------------------------------------------+
+|  APP B: &quot;DID I PLAY IT RIGHT?&quot;                      EASY-ISH   |
+|                                                                |
+|  You give it:  a tab (already known) + recording of YOU        |
+|  It gives you: a score, and a list of your mistakes            |
+|                                                                |
+|  Difficulty: very doable. This is what Rocksmith and           |
+|  Yousician do. You can ship v1 in a few weekends.              |
++---------------------------------------------------------------+</code></pre>
+<p><strong>Strong advice: build App B first.</strong> It gives you a working product fast, it teaches you 80% of the audio skills, and it is the part that would actually make you practice more.</p>
+<p>App A you should mostly <em>assemble from existing models</em>, not train from scratch.</p>
+<hr>
+<h2>2. How a computer even "hears" sound</h2>
+<h3>2.1 Sound is a wiggle</h3>
+<p>When you pluck a guitar string, the string wiggles. It pushes air. The air wiggle reaches a microphone. The microphone turns the wiggle into a voltage. The computer measures that voltage many times per second and writes down numbers.</p>
+<pre><code>Real sound (a wave in air):
+
+   ^
+   |     .-.        .-.        .-.
+   |    /   \      /   \      /   \
+ 0 |---/-----\----/-----\----/-----\-----&gt; time
+   |  /       \  /       \  /       \
+   | &#x27;         &#x27;-&#x27;         &#x27;-&#x27;       &#x27;
+   v</code></pre>
+<p>The computer takes a "photo" of the height of that wave, over and over:</p>
+<pre><code>Sampling (44100 photos per second):
+
+   ^
+   |    o o
+   |  o     o        o o
+ 0 |-o-------o-----o-----o------&gt; time
+   |          o   o       o
+   |           o o         o
+   v
+   ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+   each ^ = one number saved</code></pre>
+<p>So a <strong>WAV file is literally a giant list of numbers</strong>. Nothing magic.</p>
+<ul><li><strong>Sample rate</strong> = how many photos per second. CD quality is 44100 Hz. Speech models often use 16000 Hz.</li><li>3 minutes of audio at 44100 Hz = about 8 million numbers. That is a lot.</li></ul>
+<h3>2.2 Pitch = how fast the wiggle wiggles</h3>
+<p>A fast wiggle = high note. A slow wiggle = low note.</p>
+<div class="tablewrap"><table><thead><tr><th>Note</th><th>Wiggles per second (Hz)</th><th>Where on guitar</th></tr></thead><tbody><tr><td>E2 (low E open)</td><td>82.4</td><td>6th string, open</td></tr><tr><td>A2</td><td>110.0</td><td>5th string, open</td></tr><tr><td>E4 (high E open)</td><td>329.6</td><td>1st string, open</td></tr><tr><td>A4 (tuning reference)</td><td>440.0</td><td>1st string, 5th fret</td></tr></tbody></table></div>
+<p><strong>Key fact:</strong> every time you double the frequency, you go up one octave. 110 Hz and 220 Hz are both "A", just an octave apart. This doubling is why we later use a special picture called the CQT.</p>
+<h3>2.3 The overtone problem (this ruins everything later)</h3>
+<p>When you play one note on a guitar, the string does NOT produce one clean frequency. It produces the main frequency <strong>plus</strong> quieter copies at 2x, 3x, 4x, 5x... those are called <strong>harmonics</strong> or <strong>overtones</strong>.</p>
+<pre><code>You play ONE note (A2, 110 Hz). The microphone actually hears:
+
+Loudness
+  |
+  |█
+  |█
+  |█    █
+  |█    █    █
+  |█    █    █    █    █
+  +----------------------------------&gt; Frequency
+  110  220  330  440  550   Hz
+   ^    ^    ^
+   |    |    +-- 3rd harmonic
+   |    +------- 2nd harmonic
+   +------------ the &quot;real&quot; note (fundamental)</code></pre>
+<p>Now imagine 6 strings ringing at once, plus a distortion pedal that adds even MORE fake harmonics. The picture becomes a mess. That mess is why simple pitch detection fails on real guitar music, and why we need neural networks.</p>
+<hr>
+<h2>3. The spectrogram: turning sound into a picture</h2>
+<h3>3.1 The idea</h3>
+<p>Instead of feeding 8 million raw numbers to a model, we chop the audio into tiny slices (say 20 milliseconds each) and for each slice we ask: "how much of each frequency is in here?"</p>
+<p>Stack those answers side by side and you get a <strong>picture</strong>.</p>
+<pre><code>       SPECTROGRAM
+       (this is an image. dark = quiet, # = loud)
+
+  high  |                                            
+  freq  |          ##                    ##          
+        |     ##   ##        ##          ##          
+        |     ##   ##   ##   ##     ##   ##    ##    
+        |  ## ##   ##   ##   ##     ##   ##    ##    
+  low   |  ## ##   ##   ##   ##     ##   ##    ##    
+  freq  +--------------------------------------------&gt; time
+           ^                    ^
+        note 1               a chord
+       (thin line)      (several lines stacked)</code></pre>
+<p>This is the single most important trick in audio ML. <strong>Once audio is a picture, you can use all the image-recognition tools that already exist.</strong></p>
+<h3>3.2 Two flavours you will see</h3>
+<p><strong>STFT / Mel spectrogram</strong> — the standard one. Frequency axis is spaced evenly-ish. Used everywhere in speech (your Parakeet ASR work uses mel).</p>
+<p><strong>CQT (Constant-Q Transform)</strong> — the <em>music</em> one. The frequency axis is spaced so that <strong>every musical semitone gets equal space</strong>. Because notes double in frequency per octave, a normal spectrogram squishes the low notes together and wastes space on the high ones. CQT fixes that.</p>
+<pre><code>Normal spectrogram (log freq axis is uneven for music):
+
+   |  C  C#  D  ...............  (high notes: lots of space)
+   |  
+   | CC#D                        (low notes: all squished)
+   +--------------------------&gt; time
+
+
+CQT (every semitone same height):
+
+   |  ...
+   |  D   &lt;- one row = one semitone
+   |  C#  &lt;- one row
+   |  C   &lt;- one row
+   |  B
+   +--------------------------&gt; time</code></pre>
+<p><strong>Almost every guitar transcription paper uses CQT as the input.</strong> TabCNN uses it. If you remember one implementation detail from this whole document, remember: <code>librosa.cqt()</code>.</p>
+<hr>
+<h2>4. What a neural network actually is</h2>
+<p>You said you do not know how to build an architecture. Let us fix that. This section has no maths beyond multiply and add.</p>
+<h3>4.1 One neuron</h3>
+<p>A neuron is a tiny formula. It takes numbers in, multiplies each by a "weight", adds them up, adds a "bias", and squashes the result.</p>
+<pre><code>   input1 ---(x w1)---\
+                       \
+   input2 ---(x w2)-----&gt; [ sum + bias ] --&gt; [squash] --&gt; output
+                       /
+   input3 ---(x w3)---/</code></pre>
+<p>In code, literally:</p>
+<pre><code class="language-python">output = squash(i1*w1 + i2*w2 + i3*w3 + bias)</code></pre>
+<p>That is it. That is a neuron. The <code>w</code>s and the <code>bias</code> are the things the computer will <em>learn</em>. At the start they are random numbers.</p>
+<p>The "squash" (called an <strong>activation function</strong>) is usually <code>ReLU</code>, which is comically simple:</p>
+<pre><code class="language-python">def relu(x):
+    return max(0, x)      # negative becomes 0, positive stays</code></pre>
+<p>Why squash at all? Because without it, stacking layers is pointless. Ten multiplications in a row is still just one big multiplication. The squash makes the stack able to learn curvy, complicated things.</p>
+<h3>4.2 A layer, and a network</h3>
+<p>A <strong>layer</strong> is just many neurons side by side, all looking at the same inputs.</p>
+<pre><code> INPUT        LAYER 1        LAYER 2        OUTPUT
+              (hidden)       (hidden)
+
+  o ---------&gt; O ----------&gt; O ----------&gt; O   &quot;is it an E note?&quot;
+   \    X     / \     X     / \    X      /
+  o ---------&gt; O ----------&gt; O ----------&gt; O   &quot;is it an F note?&quot;
+   /    X     \ /     X     \ /    X      \
+  o ---------&gt; O ----------&gt; O ----------&gt; O   &quot;is it an F# note?&quot;
+
+  (every arrow has its own weight number)</code></pre>
+<p>Early layers learn dumb simple things ("there is energy around 110 Hz"). Later layers combine those into smart things ("that is an A minor chord shape"). Nobody programs that. It emerges.</p>
+<h3>4.3 How learning actually happens</h3>
+<p>This is the whole of deep learning, in five steps, repeated a million times:</p>
+<pre><code>  +---------------------------------------------------+
+  |  1. FORWARD                                        |
+  |     Feed one example in. Get the model&#x27;s guess.    |
+  |                                                    |
+  |  2. COMPARE (loss)                                 |
+  |     Truth: &quot;note A2 is playing&quot;                    |
+  |     Guess: &quot;note A2 is playing 30% likely&quot;         |
+  |     Loss  = a number saying how wrong. Big = bad.  |
+  |                                                    |
+  |  3. BLAME (backpropagation)                        |
+  |     Work backwards through the network and figure  |
+  |     out which weights caused the wrongness.        |
+  |                                                    |
+  |  4. NUDGE (gradient descent)                       |
+  |     Move each weight a tiny step in the direction  |
+  |     that reduces the loss.                         |
+  |                                                    |
+  |  5. REPEAT with the next example. Forever.         |
+  +---------------------------------------------------+</code></pre>
+<p>Picture the loss as a hilly landscape and the model as a blindfolded person trying to walk downhill. Each step is small. The <strong>learning rate</strong> is the size of the step.</p>
+<pre><code> loss
+  |\                             /
+  |  \                         /
+  |    \    o  &lt;- model here  /
+  |      \  |               /
+  |        \ v            /
+  |          \___     __/
+  |              \___/   &lt;- goal: the bottom
+  +-------------------------------&gt; &quot;all the weights&quot;</code></pre>
+<p>Too-big steps and you bounce over the valley forever. Too-small steps and you never arrive. This is why learning rate is the one hyperparameter everyone obsesses over.</p>
+<h3>4.4 The vocabulary you will hit immediately</h3>
+<div class="tablewrap"><table><thead><tr><th>Word</th><th>5-year-old meaning</th></tr></thead><tbody><tr><td><strong>Epoch</strong></td><td>One full pass through your entire training data</td></tr><tr><td><strong>Batch</strong></td><td>How many examples you show before nudging weights (e.g. 32)</td></tr><tr><td><strong>Learning rate</strong></td><td>Step size. Typically 0.001</td></tr><tr><td><strong>Loss</strong></td><td>How wrong the model is right now. You want it to go down</td></tr><tr><td><strong>Overfitting</strong></td><td>Model memorised the training data and is useless on new data</td></tr><tr><td><strong>Train / validation / test split</strong></td><td>3 piles of data. Learn on pile 1, tune on pile 2, judge honestly on pile 3</td></tr><tr><td><strong>Checkpoint</strong></td><td>Saved weights file (<code>.pt</code>, <code>.ckpt</code>, <code>.safetensors</code>)</td></tr><tr><td><strong>Inference</strong></td><td>Just using a trained model. The thing you already know how to do</td></tr><tr><td><strong>Fine-tuning</strong></td><td>Take someone's trained model, keep training it on your data</td></tr></tbody></table></div>
+<p><strong>Overfitting, pictured:</strong></p>
+<pre><code>GOOD (learned the pattern)      BAD (memorised the dots)
+     .                                .
+   .   . .                          .-. .
+ .  ___  .                        ./  \_.
+  _/     \_ .                    /|    | \.
+ /         \                    . |    |  \</code></pre>
+<hr>
+<h2>5. CNN: the network that looks at pictures</h2>
+<p>Since we turned audio into a spectrogram picture, we can use a <strong>Convolutional Neural Network</strong>. This is the workhorse of guitar transcription.</p>
+<h3>5.1 The idea: a small sliding stamp</h3>
+<p>Instead of connecting every pixel to every neuron (way too many weights), a CNN uses a tiny window, say 3x3, that slides across the whole image looking for one specific pattern.</p>
+<pre><code>   The spectrogram (big)          The filter (tiny, 3x3)
+   +------------------------+         +-----+
+   | . . # . . . . . . . .  |         | 0 1 0 |
+   | . . # . . . # # # . .  |  &lt;----  | 0 1 0 |   &quot;I detect
+   | . . # . . . . . . . .  |         | 0 1 0 |    vertical lines&quot;
+   | . . . . . . . . . . .  |         +-----+
+   +------------------------+
+
+   The filter slides over EVERY position:
+
+   [###]. . . . .        . [###] . . . .        . . [###] . . .
+   [###]. . . . .   -&gt;   . [###] . . . .   -&gt;   . . [###] . . .
+   [###]. . . . .        . [###] . . . .        . . [###] . . .
+
+   producing a new image: &quot;where in the original are vertical lines?&quot;</code></pre>
+<p>Two beautiful properties:</p>
+<ol><li><strong>Same weights everywhere.</strong> A "vertical line detector" works in the top-left and the bottom-right. So you need very few weights.</li><li><strong>Translation invariance.</strong> A note played at second 3 looks the same as the same note at second 40.</li></ol>
+<p>For a spectrogram this is perfect: a note's harmonic stack is the <em>same shape</em> wherever it appears.</p>
+<h3>5.2 A real CNN stack</h3>
+<pre><code> INPUT: CQT slice
+ (192 freq bins x 9 time frames)
+        |
+        v
+ +-------------------+
+ | Conv 3x3, 32 filt | &quot;find edges and blobs&quot;
+ | ReLU              |
+ +-------------------+
+        |
+        v
+ +-------------------+
+ | Conv 3x3, 64 filt | &quot;combine edges into harmonic stacks&quot;
+ | ReLU              |
+ +-------------------+
+        |
+        v
+ +-------------------+
+ | MaxPool 2x2       | &quot;shrink by half, keep the loudest&quot;
+ +-------------------+
+        |
+        v
+ +-------------------+
+ | Flatten           | &quot;turn the 2D grid into one long list&quot;
+ +-------------------+
+        |
+        v
+ +-------------------+
+ | Dense (fully      | &quot;reason about the whole picture&quot;
+ | connected) 128    |
+ +-------------------+
+        |
+        v
+ +-------------------+
+ | OUTPUT: 6 heads   | one per guitar string!
+ | each 21 classes   | (fret 0-19, or &quot;not played&quot;)
+ +-------------------+</code></pre>
+<p><strong>That last part is the clever bit and it is the actual TabCNN design.</strong> Instead of predicting "which notes are playing", it predicts, for each of the 6 strings separately, which fret is being held. That directly gives you a tab.</p>
+<pre><code>Output at one moment in time:
+
+  String 1 (high E) -&gt; [not played]
+  String 2 (B)      -&gt; fret 1
+  String 3 (G)      -&gt; fret 0
+  String 4 (D)      -&gt; fret 2
+  String 5 (A)      -&gt; fret 3
+  String 6 (low E)  -&gt; [not played]
+
+  Which is:
+      e|--x--
+      B|--1--
+      G|--0--    &lt;- that&#x27;s a C major chord
+      D|--2--
+      A|--3--
+      E|--x--</code></pre>
+<p>That is your whole App A output format. Neat, right?</p>
+<hr>
+<h2>6. RNN and LSTM: the network with a memory</h2>
+<p>A CNN looks at one moment at a time. But music has <strong>time</strong>. A note that started 200ms ago is still ringing. A chord progression has rules. You want a model with memory.</p>
+<h3>6.1 RNN</h3>
+<pre><code>   t=1        t=2        t=3        t=4
+    |          |          |          |
+    v          v          v          v
+  [RNN] ---&gt; [RNN] ---&gt; [RNN] ---&gt; [RNN]
+    |   memory  |  memory  |  memory  |
+    v          v          v          v
+  out1       out2       out3       out4</code></pre>
+<p>Each step passes a "hidden state" (its memory) to the next step. Simple, but plain RNNs forget things quickly.</p>
+<h3>6.2 LSTM</h3>
+<p>An LSTM is an RNN with little gates that decide what to remember and what to throw away.</p>
+<pre><code>       +-------------------------------+
+  old  |  [forget gate] --&gt; what to    |  new
+ memory|  [input gate]  --&gt; drop/add   |  memory
+  ----&gt;|  [output gate] --&gt; what to    |-----&gt;
+       |                    reveal     |
+       +-------------------------------+</code></pre>
+<p>You do not need to know the internals. You need to know: <code>nn.LSTM(...)</code> in PyTorch, and that <strong>bidirectional</strong> LSTM means it reads the sequence forwards AND backwards, which is allowed when you have the whole recording (not allowed for real-time).</p>
+<h3>6.3 CRNN = CNN + RNN</h3>
+<p>This is the standard architecture for music transcription:</p>
+<pre><code> Spectrogram
+      |
+      v
+  [ CNN ]        &lt;- &quot;what does this moment look like?&quot;
+      |
+      v
+  [ BiLSTM ]     &lt;- &quot;how does it connect over time?&quot;
+      |
+      v
+  [ Output ]     &lt;- notes / frets</code></pre>
+<p>A CRNN like this reaches about <strong>0.87 F1 on multipitch estimation on GuitarSet</strong>, which beat previously published methods trained only on GuitarSet. That number is your realistic benchmark.</p>
+<hr>
+<h2>7. Transformers, in one page</h2>
+<p>You know transformers from LLMs. Same idea, applied to audio.</p>
+<p><strong>Attention</strong> = every time-step gets to look at every other time-step and decide which ones matter.</p>
+<pre><code> Frame 40 asks: &quot;who should I pay attention to?&quot;
+
+  frame 1 ....... 5%
+  frame 12 ...... 3%
+  frame 38 ...... 40%   &lt;- the note started here
+  frame 39 ...... 45%
+  frame 55 ...... 1%</code></pre>
+<p>For guitar this helps with: sustained notes, knowing a chord shape from its attack, and <strong>beat-informed quantisation</strong> (snapping notes to the rhythm grid so the tab is readable instead of a mess of 0.03-second offsets). Recent work builds on a note-level transcription model that uses self-attention and adds beat-informed quantisation specifically to handle the "where on the neck" problem.</p>
+<p>Downside: transformers are data-hungry. Guitar datasets are tiny. This is exactly why researchers generate synthetic data (see section 11).</p>
+<hr>
+<h2>8. Why guitar is HARD (the fretboard problem)</h2>
+<p>This is the section that explains why your project is not a weekend job. Read it twice.</p>
+<h3>8.1 One note, many places</h3>
+<p>On a piano, middle C is one key. One key, one note. On guitar, the SAME pitch exists in up to 5 different places.</p>
+<pre><code> Note E4 (329.6 Hz) can be played at ALL of these:
+
+        fret: 0  1  2  3  4  5  6  7  8  9  10 11 12
+  e (E4)|-----E--.--.--.--.--.--.--.--.--.--.--.--.
+  B     |-----.--.--.--.--.--E--.--.--.--.--.--.--.
+  G     |-----.--.--.--.--.--.--.--.--.--E--.--.--.
+  D     |-----.--.--.--.--.--.--.--.--.--.--.--.--E
+  A     |-----.--.--.--.--.--.--.--.--.--.--.--.--.
+  E     |-----.--.--.--.--.--.--.--.--.--.--.--.--.
+
+  Same sound. Four different tabs. Which one is &quot;correct&quot;?</code></pre>
+<p>So even a <strong>perfect</strong> pitch detector does not give you a tab. You need a second step that picks the physically sensible fingering. Papers call this the playability or feasibility problem, and people solve it with genetic algorithms, graph shortest-path, or a learned "inhibition" layer that punishes impossible finger stretches.</p>
+<h3>8.2 Distortion destroys pitch</h3>
+<p>Distortion is intentional harmonic mangling. Your clean harmonic stack from section 2.3 turns into soup. A model trained on clean acoustic guitar will fall apart on a metal track. Researchers literally built dedicated datasets of real electric guitar tones and effects to fix this robustness gap.</p>
+<h3>8.3 Techniques that are invisible to naive models</h3>
+<pre><code>  Bend       e|--7b9-----   pitch slides UP mid-note
+  Slide      e|--5/7-----   pitch glides between notes
+  Hammer-on  e|--5h7-----   second note has no pluck
+  Pull-off   e|--7p5-----   same, reverse
+  Palm mute  e|--5(PM)---   note is short and thuddy
+  Vibrato    e|--7~~~~~--   pitch wobbles
+  Harmonic   e|--&lt;12&gt;----   only overtones ring</code></pre>
+<p>Standard note-on/note-off models represent none of this. This is why FretNet moved to <strong>continuous-valued pitch contours</strong> instead of discrete notes, so bends and slides can be represented at all.</p>
+<h3>8.4 Everything else</h3>
+<ul><li><strong>Tuning.</strong> Half the internet plays in Eb or Drop D. Your model assumes standard EADGBE and outputs garbage.</li><li><strong>Capo.</strong> Shifts the whole map.</li><li><strong>Multiple guitars.</strong> Rhythm guitar plus lead guitar plus a doubled track. Which one do you transcribe?</li><li><strong>Data scarcity.</strong> GuitarSet is roughly 3 hours. For comparison, your own dictation dataset is 13.5 hours. Speech models train on 50,000+ hours. This is the single biggest limiter in the field.</li></ul>
+<hr>
+<h2>9. The full pipeline, stage by stage</h2>
+<p>Modern song-to-tab pipelines stack roughly 5 to 7 distinct ML stages per song: source separation, polyphonic pitch tracking, onset detection, chord recognition, beat tracking, and section labeling. Here is the whole thing:</p>
+<pre><code>   +----------------------------------+
+   |  MP3 of a full song              |
+   +----------------------------------+
+                 |
+                 v
+   +----------------------------------+
+   |  STAGE 1: SOURCE SEPARATION      |   Tool: Demucs (htdemucs_6s)
+   |  Split into stems                |   Status: SOLVED. Just use it.
+   |  vocals / drums / bass /         |
+   |  guitar / piano / other          |
+   +----------------------------------+
+                 |
+                 | (keep the guitar stem)
+                 v
+   +----------------------------------+
+   |  STAGE 2: PREPROCESS             |   Tool: librosa
+   |  Resample, mono, CQT             |   Status: 20 lines of code
+   +----------------------------------+
+                 |
+                 v
+   +----------------------------------+
+   |  STAGE 3: ONSET DETECTION        |   &quot;when does a note start?&quot;
+   |                                  |   Status: mostly solved
+   +----------------------------------+
+                 |
+                 v
+   +----------------------------------+
+   |  STAGE 4: MULTI-PITCH ESTIMATION |   Tool: Basic Pitch
+   |  which pitches at which time     |   Status: good on clean audio
+   +----------------------------------+
+                 |
+                 v
+   +----------------------------------+
+   |  STAGE 5: STRING / FRET ASSIGN   |   Tool: TabCNN / FretNet
+   |  pitch -&gt; which string, fret     |   Status: THE HARD PART
+   +----------------------------------+
+                 |
+                 v
+   +----------------------------------+
+   |  STAGE 6: BEAT + RHYTHM          |   snap to a grid so it&#x27;s readable
+   |  tempo, bars, note durations     |   Status: decent tools exist
+   +----------------------------------+
+                 |
+                 v
+   +----------------------------------+
+   |  STAGE 7: EXPORT                 |   MIDI / MusicXML / GuitarPro
+   +----------------------------------+
+                 |
+                 v
+              A TAB</code></pre>
+<p><strong>Errors compound.</strong> If each stage is 90% right, seven stages gives you 0.9^7 = 48%. This is why end-to-end quality is much worse than any individual stage's benchmark number. Budget for that emotionally.</p>
+<hr>
+<h2>10. Pretrained models you can use TODAY</h2>
+<p>You said you can do inference but not build from scratch. Good news: for 5 of the 7 stages you never need to build anything.</p>
+<h3>10.1 Demucs (source separation) — USE THIS, IT JUST WORKS</h3>
+<p>Made by Meta / Facebook Research. The v4 version is Hybrid Transformer Demucs, a hybrid spectrogram/waveform separation model using transformers, reaching around 9.0 dB SDR on the MUSDB HQ test set, and about 9.2 dB with sparse attention and per-source fine-tuning.</p>
+<p>How it works, simply: it processes the audio in two parallel streams at once. One works directly on the raw waveform and is good at catching timing and transients. The other works on the spectrogram and is good at tonal content and harmonics. A transformer attention mechanism lets the two streams share information. Rather than predicting the output waveform directly, most architectures estimate a mask, which is a grid the same size as the input spectrogram where each cell holds a value between 0 and 1 saying how much of that frequency at that time belongs to that stem.</p>
+<p><strong>Critical for you:</strong> there is a variant called <code>htdemucs_6s</code> which is a 6-source version with <strong>piano and guitar added as separate stems</strong>. That is exactly the stage-1 tool you need.</p>
+<pre><code class="language-bash">pip install demucs
+demucs -n htdemucs_6s my_song.mp3
+# output: separated/htdemucs_6s/my_song/guitar.wav  &lt;- your input for stage 2</code></pre>
+<p>Runs on your 4050 fine. A 4 minute song takes maybe 1 to 2 minutes.</p>
+<h3>10.2 Basic Pitch (note detection) — USE THIS TOO</h3>
+<p>Spotify's open source model. It is deliberately lightweight, for multi-pitch, note, and pitch-bend estimation in polyphonic music. Because it is small it can even run in a browser, which means the audio never has to leave your computer.</p>
+<pre><code class="language-bash">pip install basic-pitch
+basic-pitch ./output_dir ./guitar.wav
+# gives you a MIDI file</code></pre>
+<p>It gives you <strong>pitches over time</strong>, not string/fret. So it is stage 4, not stage 5. Note that it also estimates pitch bends, which matters a lot for guitar.</p>
+<p>Accuracy depends heavily on recording quality. Clean recordings of a single instrument produce the best results. This is a general truth of the whole field, not a Basic Pitch weakness.</p>
+<h3>10.3 TabCNN — the model to actually study</h3>
+<p>Repo: <code>andywiggins/tab-cnn</code>. The original CNN that predicts tablature directly from CQT. Small, readable, trainable on your GPU in hours not days. This is your teaching model.</p>
+<p>It preprocesses GuitarSet into different spectral representations, with CQT as the default, saved as compressed numpy files, then trains with six-fold cross-validation.</p>
+<p><strong>This is the one you should train yourself.</strong> It is the "hello world" of guitar transcription.</p>
+<h3>10.4 FretNet — TabCNN's smarter successor</h3>
+<p>Repo: <code>cwitkowitz/guitar-transcription-continuous</code>. It implements continuous-valued relative pitch estimation, so it can represent bends and slides instead of forcing everything to discrete semitones. It also does note and pitch-contour grouping to deal with noisy ground truth annotations.</p>
+<h3>10.5 Guitar-transcription-with-inhibition — the fingering fixer</h3>
+<p>Repo: <code>cwitkowitz/guitar-transcription-with-inhibition</code>. This tackles exactly the section 8.1 problem. It implements a tablature output layer with "inhibition", interchangeable with the TabCNN output layer, that learns which string/fret combinations are physically feasible and which pairs are likely to co-occur. It computes those inhibition weights from symbolic tab data like DadaGP and GuitarSet.</p>
+<p>Plain English: it stops the model from outputting fingerings a human hand cannot make.</p>
+<h3>10.6 amt-tools</h3>
+<p>Repo: <code>cwitkowitz/amt-tools</code>. A general music transcription framework that the two repos above are built on. Datasets, evaluation, model wrappers. Install this first, it saves you a lot of plumbing.</p>
+<h3>10.7 Quick summary table</h3>
+<div class="tablewrap"><table><thead><tr><th>Model</th><th>Stage</th><th>Do you train it?</th><th>Difficulty</th></tr></thead><tbody><tr><td>Demucs (htdemucs_6s)</td><td>1. separation</td><td>No. Just run it</td><td>Trivial</td></tr><tr><td>librosa CQT</td><td>2. features</td><td>It's not a model</td><td>Trivial</td></tr><tr><td>Basic Pitch</td><td>3+4. onsets, pitch</td><td>No. Just run it</td><td>Trivial</td></tr><tr><td>TabCNN</td><td>5. string/fret</td><td><strong>Yes, train this one</strong></td><td>Medium</td></tr><tr><td>FretNet</td><td>5. string/fret, expressive</td><td>Later</td><td>Hard</td></tr><tr><td>Inhibition layer</td><td>5b. playability</td><td>Bolt onto TabCNN</td><td>Medium</td></tr></tbody></table></div>
+<hr>
+<h2>11. The datasets</h2>
+<p>Everything in this field is bottlenecked on data. Know these names.</p>
+<h3>GuitarSet</h3>
+<p>The standard benchmark. Recorded with a hexaphonic pickup, meaning each string was recorded on its own channel, which is how they got perfectly accurate per-string ground truth. About 3 hours. Downloadable via the <code>mirdata</code> library in one command.</p>
+<pre><code class="language-python">import mirdata
+mirdata.initialize(&#x27;guitarset&#x27;).download()</code></pre>
+<h3>DadaGP</h3>
+<p>A dataset of tokenized Guitar Pro songs, used for sequence models. This is <strong>symbolic</strong> (tabs only, no audio). Huge and diverse. Used for learning what fingerings humans actually use.</p>
+<h3>SynthTab</h3>
+<p>Derived from DadaGP. They took the symbolic tabs and synthesized audio from them, faithfully following the original fingerings and a subset of the playing techniques, across multiple guitars and styles. Pre-training on SynthTab then fine-tuning on a real dataset improves performance, and cross-dataset experiments show pre-training significantly reduces overfitting.</p>
+<p><strong>This is the trick that unlocks the whole field for a solo builder: generate infinite fake training data from Guitar Pro files.</strong></p>
+<h3>EGDB / Guitar-Techs / EGSet12</h3>
+<p>Electric guitar specific sets. Guitar-Techs covers techniques, musical excerpts, chords and scales recorded across a diverse array of hardware. EGSet12 is a small evaluation set of twelve original solo electric guitar performances, averaging about 31.65 seconds each.</p>
+<h3>GOAT</h3>
+<p>A large dataset of paired guitar audio recordings and tablatures, presented at ISMIR 2025. This is the newest and largest of the paired sets. Check this one first, it may make your life much easier than GuitarSet alone.</p>
+<h3>GAPS</h3>
+<p>A large and diverse classical guitar dataset with a benchmark transcription model, from ISMIR 2024.</p>
+<hr>
+<h2>12. Who already did this, and how</h2>
+<h3>12.1 The research lineage (read in this order)</h3>
+<pre><code> 2018  GuitarSet
+       &quot;here is a dataset with per-string ground truth&quot;
+         |
+         v
+ 2019  TabCNN (Wiggins &amp; Kim)
+       &quot;CNN on CQT -&gt; 6 outputs, one per string&quot;
+         |
+         +-----------------------------+
+         |                             |
+         v                             v
+ 2022  Inhibition layer          2022  Attention-based
+       &quot;punish impossible              note-level transcription
+        fingerings&quot;
+         |                             |
+         v                             v
+ 2023  FretNet                   2023  SynthTab
+       &quot;continuous pitch, so           &quot;synthesize audio from
+        bends work&quot;                     Guitar Pro files&quot;
+         |                             |
+         +--------------+--------------+
+                        |
+                        v
+ 2024  Domain adaptation, real amp tones and effects,
+       GAPS dataset
+                        |
+                        v
+ 2025  GOAT (large paired audio+tab), Guitar-Techs,
+       Fretting-Transformer (MIDI -&gt; tab as a
+       sequence-to-sequence translation problem)
+                        |
+                        v
+ 2026  Beat-informed quantisation on top of the
+       self-attention note-level model</code></pre>
+<p><strong>Fretting-Transformer is worth a special mention</strong> because it reframes the section 8.1 problem beautifully: treat "MIDI notes to tablature" as a translation task, exactly like English to French, and use an encoder-decoder. Notes go in, fret positions come out.</p>
+<h3>12.2 What the commercial products do</h3>
+<p>Several tools already ship song-to-tab. Feed them a recording or a YouTube link, get playable tablature back in a few minutes. The 2026 comparisons generally rank <strong>Songscription, Klangio Guitar2Tabs, and Songsterr AI</strong> as the main three. Songscription's pitch is that it exports to Guitar Pro, MusicXML, MIDI and PDF, and gives you an interactive piano-roll editor to correct the model's mistakes afterwards. Note that some tools only detect chords rather than producing real note-level tabs, so check that before comparing.</p>
+<p>There are also thinner wrappers, for example a site that openly says it uses Spotify's Basic Pitch for polyphonic note detection combined with Meta's Demucs for stem separation. That is literally the stage 1 plus stage 4 pipeline from section 9, wrapped in a web UI.</p>
+<p><strong>What this means for you:</strong> the "just wrap open models in a UI" tier is already crowded and commoditised. Your differentiation has to be either (a) much better fingering quality, or (b) the practice-feedback loop, which almost nobody does well for casual adult learners.</p>
+<h3>12.3 Homework before you build</h3>
+<p>Take 5 songs you actually want to learn. Run them through Songscription, Klangio and Songsterr. Look honestly at the output.</p>
+<ul><li>If it is bad on the music you care about (Indian film guitar, specific genres, unusual tunings), that is your opening.</li><li>If it is good, build App B and use their tabs as your reference input.</li></ul>
+<p>That is a 30 minute experiment that could save you 6 months.</p>
+<hr>
+<h2>13. App 2: the practice scorer (the easy win)</h2>
+<p>Now the fun part. This one you can actually finish.</p>
+<h3>13.1 The setup</h3>
+<pre><code>   +----------------+           +------------------+
+   |  Reference tab |           |  YOU playing     |
+   |  (from a file, |           |  (recorded via   |
+   |   or Songsterr)|           |   guitar&#x27;s app)  |
+   +----------------+           +------------------+
+           |                             |
+           |                             v
+           |                    +------------------+
+           |                    | note detection   |
+           |                    | (Basic Pitch or  |
+           |                    |  simple onset+   |
+           |                    |  pitch tracking) |
+           |                    +------------------+
+           |                             |
+           v                             v
+   [ expected note sequence ]   [ your note sequence ]
+           |                             |
+           +-------------+---------------+
+                         v
+              +----------------------+
+              |  ALIGNMENT (DTW)     |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              |  SCORE + MISTAKES    |
+              |  - wrong notes       |
+              |  - missed notes      |
+              |  - timing drift      |
+              +----------------------+</code></pre>
+<h3>13.2 DTW, explained simply</h3>
+<p>Dynamic Time Warping. The problem: you played the right notes but slower than the reference, or you paused, or you rushed the chorus. A naive comparison would say every note is wrong.</p>
+<p>DTW stretches and squashes time to find the best possible match.</p>
+<pre><code> Reference:  C - - D - - E - - F
+ You played: C - - - - D E - - - - F     (you dragged)
+
+ Naive comparison:  everything misaligned. Score 0%.
+
+ DTW finds this alignment:
+
+   C ----&gt; C
+   D ----&gt; D    (stretched)
+   E ----&gt; E
+   F ----&gt; F    (stretched)
+
+ Score: 100% notes correct, timing feedback: &quot;you slowed
+ down 30% in bar 2&quot;</code></pre>
+<p>Library: <code>librosa.sequence.dtw</code> or the <code>dtw-python</code> package. <strong>No neural network needed for this part at all.</strong> It is classic algorithms.</p>
+<h3>13.3 Why this is easier than App A</h3>
+<div class="tablewrap"><table><thead><tr><th>App A challenge</th><th>Does App B have it?</th></tr></thead><tbody><tr><td>Separate guitar from drums and vocals</td><td>No. It is just you</td></tr><tr><td>Unknown notes</td><td>No. You already have the reference</td></tr><tr><td>Unknown tuning</td><td>No. You tuned it yourself</td></tr><tr><td>Unknown tempo</td><td>Kind of, but DTW handles it</td></tr><tr><td>Choose which fret position</td><td>No. The tab tells you</td></tr></tbody></table></div>
+<p>You have removed almost every hard problem. What is left is onset detection plus pitch detection on a clean signal, which is a solved problem.</p>
+<h3>13.4 Signal quality warning</h3>
+<p>Those guitars with built-in speakers and companion apps usually only hand you microphone-quality audio, locked inside their app. For ML you want the <strong>direct signal (DI)</strong>, straight from the pickups, with no room noise.</p>
+<pre><code> BAD:   guitar -&gt; amp -&gt; speaker -&gt; room -&gt; phone mic -&gt; app
+        (room echo, phone compression, background noise)
+
+ GOOD:  guitar -&gt; 1/4&quot; cable -&gt; USB audio interface -&gt; laptop
+        (clean, exactly what the strings did)</code></pre>
+<p>Before you buy the guitar, check for a <strong>USB output</strong> or plan on a cheap audio interface (a Behringer UM2 or similar is enough). Also check whether the companion app lets you <strong>export</strong> the raw audio file. If it does not, it is useless to you.</p>
+<hr>
+<h2>14. Your actual build plan</h2>
+<p>Ordered so you get a win every weekend and never get stuck.</p>
+<h3>Weekend 0: Reality check (2 hours, no code)</h3>
+<ul><li>Run 5 songs through Songscription / Klangio / Songsterr.</li><li>Decide: is there a gap worth filling?</li></ul>
+<h3>Weekend 1: Get audio into Python</h3>
+<pre><code class="language-bash">pip install librosa soundfile matplotlib numpy</code></pre>
+<ul><li>Load a WAV of you playing one note.</li><li>Plot the waveform.</li><li>Plot the spectrogram.</li><li>Plot the CQT.</li><li>Play one note, then a chord. Look at the difference with your own eyes.</li></ul>
+<p><strong>Goal: intuition. Do not skip this. It makes everything later obvious.</strong></p>
+<h3>Weekend 2: Use the pretrained models</h3>
+<ul><li>Run Demucs <code>htdemucs_6s</code> on a real song. Listen to the isolated guitar stem.</li><li>Run Basic Pitch on that stem. Open the MIDI in any DAW or MuseScore.</li><li>See how wrong it is. Now you understand the problem viscerally.</li></ul>
+<h3>Weekend 3: Train your first model</h3>
+<ul><li>Download GuitarSet via <code>mirdata</code>.</li><li>Clone <code>andywiggins/tab-cnn</code>.</li><li>Run their preprocessing and training.</li><li>Get a number. Compare it to the paper.</li></ul>
+<p><strong>This is the moment you stop being "someone who can only do inference".</strong></p>
+<h3>Weekend 4: Break it and understand it</h3>
+<ul><li>Change the spectral representation from CQT to mel. Does the score drop?</li><li>Reduce training data by half. Watch overfitting happen.</li><li>Train on acoustic, test on your distorted electric. Watch it fail. Now you understand domain shift.</li></ul>
+<h3>Weekend 5-6: Build App B (the practice scorer)</h3>
+<ul><li>Record yourself playing a simple riff.</li><li>Detect notes with Basic Pitch.</li><li>Hand-write the reference tab as a list.</li><li>Align with DTW.</li><li>Print a mistake report.</li></ul>
+<p>Ship this. It is a real app.</p>
+<h3>Weekend 7+: Improve App A</h3>
+<ul><li>Add the inhibition layer for playable fingerings.</li><li>Look into SynthTab-style synthetic data from Guitar Pro files.</li><li>Check whether GOAT gives you enough paired data to fine-tune something bigger.</li></ul>
+<hr>
+<h2>15. Code you can copy and run</h2>
+<h3>15.1 See a CQT</h3>
+<pre><code class="language-python">import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import numpy as np
+
+y, sr = librosa.load(&quot;my_guitar.wav&quot;, sr=22050, mono=True)
+
+# CQT: 192 bins, 24 bins per octave = quarter-tone resolution
+C = np.abs(librosa.cqt(y, sr=sr, n_bins=192, bins_per_octave=24))
+C_db = librosa.amplitude_to_db(C, ref=np.max)
+
+librosa.display.specshow(C_db, sr=sr, x_axis=&#x27;time&#x27;, y_axis=&#x27;cqt_note&#x27;)
+plt.colorbar()
+plt.title(&quot;CQT&quot;)
+plt.show()</code></pre>
+<h3>15.2 Separate a song</h3>
+<pre><code class="language-bash">pip install demucs
+demucs -n htdemucs_6s song.mp3
+ls separated/htdemucs_6s/song/
+# drums.wav bass.wav other.wav vocals.wav guitar.wav piano.wav</code></pre>
+<h3>15.3 Notes from audio</h3>
+<pre><code class="language-python">from basic_pitch.inference import predict
+
+model_output, midi_data, note_events = predict(&quot;guitar.wav&quot;)
+
+for note in note_events[:20]:
+    start, end, pitch, amplitude, bends = note
+    print(f&quot;{start:6.2f}s -&gt; {end:6.2f}s  MIDI {pitch}&quot;)</code></pre>
+<p>MIDI number to note name: 40 = E2 (low E open), 64 = E4 (high E open). Every +1 is one fret.</p>
+<h3>15.4 A tiny TabCNN-shaped model, so you see the architecture</h3>
+<pre><code class="language-python">import torch
+import torch.nn as nn
+
+class TinyTabNet(nn.Module):
+    def __init__(self, n_strings=6, n_classes=21):  # 21 = frets 0-19 + &quot;off&quot;
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(1, 32, 3, padding=1), nn.ReLU(),
+            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Dropout(0.25),
+        )
+        self.head = nn.Sequential(
+            nn.Flatten(),
+            nn.LazyLinear(128), nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(128, n_strings * n_classes),
+        )
+        self.n_strings = n_strings
+        self.n_classes = n_classes
+
+    def forward(self, x):              # x: (batch, 1, freq_bins, time_frames)
+        x = self.features(x)
+        x = self.head(x)
+        return x.view(-1, self.n_strings, self.n_classes)
+
+model = TinyTabNet()
+dummy = torch.randn(4, 1, 192, 9)      # 4 examples, 192 CQT bins, 9 frames
+out = model(dummy)
+print(out.shape)                       # torch.Size([4, 6, 21])</code></pre>
+<p>That output shape, <code>[batch, 6 strings, 21 fret options]</code>, IS a tab. You just built a transcription architecture. It took 20 lines.</p>
+<h3>15.5 The training loop, in full</h3>
+<pre><code class="language-python">import torch.optim as optim
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
+for epoch in range(50):
+    model.train()
+    total = 0.0
+    for cqt_batch, tab_batch in train_loader:   # tab_batch: (batch, 6)
+        optimizer.zero_grad()                    # 1. clear old blame
+        preds = model(cqt_batch)                 # 2. forward
+        loss = criterion(
+            preds.reshape(-1, 21),
+            tab_batch.reshape(-1)
+        )                                        # 3. how wrong?
+        loss.backward()                          # 4. assign blame
+        optimizer.step()                         # 5. nudge weights
+        total += loss.item()
+    print(f&quot;epoch {epoch}  loss {total/len(train_loader):.4f}&quot;)</code></pre>
+<p><strong>That is deep learning.</strong> Five lines inside a loop. Everything else in this document is choosing what goes in and what comes out.</p>
+<hr>
+<h2>16. How to know if it works (metrics)</h2>
+<h3>Precision, recall, F1</h3>
+<pre><code>                      Model said YES     Model said NO
+  Actually YES     |   True Positive   |  False Negative
+  Actually NO      |   False Positive  |  True Negative
+
+  Precision = of the notes I predicted, how many were real?
+              (are my predictions trustworthy?)
+
+  Recall    = of the real notes, how many did I catch?
+              (am I missing stuff?)
+
+  F1        = the balanced combination of both. One number.
+              This is what papers report.</code></pre>
+<p>Why not just "accuracy"? Because most of the time most strings are silent. A model that always predicts "nothing is playing" would score 90% accuracy and be completely useless.</p>
+<h3>Numbers to expect</h3>
+<div class="tablewrap"><table><thead><tr><th>Situation</th><th>Realistic F1</th></tr></thead><tbody><tr><td>Clean solo acoustic, GuitarSet-like</td><td>0.85 - 0.87</td></tr><tr><td>Clean solo electric, no distortion</td><td>0.7 - 0.8</td></tr><tr><td>Distorted electric solo</td><td>much lower</td></tr><tr><td>Full mixed song after Demucs</td><td>notably lower again</td></tr></tbody></table></div>
+<p>A recent chord-focused system reported around 78% macro F1 for chord recognition, with polyphonic transcription explicitly named as remaining future work. Take that as a signal: even published systems consider the full polyphonic case unfinished.</p>
+<p><strong>Set your expectations here.</strong> "It mostly works on clean recordings and needs human correction" is the honest state of the art, and it is why every commercial tool ships an editor.</p>
+<hr>
+<h2>17. Hardware reality check</h2>
+<p>Your machine: RTX 4050, 6GB VRAM.</p>
+<div class="tablewrap"><table><thead><tr><th>Task</th><th>Feasible on your GPU?</th></tr></thead><tbody><tr><td>Running Demucs</td><td>Yes, comfortably</td></tr><tr><td>Running Basic Pitch</td><td>Yes, it runs on CPU even</td></tr><tr><td>Training TabCNN on GuitarSet</td><td>Yes. Hours, not days</td></tr><tr><td>Training FretNet</td><td>Yes, with small batches</td></tr><tr><td>Fine-tuning a mid-size transformer</td><td>Tight. Use gradient accumulation</td></tr><tr><td>Pre-training on SynthTab from scratch</td><td>No. Use Colab, or rent an A100 for a day</td></tr></tbody></table></div>
+<p>6GB is the constraint. Tricks that buy you room: smaller batch size, mixed precision (<code>torch.cuda.amp</code>), gradient accumulation, and shorter input windows.</p>
+<p>Same playbook you would use for the ASR fine-tune. The two projects share a hardware profile and a toolchain.</p>
+<hr>
+<h2>18. Traps that will waste your weekends</h2>
+<ol><li><strong>Training from scratch when a pretrained model exists.</strong> Do not rebuild Demucs. Ever.</li><li><strong>Ignoring tuning.</strong> Detect it or ask the user. Otherwise every output is transposed garbage.</li><li><strong>Testing only on your training data.</strong> Always hold out a test set you never look at until the end.</li><li><strong>Sample rate mismatch.</strong> Model trained at 22050 Hz, you feed 44100 Hz, everything sounds an octave off. This bug has cost people weeks.</li><li><strong>Chasing a benchmark number that does not match your use case.</strong> 0.87 F1 on clean acoustic GuitarSet tells you very little about distorted rock.</li><li><strong>Skipping the "look at the spectrogram" step.</strong> Your eyes catch bugs that metrics hide.</li><li><strong>Building App A first.</strong> It is the hard one. Build B, ship it, then come back.</li><li><strong>Copyright.</strong> If you ever host App A publicly, transcribing commercial songs has legal exposure. Commercial tools handle this by making the user declare they have the rights. Worth knowing before you launch anything.</li><li><strong>Assuming the smart guitar's app will give you files.</strong> Check the export path before you spend money.</li></ol>
+<hr>
+<h2>19. Glossary</h2>
+<div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td><strong>AMT</strong></td><td>Automatic Music Transcription. The whole research field</td></tr><tr><td><strong>GTT</strong></td><td>Guitar Tablature Transcription. The guitar-specific subfield</td></tr><tr><td><strong>MIR</strong></td><td>Music Information Retrieval. The parent field</td></tr><tr><td><strong>ISMIR</strong></td><td>The main conference. Where all the papers live</td></tr><tr><td><strong>CQT</strong></td><td>Constant-Q Transform. The music-friendly spectrogram</td></tr><tr><td><strong>STFT</strong></td><td>Short-Time Fourier Transform. The generic spectrogram</td></tr><tr><td><strong>Onset</strong></td><td>The moment a note starts</td></tr><tr><td><strong>Polyphonic</strong></td><td>Multiple notes at once (chords). Opposite: monophonic</td></tr><tr><td><strong>Stem</strong></td><td>One isolated instrument track from a mix</td></tr><tr><td><strong>SDR</strong></td><td>Signal to Distortion Ratio. How good a separation is. Higher is better</td></tr><tr><td><strong>F1</strong></td><td>The balanced accuracy score. Higher is better, max 1.0</td></tr><tr><td><strong>DTW</strong></td><td>Dynamic Time Warping. Aligns two sequences of different speeds</td></tr><tr><td><strong>DI</strong></td><td>Direct Input. Clean signal straight from the guitar</td></tr><tr><td><strong>Fundamental</strong></td><td>The "real" pitch of a note</td></tr><tr><td><strong>Harmonic / overtone</strong></td><td>The quieter multiples that ride on top</td></tr><tr><td><strong>Domain shift</strong></td><td>Model trained on X, tested on Y, falls apart</td></tr><tr><td><strong>Hexaphonic pickup</strong></td><td>A pickup with a separate output per string. How GuitarSet got clean labels</td></tr></tbody></table></div>
+<hr>
+<h2>20. Sources</h2>
+<p><strong>Datasets</strong></p>
+<ul><li>GuitarSet: Xi, Bittner, Pauwels, Ye, Bello. "GuitarSet: A dataset for guitar transcription." ISMIR 2018.</li><li>GAPS: Riley, Guo, Edwards, Dixon. "GAPS: A large and diverse classical guitar dataset and benchmark transcription model." ISMIR 2024.</li><li>GOAT: Loth, Sarmento, Sarkar, Guo, Barthet, Sandler. "GOAT: A large dataset of paired guitar audio recordings and tablatures." ISMIR 2025.</li><li>Guitar-Techs: Pedroza, Abreu, Corey, Roman. ICASSP 2025.</li><li>DadaGP: Sarmento, Kumar, Carr, Zukowski, Barthet, Yang. "DadaGP: A Dataset of Tokenized GuitarPro Songs for Sequence Models." ISMIR 2021.</li><li>SynthTab: Zang, Zhong, Cwitkowitz, Duan. "SynthTab: Leveraging Synthesized Data for Guitar Tablature Transcription." https://arxiv.org/pdf/2309.09085</li></ul>
+<p><strong>Models and papers</strong></p>
+<ul><li>TabCNN: Wiggins &amp; Kim, 2019. Code: https://github.com/andywiggins/tab-cnn</li><li>FretNet: Cwitkowitz, Hirvonen, Klapuri. Code: https://github.com/cwitkowitz/guitar-transcription-continuous</li><li>Inhibition / feasibility layer: https://github.com/cwitkowitz/guitar-transcription-with-inhibition</li><li>Fretting-Transformer (MIDI to tablature, encoder-decoder): https://arxiv.org/pdf/2506.14223</li><li>Real amp tones and effects for robustness (EGSet12): https://arxiv.org/pdf/2405.14679</li><li>Automatic Guitar Transcription With Deep Neural Networks (beat-informed quantisation): https://ieeexplore.ieee.org/document/11059978/</li><li>Onsets and Frames: Hawthorne et al., 2018. The piano paper that started the modern approach</li><li>AMT overview: Benetos, Dixon, Duan, Ewert. IEEE Signal Processing Magazine, 2019</li><li>Basic Pitch: https://github.com/spotify/basic-pitch, paper https://arxiv.org/abs/2203.09893, demo https://basicpitch.spotify.com</li><li>Demucs: https://github.com/facebookresearch/demucs</li><li>AutoTab (interactive tab system, chord model results): https://sol.sbc.org.br/index.php/semish/article/download/36816/36602/</li></ul>
+<p><strong>Curated resource lists</strong></p>
+<ul><li>Awesome Automatic Guitar Transcription: https://github.com/lucasgris/awesome-agt</li><li>Reference CRNN implementation, 0.87 MPE F1 on GuitarSet: https://github.com/trimplexx/music-transcription</li><li>amt-tools framework: https://github.com/cwitkowitz/amt-tools</li></ul>
+<p><strong>Commercial landscape</strong></p>
+<ul><li>Guitar tab generator comparison 2026: https://www.songscription.ai/blog/best-ai-guitar-tab-generators</li><li>Guitar tab generator comparison 2026: https://audio2guitar.com/blog/best-ai-guitar-tab-generators</li><li>Stem separation explained: https://stemsplit.io/blog/stem-separation-explained</li></ul>
+<p><strong>Libraries to install</strong></p>
+<pre><code class="language-bash">pip install librosa soundfile numpy matplotlib
+pip install torch torchaudio
+pip install demucs basic-pitch
+pip install mirdata          # dataset downloader
+pip install mir_eval         # standard evaluation metrics
+pip install dtw-python       # for App B</code></pre>
+<hr>
+<h2>The one-paragraph summary</h2>
+<p>Sound becomes a picture (CQT). A CNN reads that picture and, for each of the 6 strings, guesses which fret is held. That is a tab. The hard parts are that the same note lives in 4 places on the neck, that distortion wrecks the signal, and that there are only a few hours of labelled guitar data in the world. For 5 of the 7 pipeline stages, working open models already exist and you should just call them. The one model worth training yourself is TabCNN on GuitarSet, because it teaches you everything. And the app most worth actually shipping is not the song-to-tab one, it is the "did I play that right" one, because it removes every hard problem and is the one that would make you a better guitarist.</p>
+<p>Have a good trip.</p>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>

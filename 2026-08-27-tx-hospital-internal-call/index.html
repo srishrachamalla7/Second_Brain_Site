@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TX Hospital internal call — UAT issues, prompts, Sarvaam — Srish</title>
+<meta name="description" content="Internal team call about the Voice Agent (TX Hospital) for TX Hospital, 2026-08-27. Speaker 2 is Srish (శ్రీష్), Speaker 3 is Nishita, Speaker 1 is the team lead (addressed as &quot;అన్">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>TX Hospital internal call — UAT issues, prompts, Sarvaam</h1>
+  <div class="meta">2026-08-27<br><span class="tag">voice-agent</span><span class="tag">uat</span><span class="tag">prompts</span><span class="tag">sarvam</span><span class="tag">gemini</span></div>
+  <p>Internal team call about the Voice Agent (TX Hospital) for TX Hospital, 2026-08-27. Speaker 2 is Srish (శ్రీష్), Speaker 3 is Nishita, Speaker 1 is the team lead (addressed as "అన్నా" / Anna; name not stated). Written by an agent from the raw transcript (saved verbatim at <code>inbox/raw/Transcripts/27-08-2026_tx_call_internal_telugu.txt</code>).</p>
+<h2>Summary (English)</h2>
+<ul><li>The proposal is already published/sent; client approval takes time — work can</li></ul>
+<p>start meanwhile.</p>
+<ul><li><strong>UAT vs production:</strong> if UAT works well, take production down and keep UAT as</li></ul>
+<p>the live version until it passes; push changes to production first, then to UAT.</p>
+<ul><li><strong>UAT issues (Nishita):</strong> saying a doctor's name → the agent hallucinates and</li></ul>
+<p>picks different doctors; branches sometimes not mentioned; speaks English in the middle of Telugu; wrong branch names for some doctors. ~11 issues were logged to Harshita; some fixed; re-testing now.</p>
+<ul><li><strong>Root cause:</strong> the <strong>prompt</strong>. Each model interprets the same prompt</li></ul>
+<p>differently, so most fixes have to happen in the prompt. A full prompt review found contradictions (e.g. "don't call the tool again after calling once" is not honoured; normal call vs tool call confusion) — likely hallucination sources. The same prompt works in <strong>Sarvaam</strong>; <strong>Gemini 3.1 live</strong> needs a separate prompt.</p>
+<ul><li><strong>Sarvaam contact:</strong> Sneha is following up; 3 recordings were shared by Sneha</li></ul>
+<p>minutes before the call — to be forwarded to Srish.</p>
+<ul><li><strong>Call transfer:</strong> only available with the (Sarvaam) enterprise plan; not in</li></ul>
+<p>the docs; only mentioned in the Discord community; a support request was raised via mail — no reply yet. Call transfer is mandatory for any agent.</p>
+<ul><li>Team lead: this is a great opportunity and "I don't want to fail here"; be</li></ul>
+<p>available even on holidays/weekends; the client sees every recording; even if 10 calls go well, the one wrong call is what sticks; <strong>happy paths are also failing</strong> — the biggest concern.</p>
+<ul><li>Srish to create/send a <strong>scenarios document</strong> (PDF): all scenarios expected</li></ul>
+<p>from the voice agents — what it should do, which tools it should call. Send ASAP, don't miss anything, read it multiple times; share with Nishita too.</p>
+<h2>Decided</h2>
+<ul><li>UAT stays as the live version until it passes; production taken down meanwhile.</li><li>Fixes land in the prompt; Gemini 3.1 live gets its own prompt variant.</li><li>Scenarios document: Srish creates and sends it ASAP.</li><li>Sudheer added to weekend testing with Nishita.</li></ul>
+<h2>To do</h2>
+<ul><li>☐ Srish Rachamalla: create the scenarios document (all expected voice-agent</li></ul>
+<p>scenarios, which tools to call) — send ASAP, share with Nishita.</p>
+<ul><li>☐ Nishita + Sudheer: test over the weekend; be available for fixes.</li><li>☐ Harshita: continue fixing the ~11 UAT issues (re-test after fixes).</li><li>☐ Sneha: keep chasing the Sarvaam contact; forward the 3 recordings to Srish.</li><li>☐ Raise/pursue call-transfer (enterprise) requirement with Sarvaam; follow up</li></ul>
+<p>the open support request.</p>
+<ul><li>☐ Re-test happy paths before the next live push.</li></ul>
+<hr>
+<h2>Original (Telugu, verbatim)</h2>
+<pre><code>Speaker 1: Hello.
+Speaker 2: सर, निश्चित तांदूळ आहे आज दिवशी.
+Speaker 1: पतीता.
+Speaker 2: Okay.
+Speaker 1: Yeah, I mean, just— And I already published it in the proposal. Yeah, yeah. And the proposal already went into— సో ఇంకా వాళ్ల అప్రూవల్ వచ్చడానికి టైమ్ పడుతుంది. Can we start around? Already అయిపోతదట.
+Speaker 2: చాలా ఫాస్ట్‌గానే ఉంది.
+Speaker 2: మనం వెళ్లాలి అంటాడు.
+Speaker 1: హా. Hello?
+Speaker 2: Sir. S
+Speaker 1: Sreesh? Sir.
+Speaker 2: Yes.
+Speaker 1: ఏం చేద్దాం చెప్పండి.
+Speaker 1: మాట్లాడండి నాన్న.
+Speaker 2: అవును సర్.
+Speaker 2: Yes. Please. ఇప్పుడైతే డిసీజ్ చూస్తున్నారు, వీళ్లు.
+Speaker 2: So they don&#x27;t ఇంకా నిశ్చితం.
+Speaker 1: ఉమ్, ఓకే.
+Speaker 2: UAT వర్షన్.
+Speaker 1: It is ఇది చూడటం గురించి కాదు. ఇప్పుడు మీటింగ్ నుండి మీ టేక్ అవే ఏంటి?
+Speaker 2: సర్, అయితే నేను ఏమంటాను అంటే, UAT మంచిగా వర్క్ అవుతే ప్రొడక్షన్ ది తీసేసి అప్పటివరకు UAT పెడదాం.
+Speaker 1: పెట్టొచ్చు.
+Speaker 2: మళ్లీ ఫస్ట్ స్టార్ట్ చేసేద్దాం అంటారా? ఏం చేంజెస్ ఉన్నా, ఫస్ట్ మళ్లీ ప్రొడక్షన్ చేసి తర్వాత UAT కి పుష్ చేస్తే సరిపోతది. UAT మంచిగా ఉంటది.
+Speaker 3: Yes.
+Speaker 2: We&#x27;ll just enjoy.
+Speaker 3: నేను చేస్తాను, సర్.
+Speaker 1: Thank you.
+Speaker 3: Yes. Yeah.
+Speaker 2: అంటే ఇప్పుడు నేను నా క్వశ్చన్ ఏంటంటే—
+Speaker 1: కాల్ వన్ వన్.
+Speaker 2: నిషిత, UAT మంచిగా పని చేస్తుందా?
+Speaker 3: లేదు సర్, ఇష్యూస్ ఉన్నాయి.
+Speaker 2: అది శ్రీష్.
+Speaker 1: అవును సర్.
+Speaker 2: ఇక్కడ ఇప్పుడు సర్వం ది బానే వస్తుంది అన్నారు సర్. సర్వం తోని ఇప్పుడు ప్రాబ్లమ్ ఏంటి అంటే, కాల్ ట్రాన్స్ఫర్ ఆప్షన్ కి మనకి ఓన్లీ.
+Speaker 2: ఇదే ఉంది సర్. ఎంటర్ప్రైజ్ తో మాట్లాడి తీసుకోవాలి అని ఉంది, బట్ అది కూడా వాళ్లు డిస్కార్డ్ లో మెన్షన్ చేశారు సర్. ఏ డాక్యుమెంట్ లో మెన్షన్ చేయలేదు.
+Speaker 1: కానీ కంపల్సరీ ఉన్నట్లయితే ఉంటది ట్రాన్స్ఫర్. ఓకే, మీరు అవునన్నా కాదన్నా 100% ఉంటది, బికాజ్ ఫర్ ఏ ఏజెంట్ ట్రాన్స్ఫర్ ఇస్ మాండేటరీ.
+Speaker 2: అవును సర్, కానీ ఉంటది. కానీ వాళ్లు డాక్యుమెంట్స్ లో మెన్షన్ చేయలేదు, అండ్ వీళ్లకి ఒక కమ్యూనిటీ ఉంది సర్. ఆ డిస్కార్డ్ లో, ఇంకా అందరూ దాంట్లోనే అడుగుతున్నారు.
+Speaker 1: దాంట్లో ప్రతి ఒక్కరికి అడిగిన వాళ్లు ప్రతి ఒక్కరికి వాళ్లు అదే డాక్యుమెంట్స్ ఇస్తున్నారు, కానీ ఉంది అని అయితే కొందరికి చెప్పారు, డైరెక్ట్ చెప్పట్లేదు సర్. మైట్ బి ఎంటర్ప్రైజ్ కి కావాలి అని చెప్పి చెప్పట్లేదు, తెలియదు.
+Speaker 2: అయితే మెయిల్ అయితే పెట్టినాము, మళ్లీ ఇది కూడా పెట్టారు సర్. మెయిల్ ఏమో అదే పెట్టిండు.
+Speaker 1: దాంట్లో సపోర్ట్ రిక్వెస్ట్ ఉంది సర్, దాంతోని కూడా నేను పెట్టినాను.
+Speaker 2: మళ్లీ ఇంతవరకు అయితే ఏం రిప్లై రాలేదు.
+Speaker 1: ఉమ్.
+Speaker 2: అవును సర్.
+Speaker 1: సరే, ఇప్పుడు అది రాలేదు నాన్న.
+Speaker 1: నాకు నేను నాకు అర్థం కావట్లేదు, యాక్చువల్ గా ఎలా తీసుకోవాలి ఇది అని.
+Speaker 2: ఏం ఇష్యూస్ ఉన్నాయి నిషితా UAT లో?
+Speaker 3: ఆ సర్, ఎలా అంటే, డాక్టర్ పేరు నేమ్ చెప్తే అది హాలోజినేట్ అయ్యి వేరే డాక్టర్స్ తీస్తుంది సర్.
+Speaker 1: ఉమ్.
+Speaker 3: అండ్ బ్రాంచెస్ కూడా అప్పుడప్పుడు చెప్పట్లేదు.
+Speaker 3: అండ్ తెలుగు మాట్లాడేటప్పుడు మధ్యలో ఇంగ్లీష్ మాట్లాడుతుంది.
+Speaker 3: అండ్ కొన్ని డాక్టర్స్ కి వేరే బ్రాంచెస్ చెప్తుంది.
+Speaker 3: వాళ్లు ఉన్న బ్రాంచెస్ నేమ్స్ కాకుండా వేరే బ్రాంచెస్ నేమ్స్ చెప్తుంది.
+Speaker 3: ఇందాకనే హర్షిత కి ఒక 11 ఇష్యూస్ దాకా ఇచ్చాను సర్ నేను.
+Speaker 1: ఉమ్.
+Speaker 3: అందులో తను కొన్ని ఫిక్స్ చేసిందంట, అది రీటెస్ట్ చేస్తున్నాం ఇప్పుడు.
+Speaker 1: శ్రీష్, ప్రాబ్లమ్ ఎక్కడ ఉంటది అమ్మా?
+Speaker 2: సర్, ప్రాబ్లమ్ వచ్చేసి ఉంటే ప్రాంప్ట్.
+Speaker 2: లోనే ఉంటది సర్. అంటే ప్రాంప్ట్ కూడా ఎలా ఉంటది అంటే ట్రాలింగ్ ఎర్రర్ ఉంటది సర్. ఇప్పుడు ఒక్కొక్క మోడల్ ఒక్కొక్క ప్రాంప్ట్ ని ఒక్కొక్కలాగా తీసుకుంటది.
+Speaker 2: సో మనము ఏం చేసినా చేంజెస్ చేయగలిగితే ఓన్లీ ప్రాంప్ట్ లోనే చేయగలుగుతాం సర్. మాకంటే ఒక టూల్ క్రియేట్ చేసి ఇంకో టూల్ యాడ్ చేయొచ్చు, కానీ.
+Speaker 1: అది కూడా అల్టిమేట్‌గా ప్రాంప్ట్‌లోనే యాడ్ చేయాల్సి వస్తుంది.
+Speaker 2: ఉమ్.
+Speaker 2: ఇప్పుడు మన ప్రాంప్ట్ రివ్యూ చేసినాం, మొత్తం కొద్దిగానే చేసినాం.
+Speaker 1: లేదు సర్, మొన్న నిన్న చూసాను సర్, ఫస్ట్ ఏఐకి ఇచ్చాను, నేను మొత్తం చదవలేదు.
+Speaker 1: అది కొన్ని కాంట్రడిక్షన్స్ ఉన్నాయి అనుకుంటా అన్నది, బట్ దాంట్లో కొన్ని చదివాను సర్. కొన్ని వర్త్ కాదు అనిపించింది, కొన్ని ఏం కాదు అన్నట్టు ఉండేది సర్. ఒక ఎగ్జాంపుల్ ఏముండే అంటే, మనము టూల్ కాల్ ఒకసారి కాల్ చేశాక మళ్లీ కాల్ చేయొద్దు అని చెప్పి ఒక ప్రాంప్ట్‌లో మెన్షన్ చేసినాం సర్. కానీ అది నార్మల్ కాల్‌లా, టూల్ కాల్‌లా మెన్షన్ చేయలేదు. అంటే కాల్ ఒకసారి చెప్పాలి ఇది అని చెప్పేసి.
+Speaker 1: సో అక్కడ కూడా హెల్యూసినెంట్ కావచ్చు సర్. నార్మల్ కాల్‌లో టూల్ కాల్ ఇంకో తెలియక.
+Speaker 2: ఉమ్.
+Speaker 1: అలాంటివి కొన్ని ఉండే సర్, యాక్చువల్లీ.
+Speaker 1: కానీ అదే ప్రాంప్ట్ సర్వంలో పనిచేస్తుంది అంటే, మైట్ బీ, ఆ.
+Speaker 1: జెమినై 3.1 లైవ్‌కి ప్రాంప్ట్ వేరే తీయాల్సి వస్తుంది సర్.
+Speaker 2: ఓకే.
+Speaker 2: నేను ఆ సర్వం కాంటాక్ట్ తీసుకున్నారా, అర్జిత?
+Speaker 3: సర్, స్నేహాకు చెప్పాం సర్. స్నేహా చూస్తుంది.
+Speaker 3: వచ్చాక మేము కాంటాక్ట్ అవుతాం.
+Speaker 2: అర్జెంట్ అని చెప్పండి.
+Speaker 3: ఓకే సర్.
+Speaker 1: నిన్న షేర్ చేశారు కదా సర్.
+Speaker 2: ఆ 3 అయితే షేర్ చేసింది సర్, స్నేహా ఇందాకే. ఒక ఫైవ్ మినిట్స్ ఏదో.
+Speaker 1: చేసిందా? ఆఫీస్ ఏమా?
+Speaker 2: చేసింది సర్.
+Speaker 1: లేదు సర్, వేరేవి.
+Speaker 2: అవునా.
+Speaker 1: అవును.
+Speaker 2: ఒకసారి అర్జెంట్‌గా శ్రీష్‌కి ఇస్తావా?
+Speaker 1: ఉమ్, ఓకే సర్.
+Speaker 1: యా సర్, షేర్ చేస్తాను, ఫార్వర్డ్ చేస్తాను.
+Speaker 2: అన్నా శ్రీష్?
+Speaker 1: సర్.
+Speaker 2: ఒకసారి వాళ్లతోటి ఇమ్మీడియట్‌గా మాట్లాడడానికి ట్రై చెయ్.
+Speaker 1: ఉమ్.
+Speaker 2: అవసరమైతే ఎంటర్ప్రైజ్ అయితే ఎంటర్ప్రైజ్, ఏదో ఒకటి.
+Speaker 2: అన్నా, ఆ గైస్, ఐ డోంట్ వాంట్ టు ఫెయిల్ హియర్ యార్.
+Speaker 1: ఐ డోంట్ నో వాట్ ఐ కెన్ టెల్, బట్ ఇట్స్ ఏ.
+Speaker 2: ఇట్స్ ఏ గ్రేట్ ఆపర్చునిటీ యార్, ఐ డోంట్ వాంట్ టు ఫెయిల్ హియర్ ఎట్ ఆల్.
+Speaker 2: అపాలజీ 10 సార్లు అయినా చెప్తా, కానీ సమ్ హౌ ఐ యామ్ లిటరల్లీ ఫీలింగ్ వెరీ అన్ కంఫర్ట్.
+Speaker 1: ఫస్ట్ అఫ్ ఆల్, ఐ వుడ్ లైక్ టు టెల్ ఆల్ ఆఫ్ యు దట్ ఓకే,.
+Speaker 1: ఆ గైస్, డోంట్ థింక్ దట్ ఓకే, వి డోంట్ హావ్ దిస్ నాలెడ్జ్, వి డోంట్ హావ్ దిస్ ఐడియా, వి నెవర్ డిడ్ ఇట్. దయచేసి, దయచేసి, డోంట్, డోంట్ థింక్ ఎట్ ఆల్. ఓకే?
+Speaker 2: ఎవ్రీబడీ ఇస్ డూయింగ్ న్యూ. ఎవ్రీబడీ ఇస్ డూయింగ్ న్యూ.
+Speaker 1: ఓకే.
+Speaker 1: ఓకే.
+Speaker 1: సో.
+Speaker 1: ఓకే, సీ, ఐ డోంట్ హావ్ ఎనీ వర్డ్స్ టు టెల్.
+Speaker 2: యా.
+Speaker 1: జస్ట్ ట్రై యాస్ మచ్ యాస్ పాసిబుల్.
+Speaker 1: వాట్ ఎవర్ ద బెస్ట్ వే వి కెన్ ట్రై, ట్రై ఇట్. ఓకే.
+Speaker 2: ఇఫ్ దేర్ ఇస్ ఎనీథింగ్, ప్లీజ్ రీచ్ అవుట్ టు మీ, అండ్ ప్లీజ్, ఈవెన్ దో ఇట్ ఇస్ ఏ హాలిడే ఆర్ వీకెండ్ ఆర్ ఎనీథింగ్, ప్లీజ్, ప్లీజ్ బి అవైలబుల్ ఫర్ ఎనీ ఇష్యూస్ టు ఫిక్స్.
+Speaker 1: ఓకే.
+Speaker 2: యు అండర్స్టుడ్ రైట్? దే ఆర్ యాక్చువల్లీ సీయింగ్ ఎవ్రీ రికార్డింగ్ అండ్ ఎవ్రీథింగ్.
+Speaker 1: వాట్ ఇస్ గోయింగ్ ఆన్.
+Speaker 2: అండ్ గైస్, థింక్ ఆన్ ఇట్. సీ, ఈవెన్ దో 10 కాల్స్ గోస్ వెల్, వన్ కాల్ గోస్ రాంగ్ ఆల్సో, దట్ వన్ విల్ బి విత్ దెమ్.
+Speaker 2: ఆల్వేస్ నెగిటివ్ హైలైట్స్ మోర్.
+Speaker 2: అండ్ అట్లీస్ట్ హ్యాపీ పాత్స్ ఆల్సో నాట్ గోయింగ్ ప్రాపర్లీ. దట్ వాస్ మై వెరీ బిగ్గెస్ట్ కన్సర్న్.
+Speaker 1: ఫర్ ఎగ్జాంపుల్, యూసర్ వాంటెడ్ మల్టిపుల్ థింగ్స్, అండ్ హి వాస్ యూసర్ మేడ్ ఇట్ ఇస్ ఏ మెస్ అప్. దట్స్ ఓకే. మే బి వి కెన్ యాక్చువల్లీ కన్విన్స్, అండ్ వి కెన్ ట్రై టు మేక్ ఇట్ సమ్ టైం టు గెట్ దెమ్ ఫిక్స్డ్. బట్ ఈవెన్ అట్లీస్ట్ హ్యాపీ పాత్స్ ఆల్సో గోయింగ్ రాంగ్.
+Speaker 2: దట్ వాస్ బిగ్గెస్ట్ మిస్టేక్.
+Speaker 1: ఎనీవే,.
+Speaker 1: ఎనీవే, ట్రై అండ్ అగైన్, ఐ యామ్ సేయింగ్, ప్లీజ్ బి అవైలబుల్, ఈవెన్ ద వీకెండ్స్, అండ్ సీ, ఎవ్రీ టైం వాట్ యాక్చువల్లీ దే ఆర్ గెట్టింగ్ ద కాల్స్. అండ్.
+Speaker 1: డు యాస్ బెస్ట్ యాస్ పాసిబుల్. నో, వాట్ ఎవర్ షి గేవ్, ప్లీజ్ ట్రై టు ఫిక్స్ ఇట్, అండ్ ట్రై టు డిప్లాయ్, అండ్ వెరిఫై అగైన్.
+Speaker 3: ఎస్.
+Speaker 1: యా, అండ్ నిషితా, యాడ్ సుధీర్ ఆల్సో, అండ్ ఇన్ఫార్మ్ హిం, ఆ దట్ ఈవెన్ ఇన్ ద వీకెండ్, హి షుడ్ బి అవైలబుల్. ఓకే, టెస్ట్ బోత్ ఆఫ్ యు.
+Speaker 3: ఓకే సర్.
+Speaker 1: శ్రీష్, యు హావ్ ఎనీథింగ్?
+Speaker 2: ఎస్ సర్, ఆ వన్ లాస్ట్ పాయింట్ సర్, యాక్చువల్లీ హర్షిత రాజా ఎనీ వన్, ఆ లైక్, కెన్ యు సెండ్ మీ. సం పిడిఎఫ్ ఆర్ ఎనీ ఆఫ్ ది డాక్యుమెంట్, వేర్ ఇట్ షుడ్ ఎక్స్ప్లెయిన్ ఆల్ ది సినారియోస్, వాట్ వి ఆర్ ఎక్స్పెక్టింగ్ ఫ్రమ్ ది వాయిస్ ఏజెంట్స్. ఓకే.
+Speaker 1: సంథింగ్ లైక్, ఐ నీడ్ టు కన్సల్ట్ ఏ డాక్టర్. ఓకే.
+Speaker 2: ఫర్ దట్, వాట్ ఇట్ షుడ్ డూ, విచ్ కాల్ ఇట్ షుడ్, ఐ మీన్, విచ్ టూల్ ఇట్ షుడ్ కాల్, అండ్ ఆల్.
+Speaker 1: ఇఫ్ యు హావ్ ఇట్, రెడీ, ప్లీజ్ సెండ్ ఇట్ నౌ, ఆర్ ఎల్స్ యు ట్రై టు క్రియేట్ ఇట్ అండ్ సెండ్ ఇట్.
+Speaker 2: ఓకే, అండ్ యు షుడ్ నాట్ మిస్ ఎనీథింగ్. ఓకే, ట్రై టు థింక్ మల్టిపుల్ టైమ్స్, అండ్ ఇఫ్ యు వాంట్, ఆస్క్ నిషితా ఆల్సో.
+Speaker 1: షి మైట్ గివ్ యు కపుల్ ఆఫ్ మోర్ సినారియోస్.
+Speaker 3: ఓకే శ్రీష్.
+Speaker 1: ఓకే, బై వెన్ కెన్ యు సెండ్?
+Speaker 1: దే ఆల్రెడీ నోటెడ్ ఆల్ ద సినారియోస్, శ్రీష్, బై లైక్ నెక్స్ట్ 10 మినిట్స్.
+Speaker 2: ఓకే.
+Speaker 1: ఇన్ దట్ కేస్, ఎస్, ట్రై టు సెండ్ మీ యాస్ సూన్ యాస్ పాసిబుల్, ఆ ఓకే, డోంట్ ట్రై టు మిస్ ఎనీథింగ్. ఓకే, ట్రై టు రీడ్ ఇట్ వన్స్, ట్వైస్, త్రైస్, హౌ మెనీ టైమ్స్ యు వాంట్, బట్ నెవర్ మిస్ ఎనీథింగ్. ఓకే, బికాజ్ దిస్ విల్ బి ఇంపార్టెంట్ ఫర్ అస్ టు వాట్ యు కాల్డ్, సీ ది స్కేల్, హౌ ఇస్ ఇట్ వర్కింగ్ అండ్ ఆల్.
+Speaker 2: యా.
+Speaker 1: గాట్ ఇట్ శ్రీష్.
+Speaker 2: ఓకే, షేర్ ఇట్ విత్ నిషితా ఆల్సో, ఐ థింక్ ఈవెన్ షి కెన్ రీడ్ అండ్ యాడ్ కపుల్ ఆఫ్ పాయింట్స్ ఇఫ్ షి హాస్.
+Speaker 1: యా, ఓకే శ్రీష్.
+Speaker 2: ఓకే గైస్, థాంక్యూ.
+Speaker 1: థాంక్యూ సర్.
+Speaker 2: థాంక్యూ సర్.</code></pre>
+<h2>Translation (English) — line by line</h2>
+<pre><code>Speaker 1: Hello.
+Speaker 2: Sir, is the date fixed today? [Marathi script, garbled ASR — likely
+           &quot;निश्चित तारीख आहे का?&quot; = &quot;is the date confirmed?&quot;]
+Speaker 1: [garbled — unclear]
+Speaker 2: Okay.
+Speaker 1: Yeah, I mean, just— And I already published it in the proposal. Yeah,
+           yeah. And the proposal already went into— So their approval will still
+           take time. Can we start around [then]? [It&#x27;ll] already be done by then.
+Speaker 2: It&#x27;s going quite fast.
+Speaker 2: He says we have to go.
+Speaker 1: Ha. Hello?
+Speaker 2: Sir. S—
+Speaker 1: Sreesh? Sir.
+Speaker 2: Yes.
+Speaker 1: What shall we do, tell me.
+Speaker 1: Speak up, nanna.
+Speaker 2: Yes, sir.
+Speaker 2: Yes. Please. Right now they&#x27;re checking the disease [diagnosis], these people.
+Speaker 2: So they [are] not yet certain.
+Speaker 1: Um, okay.
+Speaker 2: UAT version.
+Speaker 1: It&#x27;s not about seeing this. What&#x27;s your takeaway from the meeting now?
+Speaker 2: Sir, what I&#x27;d say is — if UAT works well, let&#x27;s take production down
+           and keep UAT until then.
+Speaker 1: [We] can do that.
+Speaker 2: Do you mean starting over again? Whatever changes there are — first do
+           production again, then push to UAT, that&#x27;s enough. UAT will be good.
+Speaker 3: Yes.
+Speaker 2: We&#x27;ll just enjoy.
+Speaker 3: I&#x27;ll do it, sir.
+Speaker 1: Thank you.
+Speaker 3: Yes. Yeah.
+Speaker 2: So now my question is—
+Speaker 1: Call one one. [garbled]
+Speaker 2: Nishita, does UAT work well?
+Speaker 3: No, sir, there are issues.
+Speaker 2: That&#x27;s Sreesh. [speaker labels unreliable here]
+Speaker 1: Yes, sir.
+Speaker 2: Here, now they said everything will come out fine, sir. Now what&#x27;s the
+           problem with Sarvaam is — for the call transfer option, we only have
+           this, sir. It needs to be sorted by talking with enterprise, but they
+           only mentioned it in Discord, sir. Not in any document.
+Speaker 1: But if it&#x27;s compulsory, the transfer will be there. Okay, whether you
+           say yes or no, it&#x27;ll be 100% there, because for any agent, transfer is
+           mandatory.
+Speaker 2: Yes, sir, but it will be there. But they didn&#x27;t mention it in the
+           documents, and they have a community, sir. In that Discord, everyone
+           is asking about it in there.
+Speaker 1: To everyone who asked, they&#x27;re giving the same documents, but some
+           were told it exists — they&#x27;re not saying it directly, sir. Maybe it&#x27;s
+           needed for enterprise — they don&#x27;t say. Who knows.
+Speaker 2: But we put it in the mail, and raised this again too, sir. The mail —
+           I put the same one.
+Speaker 1: There&#x27;s a support request in it, sir. I raised it along with that too.
+Speaker 2: And so far no reply has come.
+Speaker 1: Um.
+Speaker 2: Yes, sir.
+Speaker 1: Okay, it hasn&#x27;t come yet, nanna.
+Speaker 1: I don&#x27;t understand — actually, how to take this.
+Speaker 2: What issues are there in UAT, Nishita?
+Speaker 3: Oh sir, like — if you say a doctor&#x27;s name, it hallucinates and picks
+           different doctors, sir.
+Speaker 1: Um.
+Speaker 3: And branches also — sometimes it doesn&#x27;t tell [them].
+Speaker 3: And when speaking Telugu, it speaks English in the middle.
+Speaker 3: And for some doctors, it tells different branches.
+Speaker 3: Other than the branch names they have, it tells different branch names.
+Speaker 3: Just now, I gave Harshita up to 11 issues, sir.
+Speaker 1: Um.
+Speaker 3: In that, she fixed some, and we are re-testing now.
+Speaker 1: Sreesh, where will the problem be, amma?
+Speaker 2: Sir, if the problem is coming, it will be in the prompt.
+Speaker 2: Only in the prompt, sir. That is, how the prompt is — there will be a
+           trolling error, sir. Now each model takes each prompt in its own way.
+Speaker 2: So whatever we do — if we can make changes, we can only make them in
+           the prompt, sir. We could create one tool and add another tool, but—
+Speaker 1: That also, ultimately, has to be added in the prompt.
+Speaker 2: Um.
+Speaker 2: Now we reviewed our prompt — we did the whole thing a little [at a time].
+Speaker 1: No sir, I saw it the day before yesterday, sir. I gave it to the first
+           AI first; I didn&#x27;t read the whole thing.
+Speaker 1: It said there are some contradictions, I think — but I read some of it,
+           sir. Some didn&#x27;t seem worth it, some seemed like nothing. One example:
+           we said in one prompt &quot;don&#x27;t call the tool again after calling it once&quot;,
+           sir. But it didn&#x27;t mention it as a normal call, as a tool call. That is,
+           it just said &quot;you have to say the call once&quot;.
+Speaker 1: So there too it could be hallucination, sir. Not knowing whether it&#x27;s
+           a normal call or a tool call.
+Speaker 2: Um.
+Speaker 1: There are some things like that, sir, actually.
+Speaker 1: But if the same prompt works in Sarvaam, then maybe—
+Speaker 1: For Gemini 3.1 live, a different prompt has to be taken, sir.
+Speaker 2: Okay.
+Speaker 2: Did you take that Sarvaam contact — urgently? [అర్జిత = అర్జెంట్ (urgent)]
+Speaker 3: Sir, we told Sneha, sir. Sneha will look into it.
+Speaker 3: Once she comes [back], we&#x27;ll contact.
+Speaker 2: Tell [him] it&#x27;s urgent.
+Speaker 3: Okay, sir.
+Speaker 1: They shared yesterday, right, sir.
+Speaker 2: Those 3 — Sneha shared just now, sir. Like five minutes ago.
+Speaker 1: She did? From the office?
+Speaker 2: She did, sir.
+Speaker 1: No sir, the others.
+Speaker 2: Oh, is that so.
+Speaker 1: Yes.
+Speaker 2: Can you give [them] to Sreesh once, as urgent?
+Speaker 1: Um, okay, sir.
+Speaker 1: Yeah sir, I&#x27;ll share, I&#x27;ll forward.
+Speaker 2: Anna, Sreesh?
+Speaker 1: Sir.
+Speaker 2: Try to talk to them immediately, once.
+Speaker 1: Um.
+Speaker 2: If needed, enterprise — whatever it is, one of them.
+Speaker 2: Anna, those guys — I don&#x27;t want to fail here, yaar.
+Speaker 1: I don&#x27;t know what I can tell, but it&#x27;s a—
+Speaker 2: It&#x27;s a great opportunity, yaar. I don&#x27;t want to fail here at all.
+Speaker 2: I&#x27;ll apologize 10 times, but somehow I&#x27;m literally feeling very
+           uncomfortable.
+Speaker 1: First of all, I would like to tell all of you that — okay—
+Speaker 1: Those guys, don&#x27;t think that — okay, we don&#x27;t have this knowledge, we
+           don&#x27;t have this idea, we never did it. Please, please, don&#x27;t think
+           that at all. Okay?
+Speaker 2: Everybody is doing new [things]. Everybody is doing new.
+Speaker 1: Okay.
+Speaker 1: Okay.
+Speaker 1: So.
+Speaker 1: Okay, see, I don&#x27;t have any words to tell.
+Speaker 2: Ya.
+Speaker 1: Just try as much as possible.
+Speaker 1: Whatever the best way we can try, try it. Okay.
+Speaker 2: If there is anything, please reach out to me, and please — even though
+           it is a holiday or weekend or anything — please, please be available
+           for any issues to fix.
+Speaker 1: Okay.
+Speaker 2: You understood, right? They are actually seeing every recording and
+           everything.
+Speaker 1: What is going on.
+Speaker 2: And guys, think on it. See, even though 10 calls go well, one call
+           goes wrong also — that one will be with them.
+Speaker 2: Always negative highlights more.
+Speaker 2: And at least the happy paths also aren&#x27;t going properly. That was my
+           very biggest concern.
+Speaker 1: For example, the user wanted multiple things, and he was — the user
+           made it, it&#x27;s a mess up. That&#x27;s okay. Maybe we can actually convince
+           [them], and we can try to make some time to get them fixed. But even
+           at least the happy paths are also going wrong.
+Speaker 2: That was the biggest mistake.
+Speaker 1: Anyway—
+Speaker 1: Anyway, try again — I&#x27;m saying, please be available, even on the
+           weekends, and see every time what actually they are getting on the
+           calls. And—
+Speaker 1: Do as best as possible. No — whatever she gave, please try to fix it,
+           and try to deploy, and verify again.
+Speaker 3: Yes.
+Speaker 1: Ya, and Nishita, add Sudheer also, and inform him that even on the
+           weekend he should be available. Okay, test — both of you.
+Speaker 3: Okay, sir.
+Speaker 1: Sreesh, do you have anything?
+Speaker 2: Yes, sir — that one last point, sir. Actually Harshita — Raj... anyone —
+           can you send me some PDF or any of the document, where it should
+           explain all the scenarios, what we are expecting from the voice
+           agents. Okay.
+Speaker 1: Something like — I need to consult a doctor. Okay.
+Speaker 2: For that, what it should do, which call it should — I mean, which tool
+           it should call, and all.
+Speaker 1: If you have it ready, please send it now, or else you try to create it
+           and send it.
+Speaker 2: Okay, and you should not miss anything. Okay, try to think multiple
+           times, and if you want, ask Nishita also.
+Speaker 1: She might give you a couple of more scenarios.
+Speaker 3: Okay, Sreesh.
+Speaker 1: Okay, bye. When can you send?
+Speaker 1: They already noted all the scenarios, Sreesh — by like the next 10
+           minutes.
+Speaker 2: Okay.
+Speaker 1: In that case, yes, try to send me as soon as possible. Oh okay — don&#x27;t
+           try to miss anything. Okay, try to read it once, twice, thrice — how
+           many times you want — but never miss anything. Okay, because this will
+           be important for us — to what you called, see the scale, how is it
+           working and all.
+Speaker 2: Ya.
+Speaker 1: Got it, Sreesh.
+Speaker 2: Okay, share it with Nishita also. I think even she can read and add a
+           couple of points if she has.
+Speaker 1: Ya, okay, Sreesh.
+Speaker 2: Okay guys, thank you.
+Speaker 1: Thank you, sir.
+Speaker 2: Thank you, sir.</code></pre>
+<p><em>Translation notes: the transcript is Telugu script capturing mixed Telugu and English speech (some Marathi/Hindi fragments garbled by the transcriber). "అన్నా" ("Anna") is the team lead's address form. "శ్రీష్" = Sreesh/Srish (Speaker 2). "సర్వం" = Sarvaam (the AI platform) where it refers to the vendor; "everything" where it means సర్వం literally. Some speaker labels are unreliable (ASR artifact); identity mapping: 1 = team lead, 2 = Srish, 3 = Nishita.</em></p>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-03</span>
+</footer>
+
+</body>
+</html>
