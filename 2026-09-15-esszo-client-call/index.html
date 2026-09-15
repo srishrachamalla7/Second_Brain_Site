@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esszo client call — the order-modify bug we cannot find, real stock by Sunday, and who onboarded which shop — Srish</title>
+<meta name="description" content="A client call on 15 September 2026, roughly 52 minutes, between the Bi2Bi client side and our side. It is the status call that follows Esszo fixes call - one product drawing five c">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Esszo client call — the order-modify bug we cannot find, real stock by Sunday, and who onboarded which shop</h1>
+  <div class="meta">2026-09-15<br><span class="tag">esszo</span><span class="tag">bi2bi</span><span class="tag">b2b</span><span class="tag">order-edit</span><span class="tag">variants</span><span class="tag">push-notifications</span><span class="tag">stock</span><span class="tag">inventory</span><span class="tag">accounting</span><span class="tag">salesman-tracking</span><span class="tag">distributor-app</span><span class="tag">consumer-app</span><span class="tag">mrp</span><span class="tag">agreements</span><span class="tag">payments</span><span class="tag">ui</span></div>
+  <p>A client call on 15 September 2026, roughly 52 minutes, between the Bi2Bi client side and our side. It is the status call that follows <a href="/2026-09-10-esszo-fixes-call/">Esszo fixes call - one product drawing five cards, 17 items with nothing built, and not a line of it deployed</a> — that one was our own people hunting bugs on a screen share, this one is the client asking <em>when</em>.</p>
+<p>The tone is different from the 10th. The client opens with a marketing manager breathing down their neck and closes by asking for legal agreements. In between, almost everything raised on the 10th is reported as done but <strong>not pushed</strong>, and two problems are admitted as not understood.</p>
+<p>Written by an agent from the recovered transcript, saved verbatim at <code>inbox/raw/Transcripts/2026-09-15_esszo_client-call_telugu.txt</code>.</p>
+<blockquote><strong>On the transcript below.</strong> Telugu with heavy English code-mixing, plus a few Hindi lines at the start. The ASR is poor and the speaker diarisation is worse — "Speaker 0" and "Speaker 1" swap sides repeatedly and cannot be trusted to tell our side from the client's. Named people heard on the call: Sai Teja, Naman, Naresh and Ashwin on our side; Srinivas and a marketing manager called Srikanth referenced on the client side. Individual lines are <strong>not</strong> attributed below unless the transcript makes the speaker unambiguous.</blockquote>
+<hr>
+<h2>The scorecard</h2>
+<pre><code class="language-text">   1  shipped and in the build today        █
+   5  built, not yet pushed                 █████
+   2  admitted as not understood            ██
+   1  big feature with a Sunday date        █
+   7  new asks raised on this call          ███████</code></pre>
+<p>The one hard deadline taken on the call: <strong>distributor app push tomorrow night, Thursday night at the latest. Stock and order-modify by Sunday.</strong></p>
+<hr>
+<h2>1. Order modify — a bug nobody can find</h2>
+<p>This is the most serious thing on the call, and the most honest moment in it.</p>
+<p>The order-edit feature is built. But after an order is modified, the system picks the wrong variant:</p>
+<pre><code class="language-text">   BEFORE FIX          AFTER FIX
+   ──────────          ─────────
+   picks a RANDOM      picks the HIGHEST
+   variant             variant
+
+        │                   │
+        └──── still wrong ──┘</code></pre>
+<p>Said plainly on the call:</p>
+<blockquote><em>"అది ఏ లైన్ ఆఫ్ కోడ్ వల్ల అవుతుందో మాకు అర్థం కావట్లేదు, ఎంత డీబగ్ చేసినా దొరకలేదు"</em> — "we cannot understand which line of code is causing it; however much we debugged, we did not find it."</blockquote>
+<p><strong>What was done instead of a fix.</strong> Rather than leave it live:</p>
+<ul><li>They checked the whole database. **Exactly one consumer had ever modified an</li></ul>
+<p>order.** That record's values were corrected by hand.</p>
+<ul><li>The <strong>API was removed</strong>, so nobody else can reach the path — *"ఎవ్వరూ ఇట్లా ఫ్రాడ్</li></ul>
+<p>చేయకూడదు, అంటే కావాల్సింది కాకపోయినా, మిస్టేక్ అయినా"* ("so nobody can commit fraud through this, whether deliberately or by mistake").</p>
+<p>MY TAKE: disabling the endpoint was the right call, but it means order modify is currently <em>unavailable</em>, not <em>working</em>. The client is counting it as coming back on Sunday.</p>
+<hr>
+<h2>2. Negative profit in the distributor app</h2>
+<p>Still open from the 10th. Reported as <em>"అది ఇంకా అర్థం కాలేదు"</em> — "we still have not understood it." Naman is on it.</p>
+<p>This is the second of the two admitted unknowns. Everything else raised on the 10th was reported finished.</p>
+<hr>
+<h2>3. Push notifications — from order status to offers</h2>
+<p>Scenario-based notifications (abandoned cart and similar) are built. The client does not want those first.</p>
+<p><strong>What they want instead:</strong> notifications fired from the admin panel, for offers.</p>
+<p>The reasoning is not technical, it is commercial:</p>
+<blockquote>There are about <strong>50 customers</strong>, of whom roughly <strong>10 are active</strong>. A notification is a reminder that the app exists on the phone at all. <em>"లోపల సేల్స్ ఇంప్రూవ్ అయింది దాంతోటి"</em> — "sales improved because of it."</blockquote>
+<p><strong>How it must behave — same as banners:</strong></p>
+<pre><code class="language-text">   notification tapped
+          │
+          ├── product advertisement  →  product page / product card
+          └── category advertisement →  category page</code></pre>
+<p>Scenario-based notifications are explicitly demoted to second priority.</p>
+<p><strong>ETA given:</strong> admin push notifications done by end of today or tomorrow.</p>
+<hr>
+<h2>4. The order page</h2>
+<p>Three things, all on the distributor-to-consumer order page.</p>
+<div class="tablewrap"><table><thead><tr><th>What</th><th>State</th></tr></thead><tbody><tr><td>Variant size and quantity missing on the order page</td><td>Already in last week's change set</td></tr><tr><td>Tapping a product in an order does not redirect to the product</td><td>Not working, to check</td></tr><tr><td>Tapping the product image should enlarge it, or go to the product</td><td>Asked two weeks ago, not built</td></tr></tbody></table></div>
+<p>On the image, the client was blunt about why: the thumbnail is so small that <em>"అది ఏంటో తెలవదు"</em> — you cannot tell what the product is.</p>
+<p>There was a genuine misunderstanding surfaced here: we had understood "enlarge" to mean on the <strong>product page</strong>; the client meant inside the <strong>order section</strong>. Agreed it can be done in the order section, and since the new distributor build has not gone out yet, it goes in now.</p>
+<hr>
+<h2>5. Distributor name next to the logo</h2>
+<p>Feedback that came from an actual consumer, not from the client's own team.</p>
+<p>In the consumer app, a consumer is tagged to a distributor. The app shows the <strong>B2B logo but no name</strong>, so the consumer does not know whose store they are in.</p>
+<p><strong>Decided:</strong> show the distributor name beside the logo <strong>in the consumer app only</strong> — not in the distributor app. Length is capped rather than wrapped:</p>
+<blockquote><em>"14 or 15 ఇయ్యండి, అంతే"</em> — give it 14 or 15 characters. Anyone with a longer name gets told the limit.</blockquote>
+<p>The client sent annotated screenshots to the development WhatsApp group during the call showing exactly where.</p>
+<hr>
+<h2>6. Stock, and why accounting cannot be touched yet</h2>
+<p>The single biggest item, and the one everything else is queued behind.</p>
+<p><strong>Where they are today.</strong> Still working on paper:</p>
+<blockquote><em>"still date మేము print out తీసుకొని అందులో manual గా cut చేసి, ఇది ఈ stock లేదు అని cut చేసుకొని, minus total నుంచి minus చేసి, అది పరిస్థితి"</em> — "to this day we take a printout, cut items out by hand, mark this stock is not there, subtract it from the total. That is the situation."</blockquote>
+<p><strong>What is blocking it.</strong> The system was built as designed, but this scenario was never predicted. The problem is that real stock is not being maintained, so accounts cannot be balanced.</p>
+<p><strong>The agreed sequence</strong> — and this is the important decision of the call:</p>
+<pre><code class="language-text">  1. ship the in-stock / out-of-stock fix        (Sunday)
+  2. turn OFF &quot;feature stock&quot;                    ← the padded stock numbers
+  3. load REAL inventory only
+  4. NOW accounting starts tracking correctly
+  5. whatever breaks after that, identify then</code></pre>
+<p>Until step 3, <em>"accounting ని touch చేసినా గాని, it doesn't make sense"</em> — touching accounting makes no sense.</p>
+<p><strong>Why "feature stock" exists at all:</strong> quantities were being uploaded higher than reality so that orders would not be missed. That is exactly what breaks the accounts.</p>
+<p><strong>Order modify rides on this.</strong> The partial-fulfilment case the client keeps asking for — customer orders 10, we have 5, invoice goes out for 5 — is part of the same Sunday delivery. The flows that need it:</p>
+<ul><li>admin → distributor admin modify</li><li>distributor → consumer distributor modify</li></ul>
+<p>Explicitly <strong>not</strong> the consumer side. The consumer does not modify.</p>
+<hr>
+<h2>7. Salesman tracking</h2>
+<p>Raised late in the call and prefaced with an apology — <em>"very sorry for bringing this out very late."</em> It is the only genuinely new requirement.</p>
+<p><strong>The problem.</strong> There is one marketing-cum-sales manager today. Another joins next week. There is no way to know <strong>who onboarded which shop</strong>.</p>
+<p><strong>The solution agreed</strong>, and it is small:</p>
+<blockquote>A <strong>salesman name field</strong> on consumer onboarding, reusing the slot where the referral code already sits. <em>"ఒక column ఇస్తే అయిపోతుంది అంతే"</em> — one column is all it takes.</blockquote>
+<p>What that unlocks, in the client's words: how many shops under each salesman, how much sale came from those shops, how much per month, and how much share that salesman is owed.</p>
+<p><strong>The reassignment question.</strong> Asked and answered well:</p>
+<ul><li>Salesmen leave. Their shops keep ordering. A replacement gets sent.</li><li>The analogy used: a medical rep leaves, the company appoints another and keeps</li></ul>
+<p>sending them to the same doctor.</p>
+<ul><li><strong>Answer:</strong> the admin UI gets a way to reassign a shop from one salesman to</li></ul>
+<p>another, done manually. A fixed code (e.g. <code>ABC</code>) carrying forward to whoever holds the role was floated and set aside as more trouble than it is worth.</p>
+<p><strong>Priority:</strong> explicitly not urgent. <em>"ఇప్పుడు అంత urgent ఏం లేదు అది"</em> — plan it after the current enhancements. The near-term purpose is not share calculation, it is <em>"వాడిని preserve పెట్టడానికి లేకపోతే వాడిని motivate చేయడానికి"</em> — to retain and motivate the salesmen.</p>
+<hr>
+<h2>8. MRP strike-through — the one thing already in the build</h2>
+<p>On the consumer app the MRP is struck through and the EZO price shown beside it. On small phones the struck-out MRP was unreadable.</p>
+<p>Fixed and in the build already, deliberately:</p>
+<blockquote><em>"ఎందుకంటే కొత్త build ఉంది కదా. మళ్ళీ అందరూ update చేయాల్సిన అవసరం రాకుండా ఇప్పుడే చేసేసుకుంటే better"</em> — because there is a new build anyway, better to do it now than make everyone update again.</blockquote>
+<p>MY TAKE: this is the right instinct and worth keeping. Small UI fixes should ride the build that is already going out.</p>
+<hr>
+<h2>9. Consumer app UI — the Lobma comparison</h2>
+<p>A screen-share section comparing the Esszo consumer app against competitors, named on the call as <strong>Lobma</strong> and <strong>JumboTail</strong>.</p>
+<p><strong>The observation:</strong> <em>"ఇదిగో ఈ వీళ్ళ screen లో అన్ని మంచిగా కనిపిస్తున్నాయి. మన దాంట్లో ఎందుకో"</em> — everything looks good on their screen; on ours, somehow not. Images looked better. Colours felt too light. Category boxes felt too large.</p>
+<p><strong>The concrete change asked for:</strong></p>
+<pre><code class="language-text">   NOW                          WANTED
+   ───                          ──────
+   &quot;View all categories&quot;        all categories shown
+   jumps straight inside        on the home page itself</code></pre>
+<p><strong>Our pushback, and it is a fair one:</strong> with 20 categories on the home page, the reorder / buy-again features get pushed below the fold.</p>
+<p><strong>Scope:</strong> consumer app only. The distributor app stays as it is.</p>
+<p><strong>Left open.</strong> No decision was taken. The ask was to check what works best and come back — <em>"The best way possible ఏది బాగుంటుందో ఒకసారి మీరు చెక్ చేయండి."</em> Worth noting the client named <strong>Lobma as a direct B2B competitor</strong> in the same breath.</p>
+<hr>
+<h2>10. Distributor app shows only some customers</h2>
+<p>In the distributor app, under Orders → Consumers, only a limited set shows — about 20 members — not all consumers under that distributor.</p>
+<p>The client believes it was there before and was removed later.</p>
+<p><strong>Why it matters beyond today:</strong> right now everyone involved has admin access, so it is hidden. The moment the app goes to an outside distributor, they need to see their own customer count.</p>
+<p>To be investigated and fixed.</p>
+<hr>
+<h2>11. Rental-style agreements — offered by us, wanted by them</h2>
+<p>This came from our side, not theirs. We built a rental management application with agreement templates, and offered the same here.</p>
+<p><strong>How it works:</strong></p>
+<pre><code class="language-text">  template  →  auto-fills from account details (name, email, phone)
+            →  customer accepts
+            →  counts as digitally signed
+            →  stored as a PDF
+            →  visible in their settings</code></pre>
+<p>Four or five templates exist on the earlier build (referenced as "L Care" — fees paid by parents vs. paid by the resident, PG-hostel style, one for food).</p>
+<p><strong>The client wants it</strong>, with one condition: <em>"సింపుల్ టర్మ్స్ ఉండాలి"</em> — simple terms. Specifically <strong>9 points, highlighted</strong>, so that people actually read them before responding.</p>
+<p><strong>Why now.</strong> The client has just given the entire old city area to a single distributor. An agreement would give distributors like her confidence in the arrangement. Admitted they had discussed it two or three times internally and never thought it through.</p>
+<hr>
+<h2>12. Payments</h2>
+<ul><li>Bank meeting still pending; an update is expected.</li><li><strong>UPI: free.</strong></li><li><strong>Credit card: 2%.</strong></li><li>Once the bank call is set up, we join it too.</li></ul>
+<hr>
+<h2>13. Shared notes</h2>
+<p>Agreed to stop keeping call points in people's heads. A shared <strong>Google Sheet or Google Keep</strong>, with the group email tagged so all three sides can see it. The client admitted they had forgotten to set it up and did it during the call.</p>
+<hr>
+<h2>Decided</h2>
+<ul><li>Order modify API stays <strong>disabled</strong> until the highest-variant bug is found.</li><li>Admin-triggered offer notifications take priority over scenario-based ones.</li><li>Distributor name goes beside the logo in the <strong>consumer app only</strong>, capped at</li></ul>
+<p>14–15 characters.</p>
+<ul><li><strong>Feature stock gets switched off</strong> once the stock fix lands; only real</li></ul>
+<p>inventory goes in after that.</p>
+<ul><li>Accounting is not touched until real inventory is loaded.</li><li>Order image enlarge happens in the <strong>order section</strong>, not the product page.</li><li>Salesman tracking is a single field reusing the referral-code slot, with manual</li></ul>
+<p>reassignment in the admin UI. Deferred until current work is done.</p>
+<ul><li>Consumer app home-page category layout: <strong>no decision</strong>, we come back with a</li></ul>
+<p>recommendation.</p>
+<h2>To do</h2>
+<ul><li>☐ Find the highest-variant bug in order modify, and re-enable the API.</li><li>☐ Explain the negative profit in the distributor app (Naman).</li><li>☐ Ship admin push notifications with product / category redirection.</li><li>☐ Make the order-page product and image tappable — enlarge or redirect.</li><li>☐ Add distributor name beside the logo in the consumer app, 14–15 char cap.</li><li>☐ Ship in-stock / out-of-stock and partial-fulfilment order modify — <strong>Sunday</strong>.</li><li>☐ Test the ready build and push the distributor app — <strong>Thursday night at the latest</strong>.</li><li>☐ Fix the distributor app customer list showing only ~20 consumers.</li><li>☐ Send the client the status of the change list made last Friday/Saturday.</li><li>☐ Come back with a recommendation on the consumer home-page category layout.</li><li>☐ Plan the agreement templates — simple terms, 9 highlighted points.</li><li>☐ Join the bank call on payments once it is scheduled.</li><li>☐ Later: salesman name field on consumer onboarding, plus admin reassignment.</li></ul>
+<h2>Questions left open</h2>
+<ul><li>Should the consumer home page show all categories, at the cost of pushing</li></ul>
+<p>reorder and buy-again down?</p>
+<ul><li>Is there any way to balance the existing accounts before real inventory is</li></ul>
+<p>loaded — returns, or anything else? Asked, not answered.</p>
+<hr>
+<h2>Transcript (Telugu and English mixed, verbatim)</h2>
+<p>Reproduced byte for byte from <code>inbox/raw/Transcripts/2026-09-15_esszo_client-call_telugu.txt</code>, which was recovered from a Fireflies HAR capture. The untouched API response is kept alongside it at <code>inbox/raw/Transcripts/2026-09-15_esszo_client-call_telugu_fireflies-response.json</code>.</p>
+<pre><code class="language-text"># Release, Notifications, and Sales Tracking
+# 2026-09-15T15:32:57.000Z | 52.2599983215332 mins | 520 lines
+
+[00:05] Speaker 0: ਹਾਂ, ਠੀਕ ਆ। ਕੁਝ  ਕੁਝ ਸਕ੍ਰੀਨਸ਼ਾਟ ਭੇਜਣਾ? ਅੱਛਾ, ਫੋਨ ਤੇ ਹੀ ਭੇਜਦਾ।  ਹਾਂ ਹਾਂ, ਠੀਕ ਹੈ। अरे, उन लोग आए। आओ, आओ।
+[00:34] Speaker 1: हाय कृष्ण। ओह, हाय
+[00:34] Speaker 0: ओह, हाय हाय।
+[00:38] Speaker 1: हाय कृष्ण।
+[00:39] Speaker 0: हाय।
+[00:45] Speaker 1: వన్ సెకండ్, నేను ఒక్కసారి వీళ్ళకి కాల్ చేస్తాను.
+[00:47] Speaker 0: అవును, చెప్పు.
+[00:57] Speaker 1: హలో.
+[01:07] Speaker 0: నమన్... ఆ, అయితే we can&#x27;t hear you, ma&#x27;am.
+[01:16] Speaker 1: Still no?
+[01:19] Speaker 0: హే, హాయ్ నమన్.
+[01:20] Speaker 1: Noman, your mic is not working, but I can see you&#x27;re unmuted.
+[01:35] Speaker 0: హలో.
+[01:36] Speaker 1: అవును, ఎస్, మామూలుగా.
+[01:38] Speaker 0: Yes, we can hear you. హాయ్ నమన్.
+[01:42] Speaker 1: ఓకే, సాయి తేజ కాల్ లిఫ్ట్ చేయట్లేదు, బట్ fine, we can start. నరేష్ వస్తారా?
+[01:47] Speaker 0: Nice, okay, we can start.
+[01:48] Speaker 1: ఓకే.
+[01:49] Speaker 0: సో—
+[01:49] Speaker 1: ఏం లేదు, స్టేటస్ వద్దు, చెప్తారేమో అని.
+[01:51] Speaker 0: రైట్, రైట్. First thing, ఉమ్, నేను ఒక్కసారి ఓపెన్ చేస్తున్నాను గ్రూప్. ఇది స్టార్ట్ చేశాము, మనది అవుట్ ఆఫ్ టాక్, ఇది ఉంది కదా.
+[02:01] Speaker 0: అదే, మీరు చెప్పారు కదా, టాక్ లేకపోయినా కూడా చేయాలి అని.
+[02:04] Speaker 1: అవును, అవును.
+[02:05] Speaker 0: అదొకటి. మళ్లీ ఇంకొకటి, ఓకే, right, Noman, our chat— మళ్లీ నోటిఫికేషన్స్, ఎస్. Actually, నోటిఫికేషన్స్ నమన్ తో కొన్ని సినారియోస్ ఉంటాయి, దాంతో చేశాము, అంటే మాట్లాడటం వచ్చింది.
+[02:16] Speaker 1: అవును, అవును, అవును.
+[02:18] Speaker 0: సినిమా స్టోరీ మాట్లాడాం కదా, అవును.
+[02:22] Speaker 1: And some changes in consumer applied that distributed delivery free.
+[02:26] Speaker 0: అవును.
+[02:26] Speaker 1: We&#x27;ll keep the distributor option only to change it. That is one thing, and variants also.
+[02:31] Speaker 0: Yes. In the distributor app.
+[02:33] Speaker 0: మళ్లీ—
+[02:33] Speaker 1: That we are working at.
+[02:35] Speaker 0: నేను—
+[02:35] Speaker 1: అవును.
+[02:36] Speaker 0: ఇవన్నీ మనకి అది ఉండే కదా, నేమ్ అవన్నీ ఆప్షనల్ ఉండేసరికి ఎంటర్ చేయకపోయినా కూడా లోపలికి రావచ్చు అప్లికేషన్ లోపలికి.
+[02:42] Speaker 0: ఇప్పుడు మీరు అకౌంట్ ఐడి తీసుకొని, మీరు అకౌంట్ క్రియేట్ చేసుకునేటప్పుడు, మీరు నేమ్ అండ్ ఈమెయిల్ ఐడి ఇవ్వకపోయినా, మీరు లోపలికి రావచ్చు actually.
+[02:49] Speaker 1: ఆ, ఆ, ఆప్షన్లు ఉంటాయి.
+[02:50] Speaker 0: అవును.
+[02:51] Speaker 1: ఇప్పుడు అది కూడా ఫిక్స్ చేశాము.
+[02:52] Speaker 0: ఓకే.
+[02:53] Speaker 1: ఆ, మళ్లీ త్వరగా.
+[02:54] Speaker 0: ఇంకొకటి, ఇది ఉండే, ఇంకొకటి ఈ పాయింట్ ఉండే.
+[02:55] Speaker 1: క్యాన్సెల్డ్ ఆర్డర్స్.
+[02:56] Speaker 0: ఆర్డర్, ఆర్డర్ ఎడిట్ ఆప్షన్.
+[02:58] Speaker 1: ఆ, ఆర్డర్ ఎడిట్ కూడా అయిపోయింది, బట్ ఒక బగ్ ఉంది, మేజర్ బగ్, అది ఫిక్స్ చేస్తున్నాము. ఏమైపోతుంది అంటే, first, right, actually, ఇష్యూ ఏంటి అంటే, మోడిఫై చేశాక ఆర్డర్, అది రాండమ్ గా ఒక వేరియంట్ సెలెక్ట్ చేసుకుంటుంది.
+[03:12] Speaker 0: ఉమ్.
+[03:12] Speaker 1: తర్వాత ఏమైంది అంటే, తర్వాత మనం ఫిక్స్ చేశాక, రాండమ్ గా వేరియంట్ కాకుండా హైయెస్ట్ వేరియంట్ తీసుకుంటుంది.
+[03:19] Speaker 1: అది ఏ లైన్ ఆఫ్ కోడ్ వల్ల అవుతుందో మాకు అర్థం కావట్లేదు, ఎంత డీబగ్ చేసినా దొరకలేదు, సో మళ్లీ మీకు ఏమైనా ఇష్యూ రావచ్చు అని చెప్పేసి, ఏం చేశాము అంటే, మీకు ఒకటే కన్స్యూమర్ తో ఇష్యూ వచ్చింది, డేటాబేస్ మొత్తంలో, అంటే ఒకటే మోడిఫై చేశారు ఆర్డర్, ఇంతవరకు. సో దాన్ని నార్మల్ కరెక్ట్ వాల్యూస్ పెట్టేసి, ఇంకా వేరే వాళ్ళు ఎవ్వరు చేయకుండా, అది ఏమంటాము, API తీసేసాము అన్నమాట.
+[03:35] Speaker 0: ఉమ్.
+[03:35] Speaker 1: సో మీకు మళ్లీ ఎవ్వరూ ఇట్లా ఫ్రాడ్ చేయకూడదు, అంటే కావాల్సింది కాకపోయినా, మిస్టేక్ అయినా. ఓ
+[03:39] Speaker 0: ఓకే, ఓకే.
+[03:40] Speaker 1: ఇంకా అది తీసేసాము ఇప్పుడు, సో ఎవ్వరూ చేయలేదు.
+[03:43] Speaker 0: అదొకటి చేసేది ఉంది.
+[03:44] Speaker 1: వన్ సెకండ్.
+[03:45] Speaker 0: ఉమ్.
+[03:46] Speaker 1: జాయిన్ కారా?
+[03:49] Speaker 1: సర్, నువ్వు జాయిన్ కాము, నేను కాల్ లో ఉన్నా, యా.
+[03:54] Speaker 0: రైట్, అదొకటి ఉండే, మళ్లీ ఇంకొకటి వచ్చేసి, మీరు ఇచ్చిన బగ్, డిస్ట్రిబ్యూటెడ్ ఉంది కదా, ప్రాఫిట్ నెగటివ్ లో చూపిస్తుంది.
+[04:03] Speaker 1: అవును, అవును.
+[04:03] Speaker 0: అది ఇంకా అర్థం కాలేదు, నమన్ ఇప్పుడు దాని మీద చూస్తున్నాడు.
+[04:08] Speaker 1: ఓకే.
+[04:09] Speaker 0: ఇది పుష్ నోటిఫికేషన్స్ చేస్తున్నారు కదా, నమన్, ఈ పుష్ నోటిఫికేషన్స్ కరెక్టేనా?
+[04:12] Speaker 1: Yes. Instead of
+[04:12] Speaker 0: Instead of order status ఇవ్వలేదు, పుష్ నోటిఫికేషన్స్ చేశారు, కొంచెం ఆఫర్.
+[04:16] Speaker 1: రైట్, రైట్.
+[04:16] Speaker 0: అది మనం మాట్లాడింది ఇంకా నేను చెప్పలేదు, నమన్ కి, సాయి తేజ కి.
+[04:19] Speaker 1: ఓకే, ఓకే.
+[04:21] Speaker 0: సాయి తేజ కి ఒక్కసారి అది చెప్తా, నేను చెప్పాను, చూడు, నోటిఫికేషన్.
+[04:24] Speaker 1: యా, యా, అంటే యాక్చువల్ గా అడ్మిన్ నుంచి ట్రాక్ చేద్దాం అంటున్నారు కదా, సినారియో బేస్ కాకుండా.
+[04:28] Speaker 0: Yes, we can do.
+[04:29] Speaker 1: ఉమ్.
+[04:30] Speaker 0: యా, చేయొచ్చు సినారియో. అంటే మీకు ఇప్పుడు ఇది వద్దా, ఎందుకంటే like someone was looking సారీ, కార్డ్ లో ప్రొడక్ట్ అన్చెక్ అయి ఉన్నాయి, చెక్ అవుట్ చేయండి, అలా సినారియోస్ ఉన్నాయి కదా, మేము ఇచ్చినవి.
+[04:38] Speaker 1: ఉమ్, అది, అది సెకండ్ ప్రియారిటీ, అది కాదు. ఇప్పుడు ఏంటంటే, ఇప్పుడు మన కార్నర్స్ కూడా 50 కస్టమర్స్ అయినారు, నాట్ సో మచ్.
+[04:44] Speaker 0: ఓకే.
+[04:44] Speaker 1: అందులో యాక్టివ్ గా ఒక 10 ఉన్నారు.
+[04:47] Speaker 0: ఓకే.
+[04:48] Speaker 1: ఆ, ఇప్పుడు మళ్లీ మనం ఒక రిమైండర్ లాగా ఉంటది కదా, మనం యాప్ నోటిఫికేషన్ ఇస్తే, అది ఒక యాప్ అనేది మన ఫోన్ లో ఉంది అని తెలుస్తది కదా.
+[04:52] Speaker 0: యా, యా, అవును, లోపల అవి అందరూ చేస్తున్నారు అనుకుంటా కదా.
+[04:55] Speaker 1: ఆ, ఆ.
+[04:55] Speaker 0: అది లోపల ఉంటుంది. లోపల సేల్స్
+[04:57] Speaker 1: లోపల సేల్స్ ఇంప్రూవ్ అయింది దాంతోటి.
+[04:59] Speaker 0: ఓకే.
+[04:59] Speaker 1: నేను చెప్పాలనుకుంటే, సాయి చెప్తే, నేను కంటిన్యూ ఒకసారి.
+[05:02] Speaker 0: ఓకే.
+[05:03] Speaker 1: ఉమ్, జస్ట్ నోటిఫికేషన్, మనం ఒకటి ఆఫర్ రిలీజ్ చేస్తున్నాం అంట, ఈరోజు ఆఫర్.
+[05:06] Speaker 0: యా, అంటే ఇప్పుడు మీరు, ఇప్పుడు మనం బ్యానర్స్ ఎలా ఉందో, సేమ్ ఫంక్షనాలిటీ నోటిఫికేషన్ ఉండాలి, ఇది చేస్తే ప్రొడక్ట్ పేజ్ కి వెళ్ళాలి, లేకపోతే కేటగిరీ పేజ్ కి వెళ్ళాలి, లేకపోతే టాప్ టాప్ చేస్తా.
+[05:13] Speaker 1: సపోజ్.
+[05:13] Speaker 0: మీరు ఒక. ఇది ఫర్ ఎగ్జాంపుల్, ఫర్
+[05:15] Speaker 1: ఇది ఫర్ ఎగ్జాంపుల్, ఫర్ ఎగ్జాంపుల్, నౌ వి ఆర్, వి ఆర్ సెల్లింగ్ పల్సెస్, నౌ వి ఆర్ సెల్లింగ్ some అట్లా.
+[05:21] Speaker 0: సో ప్రొడక్ట్, ప్రొడక్ట్ అడ్వర్టైస్మెంట్ అయితే, ప్రొడక్ట్ పేజ్ కి డైరెక్ట్ గా, ప్రొడక్ట్ కార్డ్ మీదకి వెళ్ళిపోవాలి, కేటగిరీ పే అడ్వర్టైస్మెంట్ అయితే, కేటగిరీ. యా, యా, బట్.
+[05:32] Speaker 1: ఇంకొకటి, ఇప్పుడు ప్రొడక్ట్ మీద క్లిక్ చేస్తే, ఆర్డర్ లో ఉండే ప్రొడక్ట్ మీద క్లిక్ చేస్తే, అది రీడైరెక్ట్ అయితలేదు, ప్రొడక్ట్ అయితే, అది ఒకటి చూడండి.
+[05:38] Speaker 0: ఆర్డర్ పేజ్, మీ దగ్గర ఆర్డర్ పేజ్ ఉందా?
+[05:40] Speaker 1: డిస్ట్రిబ్యూటర్ ఆర్డర్ పేజ్, క్లిక్ చేస్తే, ఓ, సారీ, సారీ, కస్టమర్ ఆర్డర్ ఉందా, అది.
+[05:46] Speaker 1: ఇప్పుడు చెక్ చేయలేదు.
+[05:47] Speaker 0: లో లేదు, అది ఏంటంటే, మనం అట్లీస్ట్ ఇది అడిగాం, ఇమేజ్ పెద్దగా అవ్వడానికి అని అడిగినాము.
+[05:51] Speaker 1: అండ్ ఇంకొకటి, ఇదైతే చేంజ్ ఆల్రెడీ, ఎస్, ఓకే, లిస్ట్ లో ఉన్నది, ఆల్మోస్ట్ అయిపోయింది, లేదంటే వేరియంట్ సైజ్ మిస్ అయిపోలేదు కదా, ఆర్డర్ పేజ్ లో.
+[05:57] Speaker 0: అవును, అవును.
+[05:58] Speaker 1: అది మేము ఆల్రెడీ ముందే లాస్ట్ వీక్ లో మేము చెప్పాం, చేంజెస్, ఆ చేంజ్ లోనే ఉంది, యాక్చువల్ గా.
+[06:02] Speaker 0: ఓకే, ఎందుకంటే అది వేరియంట్ దొరకదు, మళ్లీ మేము రేట్ చూసుకోవాలి.
+[06:05] Speaker 1: యా, యా, అంటే నేను ఎక్స్పీరియన్స్ అన్నాను, అది, అంటే మేము షుగర్ ఒకటి ఉంది కదా, లాస్ట్ వీక్ ఒక ఇష్యూ,  ఆ, అది జరుగుతుంది, చూద్దాం, కానీ ఏదైనా అంతే సేమ్.
+[06:13] Speaker 0: యా, అదే, అదే, మేము కూడా అదే, అదే ఫీలింగ్, మేము రాసేసుకున్నాము, యాక్చువల్ గా, మేము  ఓకే.
+[06:21] Speaker 1: I believe అయితే, సో సిట్ అప్ అయినట్టు, బట్.
+[06:31] Speaker 1: ఓకే, వచ్చింది, సాయి వచ్చింది.
+[06:33] Speaker 0: సడన్ గా డ్రాప్ అయిపోయింది, ఇంకో కాల్, ఉమ్,  యా, ప్రొసీడ్, సాయి నువ్వు చెప్తున్నావు.
+[06:41] Speaker 1: యా, ఓకే, సో ప్రస్తుతానికి ఏంటంటే, మనం ఒక వేరియంట్ సైజ్ డిస్ప్లే చేద్దాము, యా, సైజ్, క్వాంటిటీ, యా, యా, డీటెయిల్స్, వేరియంట్ డీటెయిల్స్, ఉమ్, ఓకే, ఇంకొకటి, ఇమేజ్ పైన క్లిక్ చేస్తే, కనీసం ఇమేజ్ పెద్దగా ఎట్లా ఉంటది, లేకపోతే ఇమేజ్ దగ్గర ఎక్కడైనా ఉన్నా, అది చేయాలి కదా, అది ఏంటో తెలవదు, ఎందుకంటే చిన్నగా వేసేసరికి ఆ ప్రొడక్ట్ లాగా.
+[06:57] Speaker 0: ఇందులో నుంచి మనం ప్రొడక్ట్ ఇమేజ్ లో ఉంటుందా?
+[06:59] Speaker 1: ఇప్పుడు మనం డిస్ట్రిబ్యూటర్ టు కన్స్యూమర్ ఆర్డర్ పేజ్ లో ఆర్డర్ సెక్షన్ లోపల, లైక్, అట్లీస్ట్ ఇమేజ్,  అవును, అవును, అదే, ఇప్పుడు ఆర్డర్ వస్తది, ఆర్డర్ లోకి వెళ్లి చెక్ చేస్తుంటే, వి షుడ్ బి ఏబుల్ టు ఐదర్, ఇఫ్ క్లిక్ ఆన్ ది ఇమేజ్, ఇట్ షుడ్ ఎన్లార్జ్, ఆర్ వి షుడ్ గో, ఇట్ షుడ్ రీడక్ట్ టు ది ప్రొడక్ట్ అని చెప్తే, నువ్వు ఎన్లార్జ్ చేయొచ్చు, ఎన్లార్జ్ చేస్తాం అని చెప్పేసి వస్తుంది కదా, టు వీక్స్ బ్యాక్, రైట్, రైట్, నేను ఎన్లార్జ్ అంటే ప్రొడక్ట్ దాంట్లో అనుకున్నాను, యాక్చువల్లీ, ప్రొడక్ట్ పేజ్ ఉంటది కదా, ఇప్పుడు అందులో అనుకున్నాను, నేను ఆర్డర్ సెక్షన్ లోనే బట్ చేయొచ్చు, ఎట్లైనా మనం కొత్త డిస్ట్రిబ్యూటర్ బిల్డింగ్ ఇంకా పెట్టలేదు, పెట్టేయొచ్చు ఇప్పుడు, అవును.
+[07:36] Speaker 1: ఇంకొకటి, అశ్విన్, ఇది అశ్విన్ నరేష్, ఇప్పుడే స్టార్ట్ అయింది, ఇప్పుడు బి టు బి పైన ఎంప్టీ స్పేస్ ఉంది, డిస్ట్రిబ్యూటర్ ని పెద్దగా వచ్చేటట్టు డిస్ప్లే అడుగుదామా, ఎగ్జాంపుల్, బి టు బి నాకు డిస్ట్రిబ్యూటర్ నేమ్ ఆన్ లోగోనా, నేను చెప్తా, నేను చెప్తా, ఒక నిమిషం, ఒకటి వచ్చేసి, వన్ థింగ్ వచ్చేసి, వి గాట్ ఏ ఫీడ్బ్యాక్ ఫ్రమ్ కన్స్యూమర్, ఏందంటే, కన్స్యూమర్ యాప్ ఓపెన్ చేస్తే, బి టు బి లోగో కనిపిస్తుంది, కానీ పేరు కనిపియట్లేదు, ఓకే, ఎవరైతే కొంచెం వ్యూ లో పెట్టరా, ఓకే.
+[08:05] Speaker 1: నరేష్, మీరు పెట్టరా,  ఆ, సో, కన్స్యూమర్ యాప్, అది బి టు బి అంటే, డిస్ట్రిబ్యూటర్ ఫీడ్బ్యాక్ ఏందంటే, ఆయన కన్స్యూమర్ నుంచి వచ్చింది, ఏందంటే, వీడు ఓపెన్ చేసినాక, మనం వెళ్లి ఉన్నాము అంటే, ఆబ్వియస్లీ, క్లిక్ చేసేటప్పుడు, బి టు బి మీద క్లిక్ చేస్తారు కదా, అని అంటే, లేదు.
+[12:20] Speaker 0: Or very particular, either which approve B2B and PRN. So అదొకటి సెట్ చేయండి. ఇప్పుడు శ్రీనివాస్ అన్నట్టు, ఇప్పుడు కన్స్యూమర్ యాప్‌లో ఒక కన్స్యూమర్ ఒక డిస్ట్రిబ్యూటర్ ట్యాగ్ అయ్యి ఉన్నారు, ఓకే?
+[12:32] Speaker 0: So ఆ కన్స్యూమర్‌కి శ్రీనివాస్ ఏమంటున్నాడంటే, డిస్ట్రిబ్యూటర్ నేమ్ కనిపించాలి పైన అని అంటున్నాడు.
+[12:37] Speaker 1: ఓకే.
+[12:37] Speaker 0: స్టోర్ పేజ్, జస్ట్.
+[12:50] Speaker 0: And IP spaces. Okay, మీకు ఒక్కసారి ఇమేజ్ పెడతాము, annotate చేసి పెడతాను ఎక్కడ అంటున్నారు exact గా.
+[12:55] Speaker 1: ఒక్కసారి హోమ్ స్క్రీన్ పెడతామా, please.
+[12:59] Speaker 0: Both are distributor and consumer.
+[13:02] Speaker 1: Okay.
+[13:04] Speaker 0: ఇప్పుడు distributor app లో నేను screenshot పెడుతున్నాను. distributor app లో పక్కన B2B అని వచ్చింది, లోగో పక్కన. Same అలాగే consumer app లో కూడా. ఇప్పుడు development group లో పెడుతున్నా.
+[13:17] Speaker 0: ఇదిగోండి, చూడండి ఒకసారి. పంపించాను. అట్లా B2B అని consumer app లో కూడా వచ్చిందా చూడండి.
+[13:23] Speaker 0: అచ్చా, లోగో పక్కన అంటున్నారు. ఓకే, ఓకే, చేయొచ్చు.
+[13:28] Speaker 0: అదొకటి. ఇంకోటి, సీన్ నువ్వే చెప్తున్నావ్. distributor name consumer గందీ అన్నా, అదే. ఆ, అక్కడ పక్కన distributor name పెట్టొచ్చా? B2B not on distributor app. Not on. అంతే. distributor అంటే ఏది text లో maintain చేస్తే అది చేయొచ్చు.
+[13:38] Speaker 1: పెట్టొచ్చు. ఒకవేళ పేరు పెద్దగా ఉంటే?
+[13:41] Speaker 0: ఆ, పెడదాం. మీరు maximum ఎంత పెట్టొచ్చో అంతే వేయండి, space. ఎక్కువ పెట్టుకుంటే వాళ్లకు చెప్పాలి. limit ఎంత ఉంది, ఇంతలో పెట్టుకోండి.
+[13:47] Speaker 1: ఓకే. ఇక్కడ కూడా two things చేయొచ్చు. ఒకటి వచ్చేసి, అదే size లో we can put n number of characters అన్నమాట. X characters అని పెట్టొచ్చు. లేదు అంటే.
+[13:55] Speaker 0: 10 or 12 examples.
+[13:57] Speaker 1: Not zone and any word.
+[13:59] Speaker 0: ఒక 14 ఇయ్యండి, అంతే. 14 or 15 ఇయ్యండి, అంతే.
+[14:01] Speaker 1: ఓకే,  ఇప్పుడు.
+[14:05] Speaker 0: ఓకే, after this చెప్పండి. ఒకసారి అయిపోయాక note చేసుకున్నాక.
+[14:08] Speaker 1: Done.
+[14:10] Speaker 0: ఇప్పుడు దేనికి ఏమి ETA ఉందో చెప్పరా.
+[14:14] Speaker 0: మా మార్కెటింగ్ మేనేజర్ appointed శ్రీకాంత్ అంటే మాకు చుక్కలు చూపిస్తున్నాడు.
+[14:18] Speaker 1: ఓకే.
+[14:20] Speaker 0: Customer lead ఇప్పుడు చచ్చిపోతున్నాం.
+[14:25] Speaker 1: ఓకే, ఇప్పుడు మీకు చెప్పేటిది అంటే, ఒకటి in stock, out stock ఒకటి time పడుతుంది. అదే పెద్దది. మిగతా అన్నీ already success అయిపోయాయి కూడా. Apart from, మీరు అది profit అని చెప్పారు కదా.
+[14:36] Speaker 0: అవును.
+[14:36] Speaker 1: అది and ఇంకొకటి ఏంటి అంటే, modify order issue ఒకటి ఉంది, చూడండి.
+[14:40] Speaker 0: అవును.
+[14:41] Speaker 1: ఆ రెండు తప్ప, మిగతా అన్నీ అయిపోయినట్టే. Notifications కూడా.
+[14:45] Speaker 1: Scenario based అయిపోయినాయి. మరి ఇవాళ and రేపటి వరకు అలా కూర్చుంటే, మీరు అన్న push notifications from admin అయిపోతాయి. కరెక్ట్ గా చెప్తున్నాను, ఓకే.
+[14:54] Speaker 0: Yes.
+[14:55] Speaker 0: ఓకే, మరి ఇప్పుడు ఈ order edit plus అది ఏంది ETA.
+[14:58] Speaker 1: ఏ order edit అంటున్నారు?
+[15:00] Speaker 0: Distributor from consumer to distributor. Distributor order edit చేయడానికి. లేకపోతే distributor admin order edit చేయడానికి. అంటే edit అంటే నా ఉద్దేశం ఇప్పుడు.
+[15:07] Speaker 1: Modify.
+[15:08] Speaker 0: Modify. 10 order పెట్టారు, మన దగ్గర 5 ఉన్నాయి. నేను 5 పంపించుకోవడానికి. Invoice లో 5.
+[15:12] Speaker 1: ఆహా, ఓకే, అలా అంటున్నారు.
+[15:13] Speaker 0: అది గుర్తుందా?
+[15:14] Speaker 1: ఆ, గుర్తుంది, గుర్తుంది. అది కూడా దాంట్లోనే వచ్చేస్తది. మనము.
+[15:16] Speaker 0: In stock. ఓకే, out st
+[15:16] Speaker 1: ఓకే, out stock కాదు అనుకున్నాను.
+[15:18] Speaker 0: దాంట్లోనే వచ్చేస్తది. అది ఒక్కటి మాకు కొద్దిగా టైం కావాలి. Might be ఈ Saturday. One
+[15:22] Speaker 1: One second.
+[15:25] Speaker 0: అలా Saturday నిమర్జనం ఇవన్నీ ఉంటాయి అనుకో.
+[15:27] Speaker 1: లేదు, మాది Thursdayనే.
+[15:29] Speaker 0: ఆ, ఓకే.
+[15:30] Speaker 1: మరి Sunday అనుకోండి. Sunday వరకు అయిపోతుంది.
+[15:33] Speaker 0: ఓకే, అదొకటి. ఇంకొకటి, still date మేము print out తీసుకొని అందులో manual గా cut చేసి, ఇది ఈ stock లేదు అని cut చేసుకొని, minus total నుంచి minus చేసి, అది పరిస్థితి.
+[15:42] Speaker 1: ఓకే.
+[15:43] Speaker 0: So, మనకు edit option ఇస్తే బాగుంటది.
+[15:45] Speaker 1: Order edit మీరు చెప్పేది.
+[15:47] Speaker 0: Order edit. Order edit గురించి మాట్లాడుతున్నాను. Modify. అది చెప్పాను కదా. ఆ, stock అయిపోతే.
+[15:52] Speaker 0: Stock అయిపోయినా లేకపోతే అసలు stock లేదు. ఆ item లేదు మన దగ్గర. ఆ item ని తీసేయడానికి invoice లో నుంచి.
+[15:56] Speaker 1: అంటే.
+[15:57] Speaker 0: గుర్తుందా, ఈ point మాత్రం.
+[15:58] Speaker 1: యా, యా, గుర్తుంది.
+[15:59] Speaker 0: గుర్తుంది, గుర్తుంది. ఏందంటే నా side నుంచి, వాళ్ల side modify కాకుండా, మన side modify. Admin to distributor admin modify, distributor to consumer distributor modify చేసుకోవచ్చు. రెండు flows లో వాళ్ల side consumer side modify కాకుండా, admin side and distributor side modify.
+[16:11] Speaker 1: Exactly, exactly.
+[16:11] Speaker 0: యా, గుర్తుంది, గుర్తుంది. లేకపోతే మన quantities మీరు ఎక్కువ upload చేసేస్తున్నారు కదా, orders miss అవ్వద్దు అని చెప్పేసి, ఆ bit ని కొంచెం balance చేయడానికి. మన దగ్గర లేనప్పుడు stock  సరే, ఇప్పుడు ఇది Sunday కి ఇచ్చారు. ఇది push చేస్తామని చెప్పారు కదా, అది ఎప్పుడు push చేస్తారు? Distributor app లో?
+[16:25] Speaker 1: ఆ, tomorrow night.
+[16:29] Speaker 0: With notifications.
+[16:33] Speaker 0: Tomorrow night. యా, tomorrow night or like next day for sure. Bye.
+[16:37] Speaker 1: ఉమ్, Thursday night అనుకోండి max.
+[16:39] Speaker 0: ఓకే, ఓకే, done.
+[16:40] Speaker 1: ఏంటి, రెడీగా ఉన్నాయా? లేక ఒకసారి test చేస్తాం.
+[16:43] Speaker 0: We need to test actually.
+[16:44] Speaker 1: యా, testing కోసం. Updates అయితే రెడీగా ఉన్నాయి.
+[16:46] Speaker 0: ఆ, నాకు just ETA కావాలి. నేను ఇప్పుడు reserve పెడతాను.
+[16:48] Speaker 1: ఓకే.
+[16:48] Speaker 0: నాకు reserve అలా నుంచి ఉన్నది, I know, but చెప్తున్నాను.
+[16:50] Speaker 1: ETA ఏందంటే, ఈ stock update ఉంది. దాని వల్ల ఏమవుతుందంటే, accounts అన్నీ maintain చేయలేకపోతున్నాం perfect గా. మనం అనుకున్నట్టు system ఉంది కానీ అది మనం అంటే ఈ scenario అసలు ముందు predict చేయలేదు.
+[16:59] Speaker 0: ఓకే.
+[17:00] Speaker 1: చిన్న చిన్న doubts ఉన్నాయి. మనం in stock ఉన్నంత maintain చేస్తే, అది inventory management perfect అవుతుంది.
+[17:06] Speaker 0: ఓకే.
+[17:08] Speaker 1: అంటే, just ఒక thing. అంతవరకు మనము ఏదైనా వాళ్లతోనే return పెట్టిపించే chance ఉందా? లేక accounting ని balance చేయడానికి.
+[17:14] Speaker 0: మనం ఏం చేయొచ్చు? మనకు update వచ్చినప్పుడు మనం update plan చేస్తాము. ఏం చేస్తాం?
+[17:20] Speaker 1: కానీ ఇంకొకటి, accounting లో మీరు issues ఉన్నాయి. Issues ఉన్నాయి అన్నారు అంటారు కదా. ఇది distributor side లో అంటున్నారా, లేకపోతే admin side లో అంటున్నారా? అంటే distributor attitude లో profit అది okay. అది reality కాదు. Just మీకు pose చేసినాం.
+[17:31] Speaker 1: లేదు, లేదు, అది అయిపోతుంది. అది రేపటి అయిపోయింది. Update అయిపోయింది అంటే test చేసి మేము రేపటి లో push చేస్తాము. Apart from that, అది admin లో ఏమైనా ఉన్నాయా అని చెప్పేసి, accounting లో మాకు అర్థం కాలేదు.
+[17:39] Speaker 0: Accounting మనకు ఎప్పుడు తెలుస్తుంది అంటే, ఒకసారి మనం ఏదైతే అనుకుంటున్నామో, ఏంటిది, product ఒకసారి update చేస్తే చాలు, inventory లేకుండా stock కనపడాలి.
+[17:47] Speaker 1: అవును.
+[17:47] Speaker 0: ఒకసారి ఆ state question లో మనం ఏం చేస్తామంటే, ఏదైతే real inventory ఉందో అదే pose చేస్తాం. మనము stock కనపడేలా inventory pose చేయం.
+[17:52] Speaker 1: ఓకే, ఓకే.
+[17:52] Speaker 0: సరే, అప్పుడు మనకి accounting అప్పుడు track అయితది. Issue లేకుండా. అప్పుడు ఏమైనా issue ఉంటే, అప్పుడు identify చేద్దాం.
+[17:59] Speaker 0: అర్థమైందా? అంటే నేను correct గా.
+[18:00] Speaker 1: ఒక person కి ఉన్న ఏదైతే original stock కాకుండా, normal feature stock వేసుకుంటాం కదా. ఆ feature stock అనేది ఆపేసాం. Once మీరు ఆ fix చేసిన తర్వాత. ఏది stock అని మేము కనిపెట్టడం. Out of stock, in stock అనేది, అది feature తీసేసిన తర్వాత ఏం చేస్తామంటే, మేము అన్ని original stock ఏ పెడతాం. అప్పుడే మనకి ఏమన్నా issues వస్తే, అప్పుడు చెప్తాం.
+[18:19] Speaker 0: సారీ, drop అయిపోయింది.
+[18:22] Speaker 1: శ్రీ, అర్థమైందా?
+[18:23] Speaker 0: అర్థమైంది, అర్థమైంది.
+[18:26] Speaker 1: అప్పుడే accounting ని touch చేద్దాం. Accounting ని touch చేసినా గాని, it doesn&#x27;t make sense.
+[18:29] Speaker 0: యా.
+[18:36] Speaker 1: మహేష్, ఇంకేమైనా points ఉన్నాయా మీ దగ్గర? నేను అడగాలనుకున్నాను.
+[18:39] Speaker 0: And ఇంకోటి, మేము ఒక list చేసాము. Side with a list ఉందా మీకు? Last Friday నో, Saturday నో కూర్చున్నాం మీరు.
+[18:44] Speaker 1: Changes అన్నీ.
+[18:48] Speaker 0: Mute.
+[18:50] Speaker 1: ఒక list చేసాము. దాంట్లో కొన్ని changes అన్నీ note చేసాము అన్నమాట. Fix చేశాయా అని.
+[18:54] Speaker 0: Okay, status ఆ?
+[18:55] Speaker 1: ఆ, దాంట్లో ఏమేమి చేసాము అన్నీ ఉంటే, అది పంపేయండి.
+[19:00] Speaker 0: అచ్చా.
+[19:01] Speaker 1: ఎలా ఉంది?
+[19:02] Speaker 0: ఉంది, add to create feature.
+[19:05] Speaker 1: యా, యా, యా.
+[19:08] Speaker 0: Consumer invoice books.
+[19:11] Speaker 1: Settings and email.
+[19:20] Speaker 1: అచ్చా, అది ఇంకొకటి తప్ప. అయితే very sorry for bringing out this very late. Science Swish and so ఏంటంటే, ఇప్పుడు మన దగ్గర ఒక్కడు ఉన్నాడు sales manager.
+[19:27] Speaker 0: ఓకే.
+[19:28] Speaker 1: అంటే marketing కం sales manager వాడు. అయితే ఇప్పుడు next week నుంచి ఇంకొకడు join అవుతాడు. అది ఇక్కడ problem ఏంటంటే, ఎవరు ఏ shop ని onboard చేసినారు అనే విషయం తెలియదు. ఉ
+[19:37] Speaker 0: ఉమ్, అర్థమైంది.
+[19:39] Speaker 1: So, అది ఎట్లా overcome చేయాలి?
+[19:41] Speaker 0: Actually, నిజం చెప్పాలి అంటే, visual లో లేదు, but document లో ఉంటది. అంటే, మీకు గుర్తుందో లేదో, activity log అని చెప్పేసి మనం save చేస్తాం.
+[19:47] Speaker 1: అవును, అవును.
+[19:48] Speaker 0: Activity log లో ఎలా పెట్టొచ్చు అంటే, distributor ని onboard చేశాక, admin నుంచి మనము approve కొట్టాలి కదా.
+[19:54] Speaker 1: ఇట్లా చేయొచ్చా? ఇప్పుడు for example, consumer app లో ఒక consumer ని onboard చేసినప్పుడు, salesman name అట్లా just వాళ్ల name code enter చేయడం అనేది చేస్తారు consumer app లో.
+[20:02] Speaker 0: ఆ, pinned ఎక్కడ ఉందో add చేయొచ్చా?
+[20:05] Speaker 1: చేయొచ్చు, allow చేయొచ్చు. Basic గా, చేయొచ్చు actually. మనం ఇప్పుడు ఎలా అయినా referral code ఒకటి ఉంది కదా.
+[20:11] Speaker 0: ఆ.
+[20:12] Speaker 1: ఆ referral code place లో ఇతన్ని పెట్టొచ్చు. But ఇతనికి కూడా ఒక distributor account ఉండాలి. Account వ
+[20:17] Speaker 0: Account వస్తుంది. నేను ఏమంటున్నాను అంటే, for example, శ్రీకాంత్ ఉన్నాడు. వాడు కిరణ్ shop కి వెళ్లి distributor consumer ని onboard చేసినప్పుడు, వాడు admin, salesman name అంటే శ్రీకాంత్ అని రాసుకోవాలి అంతే.
+[20:25] Speaker 1: ఓకే.
+[20:26] Speaker 0: మనకు పెద్దగా ఏం అవ్వదు. ఒక column ఇస్తే అయిపోతుంది అంతే consumer app లో.
+[20:30] Speaker 1: ఆ, actually ఇప్పుడు చెప్పి మంచి పని చేశారు. చేయొచ్చు అంటే.
+[20:32] Speaker 0: ఉమ్. ఒక
+[20:33] Speaker 1: ఒక 30 pages పెడతాం. మనకు code అవసరం లేదు. మనకు just ఒక tab కావాలి. ఆ tab లో salesman name. So we can differentiate. అంటే differentiate చేసుకోవడానికి ఏ salesman కింద ఎన్ని shop లు వచ్చినాయి, ఆ shop అంటే ఆ salesman కింద ఎంత sale వచ్చింది, per month ఎంత, వాడికి ఎంత share ఇయ్యాలి.
+[20:47] Speaker 0: అవును. ఇలాం
+[20:47] Speaker 1: ఇలాంటివి.
+[20:47] Speaker 0: ఓకే.
+[20:49] Speaker 1: అట్లా segregate చేయొచ్చా? Once we have this option.
+[20:52] Speaker 0: చేయొచ్చు. Only onboarding ఒకటే కదా.
+[20:55] Speaker 1: Onboarding అంటే అర్థం కాలేదు.
+[20:56] Speaker 0: అంటే onboarding అయినా లేదు అంటే accounting లో share లేదు అంటే.
+[21:00] Speaker 1: అరే, అలా అనొద్దు. అలా అనొద్దు. Just ఏ salesman కి ఏ shop లు వస్తాయి అనేది అంటే assignments ఎవరు onboard చేశారు, ఎన్ని shop లు onboard చేశారు, ఆ salesman కింద ఉన్న shop లు revenue ఎంత, అంటే ఎంత sale వచ్చింది వాళ్ల నుంచి అన్నది అంతే. Partialization వాళ్ల customer లో.
+[21:13] Speaker 0: ఓకే, ఒకవేళ salesman మారిపోతే?
+[21:16] Speaker 1: మారిపోతే. Nice question.
+[21:18] Speaker 0: Just ఒక fringe లా ఉందని మనం manual వేసుకున్నాం. అది అంతా requirement వచ్చినప్పుడు అప్పుడు ఆలోచిద్దాం అనుకుంటున్నాను. నాకైతే అనిపిస్తుంది.
+[21:26] Speaker 1: ఉండని, అంటే ఇప్పుడు salesman మారినాక, it&#x27;s okay. Some next person had కింద ఇంగ్లీష్ shop లు ఉండే. ఇంకా వాళ్లు order పెడుతున్నారు. మనం వేరే salesman person పంపిస్తున్నాం. చేయొచ్చు. అంటే తర్వాత ఏం చేయనికి ఉండదా?
+[21:36] Speaker 0: అంటే normally ఎలా చేస్తారు అంటే, మనము ఒక code ఇస్తాము. Token code. ఒకవేళ అతను place of ఇప్పుడు మీరు share అంటున్నారు కాబట్టి, నన్ను అడిగితే ఇంకా.
+[21:46] Speaker 1: అదంతా manual. అదంతా manual చేస్తాం. అది application కి సంబంధం లేదు.
+[21:49] Speaker 0: లేదు కానీ నేను ఏమంటున్నాను అంటే, at the end of the day ఆ basis లోనే మీరు ఇస్తారు కదా.
+[21:53] Speaker 1: అవును.
+[21:53] Speaker 0: అయితే ఒకవేళ అతను వెళ్లిపోతే, ఇంకా మీకు అతనికి సంబంధం లేదు కదా.
+[21:56] Speaker 1: లేదు.
+[21:56] Speaker 0: ఆ, so మళ్ళీ అతన్ని పెట్టే బదులు, అతన్ని బదులు ఇంకో అతన్ని మార్చేటట్టు admin లో UI లో పెట్టేస్తే సరిపోతుంది.
+[22:02] Speaker 1: ఆ, అదే అడుగుతున్నా. అట్లా chance ఉంటదా అని.
+[22:04] Speaker 0: ఆ, చేయొచ్చు.
+[22:05] Speaker 1: ఇవి ఇప్పుడు ప్రస్తుతానికి మీరు చేసే enhancement లు అయిపోయిన తర్వాత, దాని గురించి plan చేయండి.
+[22:09] Speaker 0: ఓకే.
+[22:09] Speaker 1: ఇప్పుడు అంత urgent ఏం లేదు అది. వాళ్లు లేకపోతే ఇలా పెట్టుకోవచ్చా?
+[22:11] Speaker 0: వాళ్లు లేకపోతే ఇలా పెట్టుకోవచ్చు actually. Like ఒక code ఉంటది. Like ఒక శ్రీకాంత్ అనే ఉన్నాడు కదా person. అతనికి ABC అని code ఉంది. అతను తెలిసిన orders అన్నిటికీ like distributor onboarding అన్నిటికీ ABC ఇస్తాడు. శ్రీకాంత్ ని person replace చేస్తే ఆ person కి ABC అని పెట్టమని చెప్పేస్తాడు. ఆ
+[22:21] Speaker 1: ఆ, correct. Okay.
+[22:27] Speaker 0: అంటే.
+[22:28] Speaker 1: But ABC వాళ్లు ఇంకొకరిని మార్చుకోండి అంటున్నావా?
+[22:31] Speaker 0: ఆ, లేదు. అంటే carry forward అనేది same code.
+[22:33] Speaker 1: ఉమ్, just ఆ user ID ఒక person కి tag చేస్తాం. Person user ID tag చేస్తాం.
+[22:38] Speaker 0: చేయొచ్చు కానీ మీకే complex. అంటే మీకే అనవసరంగా share పోతది కదా అని అంతే. ఇప్పుడు.
+[22:42] Speaker 1: Let&#x27;s say ఈ proposal అందరికీ కాదు. ఏంటంటే ఒక optional అంతే. అందుకే manual feature లా initial గా కాబట్టి అట్లా ఆలోచిస్తాం కానీ long term గా ఆ scope చాలా తక్కువ ఉంటది.
+[22:50] Speaker 0: అవును.
+[22:51] Speaker 1: మళ్ళీ analytics కూడా పాతయ్యే వస్తాయి.
+[22:54] Speaker 0: Next week ఏమైతది అంటే share కాకపోయినా at least ఎవడు ఎంత onboard చేస్తున్నాడు. ఎవడైతే sale తీసుకొస్తున్నాడో చూడడానికి అంతే. వాడిని preserve పెట్టడానికి లేకపోతే వాడిని motivate చేయడానికి ఇలాంటి వాటి కోసం.
+[23:03] Speaker 1: ఆ, అంతే అర్థమైంది. అంటే మళ్ళీ పాత అతనిదే merge చేసి వాడి data వీడికి link అయ్యి use ఏమి ఉండదు కదా అని. అలా అని.
+[23:09] Speaker 0: ఆ, ఓకే ఓకే.
+[23:10] Speaker 1: ఇప్పుడు let&#x27;s say పాతోడి వల్లనే let&#x27;s say కొత్తోడు ఏం చేయలేదు. పాతోడి వల్లే నాకు order వచ్చింది. వీడిని అనవసరంగా నేను encourage చేసినట్టు అయిపోతుంది.
+[23:16] Speaker 0: అవును.
+[23:19] Speaker 1: అంటే నేను చెప్తాను, side point ఏంటంటే for example ఇప్పుడు ముగ్గురు ముగ్గురు marketing sales manager sales experts ఉన్నారు. ఒక్కోడు వెళ్ళిపోయిండు. వాడికి కింద 10 shop లు ఉన్నాయి. 10 shop లు వీడికి 10 shop లు వాడికి పని చేస్తాయి. ఎందుకు? నెక్స్ట్ day నుంచి వీడికి వీళ్ళిద్దరూ పోవాలి. పోయి వాళ్లని ఎప్పుడు marketing అంటే job ఏమంటారు ongoing process కదా. Every time ongoing process. వాళ్లు వెళ్తుండాలి, కలుస్తుండాలి, order తీసుకుంటూ ఉండాలి. So ఇప్పుడు ఒక month ఒక month లో వెళ్ళిపోయిండు. Next month నుంచి clear data ఉంటది కదా.
+[23:42] Speaker 0: ఉంటది.
+[23:43] Speaker 1: ఉమ్.
+[23:43] Speaker 0: ఒకవేళ sale  మనము monthly like అప్పుడప్పుడు targets అంటే నేను అది ఎలా ఇస్తాం కదా. So onboarding date onboarding month ఉంటది event లో అది.
+[23:54] Speaker 1: అవును.
+[23:55] Speaker 0: ఎలాగో.
+[23:55] Speaker 1: అంటే నేను ఏమంటున్నాను అంటే already మీ customer అతను 3 months 4 months కి వెళ్లి కొంటున్నాడు. మళ్ళీ మీరు ఇంకొకరిని పెట్టి పంపాల్సిన అవసరం లేదు.
+[24:01] Speaker 0: But ఒకవేళ చేశా కూడా ఇతని పేరు మీదకి వెళ్లి వస్తది కదా అని చెప్పేసి అలా.
+[24:05] Speaker 1: ఆ, లేకపోతే just ఒక field add చేయండి అంతే.
+[24:09] Speaker 0: Example ఒక medical rep ఉన్నాడు. ఆ medical rep వెళ్ళిపోయినంత మాత్రాన company మళ్ళీ ఇంకో medical rep ని appoint చేసుకొని doctor దగ్గర పంపిస్తూనే ఉంటది. ఇది కూడా అంతే అనుకోండి.
+[24:15] Speaker 1: ఓకే, sure.
+[24:16] Speaker 0: అర్థమైందా?
+[24:17] Speaker 1: అవును.
+[24:17] Speaker 0: ఇది అంతవరకు plan ఏం లేదు. మెల్లగా కూడా చేసుకోవచ్చు. ఆగం ఏం లేదు. ఓకేనా?
+[24:20] Speaker 1: ఉమ్.
+[24:21] Speaker 0: Just మీకు చెప్తున్నా మీకు. అంటే మీకు ఒక idea ఉంటది. మీరు దాన్ని manage చేయాలి. కొంచెం focus చేస్తారు. అంటే నా ఉద్దేశం దాని గురించి ఆలోచిస్తారని అంతే.
+[24:28] Speaker 1: Right, right. Done.
+[24:30] Speaker 0: ఉమ్.
+[24:31] Speaker 1: That is not an urgent thing.
+[24:36] Speaker 1: ఇంకా narration ఏమైనా ఉన్నాయా?
+[24:39] Speaker 0: వచ్చాడు. ఇ
+[24:40] Speaker 1: ఇప్పుడు వచ్చాడు.
+[24:41] Speaker 0: Narration కి ఏమైనా points ఉన్నాయా?
+[24:44] Speaker 1: అంటే మధ్య మధ్యలో నేను cut అయినా. ఇప్పుడు మనం ఒకటి అనుకున్నాం. చూడు, మనం అందరికీ కలిపి ఒక notes లాగా అది మాట్లాడినా. అది fresh గా చెప్పాను.
+[24:51] Speaker 0: Fresh. అ
+[24:52] Speaker 1: అదే మన shared location లో points రాసుకోవడానికి. Google
+[24:56] Speaker 0: Google sheet అర్థం. Right, right.
+[24:58] Speaker 1: Google sheets లేకపోతే Google Keep ఏదో ఒకటి.
+[24:59] Speaker 0: అవును, అవును, అవును. నేను మర్చిపోయాను actually. ఇప్పుడే వేసేసాను.
+[25:02] Speaker 1: ఆ, మీరు వాసవి గ్రూప్ email ID tag చేయండి. అలాగే ముగ్గురం ఉంటాం. ముగ్గురు కనిపిస్తది. మీ email IDs మీరు add చేసుకోండి.
+[25:07] Speaker 0: ఫోన్ ఉన్నావు కదా. ఉమ్. చెప్ప
+[25:11] Speaker 1: చెప్పకూడదు అంటే చిన్న topic అది. మీకు possible అయితే చూడండి. మనం ఏం చేసామంటే ప్రతి దగ్గర MRP దగ్గర cross line వస్తుంది. ఇప్పుడు discount ఉంటే గనుక butter shop లో cross line వస్తది కదా.
+[25:22] Speaker 0: అంటే only only అని చెప్పడానికి.
+[25:25] Speaker 1: అంతే కదా. 3000 అయితే 3000 slash hyphen.
+[25:28] Speaker 0: లేదు, లేదు, లేదు. ఇప్పుడు EZO consumer app లో E అని చెప్పి ఒకటి ఇస్తున్నాం కదా. So MRP strike off చేసి E అని ఇస్తున్నాం కదా. Strike off వద్దు అనొచ్చు. Although back అయిపోతది. అవు
+[25:35] Speaker 1: అవును.
+[25:37] Speaker 0: అంతే కదా.
+[25:37] Speaker 1: ఆ, అది కూడా. అది కూడా. ఇప్పుడు ప్రతి దాని మీద. ఇప్పుడు MRP quotation ఉంటుంది. ఏ MRP అయినా కూడా. అంటే అది కొట్టేసి EZO price అని చెప్పేసి fine ఇస్తున్నాం. అదే. అంటే మనకి ఏమైనా difference ఉంటే MRP and ఏమైతది అంటే ఇక్కడ ఒక చిన్న అవును. ఇక్కడ ఒక చిన్న problem ఏం వస్తుందంటే కొంతమంది customers కదా. చిన్న mobiles ఉంటున్నాయి. దాంట్లో ఏమైతది అంటే MRP cut అయ్యేసరికి సరిగ్గా కనిపిస్తలేదు అన్నమాట. ఆ light లేకుండా చేసేయాలా?
+[25:58] Speaker 0: ఆ. ఓ
+[25:58] Speaker 1: ఓకే, ఓకే. Update చేస్తా.
+[26:00] Speaker 0: అది చిన్నదైతేనే చేయండి. దానికి time ఎక్కువ తీసుకుంటే గనుక తర్వాత చేసేయాలి.
+[26:03] Speaker 1: లేదు, లేదు. Actually ఇప్పుడు చేసేసాం. ఎందుకంటే కొత్త build ఉంది కదా. మళ్ళీ అందరూ update చేయాల్సిన అవసరం రాకుండా ఇప్పుడే చేసేసుకుంటే better కదా.
+[26:08] Speaker 0: ఆ, అయితే అది కొన్ని చిన్న చిన్న mobiles లాగా. అది సరే. లేదన్నమాట. Cutting ఉండేసరికి.
+[26:13] Speaker 1: ఉమ్.
+[26:14] Speaker 0: MRP ఫుల్ view కనిపించేది చూడండి.
+[26:17] Speaker 1: ఓకే.
+[26:20] Speaker 0: ఈ item కి ఒకసారి UI గురించి చూద్దాం. Session side.
+[26:23] Speaker 1: చెప్తా నేను తర్వాత.
+[26:24] Speaker 0: ఓకే, change చేస్తా.
+[26:24] Speaker 1: Create అయిన తర్వాత change చేయాల్సిందే.
+[26:27] Speaker 0: అంటే distributor mobile applications లో అంటున్నారా?
+[26:30] Speaker 1: Consumer. Consumer app.
+[26:31] Speaker 0: ఏం consumer app?
+[26:32] Speaker 1: వీలైతే at least list చేసేయండి.
+[26:34] Speaker 0: ఒకవేళ చిన్న చిన్నవి ఉంటే ఇప్పుడే చేసేయండి.
+[26:37] Speaker 1: UI మొత్తం UI అని చెప్పేది.
+[26:38] Speaker 0: ఆ, పర్లేదు.
+[26:39] Speaker 1: ఏదైనా పర్లేదు.
+[26:40] Speaker 0: మళ్ళీ ఇంకో build కోసం wait చేయడం ఎందుకు?
+[26:42] Speaker 1: ఓకే. నాకు screen share చేయనా?
+[26:54] Speaker 0: నా screen కనిపిస్తుందా?
+[26:55] Speaker 1: ఆ, కనిపిస్తుంది.
+[26:56] Speaker 0: మంచిది.
+[26:58] Speaker 1: So ఇప్పుడు అదే మీరు చెప్పండి narration ఇంకా చిన్నది.
+[27:04] Speaker 0: Category pick చేస్తున్నాం.
+[27:05] Speaker 1: So ఇక్కడ example చూపిస్తా నేను. చూపిస్తా.
+[27:10] Speaker 0: Narration లో ఒక topic చెప్పాలిరా.
+[27:15] Speaker 1: ఇప్పుడు చూసారా?
+[27:16] Speaker 0: ఒక్క నిమిషం.
+[27:17] Speaker 1: ఇది చూపిస్తున్నా ఒకసారి. ఇది చూపిస్తారా ఒకసారి?
+[27:20] Speaker 0: Home page లో. విని
+[27:21] Speaker 1: వినిపిస్తున్నా topic.
+[27:22] Speaker 0: వినిపిస్తుంది, వినిపిస్తుంది. Home page లో ఇట్లా UI అంటే నేను ఇదే exactly ఇక్కడ పెట్టలేను. అంటే మన UI కి దీనికి డిఫరెన్స్ ఒకసారి చూడండి. I am not comparing it but అలా అట్లా ఉంటే బాగుంటది అనిపిస్తుంది. ఇప్పుడు ఇక్కడ ఇదిగో చూడండి.
+[27:35] Speaker 1: ఉమ్.
+[27:35] Speaker 0: కొంచెం UI UI కొంచెం మార్చండి. For example దీంట్లోకి వెళ్ళాం.
+[27:41] Speaker 1: ఇదిగో ఈ వీళ్ళ screen లో అన్ని మంచిగా కనిపిస్తున్నాయి. మన దాంట్లో ఎందుకు కొంచెం better అయిపోయింది? Images గాని ఇవన్నీ better అయినాయి. అప్పుడు ఎందుకో EZO లో మంచిగా అనిపించినాయి. ఇక్కడ ఏమో ఇట్లా. ఒక్క
+[27:50] Speaker 0: ఒక్క సెకండ్.
+[27:54] Speaker 1: ఇదిగో for example నేను ఇందులోకి వెళ్ళాను.
+[27:56] Speaker 0: Category.
+[27:57] Speaker 1: ఏదో రావట్లేదు.
+[27:58] Speaker 0: ఇది ఏ map అయింది?
+[28:03] Speaker 1: Lobma.
+[28:06] Speaker 0: Light color తగ్గిస్తానా?
+[28:08] Speaker 1: Light lighter మన దాంట్లో ఉన్నది. ఇదిగో మన దాంట్లో ఉన్నది.
+[28:11] Speaker 0: అచ్చా.
+[28:11] Speaker 1: కొంచెం be.
+[28:12] Speaker 0: ఈ బాక్స్ లు ఇవన్నీ కొంచెం పెద్దగా అయినాయేమో అనిపిస్తున్నది.
+[28:15] Speaker 1: ఉమ్.
+[28:16] Speaker 0: ఇలా లోపల పోతే ఇది రావట్లేదు ఏమైతుందో తెలియదు.
+[28:18] Speaker 1: ఒకసారి open చేయండి.
+[28:20] Speaker 0: Pixels లో ఏదో ఒకటి పోయింది.
+[28:23] Speaker 1: Cooking oil pick చేసినా.
+[28:27] Speaker 0: ఒకసారి  మీకు వస్తుందా మీకు?
+[28:32] Speaker 0: ఆ voice search ఏంటి? దాని మీద click చేస్తే ఏమవుతుంది?
+[28:35] Speaker 1: అచ్చా search చేయడానికి.
+[28:36] Speaker 0: Search option అది.
+[28:38] Speaker 1: ఓకే.
+[28:38] Speaker 0: వీడు లోపల ఇంకొకటి option ఏందంటే search చేసిన తర్వాత వాళ్ళ దగ్గర లేకపోతే మళ్ళా ఒకరు.
+[28:43] Speaker 1: Notification వస్తది app కి. ఇది పెట్టాను అనిపిస్తుందా?
+[28:45] Speaker 0: ఆ, అది plan చేశాను.
+[28:47] Speaker 1: ఓకే.
+[28:49] Speaker 0: ఓకే, అది రావట్లేదు మీకు.
+[28:50] Speaker 1: నేను పెట్టాను. ఇదిగో almost ఉంటది. వచ్చిందా?
+[28:55] Speaker 0: రావట్లేదురా.
+[28:56] Speaker 1: నేను pick.
+[28:57] Speaker 0: Size పెట్టండి group లో. అదేనా?
+[28:59] Speaker 1: పెట్టిండా? మరి నేను stop చేస్తున్నా. Screen share చేయాలి.
+[29:01] Speaker 0: Size pick చేయండి. Pick చేయండి. నాకు actually చాలా clear గా ఎక్కువ.
+[29:05] Speaker 1: అరే narration చేసావా?
+[29:07] Speaker 0: ఆ, చూస్తున్నా. Reply చేస్తున్నా.
+[29:12] Speaker 1: ఆ, నేను పెట్టాను WhatsApp లో అంటే అది UI ఎలా ఉందో అని చెప్పి.
+[29:16] Speaker 0: ఇలా చేయొచ్చు actually.
+[29:17] Speaker 1: Complex ఏం కాదు.
+[29:26] Speaker 0: నాకు పెట్టినావా? పెట్టినట్టు కదా? Side?
+[29:28] Speaker 1: యా, పెట్టాను. పెట్టాను నేను. అంటే అది hang అవుతుంది screen.
+[29:38] Speaker 0: ఓకే.
+[29:40] Speaker 1: Left?
+[29:52] Speaker 0: ఓకే.
+[29:58] Speaker 1: కనిపిస్తుందా? Share చేయనా నేను?
+[30:05] Speaker 0: చెయ్యి. Share చెయ్యి. Share చెయ్యి. Share చెయ్యి.
+[30:10] Speaker 1: అరే narration నువ్వు చెప్పు రా. నీకు నువ్వు ఎట్లా చూడాలనుకుంటున్నావో అది చెప్పు ఒకసారి.
+[30:15] Speaker 0: అదే Lobma నే. Lobma బాగుంది.
+[30:19] Speaker 1: Lobma లేకపోతే Jumbo Teal. ఏదైనా చూడండి ఒకసారి. Sai కి తెలుసు అనుకుంటా Jumbo Teal.
+[30:24] Speaker 0: ఇంకా తెలుసు తెలుసు. Jumbo Teal Lobma కోసం light ఉంటది. Jumbo Teal same మనకన్నా low నే ఉంటది ఇంకా.
+[30:32] Speaker 1: అవును.
+[30:33] Speaker 0: ఆ.
+[30:35] Speaker 1: Brightness లేదా? Brightness అయితే ఇక్కడ ఒక విషయం ఉంది రా. అరే ఇక్కడ ఒక విషయం ఉంది. Sai అయితే మనం start చేసిన కొత్తలో Lobma ఇంత perfect లేదు.
+[30:46] Speaker 0: యా, అవును. మనం మాట్లాడుకున్నాం కదా. మాట్లా
+[30:48] Speaker 1: మాట్లాడుకున్నప్పుడు ఏదో blur ఏదో లోపల అట్లా ఉంటుండే. వాడు ఏం update చేసిండో ఎందుకని ఒకటేసారి ఏదో brand అడిగింది. లేకపోతే నేను ఖచ్చితంగా Lobma ని follow చేయమని చెప్తుండే. అప్పట్లోనే మనం.
+[30:57] Speaker 0: యా, అవును.
+[30:58] Speaker 1: ఆ, అయితే నేను ఏమంటున్నా అంటే కొద్దిగా ఇప్పుడు view all categories అని కొడితే మనకి బయట రాకుండా లోపలికి వెళ్ళిపోతుంది direct గా.
+[31:04] Speaker 1: అట్లా కాకుండా అశ్విన్ చెప్పినట్టు ఇట్లా కొద్దిగా try చేయండి.
+[31:06] Speaker 0: Home లోనే అన్ని categories పెట్టమంటా.
+[31:08] Speaker 1: ఆ, అవును.
+[31:09] Speaker 0: ఓకే.
+[31:12] Speaker 1: But ఇది only for consumer app. Distributor app ఇప్పుడు ఉన్నట్టే ఉంటది. ఏం కాదు. ఎందుకంటే distributor అంటే మనం చెప్పినట్టు పెట్టొచ్చు.
+[31:18] Speaker 0: అశ్విన్ అలాగ అంటే మనము ఇప్పుడు  హలో. ఆ
+[31:23] Speaker 1: ఆ, వినిపిస్తుంది.
+[31:25] Speaker 0: హలో.
+[31:26] Speaker 1: హలో, Sai teacher వినిపిస్తుంది.
+[31:28] Speaker 0: వినిపిస్తుంది.
+[31:29] Speaker 1: పెట్టండి సార్. ఏమో చెప్పు.
+[31:31] Speaker 0: యా, ఇది actually మనము అంటే Teal Teal కదా. అంటే reorder order buy again అలా చాలా features ఉన్నాయి కదా మన దగ్గర. So ఇది ఇప్పుడు పెట్టేస్తే సింపుల్ గా అయిపోమా. అంటే home page లోనే అన్ని categories పెట్టేస్తే 20 categories ఉన్నాయి అనుకోండి.
+[31:46] Speaker 1: ఉమ్.
+[31:47] Speaker 0: ఆ features కిందకి వెళ్ళిపోతాయేమో అని feeling ఉంది. But మీరు ఎలా ఇష్టం ఉంటే ఇలా ఇష్టం ఉంటే.
+[31:51] Speaker 1: Lobma actually ఏందంటే ఇదిగో మన పట్టు దిగింది. దిగింది ఒకటి. ఇప్పుడు అయ్యింది ఒకటి. నేను చేస్తుంది ఒకటి. So దాని వల్ల ఏమైందంటే ఇప్పుడు B2B Lobma competitor. అవునా?
+[31:59] Speaker 0: అవును. So
+[32:00] Speaker 1: So అంటే అది thought actually గా చూడండి. The best way possible ఏది బాగుంటుందో ఒకసారి మీరు చెక్ చేయండి. Sai కూడా కొంచెం suggest చేయండి.
+[32:05] Speaker 0: నీకు కొంచెం ఎక్కువ idea ఉంటది. నీకే తెలుసు.
+[32:08] Speaker 1: లేదు లేదు లేదు. మీరు  మీరే తెలుసు నాకు. ఆ బాబు ప్రైసెస్ అంతా తెలుసు కానీ app గురించి రేట్ గురించి తెలియదు అని చెప్పి ఓకే.
+[32:17] Speaker 0: అంటే ఇప్పుడు ఓకే నేను ఇట్లా చూస్తాను. మెట్రో మెట్రో వెళ్తే ఇంకా టు కట్ ఎక్స్ప్రెస్ ఉంది కదా. అది కూడా వీళ్ళకైనా పెద్ద ఏమంటారు ఒక. అ
+[32:25] Speaker 1: అవును.
+[32:26] Speaker 0: So ఒకసారి చెక్ చేయండి.
+[32:29] Speaker 1: లేదు. కొంచెం ఒక ఏమంటారు ఆ question మీరు చెప్పిన distributor question ఒక రెండు మూడు అడిగినా సరే గాని కొంచెం అన్ని పంపిస్తా చూడండి.
+[32:35] Speaker 0: ఓకే.
+[32:38] Speaker 1: చిన్న ఇంకేముందా?
+[32:40] Speaker 0: లేదు లేదు. వచ్చిందా అంటే inventory అయిపోయిందా అంటే next accounting అవ్వచ్చు. అది fix చేసుకున్నామంటే maximum automation.
+[32:49] Speaker 1: అంతే.
+[32:51] Speaker 0: మనకు మంచి response వస్తుంది B2B లో. So continue కావచ్చు ఇంకా B2B తోని.
+[33:00] Speaker 1: Credit plan ఇస్తున్నారా?
+[33:02] Speaker 0: Credit?
+[33:04] Speaker 1: B2B కి అంటే credit plan ఇస్తున్నారా?
+[33:08] Speaker 0: అంటే  నేను పోయి personal గా మనం అడిగితే వాళ్ళంతా ఏమంటారు కొంచెం build up ఇస్తున్నారు. అందుకే మేము అడగట్లేదు. మనం first ఇంత గెలిచి తర్వాత బయట గెలుద్దామని. కాకపోతే ఎవరైనా ఉంటే చెప్పు Sai.
+[33:22] Speaker 1: We will. We
+[33:22] Speaker 0: We will work.
+[33:23] Speaker 1: Yes sir.
+[33:24] Speaker 0: Already కామెడీ గురించి ఒకరు వచ్చారు. ఏంటి అది? కామ
+[33:28] Speaker 1: కామెడీ నుంచి Sai కి ఇచ్చాం ఒక. అది బా
+[33:30] Speaker 0: అది బాగా వచ్చిండు.
+[33:34] Speaker 1: Most of కొన్ని కామెడీ కూడా కాలేదు. Already మంగళఘాట్ ఏరియా ఈ old city మొత్తం ఒక lady తీసుకున్నది.
+[33:39] Speaker 0: ఇవ్వాలి first time ఆమె కూడా customer.
+[33:42] Speaker 1: ఓకే ఓకే.
+[33:43] Speaker 0: And చెప్తున్నా.
+[33:45] Speaker 1: ఎంత?
+[33:46] Speaker 0: 30 రూపాయలు 30 customer గా.
+[33:49] Speaker 1: అచ్చా ఓకే.
+[33:51] Speaker 0: మేము అడుగుతున్నాం Sai.
+[33:52] Speaker 1: లేదు ఇంకోటి agreements ఏమైనా కావాలా మీకు? అంటే దీంట్లో normal గా మేము actually rental management application చేసాం అన్నమాట. అయితే వాళ్ళకి agreements ఉంటాయి కదా అంటే రూమ్ ఖరాబ్ అయినా paint అయినా ఏమున్నా అని చెప్పేసి అట్లా మీకు కూడా ఏమైనా agreements మీ agreement చేయాలి.
+[34:08] Speaker 0: ఆలోచించలేదు. చేయాలి అవును. మీకు ఏమైనా ideas ఉంటే పంపండి మాకు సెట్ అయ్యేది.
+[34:11] Speaker 1: నమన్ ఎల్ కేర్ కి agreements ఏం చేశారు?
+[34:14] Speaker 0: Actually పైసా పోతే కూడా డైనమిక్ టాప్ ఉంది. పోతే బేసిక్ టెంప్లేట్ అలాగే.
+[34:18] Speaker 1: ఆటోమేటికల్లీ ఆటోమేటిక్ గా నేను actually.
+[34:23] Speaker 1: ఎలా ఉండే అంటే ఒక టెంప్లేట్ క్రియేట్ చేసినాము. అకౌంట్ డీటెయిల్స్ ప్రకారం ఆటోమేటిక్ గా ఫిల్ అయిపోతది అన్నమాట. తర్వాత వాళ్ళు యాక్సెప్ట్ చేస్తే ఇంకా సైన్ అయిపోయినట్టు అని చెప్పేసి వాళ్ళ సెట్టింగ్స్ లో చూపించేస్తది ఈ agreement అని. అట్లా మీకు ఏమైనా కావాలంటే అది కూడా ప్లాన్ చేయొచ్చు.
+[34:40] Speaker 0: ఖచ్చితంగా.
+[34:41] Speaker 1: Agreement.
+[34:42] Speaker 0: కాకపోతే సింపుల్ టర్మ్స్ ఉండాలి.
+[34:43] Speaker 1: ఆ సింపుల్ టర్మ్స్ అంటే నాకు 9 పాయింట్స్ ఏవైతే ఉంటాయో అవి హైలైట్ అయ్యేటట్టు అంటే వాళ్ళు ఖచ్చితంగా చదివి రెస్పాన్స్ అయ్యేటట్టు ఉంటారు.
+[34:50] Speaker 0: అంటే నాకు ఎందుకు ఐడియా వచ్చింది అంటే నాకు అన్నారు కదా old city మొత్తం ఒక్కరికే ఇచ్చారు అని చెప్పేసి ఇంకా అలాంటి agreements ఉంటే వాళ్ళకి కూడా కొద్దిగా ఉంటుంది కదా కాన్ఫిడెన్స్.
+[34:58] Speaker 1: అవును.
+[35:00] Speaker 0: ఫోన్ వస్తే కాకపోతే దాని గురించి ఆలోచించలేదు. రెండు మూడు సార్లు మేము డిస్కస్ చేసుకున్నాం కానీ.
+[35:03] Speaker 1: అసలు టైం వదిలిపెట్టాలి argument లో ఏందనే ఆలోచించలేదు. Agreement
+[35:06] Speaker 0: Agreement షేర్ కాదు కదా స్క్రీన్.
+[35:08] Speaker 1: ఆ అది షేర్.
+[35:18] Speaker 0: స్క్రీన్ దిగరా.
+[35:19] Speaker 1: ఆ. ఓ హౌ ఇట్ విల్
+[35:20] Speaker 0: ఓ హౌ ఇట్ విల్ పీపుల్ సపోజ్ నౌ ఐ హావ్ లాగిన్ యాస్ ఏ కస్టమర్.
+[35:24] Speaker 1: సో ఇఫ్ వి క్లీన్ టెంప్లేట్ సీ ఆల్ ద డీటెయిల్స్ లైక్ నేమ్ ఈమెయిల్ ఫోన్ నెంబర్ ఎవ్రీథింగ్ విల్ ఆటోమేటిక్లీ కం ఫ్రమ్ ద బ్యాక్ ఎండ్.
+[35:32] Speaker 0: అండ్ ఇఫ్ ఐ సైన్ ఐ విల్ గెట్ ఏ సైన్.
+[35:35] Speaker 1: ఇట్ విల్ బి స్టోర్డ్ అస్ ఏ పిడిఎఫ్ డిజిటల్ సైన్.
+[35:39] Speaker 0: ఫ్రమ్ ద యుఎస్ వి కెన్ సైన్.
+[35:47] Speaker 1: సం డే.
+[35:47] Speaker 0: ఆ టేక్ బ్యాక్ ఇస్ ద క్యారీ పాయింట్స్  దట్ ఓకే.
+[36:08] Speaker 1: నమో పిడిఎఫ్ క్రియేట్ करने के बाद.
+[36:11] Speaker 0: ఆ ఆర్.
+[36:14] Speaker 0: పాసిబుల్ ఎల్ కేర్ కాబీ హువా తో ఒకసారి వేయొచ్చు. యాక్చువల్లీ ఎల్ కేర్ అతనికి ఫోర్ ఓ ఫైవ్ టెంప్లేట్ చేశాను అన్నమాట. అంటే అతనే ఫిల్ చేశాడు నేను ఏం చేయలేదు. ఆటోమేటిక్ గా దాని ప్రకారము ఫిల్ అయిపోతుంది. అంటే అతనికి ఎలా ఉండే అంటే కొందరికి పేరెంట్స్ కడతారు ఫీ. కొందరికి వచ్చేసి వాళ్లే కట్టుకుంటారు. మళ్ళీ ఇంకొన్ని పీజీ హాస్టల్స్ లాగా ఇస్తున్నాడు. ఫుడ్ కి ఒకటి అట్లా ఫోర్ ఫైవ్ అగ్రిమెంట్స్ ఉన్నాయి అన్నమాట. ఓకే.
+[36:33] Speaker 0: సో అది ఇంపార్టెంట్ నాకు కావాలి అంటే అది చేశాను.
+[36:35] Speaker 1: అండ్ ఇంకోటి పేమెంట్ కి ఇది అన్నారు కదా.
+[36:39] Speaker 0: అప్డేట్ వచ్చిందా?
+[36:39] Speaker 1: వస్తుంది. బ్యాంక్ తోటి మీటింగ్ ఉంది.
+[36:41] Speaker 0: ఇంకా ఓకే. మీకు యూపీఐ కి ఎంత ఇస్తామని చెప్పారు?
+[36:45] Speaker 1: యూపీఐ ఫ్రీ.
+[36:47] Speaker 0: అవునా.
+[36:47] Speaker 1: ఆ ఓకే.
+[36:49] Speaker 0: యూపీఐ క్రెడిట్ కార్డ్స్ క్రెడిట్ కార్డ్.
+[36:51] Speaker 1: 2%.
+[36:52] Speaker 0: అప్పుడు ఆ 1%.
+[36:54] Speaker 1: ఓకే.
+[36:59] Speaker 0: సో ఒకసారి వాళ్ళకి కాల్ సెట్ అయిపోయినాక మీరు మిమ్మల్ని కూడా అడుగుతారు.
+[37:01] Speaker 1: రైట్.
+[37:02] Speaker 0: సో మీ టైం తీసుకొని సెటప్ చేసి మాట్లాడదాం.
+[37:13] Speaker 0: ఇది జస్ట్ మనకి అందరూ కస్టమర్స్ కనిపిస్తారు కదా. నెక్స్ట్ పుష్ చేసినాక డిస్ట్రిబ్యూటర్ యాప్ లో.
+[37:17] Speaker 1: అర్థం కాలేదు.
+[37:18] Speaker 0: ఇప్పుడు డిస్ట్రిబ్యూటర్ యాప్ లో ఒక డిస్ట్రిబ్యూటర్ కింద కస్టమర్స్ అందరూ కనబడతలేదు.
+[37:22] Speaker 1: సో అది ఇప్పుడు డిస్ట్రిబ్యూటర్ యాప్ లో కావాలి. ఇప్పుడు అది ఓన్లీ అడ్మిన్ యుఐ లో కావాలి అని చెప్పారు.
+[37:26] Speaker 0: ఆహా ఇప్పుడు డిస్ట్రిబ్యూటర్ యాప్ లో సేల్స్ లో పోయిన కస్టమర్ ఫీల్డ్ ఉంది కదా.
+[37:30] Speaker 1: అవును. అది ఇంతకు ముందు ఉంటుంది. తర్వాత తీసేసినట్టు అనిపిస్తుంది.
+[37:33] Speaker 0: అంటే లిమిటెడ్ కస్టమర్స్ అంటే అందరూ కస్టమర్స్ వస్తలేరంట.
+[37:37] Speaker 1: ఓకే.
+[37:38] Speaker 0: సో 20 మెంబర్స్ వస్తున్నారు అన్నమాట.
+[37:41] Speaker 1: ఇప్పుడు మనం కాబట్టి మనకి అడ్మిన్ యాక్సెస్ ఉంటది. కానీ ఫ్యూచర్ లో ఎవరికైనా ఇస్తే వాళ్ళకి తెలవాలి కదా వాళ్ళకి ఎంత కస్టమర్స్ ఉన్నారు.
+[37:46] Speaker 0: అవును.
+[37:47] Speaker 1: నమన్ వాంట్ టు యాడ్ సం.
+[37:51] Speaker 0: ఒక్కసారి అది ఇష్యూ ఏంటో చూసి ఫిక్స్ చేద్దాం.
+[37:53] Speaker 1: ఇప్పుడు అదే ఆ డిస్ట్రిబ్యూటర్ యాప్ లో కన్స్యూమర్స్ ఎంతమంది ఉన్నారు అని చెక్ చేస్తే అదే.
+[37:59] Speaker 0: ఆర్డర్స్ లో ఆర్డర్స్ లోకి వెళ్ళిన తర్వాత కన్స్యూమర్స్ అని ఉంటది కదా. ఆ కన్స్యూమర్స్ లిమిటెడ్ మెంబర్స్ కనిపిస్తున్నారు. ఓవరాల్ మెంబర్స్ కనిపియట్లేదు.
+[38:05] Speaker 1: రైట్ అవుతుంది.
+[38:06] Speaker 0: ఓకే.
+[38:20] Speaker 1: యా ఇంకేమైనా ఉందా?
+[38:24] Speaker 0: నా సైడ్ అంతే.
+[38:25] Speaker 1: ఇంకొంచెం సాయి నమన్ కొంచెం తొందరగా చేసేసేయండి. సండే అన్నారు కదా సండే చూడరా.
+[38:32] Speaker 0: సో.
+[38:37] Speaker 0: ఓకే గైస్ థాంక్యూ.
+[38:39] Speaker 0: థాంక్యూ. నేను ఒకటి చూడమన్నాను కదా ఏమైనా మాట్లాడామా. యాక్చువల్లీ మర్చిపోయాను మాట్లాడాను. ఇది కూడా చెప్పాను. ఇంకా లాప్టాప్ అడిగితే ఇంకా నాదే పాతది ఇస్తాను అని చెప్పి చెప్పాను. ఓకే అని చెప్పారు. అయితే నేను ఏమన్నాను అంటే ఫస్ట్ నాకు కాదు మీ నెంబర్ ఇస్తాను. ఒకసారి మీరు సోని మాట్లాడితే బెటర్ ఉంటది అని చెప్పి ఓకే అని చెప్పాను. మీ నెంబర్ షేర్ చేయొచ్చా అడుగుదాం అనుకున్నాను. మర్చిపోయా షేర్ చేయండి.
+[38:57] Speaker 1: షేర్ చేయొచ్చు.
+[38:58] Speaker 0: ఓకే.
+[39:02] Speaker 1: ఓకే గైస్ థాంక్యూ.
+[39:04] Speaker 0: బాయ్ బాయ్.
+[39:10] Speaker 1: సార్ అయితే నేను ఇప్పుడు మళ్ళీ కాల్ చేస్తా. నమస్తే బార్ కాల్ ఈ కాలే పోనీ.
+[39:23] Speaker 0: హలో.</code></pre>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/2026-09-10-esszo-fixes-call/"><span class="rel">follows</span>Esszo fixes call - one product drawing five cards, 17 items with nothing built, and not a line of it deployed</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-15</span>
+</footer>
+
+</body>
+</html>
