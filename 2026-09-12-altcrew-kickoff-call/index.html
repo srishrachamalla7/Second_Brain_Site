@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Altcrew kickoff call — a fitness-events app with three features nobody else has, and two weeks to build it — Srish</title>
+<meta name="description" content="First real call with the product side of Altcrew on 12 September 2026, about 26 minutes. Three on the line: Abhishikth (the product owner), Rajesh (who brought us in — Rajesh Anna)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Altcrew kickoff call — a fitness-events app with three features nobody else has, and two weeks to build it</h1>
+  <div class="meta">2026-09-12<br><span class="tag">altcrew</span><span class="tag">events</span><span class="tag">ticketing</span><span class="tag">fitness</span><span class="tag">wellness</span><span class="tag">react-native</span><span class="tag">expo</span><span class="tag">ui-ux</span><span class="tag">kyc</span><span class="tag">payments</span><span class="tag">app-store</span><span class="tag">timeline</span></div>
+  <p>First real call with the product side of Altcrew on 12 September 2026, about 26 minutes. Three on the line: Abhishikth (the product owner), Rajesh (who brought us in — Rajesh Anna) and Srish. Mani was named repeatedly but was not on the call.</p>
+<p>Written by an agent from the recording. Raw evidence: <code>inbox/raw/Transcripts/12-09-2026_Altcrew_eng_tel.txt</code>, untouched, full copy at the bottom of this note.</p>
+<p>It was an introductions-plus-scope call, not a technical one. Abhishikth has already vibe-coded the entire app himself and wants us to beat it. Most of the call is him explaining three features he believes no competitor has, and telling us plainly that he does not want the colours we took from his own website.</p>
+<p>The transcript is English and Telugu mixed, much of the Telugu written in Telugu script by the ASR. <strong>Speaker labels flip during the call</strong> and cannot be trusted; attribution below is by content, and anything unclear is marked rather than guessed at.</p>
+<hr>
+<h2>The call in one picture</h2>
+<pre><code>  ABHISHEK (product owner, non-coder)        US (Srish + Ajay, part-time)
+  ----------------------------------         ---------------------------
+  vibe-coded a working Expo app    --ref--&gt;  rebuild it properly
+  wrote the requirements doc       --ok---&gt;  read, no questions
+  does not want his own palette    -------&gt;  start the visuals over
+  workflow in our Figma: approved  &lt;------   keep the workflow
+  wants it in 2 weeks              --?---&gt;   solution doc first
+
+        RAJESH + MANI  =  the tech-stack and infra answer, deferred</code></pre>
+<hr>
+<h2>The scorecard</h2>
+<pre><code>   3  flagship features explained in full     ###
+   5  reference apps named                    #####
+   7  decisions taken on the call             #######
+   5  things deferred to Rajesh / Mani        #####
+   4  open questions with no answer yet       ####
+   3  conflicting timelines on the table      ###</code></pre>
+<hr>
+<h2>1. What Altcrew is</h2>
+<p>Abhishikth's one-liner:</p>
+<blockquote><em>"On a single line, I can say we are actually replicating what Smedpals does in the US, we are getting Smedpals to India."</em></blockquote>
+<p>An event discovery and ticketing app, narrowed deliberately to <strong>health, fitness and wellness</strong>. Build communities, host events themselves, and collaborate with existing fitness communities and wellness groups as co-hosts.</p>
+<p>His argument for why a crowded market does not matter:</p>
+<blockquote><em>"How many ever ticketing platforms that are coming up, I'm not worried about it because we have these three unique features… all the other apps take all the events, but we are just concentrating on fitness, health and wellness."</em></blockquote>
+<hr>
+<h2>2. The three features</h2>
+<h3>Flash Album — a 24-hour shared photo album per event</h3>
+<pre><code>buy ticket --&gt; arrive --&gt; organiser SCANS ticket --&gt; album UNLOCKS for that person
+                                                        |
+                           anyone at the event uploads -|
+                           anyone at the event views ---|
+                           download, repost to Instagram|
+                                                        |
+                           24 hours later --&gt; album DELETED
+                           (reminder notification before it goes)</code></pre>
+<blockquote><em>"You bought a ticket outside and you come to the BookMyShow or Cinema… స్కాన్ చేస్తారు కదా, so this is the exact same thing when you come to the event, you scan the ticket and as soon as the ticket is scanned, that flash album for that person should be enabled."</em></blockquote>
+<p>Locked behind a real check-in scan — not a tap, not a geofence. Separate from the Google Wallet / Apple Wallet work, which Abhishikth said is for ticketing only.</p>
+<h3>Pace Files — removing the "will I look stupid" problem</h3>
+<p>The ASR writes it <em>"paste files"</em>. From the content it is about <strong>pace</strong>; the spelling needs confirming.</p>
+<p>The problem, in his words:</p>
+<blockquote><em>"Run clubs right now are nothing but basically dating clubs, right? So I have this inferiority complex… new people, new group, నన్ను ఎవరైనా జడ్జ్ చేస్తారా? These questions come up, people don't attend such events."</em></blockquote>
+<pre><code>AT CHECKOUT   ask: what pace are you?  (athlete / casual runner / beginner)
+              wordplay, not labels -- &quot;are you a tortoise or a rabbit&quot;
+
+AFTER PAYING  dialog: &quot;don&#x27;t worry -- Sai, Rajesh, Mani and 16 others
+              at the event are at your pace. Just find them there.&quot;
+
+AT THE EVENT  ??? a ping / hi system so your pace group finds each other
+              &quot;Rajesh hi&quot; -&gt; Rajesh can send a hi back</code></pre>
+<p>That third box is <strong>ours to design</strong>:</p>
+<blockquote><em>"If it is a messaging, if it is pinging, I do not know how to execute that, so I want you guys to think of how we can execute that feature."</em></blockquote>
+<h3>Shoe Locker — a mileage log for your sneakers</h3>
+<pre><code>upload a photo of each pair --&gt; pick the pair for today&#x27;s event
+                                     |
+          ran 5K today --&gt; 15 + 5 = 20 km total on that shoe
+                                     |
+          approaching ~500 km --&gt; &quot;use your other pair, this one is expiring&quot;
+          no pairs uploaded at all --&gt; brand recommendation (Nike / Puma, if tied up)</code></pre>
+<p>He called the maths what it is — <em>"it is very simple, it's a simple math"</em>. The 500 figure is his guess, stated as a guess.</p>
+<h3>And the rule that ties all three together</h3>
+<p>This is the line to keep:</p>
+<blockquote><em>"You have to think at such level that people will get to use all this features. ఎక్కడో సెట్టింగ్స్ లో పడేయకుండా."</em> — don't bury them somewhere in settings.</blockquote>
+<p>His own example: ticket icon top-left → your events → tap one → QR code, and <strong>under the QR code</strong> the shoe picker pops up if the event involves shoes.</p>
+<hr>
+<h2>3. Design — start the visuals over</h2>
+<p>The clearest instruction of the call, said twice:</p>
+<blockquote><em>"I do not want that color scheme at all in the app… any of the buttons or any of the design should be completely unique to us."</em></blockquote>
+<p>We had taken the palette from his website. He wrote that website himself:</p>
+<blockquote><em>"I'm a vibe coder, but I was never into terminals, I was never into coding part… it was just a temporary website, without any branding. Even the website will have to change at some point."</em></blockquote>
+<p>What survives and what does not:</p>
+<div class="tablewrap"><table><thead><tr><th>Thing</th><th>Verdict</th></tr></thead><tbody><tr><td>Workflow in our Figma</td><td><strong>Approved.</strong> <em>"The workflows looks very good."</em> Minor moves only</td></tr><tr><td>Screen order / structure</td><td><strong>Approved</strong></td></tr><tr><td>Colour scheme from his site</td><td><strong>Rejected outright</strong></td></tr><tr><td>Buttons, visual design</td><td><strong>Start again, must be unique to us</strong></td></tr><tr><td>Gradient system</td><td>Suggested by Abhishikth — <em>"app looks much polished"</em> — and he is fine if it does not suit</td></tr></tbody></table></div>
+<p>Reference apps, in his order of importance:</p>
+<pre><code>1. Smedpals      * the base level. &quot;most of that UI/UX&quot;
+2. Social
+3. District      (Zomato District)
+4. Offlyn        (O-F-F-L-Y-N) -- screenshots already sent to Ajay
+5. Any Distance  open source; he holds a commercial licence and can hand us the code</code></pre>
+<blockquote><em>"First and foremost, the first and the base level is Smedpals, and on top of it whatever you guys can come up with, design-wise."</em></blockquote>
+<p>He is posting roughly ten apps into the group after the call, <strong>star-marking the ones that matter</strong>. Even Smedpals, he says, has none of his three features.</p>
+<hr>
+<h2>4. What already exists</h2>
+<p>Abhishikth built the whole thing himself, with Claude Code, on a Windows laptop with an iPhone and no Mac to test on.</p>
+<pre><code>WHAT HE HAS            Expo app, on GitHub, functioning
+                       map (&quot;what is happening around me&quot;)
+                       payment gateway integrated
+                       offline scanner
+
+WHAT HE SAYS ABOUT IT  &quot;APIs ఏమైనా ఎక్స్పైర్ అయ్యి ఉంటాయి&quot;  (some APIs may have expired)
+                       &quot;there is no securities involved in that&quot;
+                       &quot;obviously, AI coding, so there are a lot of bugs&quot;
+                       &quot;we can&#x27;t use what I created&quot;
+
+SO IT IS               a reference point. &quot;That will be working only as a
+                       reference point for you guys.&quot;</code></pre>
+<p>Srish offered it as an optional skeleton — <em>"you can use that as a skeleton, just on the base level"</em> — and Abhishikth's ask is blunt and useful:</p>
+<blockquote><em>"I am able to do with AI… I want you guys to exceed my expectations."</em></blockquote>
+<hr>
+<h2>5. The organiser side</h2>
+<p>A <strong>switch to hosting</strong> mode inside the same app, gated by KYC.</p>
+<pre><code>HOST SIGNUP   Aadhaar or PAN upload
+              bank account name + account number + IFSC
+              ~24 hours, then hosting powers activate
+              (the app &quot;Circle&quot; does exactly this -- his reference)</code></pre>
+<p>Why he wants it: Hyderabad is too big to vouch for hosts personally.</p>
+<blockquote><em>"I know people who are hosts here, so it is fine… but when it comes to such a big place, Hyderabad, some other places, we might not know everybody."</em></blockquote>
+<p><strong>Srish pushed back on holding bank data</strong>, and this is a decision:</p>
+<blockquote><em>"పేమెంట్ గేట్వే ని హ్యాండిల్ చేస్తుంది. లెట్స్ సే స్ట్రైప్ ఆర్ రైజర్ పే… we can't take it అన్నమాట. అగైన్, మళ్ళీ మనకి ఒకవేళ అకౌంట్ నెంబర్ అవన్నీ తీసుకుంటే we have to follow RBI rules."</em></blockquote>
+<p>The payment gateway (Stripe or Razorpay) holds the account details and does the payouts. We do not store account numbers, because that drags in RBI data-residency rules. Abhishikth's answer was <em>"ఓకే, చూద్దాం"</em> — not a refusal, not an agreement either.</p>
+<h3>Refunds — parked</h3>
+<p>BookMyShow holds refunds around 15 days. Abhishikth thinks that is far too long and wants to promise <strong>2 to 3 days</strong>, while noting the big platforms all take 7–10 working days. Explicitly deferred: <em>"later on we can see what kind of a security system we can come up with."</em></p>
+<hr>
+<h2>6. Web app — support and operations only</h2>
+<p>Srish asked what "support" means on the web app. Answer: <strong>not technical support</strong> — support staff for the people using the app. Ticket creation, resolution, refunds.</p>
+<blockquote><em>"వాళ్ళకి సెపరేట్ మొబైల్ యాప్ ఏం చేయరు. వెబ్ యాప్ లోనే."</em></blockquote>
+<p>No separate mobile app for the support team. Confirmed web-only, with the caveat <em>"again, Rajesh and Mani."</em></p>
+<hr>
+<h2>7. Timeline — three numbers that do not agree</h2>
+<pre><code>Rajesh said          1 month
+Abhishikth said        1.5 months
+Abhishikth wants       &quot;I want this to be done in two weeks&quot;
+Apple review alone   ~1 month -- &quot;ఆపిల్ వాళ్ళు లిటరల్లీ టార్చర్ చూపిస్తారు&quot;</code></pre>
+<p>The way out, agreed on the call: <strong>ship iteration one to both stores early</strong> and keep building the rest while Apple reviews it.</p>
+<blockquote><em>"ఇటరేషన్ వన్ వర్షన్ వన్ లోనే మనం ప్లే స్టోర్ అండ్ ఆఫ్టర్ పెట్టేస్తాం. వాడు అప్రూవ్ చేసే వరకు, విల్ వర్క్ ఆన్ ది అదర్ ఫీచర్స్."</em></blockquote>
+<h3>Testing</h3>
+<pre><code>Abhishikth&#x27;s side   3 members, 2 occupied, 1 free  -&gt; 1 tester
+Our side          1 tester
+Code testing      ours, in-house
+UAT environment   SKIPPED. &quot;టైం లైన్ కాస్త తక్కువ ఉంది కాబట్టి... డైరెక్ట్లీ ప్రాడ్ లోనే టెస్ట్ చేసేస్తాము&quot;</code></pre>
+<p>Testing directly in production is a timeline decision, taken knowingly, and still to be confirmed with Rajesh.</p>
+<hr>
+<h2>8. What Srish said out loud about us</h2>
+<p>Worth recording, because it sets expectations:</p>
+<ul><li>3.5 years in a startup, AI engineering first, then web and mobile for about 1.5</li></ul>
+<p>years. <em>"Around 150-plus applications."</em></p>
+<ul><li>Srish and Ajay are colleagues at the same company, freelancing together for</li></ul>
+<p>about a year, <strong>three clients right now</strong>.</p>
+<ul><li>Tooling: Claude for the complex work, otherwise Antigravity *"because they're giving</li></ul>
+<p>it for free."*</p>
+<ul><li><strong>New to UI/UX, said openly:</strong> *"we are pretty new to UI/UX part… even though we are</li></ul>
+<p>new, you can take us to the correct track because you already had the plan how the UI should be."*</p>
+<ul><li>The disclaimer, delivered deliberately near the end:</li></ul>
+<blockquote><em>"మేము ఫుల్ టైం ఎంప్లాయిస్ కాదు. So we won't be full time sitting on this application. పార్ట్ టైమే."</em></blockquote>
+<p>Including the availability problem — that Abhishikth might ping for a call and get nobody. Agreed fix: <strong>fix a time in advance, 10–15 minute quick calls.</strong></p>
+<hr>
+<h2>Decided</h2>
+<ul><li>Colour scheme and visual design start from zero. Nothing from the current website.</li><li>Workflow in the existing Figma stays as it is, minor repositioning aside.</li><li>Smedpals is the visual base; everything else is a secondary reference.</li><li>We do not store bank account details — the payment gateway does. (Acknowledged by</li></ul>
+<p>Abhishikth, not formally agreed.)</p>
+<ul><li>Iteration one goes to both stores early; work continues during review.</li><li>No UAT environment; testing happens in production, because of the timeline.</li><li>Support is web-app only — no mobile app for the support team.</li></ul>
+<h2>To do</h2>
+<ul><li>☐ Srish: send the <strong>solution document</strong> by tomorrow or Monday afternoon — roughly</li></ul>
+<p>30–40% of the application, iteration one, expected to change.</p>
+<ul><li>☐ Srish: put the same solution document in the repo as well.</li><li>☐ Srish + Ajay: do the design research Abhishikth asked for on Smedpals, Offlyn and</li></ul>
+<p>District, and come back with a direction, not a copy.</p>
+<ul><li>☐ Srish + Ajay: settle tech stack, deployment, servers and database **with Rajesh</li></ul>
+<p>and Mani**, then report back.</p>
+<ul><li>☐ Srish + Ajay: write the open questions up as a short note so the next call is</li></ul>
+<p>quick.</p>
+<ul><li>☐ Srish: design a mechanism for the Pace Files "find your group at the event" ping.</li><li>☐ Abhishikth: post ~10 reference apps in the group, star-marking the important ones.</li><li>☐ Abhishikth: share the Offlyn screenshots in the group (sent only to Ajay so far).</li><li>☐ Abhishikth: hand over the Any Distance source if we want it.</li><li>☐ Abhishikth: nominate the one free tester from his three-person team.</li><li>☐ Both: agree a fixed recurring slot instead of ad-hoc calls.</li><li>☐ Schedule a separate call <strong>with Mani</strong> on the technical side.</li></ul>
+<h2>Open questions</h2>
+<div class="tablewrap"><table><thead><tr><th>Question</th><th>Status</th></tr></thead><tbody><tr><td>Tech stack, hosting, database, deployment</td><td>Deferred to Rajesh and Mani</td></tr><tr><td>How the at-event ping actually works</td><td>Handed to us, no design yet</td></tr><tr><td>Refund window — 2–3 days promised against 7–10 industry days</td><td>Parked</td></tr><tr><td>Does the existing GitHub app get forked or only read?</td><td>Left as a "reference point", never settled</td></tr></tbody></table></div>
+<h2>Where this could go wrong</h2>
+<ul><li><strong>Two weeks against 1.5 months, with a month of Apple review inside it.</strong> The</li></ul>
+<p>store-early plan helps the calendar, not the build.</p>
+<ul><li><strong>UI/UX is the whole reason we were brought in, and we told them we are new to it.</strong></li></ul>
+<p>Abhishikth expects to be exceeded, not matched.</p>
+<ul><li><strong>Testing in production</strong> on an app that takes real money for real tickets.</li><li><strong>Part-time build, product owner who wants quick calls.</strong> Stated up front, which is</li></ul>
+<p>the right way to do it, but it is still the most likely source of friction.</p>
+<hr>
+<h2>Transcript (English and Telugu mixed, verbatim)</h2>
+<p>Reproduced byte for byte from <code>inbox/raw/Transcripts/12-09-2026_Altcrew_eng_tel.txt</code>. Speaker labels are the ASR's own and flip during the call — do not trust them. Telugu is written in Telugu script in places and is frequently mangled; nothing has been corrected.</p>
+<pre><code>Title: Health and Wellness App Development Planning
+Date: 2026-09-12T13:35:42.000Z
+Meeting ID: 01M2AX9FYHBC9VTKNBKGHGXFGP
+
+[00:09] Speaker 1: Được chứ, mình im lặng.
+[00:41] Speaker 1: À, chào anh— Oh,
+[00:43] Speaker 2: Oh, okay.
+[00:46] Speaker 1: So first of all, I&#x27;d like to talk about this thing first.
+[00:49] Speaker 2: Yeah, yeah.
+[00:56] Speaker 1: Okay, are we on mute, you guys? Carry on. And, yeah, Abhishek, you can introduce yourself and all, yeah, to the team.
+[01:03] Speaker 2: Yeah, so hi guys, this is Abhishek. I&#x27;ve been trying to develop this product called Group. It&#x27;s been some time for now, but I know there is some kind of— I was not satisfied with the UI, basically. So that&#x27;s when Rajesh came into this picture. So yeah, he&#x27;s— he got you guys in. So I just wanted to know some— a little bit about yourselves. Like, what you&#x27;ve been doing. I mean, it&#x27;s not like an interview, it&#x27;s just getting introduced to each other first. So that I know who will be working on the product actually.
+[01:26] Speaker 1: Uh, yes. So— actually, Abhishek, I&#x27;m an FD. In a startup. So I&#x27;m working for the last 3.5 years. So until now, like, mainly my expertise was on AI engineering and all. Then from the last couple of years, like 1.5 somewhere, I was working on both our web applications and mobile applications.
+[01:42] Speaker 1: Before that, we used to do only the backend work, but after integrating ourselves with the— into AI IDs and all, like, we switched to UX part and the frontend and the mobile application parts here. So till now, I created around 150-plus applications, like a couple of things, and like we will— we&#x27;ve been doing freelancing parts in our free time. Me and Ajay, like, we are from the same company, like he&#x27;s my colleague in the company, so we just had a chat and from last 1 year we are doing freelancing. Like, we are doing it for 3 clients right now.
+[02:08] Speaker 2: Uh-huh.
+[02:09] Speaker 2: Okay, okay.
+[02:12] Speaker 1: Fun wise, Ajay?
+[02:13] Speaker 2: Yes.
+[02:13] Speaker 1: Okay, okay.
+[02:15] Speaker 2: So yeah, basically I think you&#x27;ll be using Claude and GPT.
+[02:19] Speaker 1: Uh, depends on things. Like, if it is complex and all, like, we will be using Claude. Otherwise we&#x27;ll switch to anti-gravity because NDA they&#x27;re giving it for free actually. So—
+[02:27] Speaker 2: Ideally, anti-gravity is the idea, right?
+[02:28] Speaker 1: Yes, anti-gravity is an idea, wherein that we&#x27;ll be using Gemini 7 or Gemini 6. Like, these days they&#x27;re launching a new model every month.
+[02:35] Speaker 2: Yes, yes, okay.
+[02:36] Speaker 1: So I guess you guys are all familiar with all the skills, obviously. You are into AI, but the skills that is required for the clean UX/UI designs, you might have come across this skill called skill or GitHub repo called Impeccable. Like, it&#x27;s a web— like web app and all, right? So you&#x27;ve heard about all those?
+[02:52] Speaker 2: Actually, to be honest, like, the skill which you&#x27;re saying is new for us, but it&#x27;s okay. Like, there are a couple of thousand skills we have. Even I have my own skill directory, okay, where I&#x27;ll be sharing all the skills here. But the problem here is, we are pretty new to UX/UX part, UI/UX part, and so since on the last meeting when we had what we understood was, even though we are new, but you can— what do you call— take us to the correct track because you&#x27;re already have— like, you already had the plan how the UI should be there and all, right?
+[03:16] Speaker 1: Yes, yes, yes. I— the document that I sent, have you guys gone through the document? Like, do you have any questions regarding that document first?
+[03:23] Speaker 2: No, yeah.
+[03:23] Speaker 1: You know what, I&#x27;ll be very serious.
+[03:25] Speaker 2: Yes, yes, yes, yes.
+[03:28] Speaker 1: It&#x27;s not bouncing, the document is pretty much clear, right?
+[03:30] Speaker 2: Uh, yes, it was clear.
+[03:31] Speaker 1: Okay. So I— as it&#x27;s a— let me just explain what all group first is, so that instead of reading and understanding one thing, I&#x27;ve seen your designs in Figma. I think you put in a good enough of thought to it, the workflows looks very good. Maybe just a slight change of, you know, like say for example the shoe locker or, you know, paste files that we— that is there, those features that are there in the app can be like moved here and there. That&#x27;s basically the workflow is already there. You guys put in some effort, I&#x27;ve seen that. Coming to— I mean, I&#x27;m talking about only the workflow. And I think you&#x27;ve taken the color combinations and color schemes and, you know, things from my website, I guess, right?
+[04:05] Speaker 2: Yes.
+[04:06] Speaker 1: Yeah, yeah. So even the website I— see, I&#x27;m a vibe coder, but I&#x27;m not— I was never into terminals, I was never into coding part. I— after the AI revolution, I was able to do that on my own. Okay, but since you guys are technical enough, you— maybe you&#x27;ll do a much better job than what I did. Even the website basically is just— was just a temporary website that we— I mean, without any branding, I had to, you know, launch that website. So we just— I just vibe coded it using Claude Code and all and made it live. So I do not actually— the first point is I do not want that color scheme at all in the app.
+[04:34] Speaker 2: Okay.
+[04:35] Speaker 1: Or any of the— any of the buttons or any of the design should be completely unique to us.
+[04:41] Speaker 1: And I think I&#x27;ve given you— I mean, I don&#x27;t know if you have seen the references that I want you guys to see as the, you know, design element preferences. Have you guys seen any of those? Have you come across any apps that I&#x27;ve told about? I mean—
+[04:51] Speaker 2: Uh, yeah.
+[04:51] Speaker 1: What are you able to get?
+[04:53] Speaker 2: Uh, actually I forgot the names of the app. I think one was Smedpal or— yes, Smedpal, I guess.
+[04:56] Speaker 1: Yes, Smedpals, yes. Smedpals. And then one is Social.
+[04:59] Speaker 2: I was— like, we were saying I need to scans also.
+[05:02] Speaker 1: What is it?
+[05:02] Speaker 2: I need to scans.
+[05:04] Speaker 1: Any distance. Any distance goes into— any distances right now open source. The code is open source.
+[05:09] Speaker 1: I&#x27;ve asked for the permission to make it commercial and I have that license also. Okay? So if you can— if you do need that, I can provide you that through this thing. The other thing is, one is Smedpals, one is Social app. The other thing is District.
+[05:23] Speaker 2: Uh, yes.
+[05:24] Speaker 1: Uh, District. Which District? Which Zomato?
+[05:26] Speaker 2: Zomato. Yeah, yeah, Zomato District. One is Social, one is District, one is Smedpals. I majorly want us to repl— I mean, not exactly replicate, but take into consideration of the Smedpals— you know, UI/UX, most of that.
+[05:42] Speaker 1: Okay, understood.
+[05:43] Speaker 2: Yeah. And I&#x27;ve sent— I think I&#x27;ve sent Ajay&#x27;s a few screenshots of another app. It&#x27;s called Offline, O-F-F-L-Y-N.
+[05:49] Speaker 1: Okay.
+[05:51] Speaker 2: Like, as possible, can you share it in this group which we are in?
+[05:55] Speaker 1: Uh, yes, I&#x27;ll do that. I&#x27;ll just after this meeting I&#x27;ll, you know, share all the app designs that I want you guys to look at.
+[06:00] Speaker 1: But as I said, the first and foremost, in first and the base level is Smedpals and on top of it whatever you guys can, you know, come up with, design-wise. Like, if it is a— what do you call— glass smart fit design for iOS or for, you know, it should be unique to us. So the Figma design, the workflow I&#x27;m very much satisfied with what you guys given me in Figma designs. Figma the same, but the design I think you guys need to do a little more research into what I actually wanted.
+[06:24] Speaker 2: Understood.
+[06:25] Speaker 1: Right, right. The app— how many ever ticketing platforms that are coming up, I&#x27;m not worried about it because we have these three unique features. That is the paste files, one is the shoe locker, and the other thing is, I think, flash album, right?
+[06:38] Speaker 1: None of the apps that come up won&#x27;t serve only for a specific niche. And we are concentrating on that health and fitness and wellness aspect side of it. So I think these three features would elevate our app, you know, when we are comparing with other ticketing platforms, other event discovery apps, you know, where we are definitely one step ahead with these unique features. Even Smedpals don&#x27;t have these kind of features included in it. So basically Smedpals is a high—
+[07:04] Speaker 2: On a single line, I can say we are actually replicating what Smedpals does in the US, we are getting Smedpals to India. I mean, in a single line to explain what all it does. So basically it&#x27;s like building communities, hosting events from our side and east, if we collaborate with any other fitness community or a wellness group that is there out there, we&#x27;ll be like a— they&#x27;ll be a collaborator with all two. You guys have any doubts regarding what we do actually?
+[07:28] Speaker 1: Uh, no, actually. Like, it was pretty clear even from the PR date since. Like, as I said, I had only— what do you call— query here was regarding the UI/UX part because of what at least I feel here is, until we are in the same page, it might take a couple of iterations because—
+[07:41] Speaker 2: Iterations, yes, yes, yes.
+[07:43] Speaker 1: I— is money on the call?
+[07:46] Speaker 1: Money is not on the call. So actually what I did is, huh,.
+[07:51] Speaker 1: Okay, so I think we&#x27;ll have another meet when with money actually. So what I did is I vibe coded the whole app completely, okay? So the app that I did was— is working. I think it&#x27;s there in GitHub and I think money will maybe one or two days may— I think money will, you know, make it— I mean, I created the whole app with Expo, okay? Expo. So basically money need to show. Huh?
+[08:11] Speaker 2: Is it React Native?
+[08:13] Speaker 1: Don&#x27;t ask me. I do not know which. I think it&#x27;s
+[08:15] Speaker 2: I think it&#x27;s React Native itself because it&#x27;s Expo. React Native would be the—
+[08:18] Speaker 1: Yes. So basically I have a Windows laptop and an iPhone. So to test it, I asked Claude to give me what I need to do. So it suggested a few texts there. Because I do not have a Mac to, you know, see the output, okay? So I did whatever I could using— I mean, with whatever the tech that I have. So I vibe coded it. Even if you replicate the exact design that I vibe coded it, it&#x27;ll be good actually. So basically I want you guys to see what it— what the actual program that I did is, make much— like, like, much better designs from what I— what is there in GitHub right now.
+[08:47] Speaker 2: Okay.
+[08:49] Speaker 1: Even that is fine. So first and foremost thing, I don&#x27;t want you guys to take any color scheme that is right now present in the website. Even the website will have to change at some point.
+[08:58] Speaker 2: Okay.
+[08:59] Speaker 1: You guys understood, right?
+[09:00] Speaker 2: Yes, it&#x27;s clear.
+[09:02] Speaker 1: Yeah.
+[09:05] Speaker 1: Right. The func  The functionality— coming back to functionality here, I&#x27;m still— I mean, once next few days I understood all the three features. I am quite— quite— I mean, I&#x27;m still not thinking that you guys should have some kind of doubts regarding those three features that I keep talking about.
+[09:19] Speaker 2: Uh, regarding the shoe locker?
+[09:21] Speaker 1: Yeah, shoe locker.
+[09:23] Speaker 2: Paste files and flash album.
+[09:26] Speaker 1: Mm- But
+[09:26] Speaker 2: Like, let me just explain what flash album in a simple— I mean, I&#x27;m going to tell you again.
+[09:30] Speaker 1: Uh-huh, huh.
+[09:31] Speaker 2: Right? So flash album meant is, suppose once the person is checked into an event, that flash album should be unlocked, okay? If somebody scans the ticket that, you know, organizer and you are a— you&#x27;re an attender, okay, attendee, you&#x27;re a participant for that event, okay? You bought a ticket outside and you come to the BookMyShow or Cinema Killner put స్కాన్ చేస్తారు కదా, సో this is the exact same thing when you come to the event, you scan the ticket and as soon as the ticket is scanned, that flash album for that person should be enabled.
+[09:59] Speaker 2: Okay? So anybody who takes a picture and uploads it into that flash album, this person can see or if he takes a picture and uploads into that flash album, anybody who was at that event can see that photo. They can download the photo, they can upload it to Instagram, whatever they want to do, they can do with that, you know, that flash album photos or videos.
+[10:19] Speaker 1: Right.
+[10:20] Speaker 2: Okay? And that album should be live only for 24 hours.
+[10:23] Speaker 1: Okay.
+[10:23] Speaker 2: Then notification regarding that, like, say this album will be live only for 24 hours or, you know, a reminder to everybody saying the flash album when it is almost time, like, the album is getting deleted. Call that notifications will obviously come in that flash album. You understood what flash album is, right?
+[10:39] Speaker 1: Yes. And I think we even had a picture on this, adding it to Google Wallet and Apple Wallet.
+[10:44] Speaker 2: Yes.
+[10:45] Speaker 1: Wallets. That is, wallet is completely for ticketing only. What I&#x27;m saying is this flash album.
+[10:49] Speaker 2: Yes, yes.
+[10:49] Speaker 1: The photo, yeah, after creating it, like, we&#x27;ll be sharing it and all that. And if we add it into the wallet, it will be like, what do you call, having an access of all everything to the application.
+[10:58] Speaker 2: Okay, okay, okay.
+[11:00] Speaker 1: That is flash album. The second thing is paste files. Paste files, what it does is there&#x27;s no much that came out. Like, the name is just paste, but it is very simple. Like, see, I want to almost join a run club, okay? Run clubs right now are nothing but basically dating clubs, right? So I have this inferiority complex, the initial while booking the ticket, I feel like నేను వెళ్ళలేకపోతున్నాను, నేను వెళ్ళలేకపోతున్నాను, will I be able to run with this crowd new, new crowd? The first and foremost doubt that I get, we are just trying to eliminate that doubt. Inferiority complex ఉంటది కొంతమందికి, they don&#x27;t want— they want to join some kind of a social activity, but a first initial push dilemma, new people, new group, నన్ను ఎవరైనా జడ్జ్ చేస్తారా? ఈ క్వశ్చన్స్ ఉంటాయి, people don&#x27;t attend such events. So in order to— for us to eliminate that kind of a dilemma, inferiority complex, what we do, we just ask a simple question. While booking the ticket అన్నమాట.
+[11:41] Speaker 1: What days are you going to perform this activity? If it is a running, if it is cycling, if it is aqua pilates, if it is kickboxing, whatever it is, a beginner, see, that word in the wordplay also should be different. Like, it should be fun, like, are you a, say, example, tortoise and who are నువ్వు ఒక రాబిట్ whatever it is, it depends upon the, you know, the pace that he&#x27;s going to perform that activity. Are you an athlete level? Are you at a casual runner? Are you a, you know, normal a beginner? So this question is if I select a beginner, as soon as I buy a ticket, ticket item, there should be a some dialogue box and tell me because I remember it is called some kind of a dialogue box, but I don&#x27;t know the technical term to it. ఒక బాక్స్ లాగా ఓపెన్ అయ్యి, once the ticket is purchased, do not worry, there are like so-and-so five, six people with the names that are, say, Sai is there, Rajesh is there, Mani is there, at your place, and you do not have to worry, just try to find them at the event. అనే మెసేజ్ వస్తది. మెసేజ్ వచ్చిన తర్వాత, అదే లైక్ ఫైవ్, సిక్స్ నేమ్స్ వచ్చి there are 16 others, at the event, at your place. So do not worry. అని చెప్పి ఒక మెసేజ్ వస్తది అన్నమాట. And then next thing is, like, once I attend the event, I don&#x27;t need to go and ask everybody, are you a, you know, Rajesh, are you Mani, or are you Sai? ఇలాగ అందరిని అడగడం కాకుండా, maybe some kind of an intimation, like a ping system, or a message, or a, you know, say, say like a Discord hi, or whatever it is. మీకు అర్థమవుతుందా? Like, a system where they will get intimated that your paste group is somewhere అన్నమాట. Say, Rajesh hi, రాజేష్ వచ్చాడు అనుకోండి. Rajesh, then say, Rajesh should be able to send back a hi or something like that. I don&#x27;t know.
+[13:00] Speaker 2: Okay.
+[13:01] Speaker 1: If it is a messaging, if it is pinging, I do not know how to, you know, execute that, so I want you guys to think of how we can execute that feature.
+[13:08] Speaker 2: Is this clear?
+[13:08] Speaker 1: Yes.
+[13:10] Speaker 2: This is paste files. So it&#x27;s for eliminating that initial dilemma.
+[13:13] Speaker 1: And the other thing is shoe locker. You might have understood shoe locker. It&#x27;s pretty basic. Like, if it is a running event and runners, you know, they&#x27;re very much fond of their shoes, they collect their sneakers, and if they&#x27;re performing a 5K today, if it&#x27;s a new shoe, he should be able to upload all his shoe collection, whether it&#x27;s a dropdown or some kind of a, however, you know, the shoe is selected, he should be able to take a picture of his shoes and upload it, so that when he&#x27;s selecting a shoe to run this event, he will be able to identify the shoe by the picture. Once he selects the picture, or the shoe name, prehistory.
+[13:42] Speaker 1: Like, say, he has completed 15 kilometers on this, and today he has done a 5-kilometer run, he should be able to add a 5-kilometer to it, and then the total mileage of that shoe.
+[13:51] Speaker 2: Okay.
+[13:51] Speaker 1: Understood.
+[13:52] Speaker 2: Okay?
+[13:52] Speaker 1: Yes. It is very simple. It&#x27;s a simple math. Like, say, 15 plus 5 is 20, and total mileage of the shoe is 20 kilometers till when he ran with that shoe. And once again, like, the feature are a little bit extension of that feature is recommendations of, like, if the each running shoe has a mileage of, say, a lifespan of, say, 500 miles or 500 kilometers. I&#x27;m not sure how much it takes, but 500 is a figure on water. So once the 500 kilometers it is approaching close, if one particular shoe is approaching closer recommendations, like, say, if you have another pair, try to use that pair because this is coming this shoe is coming to expire.
+[14:23] Speaker 1: And if at all he doesn&#x27;t have any shoes uploaded, recommendations should go, like, say, I mean, if at all if the company is tied up with some kind of a Puma or some kind of with, you know, Nike or whatever it is, that recommendation should just come up.
+[14:35] Speaker 2: Okay.
+[14:39] Speaker 1: Right?
+[14:40] Speaker 1: So these are three primary features that none of the other apps can do because they go into different niches. Even an Antachi night or a something else, like, say, SB Palu night or SB Charan night or whatever it is, or a rooftop dinner party, you know, people, people post so many events, but so all the other apps are focusing on so many other game nights and like today Mafia night and, you know, to make all the other apps, you know, takes all the events, but we are just concentrating on fitness, health, and wellness, this thing. So people can actually use these features which other apps don&#x27;t offer.
+[15:12] Speaker 1: These are the customer side of it, but coming to posting side of the app, there is a switch to posting option, right?
+[15:19] Speaker 2: Okay.
+[15:19] Speaker 1: And you guys seen that?
+[15:21] Speaker 2: Switch to posting option.
+[15:24] Speaker 1: Okay, so the organizer side you&#x27;re talking about.
+[15:26] Speaker 2: Yeah, the organizing side. So there should be first a KYC. KYC as in you just collect a basic information, like, say, Aadhaar card upload, Aadhaar or PAN upload, and then a bank account information.
+[15:36] Speaker 2: Say you collect account name and account number and IFSC code. So that when the payment gateway is asked, okay, all the money, all the tickets bought will, the payment will come to our banking card. We&#x27;ll have to transfer it. Once there is no pending, you know, refund ఇప్పుడెప్పుడైనా పొరపాటున a few people collect, you know, tickets. తర్వాత at some point of the time ఆర్గనైజింగ్ హోల్ టైం అనో లేకపోతే you know, refund system అడుగుతారు లేకపోతే you know, say, ఆఫ్ ఈవెంట్ some, some of the other reasonable క్యాన్సిల్ అయింది. We&#x27;ll have to refund the amount from our side to the customers. Ok
+[16:04] Speaker 1: Okay. Actually, a part వచ్చేసి పేమెంట్ గేట్వే ని హ్యాండిల్ చేస్తుంది. లెట్స్ సే స్ట్రైప్ ఆర్ రైజర్ పే.
+[16:08] Speaker 2: ఓకే, పేమెంట్ గేట్వే ని హ్యాండిల్ చేస్తుంది. ఓకే.
+[16:10] Speaker 1: ఎందుకంటే.
+[16:10] Speaker 2: And we should.
+[16:11] Speaker 1: We can&#x27;t take it అన్నమాట. అగైన్, మళ్ళీ మనకి ఒకవేళ అకౌంట్ నెంబర్ అవన్నీ తీసుకుంటే we have to follow RBI rules వాళ్ళు చెప్పిన దగ్గర సర్వర్ లో పెట్టాలి. అలా ఉంటాయి.
+[16:18] Speaker 2: ఓకే.
+[16:20] Speaker 2: So then I think maybe Rajesh. Rajesh, can you, can you I mean, our solution కొద్దిగా ఎంత తెలుగు?
+[16:26] Speaker 1: దేనికి ఏ సొల్యూషన్ కావాలి?
+[16:27] Speaker 2: సర్, బేసికల్లీ we need a KYC system. ఫస్ట్ అఫ్ ఆల్, వెరిఫికేషన్ సిస్టం that this person actually is hosting an event. ఆ హోస్ట్ కి తాలూకా డీటెయిల్స్ తీసుకోవాలి.
+[16:35] Speaker 1: ఓకే.
+[16:35] Speaker 2: If while that is a place where right now all to అందరికీ తెలుసు కాబట్టి and even I know people who are hosts here కాబట్టి it is fine. Like, KYC ఉన్నా ఉండకపోయినా I know ఓకే, ఈ హోస్ట్ టైప్ ఈరోజు ఈవెంట్ వెళ్తుంది. So then I can say just ఓకే, హోస్ట్ చేసుకోండి. But when it comes to such a big place హైదరాబాద్ some other places we might not know everybody, right? So that for that we need, I think, some kind of a security policy where we&#x27;ll have to gather some details. Because other apps are doing it. ఇప్పుడు సర్కిల్ అని ఒక యాప్ ఉంది. It does the same thing. It will take the Aadhaar card and bank account information. It is just your account name, account number, and your IFSC code. And then 24 hours తర్వాత they&#x27;ll activate that hosting powers. Yeah,
+[17:14] Speaker 1: Yeah, okay, చూద్దాం.
+[17:15] Speaker 2: Yeah.
+[17:17] Speaker 1: So, payment, whatever it is, బుక్ మై షో ఏం చేస్తదంటే, బుక్ మై షో does like 45, I think, almost 15 days intake if anybody is asking for a refund if the problems ఎవరికైనా ఉన్నాయి, వన్ ఇన్ సెక్యూరిటీ కోసం చెక్ చేసి, 15 డేస్ తర్వాత రిఫండ్ ఇస్తది. That is బుక్ మై షో. But for all such బిగ్ బిగ్ ఈవెంట్స్ మన దాంట్లో I don&#x27;t think ఇమ్మీడియట్ గా పెడతారు. Later on we can see what kind of a security system that we can come up with. Like, 15 days is too much. We need మనకి అదర్ thing that we promise is like 2 or 3 days. అమౌంట్ ట్రాన్స్ఫర్ back to their పోస్ట్. మిగతావన్నీ పెద్ద పెద్ద ప్లాట్ఫార్మ్స్ అన్నీ they should try అట్లీస్ట్ 7 టు 8, 7 టు 10 వర్కింగ్ డేస్ అన్నమాట.
+[17:49] Speaker 2: Okay.
+[17:50] Speaker 1: So we discussed different layouts.
+[17:51] Speaker 2: Yes, yes, yes. సో అది అలా చిన్న చిన్న ప్రాబ్లమ్స్ ఉంటాయి. Like, which means a little bit of thought from our side. But apart from that features, I think you guys are okay. I think you guys understood what everything, what all it provides and all.
+[18:02] Speaker 1: Yes.
+[18:03] Speaker 2: ఒక కపుల్ ఆఫ్ డౌట్స్ ఏమున్నాయి అంటే, బేసిక్ గా ఇన్ఫ్రాస్ట్రక్చర్ సైడ్ అన్నమాట. ఇప్పుడు డెప్లాయ్మెంట్ కానీ, సర్వర్స్ కానీ, డేటాబేస్ కానీ, ఏమైనా ప్లాన్ చేశారా, ఎక్కడ పెట్టాలి, లేదు అంటే.
+[18:13] Speaker 1: అది ఐ థింక్ రాజేష్ అండ్ మణి ఆర్ ద రైట్ పీపుల్ టు టాక్ అబౌట్ టెక్ స్టాక్ అండ్ ఆల్.
+[18:17] Speaker 2: అది ఒకసారి మేము ఇంటర్వ్యూ లో డిస్కస్ చేసుకొని చెప్తాము.
+[18:20] Speaker 1: ఓకే.
+[18:22] Speaker 2: రైట్.
+[18:24] Speaker 2: అండ్ ఇంకోటి, వెబ్ యాప్ ఉంది కదా. వెబ్ యాప్ లో ఇప్పుడు లెట్స్ సే సపోర్ట్ ఉంది. ఎలాంటి మీకు సపోర్ట్ కావాలి అంటే, సపోర్ట్ అంటే టెక్నికల్ సపోర్ట్ కాదు. ఫర్ ది యూసర్స్ హూ ఆర్ యూసింగ్ ద అప్లికేషన్.
+[18:33] Speaker 1: ఎస్, ఎస్.
+[18:33] Speaker 2: సో వాళ్ళకి మీకు ఒక సపోర్ట్ టీమ్ అంటూ ఒకటి ఎస్టాబ్లిష్ చేసుకుంటారు. సో వాళ్ళకి వెబ్ యాప్ లోనే చేస్తారు కదా. వాళ్ళకి సెపరేట్ మొబైల్ యాప్ ఏం చేయరు. వెబ్ యాప్ లోనే మొత్తం టికెట్స్ క్రియేషన్ కానీ, ఏదైనా రిజల్యూషన్ ఇప్పుడు సేమ్ రిఫండ్ గురించి మాట్లాడాం కదా.
+[18:45] Speaker 1: యా, ఐ థింక్ ఇట్స్ వెబ్ యాప్ ఓన్లీ.
+[18:47] Speaker 2: I mean, again, Rajesh and Mani.
+[18:49] Speaker 1: ఓకే.
+[18:54] Speaker 2: ఇంకా అంతే. అటు సైడ్ ఇంకా ఇంకేమైనా డౌట్స్ ఫ్రమ్ ఐ మీన్ ఆల్ టు సైడ్. టెక్ స్టాక్ ఐ థింక్ విల్ డిస్కస్ విత్ రాజేష్ అండ్ మణి, అండ్ దెన్ మే బి రైటింగ్ క్వశ్చన్స్. ఐ థింక్ యు డిస్కస్ బెస్ట్ యు హావ్ సం కైండ్ ఆఫ్ ఏ క్వశ్చన్ సో దట్ ఒక షార్ట్ నోట్ చేసుకుంటే, మే బి దీస్ ఆర్ ద థింగ్స్ దట్ యు నీడ్ యు నో క్లారిటీ ఆన్ అని చెప్పి విల్ బి ఈజీ ఫర్ అస్.
+[19:11] Speaker 1: షూర్.
+[19:13] Speaker 2: అండ్ ఈ మీటింగ్ అయిపోయిన తర్వాత ఐ విల్ పుట్ అప్ ఏ ఫ్యూ లైక్ 10 యాప్స్ దట్ ఐ వాంట్ యు గైస్ టు లుక్ అట్. ఇన్ ద యాప్ ఐ విల్ సే ఐ విల్ పుట్ అప్ స్టార్ మార్క్ ఆర్ సంథింగ్ రైట్ నెక్స్ట్ టు ద మేజర్ యాప్స్ దట్ యు గైస్ నీడ్ టు లుక్ అట్.
+[19:23] Speaker 1: ఓకే.
+[19:25] Speaker 2: అండ్ ఐ థింక్ ఇట్ వుడ్ సూట్ అస్ అంటే నా జస్ట్ లైక్ హెడ్ లో ఏముంది అనుకోండి అంటే సం టైమ్ ఇప్పుడు యాప్ గ్రేడియంట్ సిస్టం ఉంటే ఇట్ వుడ్స్ మచ్ ద యాప్ లుక్స్ మచ్ పాలిష్ అని నా ఉద్దేశం.
+[19:35] Speaker 1: బట్ ఇఫ్ ఇట్ ఇస్ నాట్ సూటింగ్ ఆల్సో ఐ విల్ ఫైన్ విత్ వేరియేషన్స్.
+[19:38] Speaker 2: ఎస్, యాక్చువల్లీ టు బి ఫ్రాంక్ మనం ఏదంటే చేయొచ్చు ఈ ఎరా లో. ఇట్స్ నాట్ సంథింగ్ కాంట్ డు దిస్ అండ్.
+[19:42] Speaker 1: ఎగ్జాక్ట్లీ, ఎగ్జాక్ట్లీ.
+[19:43] Speaker 2: మణి ఇస్ దేర్ ఇన్ దిస్ మీటింగ్. ఒకసారి మణి తో కూడా మాట్లాడి మే బి మేక్ దట్ లైవ్ అండ్ షో యు గైస్ ఆర్ సంథింగ్.
+[19:49] Speaker 1: ఓకే.
+[19:50] Speaker 2: అండ్ మీరు ఆల్రెడీ కొద్దిగా చేశారు అన్నారు కదా. We can use that as skeleton if needed. మీకు ఒకవేళ ఆ UI బాగుంది అంటే.
+[19:55] Speaker 1: యా, యు కెన్ యూస్ దట్ అస్ ఏ స్కెలిటన్. ఐ మీన్ జస్ట్ ఆన్ ద బేస్ లెవెల్ అది యూస్ చేసుకోవచ్చు. యాక్చువల్లీ, ఇఫ్ యు సీ ద యాప్, ఐ హావ్ క్రియేటెడ్ ఎవ్రీథింగ్. లైక్, ఇట్ ఇస్ యాక్చువల్లీ ఫంక్షనింగ్. ఇట్స్ ఆన్ యాప్, ఇట్స్ ఆన్ సారీ, ఎక్స్క్యూస్ మీ.
+[20:09] Speaker 1: సారీ. స
+[20:09] Speaker 2: సో యా, ఇట్ ఇస్ కంప్లీట్లీ ఫంక్షనింగ్ యాప్. బట్ ఐ థింక్ ఏమైనా APIs ఏమైనా ఎక్స్పైర్ అయ్యి ఉంటాయి. బట్ మ్యాప్, వి కెన్ సెలెక్ట్ మ్యాప్ ఏరియా లో. దేర్ ఇస్ ఏ మ్యాప్ వేర్ యు నో, యు నో వాట్ వేర్ వాట్ ఇస్ హాపెనింగ్ అని సరౌండింగ్స్ లో.
+[20:23] Speaker 2: దేర్ ఇస్ పేమెంట్ గేట్వే ఆల్రెడీ ఇంక్లూడెడ్ ఇన్ దట్. వాట్ ఐ డిడ్.
+[20:27] Speaker 2: లైక్, ఇట్లా దిస్ ఆఫ్లైన్ స్కానర్ ఇస్ ఆల్సో ఇంక్లూడెడ్.
+[20:31] Speaker 1: రైట్. అయితే విల్ డూ వన్ థింగ్. యాక్చువల్లీ, దిస్ వాస్ టు డేస్ అన్నమాట. విల్ రైట్ ఏ సొల్యూషన్ డాక్యుమెంట్. బేసిక్ గా అసలుకి ఏం చేద్దాం అనుకుంటున్నాం, ఎలా చేద్దాం అనుకుంటున్నాం. కాస్త రిలే యుఎక్స్. ఓకే. ఫ్రాంక్ గా చెప్పాలి అంటే, యుఎక్స్ వి కెన్ సెట్ అనదర్ వీక్ అండ్ కంప్లీట్ చేయొచ్చు. మనకి మేజర్ గా బ్యాక్ ఎండ్ ఇస్ ఇంపార్టెంట్. ఎందుకంటే చిన్న స్కీమా చేంజ్ చేయాలి అనుకున్నా, చిన్న ఫీచర్ వచ్చినా స్కీమా చేంజ్ చేయాల్సి వస్తే, వి హావ్ టు సిట్ ఫర్ లైక్ త్రీ ఆర్ ఫోర్ డేస్ ఆన్ DBI. ఎందుకంటే పాత ఏరియా లోకి వెళ్ళిపోవద్దు అని అలా అంటాం. బ్రేక్ అప్ అంటాం.
+[20:52] Speaker 2: సో ఒక్కసారి సొల్యూషన్ డాక్యుమెంట్ ఇస్తాము. విచ్ ఇస్ కంప్లీట్లీ మీరు అనుకోవచ్చు అరౌండ్ 30 టు 40% ఆఫ్ ది అప్లికేషన్. చానా చేంజెస్ ఉంటాయి. బట్ వర్షన్ వన్, ఇటరేషన్ వన్ అనుకోండి. సో అది చూసాక, వి కెన్ వర్క్ ఆన్ దట్. లేదు అంటే, విల్ వర్క్ ఆన్ యువర్ స్కెలిటన్. బికాజ్ మీరు ఏమంటున్నారు అంటే, మీకు ఆల్రెడీ ఐడియా ఉంది కాబట్టి, మీరు ఆల్రెడీ చేశారు అంటున్నారు. డైరెక్ట్ దాని మీద జంప్ చేసే ముందు, ఇఫ్ వి గివ్ అస్ సొల్యూషన్ అండ్ మీ స్కెలిటన్ చూస్తే ఇంకా బెటర్ ఉంటుంది అని.
+[21:15] Speaker 1: యా, యా, ఐ కంప్లీట్లీ అగ్రీ విత్ దట్. నేను చూపించేది ఏంటంటే, ఐ మై ఏమంటారు, నా ఉద్దేశం ఏంటంటే, బేసిక్లీ ఐ యామ్ ఏబుల్ టు డూ సచ్. ఐ అసలు అంత బేసిక్ నాకు ఏమి సంబంధం అంటే, లైక్ ఐ యామ్ నాట్ కోడర్ చెప్పాను కదా. ఐ డు నాట్ నో ఎనీథింగ్. బేసిక్లీ, ఐ యామ్ ఏబుల్ టు డూ విత్ ఏఐ ఆ లెవెల్ వరకు తీసుకొచ్చాను అంటే, ఐ వాంట్ యు గైస్ టు ఎక్సీడ్ మై ఎక్స్పెక్టేషన్స్. యుఎక్స్ దట్ అండ్ వాట్ ఎవర్ ఐ క్రియేటెడ్ విల్ డెఫినెట్లీ హావ్ ఏ లాట్ ఆఫ్ బగ్స్, బికాజ్ దేర్ ఇస్ నో సెక్యూరిటీస్ ఇన్ ఇన్వాల్వ్డ్ ఇన్ దట్. ఆబ్వియస్లీ, ఏఐ కోడింగ్ కాబట్టి దేర్ ఆర్ లాట్ ఆఫ్ బగ్స్. వి కాంట్ వర్క్, వి కాంట్ యూస్ వాట్ ఐ క్రియేటెడ్.
+[21:43] Speaker 2: రైట్, వి ఆర్ ఓన్లీ. దట్ వి
+[21:44] Speaker 1: దట్ విల్ బి వర్కింగ్ ఓన్లీ అస్ ఏ రిఫరెన్స్ పాయింట్ ఫర్ యు గైస్.
+[21:46] Speaker 2: రైట్, నిజం చెప్పాలంటే, మాకు అప్లికేషన్ కాల్స్ ని కూడా యుఎక్స్ కోసమే. సో మాకు అర్థం అవుతుంది.
+[21:51] Speaker 1: యా, నేను కొన్ని ఫీచర్స్ ఇంటెలిజెంట్ గా, లైక్ సే, అందరూ ఎవరీ టైం పీపుల్ వంట్ రిమెంబర్ దట్ దేర్ ఇస్ ఏ షూ లాకర్. వి నీడ్ టు అప్డేట్ ద షూ కిలోమీటర్స్ కి అప్డేట్ చేసుకుందాం. ఇవన్నీ ఉన్నాయి కదా. ఇవన్నీ పీపుల్ వంట్ యాక్చువల్లీ రిమెంబర్ టు డూ దట్ బిఫోర్ ది ఈవెంట్. సో వాట్ ఐ డిడ్ ఇస్, ఈ ఫోన్ ఇమాజిన్ దిస్ ఐఫోన్ లో లాస్ట్ లో పైన టాప్ లెఫ్ట్ కార్నర్, అది ఇక్కడ సింబల్ పెట్టాను. వన్స్ యు క్లిక్ ఆన్ ద టికెట్ సింబల్, యువర్ ఎగ్జిస్టింగ్ టికెట్, సారీ, ఎగ్జిస్టింగ్ ఈవెంట్స్, ఏమేమి టికెట్స్ కొనుక్కున్నావో వస్తాయి. వన్స్ యు క్లిక్ ఆన్ ద పర్టికులర్ ఈవెంట్ టికెట్, క్యూఆర్ కోడ్ వస్తది. క్యూఆర్ కోడ్ కింద ఐ హావ్ పుట్ దట్ బాక్స్ వేర్ సే, ఇఫ్ ఇట్ ఇస్ ఏ రన్నింగ్ ఈవెంట్ ఆర్ ఇఫ్ ఇట్ ఇస్ ఎనీ ఈవెంట్ దట్ రిలేట్స్ టు షూస్, ఇట్ విల్ షూ పాప్ అప్ అయ్యి, ఇట్ విల్ ఆస్క్ యు విచ్ షూ ఆర్ యు గో పర్ఫార్మ్ దిస్ యాక్టివిటీ ఇన్. సో యు హావ్ టు థింక్ అట్ సచ్ లెవెల్ దట్ పీపుల్ విల్ గెట్ టు యూస్ ఆల్ దిస్ ఫీచర్స్ అన్నమాట. ఎక్కడో సెట్టింగ్స్ లో పడేయకుండా.
+[22:31] Speaker 2: రైట్.
+[22:31] Speaker 1: యా, యు అండర్స్టాండ్ వాట్ ఐ ట్రయింగ్ టు సే.
+[22:33] Speaker 2: ఎస్, ఎస్, ఎస్.
+[22:34] Speaker 1: అండ్ వేర్ ఎగ్జాక్ట్లీ, ఇప్పుడు పే స్టార్స్ ఎక్కడ పనికొస్తది, విల్ బి బెనిఫిషియల్ దెన్ ఫర్ ద యూసర్. వన్స్ బిఫోర్ టికెట్ కొన్నప్పుడు క్వశ్చన్స్ అడిగి, టికెట్ కొనేసిన తర్వాత ఎక్కడ కనబడాలి. సో యు గైస్ షుడ్ హావ్ యాక్చువల్లీ యు నో థాట్ ప్రాసెస్ ఇన్ యువర్ ఇన్ దట్ వే. ఐ థింక్ నా ఉద్దేశం అంతే.
+[22:46] Speaker 2: రైట్, పర్ఫెక్ట్. అండ్ ఇంకోటి, నాకు యాక్చువల్లీ రాజేష్ అనే చెప్తుంటే, ఐ యామ్ నాట్ టైం లైన్ ఉందా అంటే, రాజేష్ అన్న వన్ మంత్ లాస్ట్ మంత్ లో కంప్లీట్ చేద్దాము అని చెప్తారు.
+[22:53] Speaker 1: ఐ యామ్ రాజేష్ ఫర్ ఎండ్ ఆఫ్ మంత్ చెప్పాడా, ఐ వాంట్ దిస్ టు బి డన్ ఇన్ టు వీక్స్.
+[22:57] Speaker 2: నేను వన్ అండ్ హాఫ్ మంత్ లాస్ట్ మంత్ చెప్పాను.
+[23:00] Speaker 1: అంటే, కపుల్ ఆఫ్ థింగ్స్. ఇప్పుడు మనకి యాప్ అప్రూవ్ కానికే దగ్గర దగ్గర వన్ మంత్ పడుతుంది. ఆపిల్ వాళ్ళు లిటరల్లీ టార్చర్ చూపిస్తారు. ఇంకా ప్లే స్టోర్ ఫైన్ గాని.
+[23:07] Speaker 2: సో మొత్తం అయిపోతే, టు వీక్స్ లో కాబట్టి, యు గైస్ నీడ్ టు పుష్ ఇట్ టు స్టోర్స్, ఐ గెస్.
+[23:13] Speaker 1: అంటే, యాక్చువల్లీ ఏం చేస్తాము అంటే, టైం ఎక్కువ తీసుకుంటది కాబట్టి, ఇటరేషన్ వన్ వర్షన్ వన్ లోనే మనం ప్లే స్టోర్ అండ్ ఆఫ్టర్ పెట్టేస్తాం. వాడు అప్రూవ్ చేసే వరకు, విల్ వర్క్ ఆన్ ది అదర్ ఫీచర్స్ అన్నమాట.
+[23:22] Speaker 2: యా, అండ్ టెస్టింగ్ కి వచ్చేసరికి ఏంటి, హౌ వి రాజేష్ టెస్టింగ్, హౌ ఆర్ వి డూయింగ్ ఇట్?
+[23:27] Speaker 1: ఆ టెస్టింగ్ చూద్దాము. అభిషిక్త్, మనం చూడాలి ఎలా.
+[23:31] Speaker 2: బికాజ్, బికాజ్ మనీ సొల్యూషన్ అయితే, అలా టెస్ట్ చేయలేరు. అండ్ టెస్టింగ్ చాలా టైం పట్టేస్తది. అంటే, ఆల్రెడీ లైవ్ అయింది, తర్వాత తీసుకొచ్చింది. ఆండ్రాయిడ్ లో లైవ్ ఉండే ఇప్పుడు.
+[23:40] Speaker 1: ఇప్పుడు టెస్టింగ్ మీ టీమ్ చేయగలరా?
+[23:43] Speaker 2: యాక్చువల్లీ ఉన్నారు. త్రీ మెంబర్స్ ఉన్నారు. బట్ ఇద్దరు ఆక్యుపైడ్ ఉన్నారు. వన్ ఇస్ ఫ్రీ అన్నమాట. టెస్ట్ చేయొచ్చు.
+[23:49] Speaker 1: ఒక టెస్టర్ మన సైడ్ నుంచి ఉంటాడు. ఇంకో టెస్టర్ మీ టీమ్ నుంచి రావచ్చు. మీ టీమ్ నుంచి.
+[23:52] Speaker 2: యా, ఇవ్వండి, ఇవ్వండి. ఎ
+[23:54] Speaker 1: ఎందుకంటే, నా టెస్టర్ అంటే ఏంటంటే, యాప్ పట్టుకొని ఇది పని చేయట్లేదు, ఇది పని చేయట్లేదు, ఇది పని చేయట్లేదు అని చెప్పడం. టెస్టింగ్ కోడింగ్ పార్ట్ లో టెస్టింగ్ కూడా ఇంపార్టెంట్ ఏమో, ఐ డోంట్ నో. నాకు తెలియదు.
+[24:02] Speaker 2: కోడ్ టెస్టింగ్ ఇన్సైడ్ చేస్తారు మా సైడ్ నుంచి.
+[24:04] Speaker 1: రైట్, అంటే ఫంక్షన్ టెస్టింగ్ కోసమే.
+[24:06] Speaker 2: ఇప్పుడు నార్మల్ గా మేము అన్ని అప్లికేషన్స్ కి అంతే చేస్తాము. ఎలా అంటే, యుఐటి వర్షన్, ప్రొడక్షన్ వర్షన్ సెపరేట్ ఉంటుంది. ఒక్కసారి యుఐటి వర్షన్ వాళ్ళకి టెస్టింగ్ కి ఇచ్చేస్తాము. తర్వాత వాళ్ళు గ్రీన్ సిగ్నల్ ఇయ్యగానే ప్రొడక్షన్ మూవ్ చేస్తాము. బట్ ఇక్కడ ప్రాబ్లం ఏంటంటే, మనకి టైం లైన్ కాస్త తక్కువ ఉంది కాబట్టి, ఆ మే బి యుఐటి ప్రొడక్షన్ ఉండకపోవచ్చు. డైరెక్ట్లీ ప్రాడ్ లోనే టెస్ట్ చేసేస్తాము.
+[24:26] Speaker 1: ఓకే, ఓకే, ఓకే.
+[24:28] Speaker 2: యా, రాజేష్ తో మాట్లాడుకొని డిసైడ్.
+[24:31] Speaker 1: రైట్.
+[24:33] Speaker 2: రైట్, గైస్, ఇంకేమైనా ఎనీ మోర్? రాజేష్ అన్న, యు మిస్సింగ్ సంథింగ్?
+[24:36] Speaker 1: లేదు, లేదు, లేదు.
+[24:37] Speaker 2: అండ్ వన్ థింగ్, డిస్క్లైమర్ అని కాదు కానీ, బట్ వన్ థింగ్ ఐ వాంట్ టు కన్ఫర్మ్ ఇట్ ఇస్ అంటే, మేము ఫుల్ టైం ఎంప్లాయిస్ కాదు. సో, వి వంట్ బి ఫుల్ టైం సిట్టింగ్ ఆన్ దిస్ అప్లికేషన్ అన్నమాట. పార్ట్ టైమే.
+[24:44] Speaker 1: ఎస్, ఎస్.
+[24:45] Speaker 2: సో, అండర్స్టూడ్.
+[24:50] Speaker 1: నో, ఐ అండర్స్టాండ్. యు టైం ఫ్రేమ్ గురించి అది.
+[24:52] Speaker 2: ఆ టైం ఫ్రేమ్ ఒకటి, అండ్ ఇంకోటి, మైట్ బి ఎలా ఉంటుంది అంటే, సడన్ గా మీరు కాల్ జాయిన్ అవ్వు అంటే, ఇప్పుడు అవైలబుల్ గా లేము అనుకోండి. ఈవెన్ మీరు కూడా ఏమనుకుంటారు, వీళ్ళ ప్రాజెక్ట్ ఇచ్చాము, బట్ హి ఇస్ నాట్ ఈవెన్ జాయినింగ్ ద కాల్. హౌ కెన్ ఎక్స్పెక్ట్ వెన్ వర్కింగ్ ఆన్ ది అప్లికేషన్ అని చెప్పేసి. అంటే, ముందే ఒకసారి గాట్ ఇట్. ఐ మీన్, రాజేష్ చెప్పాడు, ఐ మీన్, ఇట్స్ ఐ యామ్ థింకింగ్ అస్ యు ఆర్ వర్కింగ్ ఇన్ యువర్ ఫ్రీ టైం అనే టైప్ లోనే.
+[25:15] Speaker 1: సో, ఒకరోజు అంటే, ముందే మనం ఒక టైం ఫిక్స్ అయిపోయి, ఆ టైం కి కనెక్ట్ అవుదాము.
+[25:18] Speaker 2: యా, నాకు తెలుసు, లైక్ వాట్.
+[25:20] Speaker 1: జస్ట్ క్విక్ కాల్, ఎక్కువ అవ్వదు, 10, 15 మినిట్స్ క్విక్ కాల్ పెట్టుకొని డిస్కస్ చేసుకుందాం.
+[25:25] Speaker 2: రైట్.
+[25:28] Speaker 1: రైట్, గైస్.
+[25:29] Speaker 2: ఓకే.
+[25:31] Speaker 1: సో, ఐ విల్ పుట్, ఐ విల్ టెక్స్ట్ ఇన్ ద గ్రూప్ దట్ ఆల్ ది యాప్స్, ఎనీథింగ్ ఎల్స్ దట్ యు వాంట్ ఫ్రమ్ మీ?
+[25:36] Speaker 2: ఆ, లేదు, నథింగ్. బట్, విల్ సెండ్ యు ది సొల్యూషన్ డాక్యుమెంట్ అన్నమాట, బై టుమారో ఆర్ మండే ఆఫ్టర్నూన్.
+[25:40] Speaker 1: సో, క్లియర్ గా మనము డాక్యుమెంటేషన్ వెరీ ఇంపార్టెంట్, మన అండర్స్టాండింగ్ విషయం, అండర్స్టాండింగ్ ఒకటే ఉందా అనేది వెరీ క్లియర్ గా మనం ఆర్టికులేట్ చేయాలి ఫస్ట్.
+[25:47] Speaker 2: అవును.
+[25:48] Speaker 1: ఎందుకంటే, ఒకసారి అండర్స్టాండింగ్ సరిగ్గా లేకపోతే ప్రాబ్లం అవుతుంది. అందుకే, జస్ట్ డాక్యుమెంట్ ఎవ్రీథింగ్.
+[25:51] Speaker 2: అవును.
+[25:54] Speaker 1: ఓకే. అండ్ అదే సొల్యూషన్ డాక్యుమెంట్ ని మేము ఎక్స్ట్రాక్ట్ కూడా పెడతాము. జస్ట్ ఏంటంటే, వి ఆర్ కంఫర్టబుల్ యూసింగ్ దిస్ అప్లికేషన్ కి ఈ టెక్స్ట్ అని చెప్పేసి.
+[26:03] Speaker 2: ఉమ్.
+[26:06] Speaker 1: ఓకే.
+[26:07] Speaker 2: యా, ఐ థింక్ ఐ యామ్ నాట్ టెక్నికల్. సో, రాజేష్ చూడండి, అది టెక్నికల్.
+[26:13] Speaker 2: హలో?
+[26:13] Speaker 1: యా, ఆ చూద్దాం.
+[26:15] Speaker 2: యా, యా.
+[26:18] Speaker 1: ఓకే, గైస్, ఐ థింక్ ఐ వి కెన్ డ్రాప్ అవుట్ ద కాల్.
+[26:22] Speaker 2: థాంక్యూ.
+[26:23] Speaker 1: ఓకే, సర్. థాంక్యూ, థాంక్యూ. బాయ్, రాజేష్.</code></pre>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-16</span>
+</footer>
+
+</body>
+</html>
