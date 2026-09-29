@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assessment platform planning call — backend at 80%, WebRTC, indexing, billing — Srish</title>
+<meta name="description" content="A planning call on 29 September 2026 (started about 10:58 IST, roughly 47 minutes) about an online assessment and interview platform: code execution, AI interviews, proctoring (&quot;pr">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">meeting</span>
+  <h1>Assessment platform planning call — backend at 80%, WebRTC, indexing, billing</h1>
+  <div class="meta">2026-09-29<br><span class="tag">assessment-platform</span><span class="tag">backend</span><span class="tag">jetzero</span><span class="tag">webrtc</span><span class="tag">mongodb</span><span class="tag">indexing</span><span class="tag">caching</span><span class="tag">proctoring</span><span class="tag">razorpay</span><span class="tag">ccavenue</span><span class="tag">billing</span><span class="tag">auto-hire</span><span class="tag">interns</span></div>
+  <p>A planning call on 29 September 2026 (started about 10:58 IST, roughly 47 minutes) about an online assessment and interview platform: code execution, AI interviews, proctoring ("protocol ring"), question banks, and billing. <strong>No coding today — planning first, clear deliverables, then implementation.</strong></p>
+<p>Fireflies title: <em>Backend, AI Interviews, and Payments Progress</em>. Recorded by Srish Rachamalla's Fireflies.</p>
+<p>Written by an agent. Two raw inputs, both in <code>inbox/raw/Transcripts/</code>:</p>
+<ul><li><code>2026-09-29_assessment-platform_internal-call_english.txt</code> — the full transcript,</li></ul>
+<p>extracted from the Fireflies view page <code>app.fireflies.ai/view/01M3NT691N62CEC7FD4DHFX4PV</code> and checked byte for byte against the page (340 lines, 00:34 → 47:17).</p>
+<ul><li><code>2026-09-29_assessment-platform_internal-call_en_fireflies-summary-response.json</code> —</li></ul>
+<p>Fireflies' AI summary, from the browser HAR. The HAR itself is not kept: it carries login cookies.</p>
+<blockquote><strong>On the transcript below.</strong> Mostly English, with a little Marathi and Hindi at the start. Fireflies only labels "Speaker 1" and "Speaker 2", so this page does not say who said which line.</blockquote>
+<blockquote>Org is filed as Spearsoft by assumption (timesheets, interns). Move it if wrong.  Fireflies spells one attendee "Sutamish". Srish confirmed the name is <strong>Sudhamash</strong>; this page uses the correct spelling. The raw file keeps Fireflies' spelling untouched.</blockquote>
+<hr>
+<h2>Where things stand</h2>
+<pre><code class="language-text"> BACKEND ............ ~80% done
+   missing:  DB indexing · data structures in terminal · wrapper for global imports
+
+ CODE EXECUTION ..... JetZero compiler + a wrapper
+   must check: test cases · time complexity · space complexity · RAM + time limits
+
+ AI INTERVIEWS ...... recorded only   ──►  plan: live over WebRTC
+ PROCTORING ......... screenshots work, tab-switch unclear
+ PAYMENTS ........... Razorpay in, untested  ──►  later: CC Avenue
+ BILLING ............ needs per-seat + enterprise plans</code></pre>
+<h2>Decided</h2>
+<ul><li>Planning before implementation; no coding until deliverables are clear.</li><li>Emotion analysis is dropped — no standard solution.</li><li>User-role upgrades are postponed; current roles are enough.</li><li>Percentile ranking and sectional feedback are deprioritised; a verified digital certificate is in.</li><li>MCQ hints that give away answers are removed.</li><li>Frontend session caching is preferred over Redis / RabbitMQ.</li><li>Dev work uses a local MongoDB, not the live database.</li><li>Status goes in timesheets, not email; documents over Teams or WhatsApp.</li><li>Three new interns join for auto-hire; Naman guides them.</li></ul>
+<h2>To do</h2>
+<p><strong>Sudhamash</strong></p>
+<ul><li>☐ Database test scenarios: no index vs index vs cache (user ID, exam session ID)</li><li>☐ Confirm JetZero handles linked lists and other structures; plan the wrapper if not</li><li>☐ WebRTC plan for live AI interviews, with a timeline</li><li>☐ Plan question-bank editing for clients/admins (MCQs, diagrams, architecture)</li><li>☐ Plan protocol-ring improvements (tab switch, dashboards)</li><li>☐ Find out what the "AI assistant" feature is meant to be</li><li>☐ Local MongoDB setup; try login flows</li><li>☐ Look into super admin login and access control</li><li>☐ Plan Razorpay → CC Avenue with Naman</li></ul>
+<p><strong>Naman</strong></p>
+<ul><li>☐ Guide the payment-gateway move</li><li>☐ Guide the interns on auto-hire, with Sudhamash</li></ul>
+<p><strong>Everyone</strong></p>
+<ul><li>☐ 20–30 coding questions over graphs, hash maps, linked lists, with full test cases</li><li>☐ Customisable weightage for coding questions</li><li>☐ Verified digital certificates</li></ul>
+<h2>Questions left open</h2>
+<ul><li>When does WebRTC work start?</li><li>Is JetZero enough for complex data structures?</li><li>When does Razorpay testing finish?</li></ul>
+<hr>
+<h2>Transcript (English, verbatim)</h2>
+<p>Reproduced byte for byte from <code>inbox/raw/Transcripts/2026-09-29_assessment-platform_internal-call_english.txt</code>.</p>
+<pre><code class="language-text">Speaker 1  00:34
+No. first thing, our sphere of online payment container—
+
+Speaker 2  00:40
+It&#x27;s flexible.
+
+Speaker 1  00:41
+Sphere of online— एक मिनिट, अचूक ऑथेंटिकेशन चेक हो जातं, ठीक आहे. नमन श्रीनिवास सर, जॉईन होणार ना? ओके, sorry. Okay, sorry guys, go ahead.
+
+Speaker 2  03:20
+Yes, sir.
+
+Speaker 1  03:22
+ओके, चला मग पुढे.
+
+Speaker 2  03:26
+Yeah, I mean—
+
+Speaker 1  03:27
+The entire backend, 80% of backend is entirely—
+
+Speaker 2  03:32
+Your, your voice is not clear for lunch.
+
+Speaker 1  03:35
+Okay. The entire backend is—
+
+Speaker 2  03:41
+Yeah, 80% it&#x27;s correct.
+
+Speaker 1  03:44
+the important three things are databases doesn&#x27;t indexing, database indexing, and the terminal inside the tool, the code execution terminal does not support data structures, it only supports basic errors, so we need to implement wrapper to support data structures, and also ability to import global packages also, we need to import that wrapper.
+
+Speaker 2  04:09
+Is it a failure code?
+
+Speaker 1  04:14
+Now the AI interviews are happening, recorded AI interviews, maybe we need to implement. As same as auto hire AI, you know, using WebRTC service. Now everything is recorded AI interviews, and the cheating and detection model it is taking the screenshots, but we need to optimize it for the false positive cases also. Those are the four.
+
+Speaker 2  04:37
+Sridham Shah, all is well, do one thing, I&#x27;ll try to share the screen, I&#x27;ll try to open the report what you shared yesterday.
+
+Speaker 1  04:44
+Okay.
+
+Speaker 2  04:44
+Can you see the screen?
+
+Speaker 1  04:45
+Okay.
+
+Speaker 2  04:46
+I won&#x27;t allow you to tell me what you&#x27;re thinking, what each particular scenario. let&#x27;s start with the user roles and access management. Okay, so what is happening here and what do you want to upgrade?
+
+Speaker 1  04:57
+user role access, it&#x27;s whatever is here is okay, I don&#x27;t think, this is approaching, I mean it&#x27;s not very important, whatever you have it&#x27;s problematic, it&#x27;s good for just—
+
+Speaker 2  05:08
+Okay, so what you&#x27;re saying is we can skip this part?
+
+Speaker 1  05:11
+Not important, not, I mean not the first thing, first step.
+
+Speaker 2  05:13
+Perfect, okay, and now coming to the question bank, okay?
+
+Speaker 1  05:16
+Okay, question bank, what about pre-recorded questions, we can decide on, I mean we need to, I mean college faculties should, I mean they should import, sorry, they should feed the question bank, so now we have pre-defined question banks, we need to ask the colleges or, I mean it should be on client decision base, I think, for the question bank questions.
+
+Speaker 2  05:37
+Actually, what is happening here in the questionnaire part here is, we already fed some questionnaire to the extract, yes, these are the question numbers I guess, and you know we are randomizing the questions.
+
+Speaker 1  05:48
+That&#x27;s okay.
+
+Speaker 2  05:49
+Okay, yeah, so my point is maybe, you know, if they believe that our questions are okay there, now it&#x27;s perfect, but maybe some universities or somebody has their own questions also, they need to feed, they should have that ability to feed them.
+
+Speaker 1  06:02
+yes, right, actually yes we can do that also.
+
+Speaker 2  06:05
+Okay, so basically we will be giving them kind of an editor where, and when I said questions are nothing but MCQs, right, and we have a lot of other things, something like, I forgot what it is, I think it was something like, you know, they have to create an diagram, architecture diagram, etc., etc., yes, they have to feed it, and they have to give the answers, based on that it should ask, yes, what you said, can be done, and we&#x27;ll try to plan that part, and what is happening with JetZero, yes, you know JetZero, right, this is the open source execution compiler, so now it&#x27;s supporting basic lists and, so basically it needs to convert all basic lists into a tree or complex, a linked list, a double linked list, which is not supported now, we need to implement a small wrapper of that for it, so that it will be converted, and also there are wrappers as call them, so that they will enable us to import the global packages also, I mean some PYPI also, some PYPI, we can import the packages that are available.
+
+Speaker 1  06:57
+With the Japanese, do you want to open?
+
+Speaker 2  06:59
+No, for example, if a user wants to use a counter, we can import, now he can&#x27;t use a counter as a keyword, so for example, if he wants to import counter, from collections, import counter, we write on the top of the code, right, that collection graph, that collection, that importing of that collections is now not supported, with the help of wrapper, we can import the collections part, I mean for example, I&#x27;m telling you, okay.
+
+Speaker 1  07:23
+Yes, sir.
+
+Speaker 2  07:24
+Yeah, to import from global libraries and to import global collections, that wrapper helps, that is very easy fix, we can fix it in.
+
+Speaker 1  07:31
+Okay, we&#x27;ll talk about this again, but what I understood is, yes, what you said is correct, we have to plan for data structures and algorithms also, not only data structures.
+
+Speaker 2  07:39
+Okay.
+
+Speaker 1  07:39
+Based on that, yes, we&#x27;ll work on that part.
+
+Speaker 2  07:41
+At least a couple of questions should be there, regarding, you know, graphs, unlinked lists, and hash maps, etc., etc.
+
+Speaker 1  07:48
+I&#x27;m not talking about questions, I mean the problem is with the terminal, we have a terminal inside the tool also, inside the tool, so we had terminal will not execute the complex data structures now, and we&#x27;ll not import the global libraries from PYPO, so with the help of wrapper we can do that to the terminal, so that the data structures and test cases will also be found.
+
+Speaker 2  08:05
+no, are you sure, you know, that particular compiler will not, you know, handle linked list or data structures?
+
+Speaker 1  08:10
+Yeah, there are a couple of them online, you can work on it.
+
+Speaker 2  08:13
+No, we can use it, I mean with JetZero itself, we can use this, you know, linked list.
+
+Speaker 1  08:18
+Yeah, yeah, with the JetZero on top of it, there&#x27;s a wrapper.
+
+Speaker 2  08:22
+I don&#x27;t know the exact name of it, but it enables this ability of complex data structures.
+
+Speaker 1  08:27
+Okay, I don&#x27;t think so, but if possible, give me the name so you and I&#x27;ll try to look into that part.
+
+Speaker 2  08:32
+Okay.
+
+Speaker 1  08:32
+Next AI interview engine.
+
+Speaker 2  08:35
+Yeah, now it&#x27;s only recorded interviews, we need to implement it as a auto sphere, we have it, you know, other tool, right, take interviews.
+
+Speaker 1  08:42
+Now it&#x27;s recorded interviews.
+
+Speaker 2  08:44
+So right now, it is just, you know, transferring the audio front and back, it is not having any WebRTC, is what you&#x27;re saying.
+
+Speaker 1  08:52
+Yeah.
+
+Speaker 2  08:53
+Where we have it in this, right, auto hire, we have WebRTC.
+
+Speaker 1  08:56
+Yeah.
+
+Speaker 2  08:56
+Okay, this will be a big change, we&#x27;ll think about this part.
+
+Speaker 1  08:59
+Yeah.
+
+Speaker 2  09:00
+Coming to protocol ring part, okay, we are using media by, okay, screen tab window, this is not implemented here?
+
+Speaker 1  09:11
+We don&#x27;t think so, right, it&#x27;s implemented, it&#x27;s only taking screenshots of the part.
+
+Speaker 2  09:14
+No, I think it is implemented, where if we switch, it will detect, but I&#x27;m not sure what is working, what is not working. Multi-person frame detection and live protocol flat dashboard, yes, we have this also, but it will only show if they switch the tabs.
+
+Speaker 1  09:28
+Okay. And it
+
+Speaker 2  09:28
+And it will show you the screenshot in the dashboard.
+
+Speaker 1  09:31
+The screenshot part is working, yes.
+
+Speaker 2  09:33
+Okay, even switching is not working.
+
+Speaker 1  09:36
+Okay.
+
+Speaker 2  09:37
+Okay, even I&#x27;m not sure, yes, we have to see that part. Emotion analysis, no, actually this is a, you know, fallback end of thing, this doesn&#x27;t work in our application. Yeah,
+
+Speaker 1  09:46
+Yeah, yeah. There is also no standard industry thing that will work for everybody, I think.
+
+Speaker 2  09:54
+Yes.
+
+Speaker 1  09:54
+But yes, try that.
+
+Speaker 2  09:56
+Yes, I think we can skip this also, this one and use the rule one.
+
+Speaker 1  10:00
+And yes, reporting uncertificate ROSCO, percentile ranking and sectional feedback.
+
+Speaker 2  10:08
+I don&#x27;t think these all are required.
+
+Speaker 1  10:10
+Yeah, that is, yeah.
+
+Speaker 2  10:12
+There are also small changes that can be done.
+
+Speaker 1  10:14
+Yes, if we want, we can give a verified digital certificate, where we are already giving the certificate, with that we just have to put, you know, verified kind of thing.
+
+Speaker 2  10:24
+Payment and billing, basic razor pay library and initial payment and funds integrated.
+
+Speaker 1  10:28
+Oh, okay. It&#x27;s not something
+
+Speaker 2  10:29
+It&#x27;s not something that&#x27;s working, I don&#x27;t think it will work at this moment, but we did implement it, but we need to test it.
+
+Speaker 1  10:36
+No, it is working, we tested it, now we&#x27;re just thinking, okay, plans, we&#x27;ll come back, on the part of plans again, okay.
+
+Speaker 2  10:45
+And perceived billing, yes, we can do this actually, we can give the, I think, okay, let me see, how is it, okay.
+
+Speaker 1  11:09
+Okay, even this footer is not working, you can note the stuff.
+
+Speaker 2  11:14
+Hey, Sreesh Hemant&#x27;s also devisit, if that works or not.
+
+Speaker 1  11:17
+Yes, sir.
+
+Speaker 2  11:18
+You guys need to revisit that also.
+
+Speaker 1  11:20
+Okay, sir.
+
+Speaker 2  11:21
+And I need some date, okay, when can this will be ready?
+
+Speaker 1  11:27
+Okay, sir.
+
+Speaker 2  11:32
+And sometimes we are talking about SMTP notifications, do you have any plan?
+
+Speaker 1  11:38
+This can be implemented, I mean we can decide and we can implement it this month.
+
+Speaker 2  11:41
+Okay, you just want to put templates or do you want to remove SMTP and go with some services, who sends emails?
+
+Speaker 1  11:47
+We can decide if it&#x27;s always.
+
+Speaker 2  11:50
+I don&#x27;t think it is required apart from SMTP, because we have an option where, you know, they can put their own SMTP server, so all emails will be sent with that email.
+
+Speaker 1  11:59
+But we can think about templates also, but I&#x27;m not sure, is it required right now or not?
+
+Speaker 2  12:04
+Yeah.
+
+Speaker 1  12:05
+Database.
+
+Speaker 2  12:05
+No, it&#x27;s not.
+
+Speaker 1  12:07
+A direct question on 11th primary, MongoDB, sorry, direct question on 11th MongoDB collections.
+
+Speaker 2  12:14
+So it will execute on the databases, can help to reduce the latency, you know, now every search should go quickly.
+
+Speaker 1  12:21
+So in the column, so every column in the code, so if you&#x27;re mixing, you can skip that.
+
+Speaker 2  12:24
+Yes, we can do that, but don&#x27;t you think is, you know, we don&#x27;t want to put Redis or Boolean queue or RabbitMQ for queueing and all, instead of that, what we&#x27;ll do is to make it easy and fast, we will try to, you know, cache the front-end part.
+
+Speaker 1  12:38
+Okay.
+
+Speaker 2  12:39
+Saving it in the session memory.
+
+Speaker 1  12:40
+Instead of calling it multiple times, that is the best we can do instead of, you know, implementing queues here.
+
+Speaker 2  12:46
+Yeah, yeah, basically, yeah.
+
+Speaker 1  12:48
+Maybe after some point, for this tool, we can implement candidates after some point.
+
+Speaker 2  12:53
+yes.
+
+Speaker 1  12:56
+Got it.
+
+Speaker 2  12:56
+So this is basically I told you, yes.
+
+Speaker 1  13:00
+How current code execution works are resume print and put special, sorry, simple logic checks, custom.
+
+Speaker 2  13:08
+Okay.
+
+Speaker 1  13:09
+Okay, Try to give me the name of it, okay, why is it failing, I don&#x27;t think it will fail because at the end of the day it is the same compiler, everyone uses, even Microsoft forgot the name, uses the same JetZero thing.
+
+Speaker 2  13:22
+For running it.
+
+Speaker 1  13:27
+And weight age, okay, this is a weightage you want to put up.
+
+Speaker 2  13:38
+That&#x27;s not sure.
+
+Speaker 1  13:40
+Yeah.
+
+Speaker 2  13:41
+What I&#x27;m asking is, this is a weightage you want to put, right?
+
+Speaker 1  13:44
+Yeah, we can decide on that.
+
+Speaker 2  13:46
+Okay, even I&#x27;m not sure about it because not everyone wants to put data structures in their interviews.
+
+Speaker 1  13:51
+Okay.
+
+Speaker 2  13:52
+But we&#x27;ll think about this.
+
+Speaker 1  13:55
+Every college is, sorry, every college. Every college
+
+Speaker 2  14:01
+Every college uses, I mean, basic data structure, they don&#x27;t know.
+
+Speaker 1  14:04
+I know, actually, okay.
+
+Speaker 2  14:16
+So I thought these three are we can, they are easy fixes and much important features.
+
+Speaker 1  14:21
+Okay, we&#x27;ll wait for email part, we&#x27;ll think about it later, what is happening up, like component access and user assessment and, I mean, what happened here in the database, like why do you want to optimize, is it calling the query or database every time or. Ye
+
+Speaker 2  14:35
+Yeah, yeah, exactly.
+
+Speaker 1  14:37
+then we can cache it in the front-end.
+
+Speaker 2  14:39
+No, in database it is going and searching for entry, for every user it&#x27;s going and searching for everything, instead of that we can store a, for example, a student who can exam, so we can index for the exam history or qualify exam history, we can query, sorry, we can index the user ID and the exam session ID so that, you know, if we&#x27;re searching for tomorrow, the search will not take a lot of time.
+
+Speaker 1  15:05
+otherwise it is going for every job.
+
+Speaker 2  15:06
+No, understood, what you are trying to say here is, let&#x27;s say there is a report of a user, it is not targeting the report from single, you know, collection, instead of that.
+
+Speaker 1  15:15
+Exactly, yeah. Okay, n
+
+Speaker 2  15:15
+Okay, no, understood, okay, we can do that, yes, try to list what are all these scenarios, we have it as a calling at multiple times, something what you said about users and all.
+
+Speaker 1  15:23
+Yeah, I have that point.
+
+Speaker 2  15:25
+Maybe starting a practice test, viewing the history of profiles, taking the leadership votes, downloading test reports, to search in the future, it takes, it is now searching for every row in a database, instead of that if we can, index them, search will be optimal.
+
+Speaker 1  15:38
+Okay, understood.
+
+Speaker 2  15:39
+So yes, I think. Yes, and try to give me this thing, what do you want to say, this part, I did not understand.
+
+Speaker 1  15:48
+Because it is JetZero is nothing but a compiler, it can handle anything, only thing is for the data structures and all, it needs to, you know, take the questions and give what you call, get the test cases running, is what it needs to do based on the code, but I&#x27;m not sure what is happening, like, okay.
+
+Speaker 2  16:05
+Okay, the code execution and database today we&#x27;ll try to discuss on it.
+
+Speaker 1  16:08
+Okay.
+
+Speaker 2  16:10
+And this template also, this can be done easily, but.
+
+Speaker 1  16:12
+Yeah, yeah.
+
+Speaker 2  16:13
+We don&#x27;t, we don&#x27;t need it to be, yes, and weightage should be, you know, created by the team who wants to conduct the.
+
+Speaker 1  16:21
+Yeah.
+
+Speaker 2  16:22
+Exam.
+
+Speaker 1  16:23
+Yeah.
+
+Speaker 2  16:23
+Okay, and, you know, try to list down the, questions.
+
+Speaker 1  16:28
+Coding questions there, okay, right now I think we have 25 or 30.
+
+Speaker 2  16:32
+Examples for every data structure, 20, 25.
+
+Speaker 1  16:34
+Yes, yes, that would be good, and later we have to even, you know, test whether is it working fine or not for all the test cases, and even, you know, the, I forgot the name, sorry, where it will check the, storage and, you know, time evaluation, it should run in this much of RAM and it should run in this much of time.
+
+Speaker 2  16:52
+Right, time complexity and this, yeah.
+
+Speaker 1  16:56
+Space and time.
+
+Speaker 2  17:01
+Like take these questions from these coders, anywhere.
+
+Speaker 1  17:04
+Anywhere is this fine, but if you try to get it from the code, change the values, that&#x27;s it.
+
+Speaker 2  17:08
+Values?
+
+Speaker 1  17:11
+Like, change the inputs and outputs, I mean, test cases and all that.
+
+Speaker 2  17:19
+Okay, so I think that&#x27;s all, I guess, right?
+
+Speaker 1  17:24
+Today, what is the plan?
+
+Speaker 2  17:26
+Sorry?
+
+Speaker 1  17:27
+Today is, I mean, we&#x27;ll do this database thing now.
+
+Speaker 2  17:31
+No, first, we&#x27;ll try to do both at a, today we&#x27;ll try to plan and we&#x27;ll try to, you know, start executing this part, so first thing, for optimizing database, you try to do two things, one, you know, when it is calling the backend for every scenario, try to note it down, and second thing is, how. Can we, you know, make it, what do you call, like, how can we solve it with this caching itself, and later if that can be solved, then we have to put this, what do you call, tweaking the database and changing its schema and trying to create a new collection, for example, user thing, we can&#x27;t work with caching here, right?
+
+Speaker 1  18:06
+And what, yes, I&#x27;ll create two to three scenarios, sorry, but without cache, without index and with index, with cache, will that be helpful?
+
+Speaker 2  18:14
+Yes, that works actually. Yes, and coming to the code execution part, what I feel is that there&#x27;s some 99% confident, we can work with JetZero itself. But I&#x27;m not sure what we are missing, but it&#x27;s fine, or try to, you know, ping me on that part so we can think this, and try to plan this part also, okay, where a user can add their own questionnaire.
+
+Speaker 1  18:34
+For MCQs.
+
+Speaker 2  18:35
+User or admin?
+
+Speaker 1  18:36
+I mean, admin, who is using the application, I mean, basically the one who what do you call, creates the students.
+
+Speaker 2  18:44
+And yes, plan for WebRTC, just give me the implementation plan, so, you know, we can think about it, how much time does it take and all. We
+
+Speaker 1  18:51
+We have got protocol ring and cheating thing, and I think we have already, you know, tap switches. Ye
+
+Speaker 2  18:57
+Yeah.
+
+Speaker 1  18:58
+Okay.
+
+Speaker 2  18:59
+Okay, yes, we have got emotional analysis, come on, we can&#x27;t solve it, at least now.
+
+Speaker 1  19:04
+Yeah.
+
+Speaker 2  19:06
+Payment thing also, you just leave it, and we can plan per seat billing also, I think, at least in the pricing we did not mention that means we don&#x27;t have it.
+
+Speaker 1  19:13
+I don&#x27;t remember correctly.
+
+Speaker 2  19:17
+Like, we have to, like, we have to put this plan with this, we have to put enterprise plan also, okay, aha, I think I did something.
+
+Speaker 1  19:29
+That was C drive, I guess.
+
+Speaker 2  19:32
+Yes.
+
+Speaker 1  19:39
+Okay, so, okay, let me reiterate, okay, I think I confused you, I&#x27;ll tell you one thing, okay, here, we have something called C drive, okay, which is similar to Prep, but this is a tool for conducting the drives, okay, let&#x27;s say Spearsoft wants to hire from a university, we&#x27;ll go and we&#x27;ll give them this access, so every student can use this, so in this we have, you know, different stages, aptitude and reasoning, the MCQ part, technical scenario selection, where they have to, you know, select a problem statement and write a sentence, okay, how they are trying to solve and all, and we have this, what do you call, UML diagram thing, and then, they have.
+
+Speaker 1  20:14
+To, you know, write the solution for their selected technical scenario, and at last we have this coding challenge, okay, so for this we have tap switches, yes, for what you said we don&#x27;t have it.
+
+Speaker 2  20:24
+Okay, also, you forgot to have it.
+
+Speaker 1  20:26
+Sorry.
+
+Speaker 2  20:27
+I forgot to mention that for every MCQ there is a hint also, download the MCQ question, in that MCQ question there is answer in the hint.
+
+Speaker 1  20:35
+Okay, okay, we have to remove that.
+
+Speaker 2  20:37
+Yeah.
+
+Speaker 1  20:40
+Yes, we have to remove that part, and yes, actually tap switches is there for here, even the dashboard, yes, what you said is correct actually.
+
+Speaker 2  20:47
+We don&#x27;t have it in Prep actually, we have it here, and we have to think about this also, I&#x27;ll tell you about this later, yes, so
+
+Speaker 1  20:58
+Yes.
+
+Speaker 2  20:59
+So we can add tap switches and, like, dashboard thing also there.
+
+Speaker 1  21:02
+And questions, yes, we have to create it, actually we already have these many MCQs, right, we can just use it, and we can ask the, what do you call, conductor to create that, what do you call, questionnaire and all.
+
+Speaker 2  21:16
+Yeah.
+
+Speaker 1  21:17
+And at least, here also you&#x27;re using JetZero, even in the C drive, so I think JetZero can handle all the DB, dynamic programming, etc., etc., here.
+
+Speaker 2  21:25
+I&#x27;m not sure, WebRTC, yes, you try to give us implementation plan and we will plan about this to do it or not.
+
+Speaker 1  21:32
+Protocol ring, just leave this, apart from, you know, just put this part, tap switches and screenshots and dashboard.
+
+Speaker 2  21:40
+Reporting certification, yes, we can use our old report, but only thing is we have to show something that verified certificates, actually, okay.
+
+Speaker 1  21:48
+Yes.
+
+Speaker 2  21:49
+Okay, try to give us implementation plan for all of these, what we discussed, then we can, you know, plan the execution or implementation phase.
+
+Speaker 1  21:58
+So today, sorry, yes, we are database scenario, the. Can you please mute? I&#x27;m Sutash, can you repeat that, two seconds?
+
+Speaker 2  22:12
+Okay, can you repeat that?
+
+Speaker 1  22:16
+I&#x27;m saying that we will create test scenarios for three database, with index and without index, and with cache with index.
+
+Speaker 2  22:22
+Mm-
+
+Speaker 1  22:22
+And the code execution will go through the JetZero and, like, you know, what we can implement, and we&#x27;ll make it clear, will the JetZero will support or not.
+
+Speaker 2  22:31
+Mm-
+
+Speaker 1  22:31
+And I&#x27;ll work on the WebRTC implementation plan, will that be okay?
+
+Speaker 2  22:37
+Yes, with that, I want you to even, you know, plan this from questionnaire part.
+
+Speaker 1  22:41
+Yeah.
+
+Speaker 2  22:42
+Okay, and this. Part, where, you know, protocol ring, screen, switches, and, you know, dashboard thing, and what was the other one, tap switches, dashboard, that was one more.
+
+Speaker 1  22:55
+Screenshots.
+
+Speaker 2  22:56
+Okay.
+
+Speaker 1  22:57
+Okay.
+
+Speaker 2  22:58
+Yeah.
+
+Speaker 1  22:58
+And yes, this part, try to plan these, and with that, there will be some of the constraints, something like, it should work some, based on the pricing plan and all, we&#x27;ll think about it later, first you just try to plan the implementation.
+
+Speaker 2  23:10
+Okay.
+
+Speaker 1  23:11
+Okay.
+
+Speaker 2  23:12
+And yes, meanwhile you can even plan this template, so it won&#x27;t be hard, just plan to plan it, we&#x27;ll try to implement it.
+
+Speaker 1  23:19
+I think, yes, custom rating, which will be, you know, decided by the, no, actually, yes, which will be decided by the enterprise, you know, yes.
+
+Speaker 2  23:32
+That can be a secondary change, basically.
+
+Speaker 1  23:34
+Yes, but try to plan this also, we&#x27;ll go with everything.
+
+Speaker 2  23:40
+Okay.
+
+Speaker 1  23:41
+So, yes, I think we have AI assistant in this, Sutash.
+
+Speaker 2  23:47
+AI assistant for what?
+
+Speaker 1  23:49
+For what?
+
+Speaker 2  23:50
+Basically it will help us, help the user, you know, to learn a couple of things and all, try to see that, I think we can do a couple of tweaks to that part also, try to plan that one also, AI assistant.
+
+Speaker 1  23:59
+So I remember correctly.
+
+Speaker 2  24:00
+AI assistant inside, I did not saw that.
+
+Speaker 1  24:12
+Okay.
+
+Speaker 2  24:15
+Do you have the credentials?
+
+Speaker 1  24:16
+Yeah, there is, I&#x27;ve not seen the AI thing part, no, I don&#x27;t see it. How can I say this, should I share the credentials?
+
+Speaker 2  24:21
+Okay. How can I say th Yes, share the credentials.
+
+Speaker 1  24:25
+Sai at the red gmail dot com.
+
+Speaker 2  24:26
+You can directly log in.
+
+Speaker 1  24:28
+Okay.
+
+Speaker 2  24:29
+And the password is ajay, capital A, at break 123.
+
+Speaker 1  24:35
+123, yeah.
+
+Speaker 2  24:37
+Okay, dot com, sorry.
+
+Speaker 1  24:39
+Oh, okay.
+
+Speaker 2  24:43
+It&#x27;s not working.
+
+Speaker 1  24:49
+Okay.
+
+Speaker 2  24:52
+Is it working for you?
+
+Speaker 1  24:53
+Yeah, it&#x27;s working for me.
+
+Speaker 2  24:54
+Okay, let me see this part.
+
+Speaker 1  24:57
+401, unauthorized, okay.
+
+Speaker 2  25:01
+Locked out also.
+
+Speaker 1  25:03
+Okay, do you, like, are you using login itself or is there something admin login and all?
+
+Speaker 2  25:07
+No, no, student login directly, university admin, student login.
+
+Speaker 1  25:13
+So this one itself, Prep dot org dot C slash login.
+
+Speaker 2  25:17
+Yeah.
+
+Speaker 1  25:18
+Oh, sorry, yeah.
+
+Speaker 2  25:19
+Yeah.
+
+Speaker 1  25:19
+Student login, yeah.
+
+Speaker 2  25:22
+Let me go back to the dashboard, like, the first page.
+
+Speaker 1  25:25
+Okay.
+
+Speaker 2  25:28
+University login.
+
+Speaker 1  25:29
+okay.
+
+Speaker 2  25:30
+I was pressing that one actually.
+
+Speaker 1  25:31
+Okay, sorry.
+
+Speaker 2  25:34
+No, this is the admin login.
+
+Speaker 1  25:36
+Okay. University
+
+Speaker 2  25:37
+University login to the.
+
+Speaker 1  25:46
+Yes, we have this AI interview.
+
+Speaker 2  25:48
+This is AI interview, right?
+
+Speaker 1  25:50
+Yes, yes.
+
+Speaker 2  25:53
+No AI chatbot or something we have to pull.
+
+Speaker 1  25:55
+Yes, yes.
+
+Speaker 2  25:58
+Might be I remembered it wrong.
+
+Speaker 1  26:07
+Okay, let me ask Ajay, what I remembered is we have this where it was used for, you know, helping the students.
+
+Speaker 2  26:14
+And it will even plan the path and all.
+
+Speaker 1  26:16
+Yeah.
+
+Speaker 2  26:16
+I&#x27;m not sure, I&#x27;m not sure, I think it is not there, you know.
+
+Speaker 1  26:20
+Okay, then let me, the analysis Yes, AI mandate. But it&#x27;s not there for that university login, but it&#x27;s there for something else.
+
+Speaker 2  40:09
+Okay. I&#x27;ll talk with Ajay and we&#x27;ll see. Okay.
+
+Speaker 1  40:18
+You said anything else, Sutamish? You want to tell?
+
+Speaker 2  40:21
+That&#x27;s a problem.
+
+Speaker 1  40:23
+Naman, you want to add something?
+
+Speaker 3  40:27
+Huh.
+
+Speaker 2  40:28
+Nothing else. Just, should we plan right now, or like, what do I have to do before I start working on it?
+
+Speaker 1  40:35
+Okay, I think we&#x27;ll ask the university about this. Sir, should we first start with auto-hire, or should we start with—
+
+Speaker 2  40:40
+No, no, we need— we need prep first, immediately.
+
+Speaker 1  40:43
+Okay, sir.
+
+Speaker 2  40:43
+So when can we get this final? So that&#x27;s—
+
+Speaker 1  40:46
+yes, sir. Actually, we can tell you about that part after, like, 1:00, once we get the plan ready based on that. We can tell you, sir. But usually, at least if everything is bad also, we can compute it in, like, 4 days.
+
+Speaker 2  41:02
+Okay. Okay, let&#x27;s— let&#x27;s continue.
+
+Speaker 1  41:05
+Okay.
+
+Speaker 2  41:06
+Yes, sir.
+
+Speaker 1  41:06
+And, yeah, let&#x27;s try to think in the latest changes, okay? I don&#x27;t need only the old one. If you have new things in mind, please add on. I&#x27;m okay.
+
+Speaker 2  41:17
+Yes, sir.
+
+Speaker 1  41:18
+Okay. Anything else?
+
+Speaker 2  41:23
+no, sir.
+
+Speaker 1  41:23
+Okay. Thank you.
+
+Speaker 2  41:25
+Thank you, sir. And, Sutamish, one more thing which I want to tell you is, like, don&#x27;t try to put your status report in the email, okay? You can just use this time sheets. And if you want to share a couple of documents, then you can use that.
+
+Speaker 1  41:40
+sorry, I did not understand.
+
+Speaker 1  41:41
+Okay. So what I&#x27;m saying is, don&#x27;t try to put, what do you call it, don&#x27;t try to put your status reports in the email or on the other day I mentioned you, right? Saying that, hey, I&#x27;m in your interface, you have to send a status report in the email. So which is not required. Try to fill a time sheet. That is enough. And if you want to share the documents or something, share it with us and teams, okay? With me and Naman, or you can even WhatsApp if you don&#x27;t have teams. That is fine. Because, what happens here is, even though still we are, you know, brainstorming and all right, tell things, these are all the changes will be done in the application. That is the reason, you know, sir, join the call right now. Which is relevant.
+
+Speaker 2  42:13
+Yeah, I got it. But there&#x27;s a lot of discussions about the issues.
+
+Speaker 1  42:18
+Yes. And, yes, I think that&#x27;s all. we might— yes, we are getting three new interns, okay? We can pull one in this auto-hire thing. So it might be someone might be handy for you also, for you and Naman. Naman will be not working. He&#x27;ll be just guiding you what all you have to do and how. It&#x27;s okay, right?
+
+Speaker 2  42:36
+Yeah.
+
+Speaker 1  42:37
+Okay. So Naman has to things to be running.
+
+Speaker 2  42:42
+yes.
+
+Speaker 1  42:43
+Naman, what do you say?
+
+Speaker 2  42:45
+yes, Sutamish. Yes, sir.
+
+Speaker 1  42:50
+Okay. And, Sutamish, like, did you pull the code and, did you run it in your local?
+
+Speaker 2  42:54
+Yeah, yeah. I&#x27;ve gone through the code. I&#x27;m not the code-important code, right?
+
+Speaker 1  42:58
+Okay. I&#x27;ll do one thing. Like, since, okay, with, like, do you have your own database? Like, any— like, are you creating any MongoDB instance of yours for testing it? Or you&#x27;re using the live database itself?
+
+Speaker 2  43:09
+Oh, okay.
+
+Speaker 1  43:10
+Okay, local database. Then perfect. Then try to create a lockings for even, this, normal login and all. And try to explore. What I remembered was we have this, okay? AI chatbot, it will tell you something like, you have to learn this, this, and all. And even I forgot about the super admin logins of this, we have to get that part ready also.
+
+Speaker 2  43:28
+Super admin?
+
+Speaker 1  43:29
+Yes, super admin, will be someone, you know, who will be giving access to the users. Something like, university admin.
+
+Speaker 2  43:35
+Yeah, admin, normally they&#x27;re not admin.
+
+Speaker 1  43:39
+Wait, do you have any questions?
+
+Speaker 2  43:41
+we need to get the credentials and see if it&#x27;s working.
+
+Speaker 1  43:44
+I have the credentials.
+
+Speaker 2  43:44
+You have?
+
+Speaker 1  43:45
+Okay.
+
+Speaker 2  43:46
+I have both the credentials for admin and student.
+
+Speaker 1  43:49
+Okay. I mean, which admin do you have? Can you tell me the URL of it?
+
+Speaker 2  43:53
+Okay. Auto-hire.cv@admin. Okay.
+
+Speaker 1  43:57
+I mean, the same way we have lock in, right? In admin lock in, I&#x27;ll tell you the Gmail and password.
+
+Speaker 2  44:03
+Okay, let me share my screen again. Log out. Okay. Okay, I&#x27;m in the home page.
+
+Speaker 1  44:14
+Log in.
+
+Speaker 2  44:16
+Log in. Okay.
+
+Speaker 1  44:35
+Okay, so for universities, yeah.
+
+Speaker 2  44:37
+Sure.
+
+Speaker 1  44:38
+University.
+
+Speaker 2  44:39
+Okay. Yeah, for university.
+
+Speaker 1  44:41
+Okay.
+
+Speaker 2  44:41
+Okay, and university admin.
+
+Speaker 1  44:42
+This is university admin lock in. Okay. I&#x27;m talking about the one who— what do you call it— who will be in charge of this auto-hire application. Someone, from our team, or someone from our company, okay? We&#x27;ll be having super admin, okay? I&#x27;m not sure if the passwords are known. Okay, with the super admin, yes, that is the reason I&#x27;m saying. In super admin, you know, let&#x27;s say side gmail.com is the university admin email. Super admin will give the access to this guy, and with some of the plans, okay?
+
+Speaker 2  45:10
+The main super admin, that option.
+
+Speaker 1  45:12
+Okay.
+
+Speaker 2  45:13
+And the super admin. I&#x27;ll give— suppose you have a university. Like, talking with your— with the university super admin company, main super admin login, right?
+
+Speaker 1  45:25
+Right. And even, we have to think about the CVI things also. It&#x27;s not working correctly. But it&#x27;s fine. We can work on this part and, there&#x27;s no, payment gateway for this.
+
+Speaker 2  45:35
+One second.
+
+Speaker 1  45:36
+Okay, I think.
+
+Speaker 2  45:39
+Sutamish?
+
+Speaker 1  45:40
+Sir?
+
+Speaker 2  45:40
+The quarterfly ఉన్నాడు కదా?
+
+Speaker 1  45:43
+yes. So, Sutamish, just try to look into the super admin part also. And, yes, try to, you know, host your own database instance.
+
+Speaker 2  45:51
+Okay.
+
+Speaker 1  45:51
+sorry, actually, I was talking on mute. Sorry. One last thing which I want to tell is, Sutamish, try to, you know, yes, try to, one second.
+
+Speaker 1  46:01
+Yes, I&#x27;ll try to look into the super admin part also and try to run everything locally. And, later I&#x27;ll tell you about, the C drive, okay? And, the other thing is, what you did is right, which is, hosting your own database instance. Try to follow that and try to, you know, experiment and do whatever you want in your local thing. And, we can, you know, plan this part. So try to see this part. I think we have this AI chat thing. Point number one. Point number two, I want you to, you know, look for this, super admin thing. Right now, I don&#x27;t think we have pricing pages. So not all users can come and buy it directly. I guess. I&#x27;m not sure. So we have to make sure it is working and, yes, make sure it is working fine and not. And, we have to move from Razer Pay to, you know, CC Avenue. I&#x27;ll tell you the reason later. you just, plan for that part also.
+
+Speaker 2  46:42
+Okay.
+
+Speaker 1  46:42
+Okay. for CC Avenue and Razer Pay, Naman will be helping you if you want. Or else you can call me also. So we can plan that thing also. So, and other, what do you call it? In other words, what I want you to do is, today we will only plan, about this application. Not implementation. Okay? So we can, start, the implementation once we, you know, work with all the plans. Is it, clear?
+
+Speaker 2  47:07
+Yeah.
+
+Speaker 1  47:08
+Okay then. So, yes, then that&#x27;s all. I&#x27;ll be leaving then. Thank you. Naman, कुछ हुआ तो बोलो।
+
+Speaker 2  47:15
+Yes, sir.
+
+Speaker 1  47:16
+okay. Bye.
+
+Speaker 2  47:17
+Bye.</code></pre>
+  
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-29</span>
+</footer>
+
+</body>
+</html>

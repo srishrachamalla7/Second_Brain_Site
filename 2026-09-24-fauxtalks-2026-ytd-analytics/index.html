@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FauxTalks in 2026 so far — traffic, SEO, and what to do next — Srish</title>
+<meta name="description" content="A year-to-date review of FauxTalks from 1 Jan to 23 Sep 2026 , pulled straight from Google Analytics 4 and Google Search Console. September is a partial month; &quot;proj&quot; means project">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' font-size='26'>◆</text></svg>">
+<style>
+:root{
+  --bg:#FAF7F2; --panel:#FFFFFF; --line:#E6DFD4; --ink:#1E1914; --dim:#6F6355;
+  --accent:#C25E2A; --accent-soft:#F3E4D8; --rule:#EBE3D8;
+  --code-bg:#F4EEE5; --quote:#B58A4E;
+  --org:#C25E2A; --project:#6E7B39; --person:#A8524B; --idea:#C99A2E;
+  --decision:#8C3B2E; --meeting:#8A7460; --other:#9A8F80;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}}
+[data-theme="dark"]{
+  --bg:#14110D; --panel:#1C1814; --line:#2E2720; --ink:#F1EADF; --dim:#9C8F7E;
+  --accent:#E0834A; --accent-soft:#2A2018; --rule:#2A2320;
+  --code-bg:#1F1A15; --quote:#C8A162;
+  --org:#E0834A; --project:#9BAB58; --person:#D0766C; --idea:#E3B84D;
+  --decision:#D45A45; --meeting:#B2977C; --other:#8B8073;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:17px/1.68 ui-serif,Georgia,"Iowan Old Style",Cambria,serif;
+  -webkit-font-smoothing:antialiased; padding:0 24px 96px;
+}
+.sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:680px;margin:0 auto}
+
+header.top{
+  max-width:680px;margin:0 auto;padding:26px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font:500 13.5px/1 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+header.top a{color:var(--dim);text-decoration:none}
+header.top a:hover{color:var(--accent)}
+.mark{color:var(--ink);font-weight:650;letter-spacing:-.01em}
+.mark span{color:var(--accent)}
+
+article{padding-top:46px}
+.kind{
+  font:600 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);
+  display:inline-block;padding:5px 10px;border-radius:5px;background:var(--accent-soft);
+}
+h1{
+  font-size:clamp(30px,5.6vw,42px);line-height:1.13;letter-spacing:-.022em;
+  font-weight:600;margin:16px 0 12px;
+}
+.meta{
+  font:400 13.5px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  padding-bottom:26px;border-bottom:1px solid var(--rule);margin-bottom:34px;
+}
+.meta .tag{
+  display:inline-block;margin:6px 6px 0 0;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);font-size:12px;
+}
+
+h2{font-size:23px;letter-spacing:-.014em;font-weight:600;margin:42px 0 12px}
+h3{font-size:18.5px;font-weight:600;margin:30px 0 8px}
+p{margin:0 0 20px}
+ul,ol{margin:0 0 20px 24px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 34%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+strong{font-weight:640}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+
+blockquote{
+  border-left:3px solid var(--quote);padding:2px 0 2px 20px;margin:0 0 22px;
+  color:var(--dim);font-style:italic;
+}
+code{
+  font:.87em/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--code-bg);padding:.15em .4em;border-radius:4px;
+}
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;overflow-x:auto;margin:0 0 22px;
+}
+pre code{background:none;padding:0;font-size:13.5px;line-height:1.6}
+
+.tablewrap{overflow-x:auto;margin:0 0 22px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule)}
+th{
+  font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--dim);padding-bottom:10px;
+}
+
+.sources{
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.sources h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 12px;font-weight:600;
+}
+.sources ol{list-style:none;margin:0}
+.sources li{display:flex;gap:10px;align-items:baseline;margin-bottom:7px;font-size:14px}
+.sources .num{
+  flex:0 0 auto;min-width:19px;height:19px;border-radius:5px;background:var(--accent-soft);
+  color:var(--accent);font-size:11px;font-weight:640;display:inline-flex;
+  align-items:center;justify-content:center;
+}
+.sources a{color:var(--dim);border-bottom:1px solid var(--line);word-break:break-all}
+.sources a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sources+.connected{margin-top:34px}
+
+.connected{
+  margin-top:56px;padding-top:26px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.connected h2{
+  font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 14px;font-weight:600;
+}
+.connected ul{list-style:none;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.connected li{margin:0}
+.connected a{
+  display:inline-block;padding:7px 13px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);
+}
+.connected a:hover{border-color:var(--accent);color:var(--accent)}
+.connected .rel{color:var(--dim);font-size:11.5px;margin-right:6px;
+  text-transform:uppercase;letter-spacing:.05em}
+
+footer{
+  max-width:680px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--rule);
+  font:400 13px/1.6 ui-sans-serif,system-ui,sans-serif;color:var(--dim);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+footer a{color:var(--dim);border:0}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:640px){ body{padding:0 20px 72px;font-size:16.5px} article{padding-top:34px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/">srish<span>.</span></a>
+  <a href="/">all notes</a>
+</header>
+
+<div class="wrap">
+<article>
+  <span class="kind">note</span>
+  <h1>FauxTalks in 2026 so far — traffic, SEO, and what to do next</h1>
+  <div class="meta">2026-09-24<br><span class="tag">analytics</span><span class="tag">seo</span><span class="tag">ga4</span><span class="tag">search-console</span><span class="tag">reddit</span><span class="tag">traffic</span></div>
+  <p>A year-to-date review of FauxTalks from <strong>1 Jan to 23 Sep 2026</strong>, pulled straight from Google Analytics 4 and Google Search Console. September is a partial month; "proj" means projected to a full month.</p>
+<hr>
+<h2>The short answer</h2>
+<pre><code>  Traffic grew 3.3x to a June peak, then settled ~25% lower.
+  Reddit made the peak. Reddit is now fading.
+  Google search that does NOT use the brand name is finally growing — fast.
+  The cheapest win left is a title/description rewrite, not new content.</code></pre>
+<h2>Year to date</h2>
+<div class="tablewrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Sessions</td><td><strong>61,780</strong></td></tr><tr><td>Users</td><td>38,464</td></tr><tr><td>Pageviews</td><td>119,730</td></tr><tr><td>Engagement</td><td>62.2%</td></tr><tr><td>Search clicks</td><td>~12,000</td></tr></tbody></table></div>
+<h2>Sessions per month</h2>
+<pre><code>Jan  ██████                3,165
+Feb  ███████               3,691
+Mar  ██████████            4,979
+Apr  ██████████████        7,063
+May  ███████████████████   9,723
+Jun  █████████████████████ 10,480   &lt;- peak
+Jul  █████████████████     8,494
+Aug  ███████████████       7,434
+Sep  ████████████████      ~7,900 (proj; 6,036 in 23 days)
+     one block = 500 sessions</code></pre>
+<p>Weekly traffic peaked at ~2,450 in June and has stayed between 1,600 and 2,000 since August. The week of 7 Sep (2,035) was the best since July.</p>
+<h2>Where visitors come from</h2>
+<div class="tablewrap"><table><thead><tr><th>Source</th><th>Mar</th><th>Jun</th><th>Aug</th><th>Sep (23 days)</th><th>Direction</th></tr></thead><tbody><tr><td>Direct</td><td>1,322</td><td>3,277</td><td>2,340</td><td>2,051</td><td>steady</td></tr><tr><td>Reddit</td><td>968</td><td>3,350</td><td>2,334</td><td>1,357</td><td><strong>falling</strong></td></tr><tr><td>Google</td><td>1,127</td><td>2,647</td><td>1,800</td><td>1,712</td><td>holding</td></tr><tr><td>ChatGPT</td><td>1,062</td><td>359</td><td>111</td><td>123</td><td>collapsed</td></tr><tr><td>Bing</td><td>228</td><td>429</td><td>533</td><td>406</td><td><strong>growing</strong></td></tr></tbody></table></div>
+<blockquote>January shows everything as "Direct", even though Search Console records 870 Google clicks that month. That is a tracking artifact, so don't compare channels against January.</blockquote>
+<h2>Search: two opposite trends</h2>
+<pre><code>Branded clicks (&quot;fauxtalks&quot;)        Non-branded impressions
+May  ████████████████ 1,571         Jan  ▏         33
+Jun  ███████████████  1,533         Jun  █        524
+Jul  ████████████     1,250         Jul  ██       819
+Aug  █████████          920         Aug  ████   2,103
+Sep  ██████████        ~985 proj    Sep  ██████████ 5,392</code></pre>
+<ol><li><strong>Fewer people search for the name.</strong> Brand searches follow how many people</li></ol>
+<p>recently heard about the site, and most of them heard via Reddit. 96% of this year's search clicks are branded.</p>
+<ol><li><strong>More searches without the name.</strong> Impressions went from 33 to 5,392 a</li></ol>
+<p>month, and September clicks (189 so far) are already 3.5x August's. This is the first real SEO growth. It is also why overall click-through fell from 77% to 13%: the mix changed, the performance didn't get worse.</p>
+<h2>The biggest single win</h2>
+<p>The site already ranks on page 1 for its main terms, but few people click:</p>
+<div class="tablewrap"><table><thead><tr><th>Search term</th><th>Impressions</th><th>Position</th><th>Click rate</th></tr></thead><tbody><tr><td>fake screenshot</td><td>1,541</td><td>6.1</td><td>4.3%</td></tr><tr><td>fake screenshot generator</td><td>1,227</td><td>6.6</td><td>2.7%</td></tr><tr><td>fake chat screenshot</td><td>1,001</td><td>6.1</td><td>3.0%</td></tr><tr><td>fake chat generator</td><td>466</td><td>7.3</td><td>2.8%</td></tr><tr><td>chat screenshot maker</td><td>271</td><td>5.4</td><td>4.4%</td></tr></tbody></table></div>
+<p>A normal click rate at position 6 is 5–8%. The fix is a better homepage title and description. It needs no new content and is conservatively worth <strong>+150 clicks a month</strong>. It was first recommended on 8 Sep and still hasn't shipped. The three blog posts have the same problem: 640–810 impressions each, but only 3–5 clicks.</p>
+<h2>Pages and people</h2>
+<ul><li><strong>Home page <code>/</code>:</strong> 34.5k landings at <strong>84%</strong> engagement.</li><li><strong>App <code>/app.html</code> direct landings:</strong> 18k at <strong>38%</strong>. People who land straight in the</li></ul>
+<p>app (bookmarks, Reddit links) leave more than twice as often. The empty first screen needs a faster "aha".</p>
+<ul><li><strong>Platform landing pages</strong> (Discord, iMessage, and others) bring very little traffic and have dropped out of Google.</li><li><strong>Top countries:</strong> US 13.6k · India 5.0k · Philippines 3.5k · UK 2.8k · Germany 2.2k.</li><li><strong>Likely bots:</strong> Ukraine (36% engagement), China (31%), and 4.8k sessions with no</li></ul>
+<p>landing page (6%).</p>
+<ul><li><strong>Devices:</strong> mobile 69% engagement, desktop 55%, with about equal sessions.</li><li><strong>A copy of the site with the GA tag</strong> (<code>/5776-chat/fauxtalks/index.html</code>, 136 views from 1 user).</li></ul>
+<p>Harmless, but it slightly inflates the numbers.</p>
+<h2>Product (27 Aug – 23 Sep, since event tracking started)</h2>
+<pre><code>app opened  3,369 users
+   │  34.6%
+   ▼
+exported    1,166 users      export success rate 97.2%</code></pre>
+<p>23.6k messages typed · 3.2k images uploaded · 709 animations played · feedback prompt answered 11% of the time.</p>
+<h2>What to do, in order</h2>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>Priority</th><th>Action</th></tr></thead><tbody><tr><td>1</td><td>High</td><td>Rewrite the homepage and blog titles/descriptions around "fake screenshot / fake chat screenshot generator"</td></tr><tr><td>2</td><td>High</td><td>Post on Reddit every 4–6 weeks. It drove the peak, and brand search follows it</td></tr><tr><td>3</td><td>Medium</td><td>Improve the empty first screen for people who land directly in the app</td></tr><tr><td>4</td><td>Medium</td><td>Set up Bing Webmaster Tools. Bing is the only search engine still growing</td></tr><tr><td>5</td><td>Low</td><td>Filter bot countries and "(not set)" out of reports</td></tr></tbody></table></div>
+<h2>How this connects</h2>
+<ul><li>The money side is in <a href="/2026-08-30-fauxtalks-monetization-research/">FauxTalks — what it can earn, and how long it takes</a>. Ads are the</li></ul>
+<p>proven model there, which makes traffic the thing that matters. That is why this note focuses on traffic.</p>
+<ul><li>The same SEO reality came up in <a href="/2026-09-16-leadspeer-marketing-call/">LeadsPeer marketing call — Nishita&#x27;s 90-day plan, and an honest SEO reality check on FauxTalks</a>.</li></ul>
+<p>_Source: the full report is archived verbatim at <code>inbox/raw/2026-09-24_fauxtalks_ytd-analytics_en.md</code>._</p>
+  <div class="connected"><h2>Connected</h2><ul><li><a href="/2026-08-30-fauxtalks-monetization-research/"><span class="rel">follows_up</span>FauxTalks — what it can earn, and how long it takes</a></li><li><a href="/2026-09-16-leadspeer-marketing-call/"><span class="rel">related</span>LeadsPeer marketing call — Nishita&#x27;s 90-day plan, and an honest SEO reality check on FauxTalks</a></li></ul></div>
+</article>
+</div>
+
+<footer>
+  <span>Srish Rachamalla</span>
+  <span>updated 2026-09-29</span>
+</footer>
+
+</body>
+</html>
