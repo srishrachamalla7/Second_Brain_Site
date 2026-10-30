@@ -1,0 +1,106 @@
+# PingLoom web experience plan
+
+## Product frame
+
+The web app is the setup console and operational record for Product A: developers configure projects and channels, create server-only credentials, send a test event, then inspect what the API accepted and what the provider accepted. Make that path obvious before adding dashboard ornament. The audience is developers setting up an integration and small teams checking an alert during work.
+
+The interface must distinguish **accepted**, **queued**, **provider accepted**, **retrying**, and **failed**. Provider acceptance does not prove a phone received or displayed a notification. `Seen` is per user; `Acknowledged` is one shared event state. Do not use “delivered” as a status. The dashboard never exposes server API keys to browser JavaScript or suggests putting them in client code.
+
+## Visual and interaction direction
+
+Use a calm, light-first developer console with strong typographic hierarchy, quiet borders, compact data tables, and a restrained teal/green action color. Give code and IDs a monospace face. Keep status meaning in text and icon as well as color; reserve red for destructive or failed states. The built-in UI/UX Pro Max design-system search matched a minimal Swiss style, IBM Plex Sans / JetBrains Mono, and a technical code-forward treatment. Its broad query resolved to a documentation landing pattern, so apply its visual guidance to the console but use the PRD's operational dashboard structure for product pages.
+
+Use consistent spacing, predictable page titles and breadcrumbs, and one primary action per page. Icons are SVGs with accessible names when they are the control; avoid emoji. Every interactive target has a visible keyboard focus state, and keyboard order follows the page. Forms have persistent labels, inline errors, and a linked error summary that receives focus on failed submit. Respect reduced motion, keep contrast at least 4.5:1 for normal text, and support 375 px through desktop widths without horizontal page scrolling. On narrow layouts, collapse the sidebar into a labeled menu, turn wide tables into stacked rows or a deliberate column selector, and keep essential actions reachable.
+
+## Information architecture and navigation
+
+### Public routes
+
+- `/` — product explanation, the five-minute setup sequence, honest delivery semantics, pricing experiment where approved, and a clear sign-up CTA.
+- `/docs` and `/docs/*` — quick start, API reference, authentication and event limits, status semantics, and troubleshooting. Keep examples consistent with implemented contracts.
+- `/login`, `/register`, `/verify-email`, `/forgot-password`, `/reset-password` — account access and recovery.
+- `/invite/accept` — accept an expiring workspace invitation (P1; a direct link may resolve to sign-in first).
+
+### Authenticated app routes
+
+Use a persistent left navigation rail on desktop and a compact drawer on small screens. Its top area contains workspace switcher; the project selector is contextual and changes project-scoped pages. Main navigation: **Overview**, **Projects**, **Events**, **Devices**, **Usage**. A lower **Workspace settings** group contains **API keys** (project-scoped), **Settings**, and P1 **Team**, **Webhook sources**, **Billing**. Place **API playground** as a prominent project-level action and also link it from onboarding and project detail. Preserve selected workspace/project in route parameters or a stable URL, and deep-link filters and event IDs.
+
+Show the current workspace and project in breadcrumbs/page headers. A workspace switch changes every list and metric scope together. Project pages must never silently fall back to a different project. Do not expose routes or navigation for Product B, embedded SDKs, iOS/APNs, or web push.
+
+## Route and page plan
+
+P0 means part of the first end-to-end Product A experience. P1 means a later paid-beta feature and must stay hidden or explicitly labeled **Coming soon** until implemented. All P0 routes share the global loading, empty, forbidden, expired-session, and service-error behavior below; the table calls out route-specific content and empty/error details.
+
+| Route / phase | Main content and primary action | Important behavior and route-specific states |
+|---|---|---|
+| `/` P0 | Headline explains “server events to your team's phone inbox”; a small flow diagram; five-minute quick start; platform/API proof; CTA to create account. | Avoid guaranteed-delivery claims. Pricing can show only owner-approved/currently implemented terms; otherwise link to contact/pilot or omit. Mobile stacks sections and keeps CTA visible without covering content. |
+| `/docs`, `/docs/*` P0 | Searchable getting-started guide, copyable curl sample, API/schema reference, limits, auth domains, status definitions, troubleshooting. | Examples must not contain a real key. Mark API acceptance separately from FCM provider acceptance and device display. Broken search has a retry and browse-by-topic fallback. |
+| `/register`, `/login` P0 | Email/password forms, password visibility toggle, recovery link; register explains verification. | Preserve typed email through recoverable errors; announce field and form errors accessibly. Verification pending page supports resend with cooldown and clear sent/failed state. |
+| `/forgot-password`, `/reset-password`, `/verify-email` P0 | Request reset, set new password, verify email. | Avoid revealing whether an email has an account. Invalid/expired reset or verify tokens get an explanation and request-new-link action. Expired session returns to login with a safe return path. |
+| `/onboarding` P0 | Checklist: workspace → project → Android device → API key → test event. Show progress and resume point. | Each completed step is backed by server state. Device step says “Waiting for device registration” until API confirmation; offers app install/sign-in guidance. A skipped device is allowed so API setup can continue. Key plaintext appears only at creation and is not required to revisit checklist. |
+| `/app` or `/overview` P0 | Workspace summary: event count today/current period, project count, usage against quota, recent events, provider submission health and setup progress. | First workspace gets a setup empty state, not zero-heavy charts. No devices, no recent events, and no measured health are distinct states. Label unavailable data rather than showing fabricated zero or green health. |
+| `/projects` P0 | Searchable project list with environment, channel count, last event, and status; create project. | Empty state creates first project. Archive requires confirmation and explains impact; archived projects are visibly marked and excluded from default list. Duplicate names/slugs get inline correction. |
+| `/projects/new` P0 | Create project with name and environment (production/test as supported). | Validate before submit; preserve values on recoverable error. If project creation succeeds but following setup step fails, retain the project and show a resumable next step. |
+| `/projects/:projectId` P0 | Project summary, environment badge, channel list, recent events, quick-start snippet, links to keys/playground. Primary action: create channel or send test. | Unknown or cross-workspace project IDs show the same not-found/forbidden treatment without leaking existence. No channels prompts creation of `general`; no activity points to playground. Rename/archive behind explicit actions. |
+| `/projects/:projectId/channels` and `/channels/:channelId` P0 | Channel name/slug, default subscription setting, subscribed-member count where authorized, recent events; create/edit channel. | Enforce slug format and project-level uniqueness with inline error. Explain that channel routes to subscribed, authorized users. Personal subscription controls only appear where membership behavior is implemented. |
+| `/projects/:projectId/keys` P0 | Key list with safe prefix, creation date, last-used time, status; create, rotate, revoke. | Creation dialog names intended server/environment use and scope. Show newly generated plaintext once with explicit copy affordance and warning to store it securely; closing loses access. Never reveal old secret. Rotate/revoke confirmation describes immediate impact. Members see an explanatory forbidden state; no create button. |
+| `/projects/:projectId/playground` P0 | Form for channel, title, body, priority, optional event type/external ID/data/action URL; safe payload preview and send. | Use authenticated dashboard endpoint; never ask for or place a live API key in browser storage/client JS. Mark as a real billable event if it counts. Show the API response and event link. Validate title ≤120, body ≤2,000, data ≤8 KB, request ≤32 KB, allowed priority/channel slug, HTTPS action URL. Distinguish rejected request, accepted event, provider accepted, retrying, and failed. A local simulation must be explicitly labeled simulation. |
+| `/events` P0 | Paginated event explorer with project/channel, time range, status, priority and query filters; columns for title, event ID, created time, project/channel, status, acknowledgement. | Search/no-match state offers clear filters. URL preserves filters. Do not imply global search if scope is selected project/workspace. Show retention boundary and pagination; no infinite unbounded list. |
+| `/events/:eventId` P0 | Event summary, normalized payload (sensitive fields collapsed where appropriate), provider attempt timeline, recipient/device status if authorized, per-user seen and shared acknowledgement, safe action URL. | Fetch with user session only. Unknown/cross-tenant IDs do not disclose existence. Empty provider details mean “not attempted yet,” not delivered. Failure detail uses safe provider error labels and retry state; never expose secrets/tokens or stack traces. |
+| `/devices` P0 | Workspace devices with user, platform, registration/last sync, permission and active/disabled state; device detail where available. | `Ready` only after server confirms registration. Explain permission denied separately from token registration failure and stale sync; provide retry/help path. Avoid showing raw FCM token. Empty means install and sign in to Android app. |
+| `/usage` P0 read-only | Accepted events this period vs plan allowance, reset/date range, metering definition, trend or simple period comparison when data supports it. | One accepted event counts once regardless of device fanout; retries and invalid requests do not count. Unavailable counters are labeled. Near/quota reached state links to plan help; do not imply a functioning checkout in P0. |
+| `/settings/profile` P0 | Profile email/name, password/security session actions, notification preferences only when backed by implementation. | Email change/verification and password updates show pending/complete/error truthfully. Logout confirms if needed and revokes device association through the supported flow. |
+| `/settings/workspace` P0 | Workspace name, current role, workspace selection, retention preference only if implemented, audit history where available. | Workspace deletion is owner-only, requires typed confirmation and states consequences. Hide unsupported retention controls or label them coming soon; don't imply a preference was saved when unsupported. |
+| `/team` P1 | Members, role and invite management, pending invitations, revoke/remove. | Until implemented, hide route or show a clearly labeled Coming soon page without active invite controls. When live: owner/admin can manage as authorized; members are read-only; owner transfer/removal restrictions are clear. |
+| `/projects/:projectId/webhooks` P1 | Webhook source list/create, expected payload type, verification mode, mapping template, sample and validation history. | Gated until backend exists. When live, show signing secret/token once, rotation and disable controls, verification status, and secret-safe logs. Never allow arbitrary code or expose secret in later view. |
+| `/billing` P1 | Plan, quota, seat usage, subscription state, hosted checkout/portal, invoices/history. | Gated until verified provider state and hosted checkout work. When live, state labels include active/trialing/past_due/cancelled and grace period; entitlements follow verified callbacks. Never collect card data in PingLoom or promise tax/receipt behavior that is not implemented. |
+
+## Navigation and page behavior
+
+- Workspace switcher is available from every authenticated page. Switching workspace resets invalid project context, filters, and active detail state; show the new workspace in the page header before rendering its data.
+- Project selector is available wherever a page is project scoped. Project detail, channels, keys, playground, and event filters share the same selected project.
+- Provide breadcrumbs for nested pages and a visible page title. Use standard browser history and deep links; back from event detail returns to the explorer with its filters intact.
+- Destructive actions (archive, revoke, rotate, remove, delete) name the exact object and consequence. Confirm in a dialog with keyboard focus trapping and return focus to the initiating control on close.
+- Long-running actions show an in-place pending state, disable duplicate submission, and report the server result. Never use a generic “Success” toast as the only evidence for important actions.
+- API errors use the shared envelope's safe message and request ID. Give a retry action only for retryable conditions; preserve the form/payload. Never display stack traces or credentials.
+
+## Shared states for every primary app route
+
+1. **Loading:** retain page shell and title, use skeletons sized to final content, announce dynamic updates without repeatedly moving focus. Don't render a false empty state while fetching.
+2. **Empty:** explain what is absent and give one next action that is available to the current role. Distinguish “not configured,” “no events in this range,” and “no data available.”
+3. **Forbidden:** explain insufficient access without confirming another tenant's object exists; link back to an authorized overview. Hide unauthorized actions as well as enforcing server-side denial.
+4. **Expired session:** preserve a safe return URL, explain sign-in is needed, and resume after authentication where possible. Do not lose unsaved form data silently.
+5. **Service error:** human-readable safe message, request ID, and relevant retry/back action. Keep stale data visibly timestamped if retained; never make it look current.
+6. **Offline/transient:** show connection state and last updated time; allow safe retry. Do not optimistically mark an event acknowledged or a device ready before confirmation.
+
+## Role and phase gates
+
+| Capability | Owner | Admin | Member |
+|---|---|---|---|
+| View workspace overview, authorized projects/events, usage | Yes | Yes | Yes, within workspace and subscribed-channel policy |
+| Create/manage projects and channels | Yes | Yes | No |
+| Create/rotate/revoke API keys | Yes | Yes | No; show read-only explanation |
+| Send playground event | Yes | Yes | Only if backend grants appropriate permission; otherwise disabled with reason |
+| Read event and mark personal seen / shared acknowledge | Yes | Yes | Yes, within authorized scope |
+| Manage invitations/roles | Yes (P1) | Yes if policy grants it (P1) | No |
+| Billing, plan change, workspace deletion | Yes (P1) | No | No |
+
+Authorization is server enforced on every read and mutation. UI gates improve clarity but do not replace tenant/project membership checks. P1 pages remain absent or explicitly Coming soon until their complete backend path exists; no simulated controls or fake billing/team success.
+
+## Delivery phases
+
+**P0 web foundation and setup:** public landing/docs; authentication and recovery; workspace/project onboarding; projects and channels; safe one-time key lifecycle; dashboard overview; authenticated playground; event explorer/detail; device readiness; read-only usage; profile/workspace settings. Prioritize the vertical first-alert flow and error/empty/permission states alongside each route.
+
+**P1 paid beta:** team invitations/roles and channel subscriptions, webhook sources with secret lifecycle and safe validation, advanced filters/retention/health where implemented, plan restrictions, hosted checkout/portal, verified billing webhooks and invoices. Release each navigation item only when its end-to-end behavior and authorization are ready.
+
+**Out of scope for this web plan:** Product B customer-app SDK configuration, iOS/APNs, web push, arbitrary workflow/code execution, SMS/email campaigns, and unimplemented analytics presented as live.
+
+## Review checklist
+
+- Can a first-time developer go from signup to a valid test event without guessing what to do next?
+- Does the page distinguish API acceptance from provider acceptance and actual device/user evidence?
+- Are API key plaintext and FCM tokens absent from later views, logs, and browser client state?
+- Do all primary routes have loading, empty, forbidden, expired-session, service-error, and retry behavior?
+- Are project/workspace scope and role visible, and are unauthorized objects protected without existence leaks?
+- Are all controls functional for the current phase and role, with keyboard access, visible focus, labels, and mobile layouts?
+- Are P1 actions gated rather than presented as live before their backend is ready?
