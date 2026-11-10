@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PingLoom Security Audits</title>
+<style>
+  :root { --bg:#f7f6f2; --s:#fff; --ink:#1c1b19; --m:#5f5c55; --l:#e3e0d8; --a:#2f5bd3; --g:#1f7a4d; --gs:#e3f3ea; --w:#9a6400; --ws:#fbf0dc; --b:#b3261e; --bs:#fbe5e3; --c:#f1efe9; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#141413; --s:#1d1c1a; --ink:#ecebe6; --m:#a8a49b; --l:#34322e; --a:#8aa8ff; --g:#6fd3a0; --gs:#17301f; --w:#f0bd5e; --ws:#33270f; --b:#ff8a80; --bs:#3a1a18; --c:#24231f; } }
+  :root[data-theme="dark"] { --bg:#141413; --s:#1d1c1a; --ink:#ecebe6; --m:#a8a49b; --l:#34322e; --a:#8aa8ff; --g:#6fd3a0; --gs:#17301f; --w:#f0bd5e; --ws:#33270f; --b:#ff8a80; --bs:#3a1a18; --c:#24231f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:900px; margin:0 auto; padding:32px 16px 80px; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 4px; }
+  h2 { font-size:1.4rem; margin:44px 0 8px; padding-top:16px; border-top:1px solid var(--l); }
+  h3 { font-size:1.05rem; margin:20px 0 6px; }
+  p { margin:8px 0; }
+  .m { color:var(--m); }
+  .kid { background:var(--s); border:1px solid var(--l); border-radius:10px; padding:12px 14px; margin:12px 0; }
+  .kid b { display:block; margin-bottom:2px; }
+  .grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); margin:12px 0; }
+  .stat { background:var(--s); border:1px solid var(--l); border-radius:10px; padding:12px 14px; }
+  .stat .n { font-size:1.6rem; font-weight:700; }
+  .tag { display:inline-block; font-size:.75rem; font-weight:600; padding:2px 8px; border-radius:999px; }
+  .ok { background:var(--gs); color:var(--g); } .wn { background:var(--ws); color:var(--w); } .bd { background:var(--bs); color:var(--b); }
+  .item { background:var(--s); border:1px solid var(--l); border-radius:10px; padding:14px 16px; margin:12px 0; }
+  .item h3 { margin-top:0; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid var(--l); vertical-align:top; }
+  th { color:var(--m); font-size:.8rem; }
+  .tw { overflow-x:auto; }
+  code { background:var(--c); padding:1px 5px; border-radius:4px; font-size:.88em; overflow-wrap:anywhere; }
+  ul { padding-left:20px; }
+</style>
+</head>
+<body>
+<main>
+<h1>PingLoom Security Audits</h1>
+<p class="m">31 October 2026 · code version <code>bf5d41d</code> · PingLoom is not live anywhere yet, so nothing real was at risk.</p>
+
+<div class="kid"><b>In one line</b>We ran two security checks on the code. The Firebase setup is safe. The deeper check found 3 weak spots, none in the core of the product. All 3 are now fixed, with tests.</div>
+
+<div class="grid">
+  <div class="stat"><div class="n">2</div>audits run</div>
+  <div class="stat"><div class="n">0</div>confirmed serious issues</div>
+  <div class="stat"><div class="n">3</div>weak spots, all fixed</div>
+  <div class="stat"><div class="n">14</div>areas checked and clean</div>
+</div>
+
+<h2>1. Firebase security rules audit</h2>
+<p class="m">Tool: Google's <code>firebase-security-rules-auditor</code> skill.</p>
+<div class="kid"><b>Like I'm 5</b>This check looks at the locks on Firebase databases and file storage. PingLoom doesn't keep anything in Firebase. It only uses Firebase to send phone notifications and crash reports. So there was no database lock to check, and the score is 5 out of 5. We still added locks in case someone switches a database on by mistake.</div>
+
+<p><b>Score: 5 / 5 (secure).</b> No Firestore, Cloud Storage or Realtime Database is used. Event data lives in PingLoom's own database, behind its access checks.</p>
+
+<div class="item">
+  <h3>Lock rules for unused Firebase databases <span class="tag ok">fixed</span></h3>
+  <p>If a database were switched on later in "test mode", anyone could read and write it for 30 days. We added deny-all rules for Firestore, Storage and Realtime Database to the code (<code>infra/firebase/</code>), with steps for using them.</p>
+</div>
+<div class="item">
+  <h3>The server's Firebase key had more power than it needs <span class="tag ok">fixed in the guide</span></h3>
+  <p>The setup guide used Firebase's default admin key, which can change the whole project if it leaks. The guide now creates a separate key that can only send notifications.</p>
+</div>
+<div class="item">
+  <h3>Limit the Android app key <span class="tag wn">owner step later</span></h3>
+  <p>The app's Firebase key is not secret, but it should be limited to the PingLoom Android app in Google Cloud. This happens when the Firebase project is created.</p>
+</div>
+
+<h2>2. Code security audit</h2>
+<p class="m">Tool: Cloudflare's <code>security-audit</code> skill, quick mode, 10 helper agents, reading code only (no code was run).</p>
+<div class="kid"><b>Like I'm 5</b>Helpers read the code looking for ways one person could get into someone else's account or data. They checked 14 areas and found nothing wrong there. They found 3 smaller weak spots. Because nothing could be safely run on this computer, the strict rules of this tool don't let it call anything "confirmed". We read the code ourselves and fixed all 3.</div>
+
+<h3>Weak spots</h3>
+<div class="item">
+  <h3>Connecting GitHub or Google to an account <span class="tag ok">real · fixed</span></h3>
+  <p><b>What:</b> the "connect your GitHub or Google account" step was not tied to the person and browser that started it. A provider account could end up connected to the wrong PingLoom account.</p>
+  <p><b>Fixed:</b> the step now needs a secret held by the browser or app that started it, and it is finished by the same signed-in user. Same protection the sign-in flow already has.</p>
+</div>
+<div class="item">
+  <h3>Email sign-in links on the phone <span class="tag ok">fixed</span></h3>
+  <p><b>What:</b> when the app is signed out, opening an email sign-in link signs straight into that link's account, without showing which account.</p>
+  <p><b>Fixed:</b> the app (and website) shows "Sign in as a***@example.com?" and waits for a tap first. It never silently replaces an account that is already signed in.</p>
+</div>
+<div class="item">
+  <h3>Votes from people who left the team <span class="tag ok">fixed</span></h3>
+  <p><b>What:</b> if someone approved a decision and was then removed or demoted, their approval still counted toward the number of approvals needed.</p>
+  <p><b>Fixed:</b> only votes from current members who are still allowed to decide count. Old votes stay in the history, marked as no longer counting.</p>
+</div>
+
+<h3>Checked and clean</h3>
+<div class="tw"><table>
+  <tr><th>Area</th><th>Area</th></tr>
+  <tr><td>Sessions and refresh tokens</td><td>Ingest, duplicates and usage counting</td></tr>
+  <tr><td>Password reset and email links</td><td>Webhook signature checks (all sources)</td></tr>
+  <tr><td>Website CSRF protection and CSP</td><td>Inbound email</td></tr>
+  <tr><td>Team, role and API-key checks</td><td>Dodo billing webhook</td></tr>
+  <tr><td>Inbox access</td><td>Outbound request guard (SSRF)</td></tr>
+  <tr><td>Decision policies</td><td>Slack, Discord and Telegram sending</td></tr>
+</table></div>
+
+<h3>Not checked in this run</h3>
+<p>Quick mode covers the most important parts first. Not yet checked: heartbeats, the super-admin area, ops routes, waitlist, privacy export and delete, widgets, the delivery worker, the rate limiter, API keys after a project is archived, webhook-source settings pages, dashboard totals, devices and test sends. Deployment and outside packages were out of scope. A second run will cover these.</p>
+
+<h2>3. What happens next</h2>
+<ul>
+  <li>Done: the 3 fixes are merged with tests (task T33, 31 Oct, 02:55).</li>
+  <li>A follow-up audit run checks those 3 fixes plus the unchecked areas.</li>
+  <li>Owner steps when Firebase is set up: use the push-only key, limit the Android key, never turn on Firebase databases.</li>
+</ul>
+<p class="m">This page has no secrets and no attack steps. Full files: <code>docs/security/firebase-rules-audit.md</code> in the repo and the audit run folder on the owner's computer.</p>
+</main>
+</body>
+</html>

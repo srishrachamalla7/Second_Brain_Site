@@ -1,0 +1,106 @@
+# PingLoom visual direction
+
+## Recommendation
+
+Use **Tide** as the lead direction for the design review. It gives PingLoom a calm, assured identity through deep green ink and a restrained teal action color. That fits a product developers check during real operational work: events, retry states, device readiness, and shared acknowledgement should read as precise information rather than an energetic marketing campaign. Keep the interface mostly matte, opaque, and grid-led. Use mint only for small moments of positive emphasis; no glass cards, glowing gradients, or decorative dashboard charts.
+
+The product promise is “send your first real notification to your phone in under five minutes.” Make the web setup path and Android inbox the visual center of gravity. The design should feel like dependable instrumentation with a human-readable inbox, not a pager clone or a terminal cosplay.
+
+## Direction comparison
+
+| Direction | Character | Strength | Risk | Best use |
+|---|---|---|---|---|
+| **Tide** `#f4f6f2 / #152f2c / #006b5e` | Quiet, grounded, dependable | Most directly signals steady operations and works well across dashboard and companion app | Green can be mistaken for “success” if used for all branding and status | Recommended default brand |
+| **Ember** `#f8f3ec / #342925 / #ac4029` | Warm, tactile, deliberate | Distinctive and less generic than SaaS blue | Rust sits too close to warning/error meanings; needs especially strict status separation | A viable expressive alternative if warmer personality is desired |
+| **Iris** `#f3f3fa / #2b2945 / #6050a8` | Thoughtful, analytical, modern | Strong legibility and a clear digital-product feel | Purple can read as AI/creative tooling and is less connected to trustworthy operations | Good alternative if the brand should feel more technical and product-led |
+
+Tide is recommended, but the three directions can share the same component architecture and typography so the choice remains a palette and brand-expression decision. The review should show the three themes side by side before using Tide on the other pages.
+
+## Color tokens
+
+Use semantic tokens, not raw palette values scattered through components. The values below are starting tokens for the visual review and should be mapped per theme. Contrast figures use the WCAG relative-luminance formula; they are calculated for the exact color pairs shown.
+
+### Tide light
+
+| Token | Value | Use |
+|---|---|---|
+| `canvas` | `#f4f6f2` | App/page background |
+| `surface` | `#ffffff` | Main cards, sheets, and fields |
+| `ink` | `#152f2c` | Primary text |
+| `ink-muted` | `#526661` | Secondary text; confirm against its actual surface before shipping |
+| `brand` | `#006b5e` | Primary action, selected navigation, links |
+| `on-brand` | `#ffffff` | Text on brand fill |
+| `feature-surface` | `#103c35` | One focused dark setup/code panel, not every card |
+| `mint` | `#c0f18c` | Decorative highlight or small positive accent; not body text |
+| `border` | `#d6dfd9` | Card and field boundaries |
+
+### Light-theme comparison pairs
+
+| Direction | Main text on canvas | Brand on canvas | White on brand fill |
+|---|---:|---:|---:|
+| Tide | 13.09:1 | 5.92:1 | 6.43:1 |
+| Ember | 12.77:1 | 5.40:1 | 5.97:1 |
+| Iris | 12.63:1 | 5.92:1 | 6.54:1 |
+
+All listed text pairs pass WCAG AA’s 4.5:1 normal-text threshold. Keep the chosen `ink` on the palette canvas for body copy; don’t assume muted text or borders pass without measuring their actual surface pairing.
+
+### Dark theme starting values
+
+Dark mode should feel like a low-glare workspace, not a black terminal. Preserve the identity using a brighter theme-specific brand token, and use dark ink on bright filled buttons.
+
+| Direction | `canvas` | `surface` | `ink` | `brand` | `on-brand` | `feature-surface` |
+|---|---|---|---|---|---|---|
+| Tide | `#101a18` | `#182421` | `#eaf2ed` | `#55bea8` | `#102f2a` | `#103c35` |
+| Ember | `#1b1513` | `#251d19` | `#f4ece5` | `#ff8e70` | `#39241e` | `#492e26` |
+| Iris | `#171622` | `#211f2f` | `#f1eff9` | `#ac9af5` | `#262143` | `#302b51` |
+
+Dark-theme `ink` on `canvas` is 15.57:1 for Tide, 15.45:1 for Ember, and 15.72:1 for Iris. The brighter `brand` on `canvas` is 7.88:1, 8.04:1, and 7.40:1 respectively. Dark `on-brand` on its brand fill is 6.37:1, 6.47:1, and 6.30:1. Do not use white text on these bright dark-mode brand fills; it fails normal-text contrast. Each Android theme follows the system by default, with a user override in settings if the app supports it.
+
+## Status colors are independent of brand
+
+Reserve semantic status tokens for event/delivery state and use both text and icon/shape so color is never the only cue. Keep brand hue out of error and warning states, especially for Ember.
+
+- `success`: a green distinct from Tide’s primary; label “Provider accepted” or “Acknowledged” as appropriate. Never imply device delivery.
+- `warning`: amber/yellow for “Retrying” or attention needed.
+- `error`: red for “Failed”, invalid input, or disabled token.
+- `neutral`: slate/gray for “Accepted”, “Queued”, or informational metadata.
+- `unread`: a clear shape/weight cue plus a label or count; do not rely only on a colored dot.
+
+Status design must preserve the PRD’s distinction between provider acceptance and actual device delivery. Use exact state language and never show “Delivered” as a success label.
+
+## Type, density, and layout
+
+Use **IBM Plex Sans** for interface and reading text, with **JetBrains Mono** only for code snippets, API keys, request IDs, timestamps where alignment helps, and compact technical metadata. This pairing scored as the developer-tool match in the local typography search. Keep headings in the sans family; an all-mono interface makes ordinary inbox content harder to scan and turns technical personality into decoration.
+
+Use a four/eight-unit spacing rhythm: 4 for icon/text alignment, 8 for tight control gaps, 16 for component padding, 24 for groups, 32 for sections, and 48–64 for page-level separation. On desktop, use a stable sidebar and a readable event list/detail split; keep the central content around 1120–1280 px rather than stretching every paragraph to the viewport. Android uses edge-aware content insets, compact list rows with generous tap areas, and familiar system navigation. Keep body copy at 16 px / 1.5 line height on web; secondary metadata may be 13–14 px, never the main event title or state.
+
+Use thin neutral borders and flat surfaces to establish grouping. Reserve shadows for overlays or floating controls. A single dark feature panel can showcase the “send test event” or code sample, but the working inbox should remain light and quickly scannable.
+
+## Motion and interaction
+
+Motion is feedback, not atmosphere. Use 150–220 ms for color, border, or selection feedback; 200–280 ms for short panel transitions. New events may appear with a restrained fade/short vertical settle, while state updates should change in place without shifting neighboring rows. Avoid pulsing alarm effects, parallax, looping motion, and animated gradients. Respect `prefers-reduced-motion` on web and Android animator scale/reduced-motion behavior.
+
+Every web control needs keyboard focus and a visible focus ring. On mobile, keep Android targets at least 48 dp (iOS 44 pt if an iOS concept is shown) and separate adjacent targets by at least 8 dp. Use explicit labels for icon-only actions such as acknowledge, refresh, and more; show pressed, disabled, loading, empty, denied, expired-session, and error states. A denied Android notification permission should leave the inbox usable and show a clear route to system settings.
+
+## Icon and platform guidance
+
+Use one consistent outline icon family for product UI. The UI/UX Pro Max mobile rules and Compose search favor vector assets and Compose semantics/content descriptions; don’t use emoji for navigation or status. Decorative icons next to visible labels should be hidden from accessibility traversal. Interactive icons need accessible names and expose selected/pressed state. Use the Android system notification icon conventions for actual notifications rather than the dashboard icon set.
+
+Android should feel native to Material 3: system bars and safe areas respected, predictable back behavior, appropriate ripple feedback, permission timing explained before the OS prompt, and no web-style hover affordances. The inbox remains the primary screen; the status chip and timestamp should be legible at a glance, and event details should be fetched only after authenticated tap. Keep lock-screen previews minimal by default, matching the PRD.
+
+Web should feel like a focused developer console: left-side workspace/project navigation, clear page titles, compact but breathable tables/lists, visible project context, copyable code with copy feedback, and direct inline validation. Use responsive behavior at 375, 768, 1024, and 1440 px. Don’t copy a dashboard grid onto mobile; prioritize project setup and inbox/event detail.
+
+## Evidence and search notes
+
+Applied the `ui-ux-pro-max` skill as requested. The local design-system query matched SaaS with a generic glassmorphism recommendation, which conflicts with the brief’s preference for calm, operational utility; used its typography/accessibility findings while choosing Minimalism & Swiss Style from the targeted enterprise-dashboard style search. The style search describes this as a low-risk fit for enterprise apps, dashboards, documentation, and SaaS, with high contrast, clear grid, minimal shadows, and light/dark support.
+
+Searches run:
+
+- `developer notification SaaS calm reliable inbox` (`--design-system`): generic modern SaaS result; glassmorphism explicitly says avoid for this product and was rejected as a visual direction.
+- `accessible palette contrast dark mode` (`--domain color`): returned high-contrast dark and public-service palette references; used only as a reminder to measure light and dark modes independently.
+- `developer tool readable sans mono` (`--domain typography`): matched IBM Plex Sans + JetBrains Mono for developer tools.
+- `notification inbox touch permission safe areas` (`--stack jetpack-compose`): no match; retried `Compose accessibility touch targets`, which returned Compose content descriptions and semantics guidance.
+- `mobile touch target permissions dark mode` (`--domain ux`): Android 48 dp, iOS 44 pt, and 8 px minimum spacing between adjacent touch targets.
+- `enterprise dashboard minimal flat` (`--domain style`): matched Minimalism & Swiss Style for dashboards/SaaS, supporting light/dark themes and restrained effects.
+
+The palette math above was calculated from the supplied hex values using WCAG relative luminance. It does not certify unmeasured muted text, borders, status colors, focus rings, or any later palette changes.

@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sealion 7 Insurance</title>
+<style>
+:root{
+  --bg:#f6f5f1; --card:#ffffff; --ink:#1d1f23; --muted:#5d6470; --line:#e3e1da;
+  --accent:#0f6b5c; --accent-soft:#e2f1ed; --warn:#9a5b00; --warn-soft:#fbefd9;
+  --bad:#a3302a; --bad-soft:#f8e3e1; --good:#1d6b2f; --good-soft:#e1f2e4; --chip:#efede7; --on-accent:#ffffff;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141518; --card:#1d1f24; --ink:#eceae4; --muted:#a3a8b2; --line:#30333a;
+  --accent:#5cc7b0; --accent-soft:#183a33; --warn:#f0b452; --warn-soft:#3a2d16;
+  --bad:#f08c84; --bad-soft:#3d1f1d; --good:#7fd48e; --good-soft:#1b3420; --chip:#2a2d33; --on-accent:#0c1a17;
+  --shadow:none;}}
+:root[data-theme="dark"]{
+  --bg:#141518; --card:#1d1f24; --ink:#eceae4; --muted:#a3a8b2; --line:#30333a;
+  --accent:#5cc7b0; --accent-soft:#183a33; --warn:#f0b452; --warn-soft:#3a2d16;
+  --bad:#f08c84; --bad-soft:#3d1f1d; --good:#7fd48e; --good-soft:#1b3420; --chip:#2a2d33; --on-accent:#0c1a17; --shadow:none;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 80px}
+header h1{font-size:clamp(1.5rem,4vw,2.2rem);margin:.2em 0 .1em;letter-spacing:-.01em}
+header p{color:var(--muted);margin:.2em 0}
+.sub{font-size:.9rem;color:var(--muted)}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;margin:14px 0 6px;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 13px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer}
+nav button.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+nav{scrollbar-width:thin}
+section{display:none}
+section.on{display:block}
+h2{font-size:1.35rem;margin:22px 0 8px}
+h3{font-size:1.08rem;margin:18px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin:12px 0}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.big{font-size:1.9rem;font-weight:700;letter-spacing:-.01em}
+.k{color:var(--muted);font-size:.86rem}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;font-weight:600;background:var(--chip)}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.note{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:8px;margin:10px 0;font-size:.94rem}
+.tip{border-left:4px solid var(--accent);background:var(--accent-soft);padding:10px 12px;border-radius:8px;margin:10px 0;font-size:.94rem}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--chip);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{background:var(--accent-soft)}
+.addon{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}
+.addon:last-child{border-bottom:none}
+.addon input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:0 0 auto}
+.addon .t{flex:1}
+.addon .p{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.addon .why{color:var(--muted);font-size:.88rem}
+.sticky-total{position:sticky;bottom:10px;z-index:4;background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 16px;display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;margin-top:12px}
+.sticky-total b{font-size:1.3rem}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:transparent;color:var(--ink);padding:7px 12px;font:inherit;font-size:.9rem;cursor:pointer}
+.seg button.on{background:var(--accent);color:var(--on-accent)}
+.tiers{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.tiers button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:8px 12px;font:inherit;cursor:pointer;text-align:left}
+.tiers button small{display:block;color:var(--muted)}
+.tiers button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.feat div{padding:9px 11px;border-radius:10px;border:1px solid var(--line);font-size:.9rem;background:var(--card)}
+.feat div.yes{border-color:var(--accent);background:var(--accent-soft)}
+.feat div.no{opacity:.45;text-decoration:line-through}
+.feat div b{display:block;font-size:.92rem}
+label.rng{display:block;margin:12px 0 4px;font-weight:600}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chk{display:flex;gap:8px;align-items:center;margin:6px 0}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.bars{margin-top:10px}
+.bar{display:grid;grid-template-columns:120px 1fr 110px;gap:10px;align-items:center;margin:8px 0;font-size:.92rem}
+.bar .track{background:var(--chip);border-radius:6px;height:22px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:6px;transition:width .35s}
+.bar .fill.alt{background:var(--warn)}
+.bar .v{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.scen{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.scen button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;font:inherit;font-size:.9rem;cursor:pointer}
+.scen button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
+.verdict .card{margin:0}
+details{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 14px;margin:8px 0}
+details summary{cursor:pointer;font-weight:600}
+.checklist li{margin:6px 0}
+.theme{float:right;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+footer{color:var(--muted);font-size:.85rem;margin-top:30px}
+@media (max-width:560px){.bar{grid-template-columns:84px 1fr 92px}.big{font-size:1.55rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <button class="theme" id="themeBtn" type="button">Light / dark</button>
+  <p class="sub">Research done on 10 Nov 2026 · Live quotes from insurer websites</p>
+  <h1>BYD Sealion 7 Dynamic: car insurance</h1>
+  <p>New car · Registration at TG30 Bhongir (pin 508116) · Owned by the company · No previous policy (no NCB)</p>
+</header>
+
+<nav id="nav">
+  <button data-s="sum" class="on">Summary</button>
+  <button data-s="ins">All insurers</button>
+  <button data-s="build">Build your ICICI plan</button>
+  <button data-s="sa">Smart Assist tiers</button>
+  <button data-s="term">1+3 vs 3+3</button>
+  <button data-s="zd">Zero dep vs Battery</button>
+  <button data-s="tp">Third party</button>
+  <button data-s="claim">If you have a big claim</button>
+  <button data-s="ask">Questions to ask</button>
+</nav>
+
+<!-- SUMMARY -->
+<section id="sum" class="on">
+  <h2>My final recommendation</h2>
+  <div class="grid g3">
+    <div class="card"><div class="k">Insurer</div><div class="big">ICICI Lombard</div><div class="k">Cheapest of those that quoted, highest car value, and both Hyderabad BYD workshops are cashless</div></div>
+    <div class="card"><div class="k">Policy type</div><div class="big">1+3</div><div class="k">1 year own damage + 3 years third party. Renew own damage in Nov 2027 and Nov 2028</div></div>
+    <div class="card"><div class="k">Expected year-1 price</div><div class="big">≈ ₹1,31,000</div><div class="k">₹1,28,933 including GST from the online quote, + paid-driver PA (~₹2–3k, price to be confirmed on the call)</div></div>
+  </div>
+
+  <div class="card" style="border:2px solid var(--accent)">
+    <h3 style="margin-top:0">The exact plan to buy</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Item</th><th>What it does for you</th><th class="n">Price</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>Base</b>: own damage 1 yr + third party 3 yrs</td><td>Your car (accident, theft, fire, flood) + damage you cause to others</td><td class="n">₹62,309</td></tr>
+        <tr><td>2</td><td><b>Zero depreciation</b></td><td>Repairs paid in full, no cut on parts</td><td class="n">₹15,922</td></tr>
+        <tr><td>3</td><td><b>Battery Protect</b></td><td>Battery damage from water or short circuits</td><td class="n">₹11,544</td></tr>
+        <tr><td>4</td><td><b>Return to invoice</b></td><td>Theft or total loss: full invoice price, not the lower IDV</td><td class="n">₹7,961</td></tr>
+        <tr><td>5</td><td><b>Tyre Protect</b></td><td>Tyre damage (EV tyres are costly)</td><td class="n">₹4,020</td></tr>
+        <tr><td>6</td><td><b>Consumables</b></td><td>Nuts, bolts, coolant, oils in repairs</td><td class="n">₹3,981</td></tr>
+        <tr><td>7</td><td><b>IL Smart Assist: Signature</b></td><td>Towing, EV charging help, breakdown repair cover, hotel up to ₹5,000, taxi, emergency medical, legal help. Replaces normal Roadside Assistance + Emergency Medical</td><td class="n">₹1,029</td></tr>
+        <tr><td>8</td><td><b>Passenger accident cover</b></td><td>People riding in the car</td><td class="n">₹1,500</td></tr>
+        <tr><td>9</td><td><b>Personal belongings</b></td><td>Items stolen from the car</td><td class="n">₹500</td></tr>
+        <tr><td>10</td><td><b>Key Protect</b></td><td>Lost or stolen BYD key card</td><td class="n">₹499</td></tr>
+        <tr><td>11</td><td><b>PA cover for paid driver</b></td><td>Your driver's accident cover. Not offered online; add on the call</td><td class="n">~₹2–3k?</td></tr>
+        <tr class="hl"><td></td><td colspan="2"><b>Total before GST</b> (items 1–10)</td><td class="n"><b>₹1,09,265</b></td></tr>
+        <tr class="hl"><td></td><td colspan="2"><b>Total with 18% GST</b> (items 1–10)</td><td class="n"><b>₹1,28,933</b></td></tr>
+      </tbody>
+    </table></div>
+    <p class="k"><b>Leave out:</b> owner-driver PA (₹3,897, not applicable to a company-owned car), War Risk (₹3,981), Garage cash (₹1,010), and the normal Roadside Assistance + Emergency Medical (₹2,329, replaced by Signature).</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">What to say when you call ICICI Lombard (1800 2666)</h3>
+    <ol>
+      <li>"I want a new-car <b>1+3 comprehensive policy</b> for a <b>BYD Sealion 7 Dynamic</b>, registered at <b>TG30 Bhongir</b>, owned by <b>my company</b>."</li>
+      <li>"Please quote <b>Smart Cover with Battery Protect and Tyre Protect</b>, and <b>IL Smart Assist Signature</b> instead of the normal Roadside Assistance."</li>
+      <li>"<b>Remove the owner-driver PA</b>; it's a company car. <b>Add PA cover for the paid driver</b>, and tell me the price for ₹2 lakh and ₹5 lakh cover."</li>
+      <li>"Keep the <b>IDV at ₹39,80,595</b>, the maximum."</li>
+      <li>Then ask the questions in the <b>Questions to ask</b> tab (battery claim limits, the 75% total-loss rule, cashless at Kun United and VSN).</li>
+      <li><b>Expect about ₹1.29–1.32 lakh including GST.</b> If the price is much higher, ask why before you pay.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">How sure am I?</h3>
+    <div class="tablewrap"><table><tbody>
+      <tr><td><span class="pill good">Very sure</span></td><td>ICICI over the others: it was the cheapest of those that quoted with the most cover and the highest car value. Tata AIG, Digit and Acko won't insure this car online.</td></tr>
+      <tr><td><span class="pill good">Very sure</span></td><td>The add-on prices: read from ICICI's own price breakdown on 10 Nov 2026.</td></tr>
+      <tr><td><span class="pill good">Sure</span></td><td>1+3 over 3+3: ICICI's 3+3 has no discount for paying upfront (it's ~3× the 1-year own damage).</td></tr>
+      <tr><td><span class="pill warn">Confirm on call</span></td><td>The company-owned price, the paid-driver PA price, and that Signature replaces the normal Roadside Assistance (I measured this for Pro and Elite, not Signature).</td></tr>
+      <tr><td><span class="pill warn">Estimate</span></td><td>Renewal prices in 2027 and 2028: ICICI can change its rates.</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Cashless repair in Hyderabad</h3>
+    <p>ICICI Lombard's cashless garage list includes both BYD workshops:</p>
+    <ul>
+      <li><b>Kun United Car Trax</b>, Bachupally (Quthbullapur)</li>
+      <li><b>VSN Commercials</b>, Durga Towers, SP Road, Begumpet</li>
+    </ul>
+    <p class="k">ICICI also offers doorstep cashless claims: car pick-up and drop, a dedicated claim manager, and WhatsApp tracking (helpline 1800 2666).</p>
+  </div>
+</section>
+
+<!-- INSURERS -->
+<section id="ins">
+  <h2>Every insurer we checked</h2>
+  <p class="k">Prices are before 18% GST, for a 1+3 policy. IDV = Insured Declared Value, which is what you get if the car is stolen or totally destroyed.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Insurer</th><th class="n">IDV</th><th class="n">1+3 price</th><th>What that price includes</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><b>ICICI Lombard</b></td><td class="n">₹39,80,595</td><td class="n">₹1,14,462</td><td>Everything: zero dep, battery, RTI, consumables, roadside help, key, tyre, belongings</td><td><span class="pill good">Best</span></td></tr>
+      <tr><td>Liberty General</td><td class="n">₹31,84,400</td><td class="n">₹99,110</td><td>Zero dep only. No battery, RTI, roadside help, key or tyre cover offered</td><td><span class="pill warn">Weaker</span></td></tr>
+      <tr><td>HDFC ERGO</td><td class="n">₹33,83,425</td><td class="n">₹1,22,704</td><td>Base only, no add-ons. About ₹1.65L with add-ons</td><td><span class="pill bad">Costly</span></td></tr>
+      <tr><td>Royal Sundaram</td><td class="n">₹39,80,500</td><td class="n">₹1,57,836</td><td>Base only, no add-ons. No battery cover</td><td><span class="pill bad">Costliest</span></td></tr>
+      <tr><td>Bajaj General</td><td class="n">–</td><td class="n">–</td><td>Lists the Dynamic variant, but needs engine and chassis numbers first</td><td><span class="pill warn">Try later</span></td></tr>
+      <tr><td>Zurich Kotak</td><td class="n">–</td><td class="n">–</td><td>No online price; logged a callback request</td><td><span class="pill warn">Callback</span></td></tr>
+      <tr><td>Tata AIG</td><td class="n">–</td><td class="n">–</td><td>"We can't cover your vehicle right now" (tried TG30 and TG09)</td><td><span class="pill bad">Refused</span></td></tr>
+      <tr><td>Acko</td><td class="n">–</td><td class="n">–</td><td>"Unable to cover your vehicle at this time"</td><td><span class="pill bad">Refused</span></td></tr>
+      <tr><td>Digit</td><td class="n">–</td><td class="n">–</td><td>Only lists BYD e6 and Atto 3</td><td><span class="pill bad">Not listed</span></td></tr>
+      <tr><td>SBI General</td><td class="n">–</td><td class="n">–</td><td>Only Premium and Performance variants listed</td><td><span class="pill bad">Not listed</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>Why Liberty isn't really cheaper:</b> it prices the car at ₹31.8 lakh, against ₹39.8 lakh at ICICI. If the car were stolen you'd get ₹8 lakh less. At the same ₹39.8 lakh value, Liberty would cost about ₹1,18,000 for zero dep alone (estimated from its own minimum and maximum prices), which is more than ICICI's full package.</div>
+  <div class="note"><b>Why own damage costs so different:</b> third party (₹20,907 for 3 years) is fixed by the government and the same everywhere. Own damage is set by each insurer: about ₹41,400 at ICICI, ₹65,700 at Liberty, ₹1,01,797 at HDFC ERGO and ₹1,36,929 at Royal Sundaram.</div>
+</section>
+
+<!-- BUILD -->
+<section id="build">
+  <h2>Build your ICICI 1+3 plan</h2>
+  <p class="k">Real prices from ICICI Lombard for TG30 Bhongir, IDV ₹39,80,595, before GST. Tick and untick to see the total change.</p>
+  <div class="row" style="margin:6px 0 10px">
+    <span class="k">Who owns the car?</span>
+    <div class="seg" id="ownerSeg"><button data-v="co" class="on">Company</button><button data-v="ind">Individual</button></div>
+    <span class="k">Roadside help:</span>
+    <div class="seg" id="rsaSeg"><button data-v="sig" class="on">Smart Assist Signature</button><button data-v="pro">Smart Assist Pro</button><button data-v="rsa">Normal RSA + EME</button></div>
+  </div>
+  <div class="card" id="addonList"></div>
+  <div class="sticky-total" aria-live="polite">
+    <span>Before GST <b id="tNet">–</b></span>
+    <span>GST 18% <b id="tGst">–</b></span>
+    <span>You pay <b id="tAll">–</b></span>
+  </div>
+  <details style="margin-top:14px"><summary>What is "Smart Cover ₹98,898" exactly?</summary>
+    <p>That's ICICI's Smart Cover preset at Bhongir, before Battery and Tyre were added. Here's how it adds up:</p>
+    <div class="tablewrap"><table><tbody>
+      <tr><td>Base (own damage ₹41,402 + 3-year third party ₹20,907)</td><td class="n">₹62,309</td></tr>
+      <tr><td>Zero depreciation</td><td class="n">₹15,922</td></tr>
+      <tr><td>Return to invoice</td><td class="n">₹7,961</td></tr>
+      <tr><td>Consumables</td><td class="n">₹3,981</td></tr>
+      <tr><td>Owner-driver PA (not needed for a company)</td><td class="n">₹3,897</td></tr>
+      <tr><td>Roadside Assistance</td><td class="n">₹2,030</td></tr>
+      <tr><td>Passenger accident cover</td><td class="n">₹1,500</td></tr>
+      <tr><td>Personal belongings</td><td class="n">₹500</td></tr>
+      <tr><td>Key Protect</td><td class="n">₹499</td></tr>
+      <tr><td>Emergency medical expenses</td><td class="n">₹299</td></tr>
+      <tr class="hl"><td><b>Smart Cover total</b></td><td class="n"><b>₹98,898</b></td></tr>
+    </tbody></table></div>
+    <p class="k">Not included in Smart Cover: Battery Protect (₹11,544), Tyre Protect (₹4,020), Garage cash (₹1,010), War Risk (₹3,981), Smart Assist.</p>
+  </details>
+</section>
+
+<!-- SMART ASSIST -->
+<section id="sa">
+  <h2>ICICI "IL Smart Assist": the 7 tiers</h2>
+  <p>Smart Assist is ICICI's bigger roadside-help package. When you add it, ICICI <b>removes the normal Roadside Assistance (₹2,030) and Emergency Medical (₹299)</b>, because they're already inside it. So the cheaper tiers actually <i>lower</i> your bill.</p>
+  <div class="tiers" id="tierBtns"></div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <div><div class="k">Selected tier</div><div class="big" id="tierName">Signature</div></div>
+      <div style="text-align:right"><div class="k">Change to your bill vs normal RSA + EME (₹2,329)</div><div class="big" id="tierDelta">–₹1,300</div></div>
+    </div>
+    <p id="tierNote" class="k"></p>
+  </div>
+  <div class="feat" id="featGrid"></div>
+  <div class="tip"><b>My pick: Signature (₹1,029) ★</b>. It's <b>Advanced + Pro combined</b> (24 services) for only ₹100 more than Pro. You get Pro's <b>EV charging support</b>, <b>Vehicle Breakdown Cover</b> and <b>emergency medical</b>, plus Advanced's <b>hotel up to ₹5,000</b>, <b>free taxi up to 50 km</b>, spare-parts delivery and legal help for highway trips. It still makes your bill ₹1,300 cheaper than the normal Roadside Assistance + Emergency Medical.</div>
+  <div class="card">
+    <h3 style="margin-top:0">Why do Essential and Plus cost more but cover less?</h3>
+    <p>The tiers aren't one ladder. They're <b>two families</b>:</p>
+    <ul>
+      <li><b>Assistance family</b> (Basic → Advanced → Pro → Signature → Elite): each step adds help services. Most are cheap for ICICI to provide: phone help, referrals, arranging things.</li>
+      <li><b>Courtesy-car family</b> (Essential, Plus): basic roadside help + <b>one expensive benefit</b>, a courtesy car or daily allowance while your car is repaired. That's real money for ICICI, so the price is higher even though the list is short. And it's limited to <b>1 day (8 hrs / 80 km)</b>, so it's poor value.</li>
+    </ul>
+    <p class="k">What Signature doesn't have: emergency driver assist, the courtesy car and the one-time convenience service.</p>
+  </div>
+  <div class="note">Only ICICI's own pages list these benefits. Each has limits and conditions in the policy wording, e.g. towing up to 50 km, minor repairs up to ₹2,000, hotel up to ₹5,000.</div>
+</section>
+
+<!-- TERM -->
+<section id="term">
+  <h2>1+3 or 3+3?</h2>
+  <div class="card">
+    <h3 style="margin-top:0">First: what does "1+3" actually mean?</h3>
+    <p>A car policy has two parts. <b>Third party</b> covers damage you cause to <i>other people</i>, and the law requires 3 years of it for a new car. <b>Own damage</b> covers <i>your car</i>, and all the add-ons (zero dep, battery, RTI, Smart Assist) attach to it.</p>
+    <p><b>1+3 = own damage for 1 year + third party for 3 years.</b> If you did nothing after year 1, only third party would remain and your car would have no cover. So <b>you renew own damage every year</b>, which is just buying it again for another year (10 minutes online, all add-ons included).</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>When</th><th>What you do</th><th class="n">Approx. cost incl. GST</th><th>Covered?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Nov 2026</b></td><td>Buy 1+3 (own damage 1 yr + third party 3 yrs)</td><td class="n">≈ ₹1.29–1.32L</td><td><span class="pill good">Everything</span></td></tr>
+        <tr><td><b>Nov 2027</b></td><td>Renew own damage + all add-ons for 1 year</td><td class="n">≈ ₹85k–1.0L</td><td><span class="pill good">Everything</span></td></tr>
+        <tr><td><b>Nov 2028</b></td><td>Renew own damage + all add-ons for 1 year</td><td class="n">≈ ₹80k–1.0L</td><td><span class="pill good">Everything</span></td></tr>
+        <tr><td><b>Nov 2029 on</b></td><td>Buy one normal policy each year (own damage + third party together)</td><td class="n">–</td><td><span class="pill good">Everything</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>Set a phone reminder for 15 October 2027 and 15 October 2028.</b> If own damage expires, your car has no cover until you renew, and the insurer may need to inspect it first. After 90 days you also lose your No Claim Bonus. At renewal you can stay with ICICI or switch to another insurer.</div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><div class="k">1+3 (renew own damage each year)</div><p>Pay year 1 now. Third party is already paid for 3 years. In years 2 and 3 you renew only own damage + add-ons.</p></div>
+    <div class="card"><div class="k">3+3 (pay 3 years upfront)</div><p>Pay all 3 years now. No renewals, and the price is locked. But ICICI charges almost exactly <b>3× the 1-year own-damage price</b>, so there's no discount for paying early.</p></div>
+  </div>
+
+  <h3>Why the 1+3 renewal gets cheaper (if nothing goes wrong)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Reason</th><th>Year 2</th><th>Year 3</th><th>How sure?</th></tr></thead>
+    <tbody>
+      <tr><td><b>Car's insured value drops</b> (standard depreciation table: 20% at 1–2 years, 30% at 2–3 years of age)</td><td>IDV ~₹33.5L</td><td>IDV ~₹29.3L</td><td><span class="pill good">Standard rule</span></td></tr>
+      <tr><td><b>No Claim Bonus</b>: a discount on the <i>basic own-damage</i> part only, not on add-ons or third party</td><td>20% off</td><td>25% off</td><td><span class="pill good">Standard rule</span></td></tr>
+      <tr><td><b>Insurer's own rates</b>: ICICI can raise or lower own-damage and add-on prices each year</td><td colspan="2">Unknown. Use the slider below to test 0–25% increases.</td><td><span class="pill warn">Can change</span></td></tr>
+      <tr><td><b>A claim</b> resets the No Claim Bonus to 0%</td><td colspan="2">Tick the boxes below to test it</td><td><span class="pill warn">Your luck</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>Correction to what I said earlier in chat:</b> the 20%/25% discount is real, but it applies only to the basic own-damage part (about ₹41,400 in year 1), not to the whole bill. In year 2 that's roughly ₹7,000 off, not 20% of ₹1.1 lakh. And this is a brand-new model, so there's no price history to look at. ICICI can change its rates at renewal, which is why the calculator below lets you test increases.</div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Try it: total cost over 3 years</h3>
+    <label class="rng" for="hike">ICICI raises its own-damage and add-on rates by <span id="hikeV">10</span>% every year</label>
+    <input type="range" id="hike" min="0" max="25" step="1" value="10">
+    <div class="chk"><input type="checkbox" id="c1"><label for="c1">You make a claim in year 1 (lose the 20% NCB in year 2)</label></div>
+    <div class="chk"><input type="checkbox" id="c2"><label for="c2">You make a claim in year 2 (lose the 25% NCB in year 3)</label></div>
+    <div class="chk"><input type="checkbox" id="gstToggle" checked><label for="gstToggle">Show prices including 18% GST</label></div>
+    <div class="bars">
+      <div class="bar"><span>1+3 path</span><div class="track"><div class="fill" id="b13"></div></div><span class="v" id="v13">–</span></div>
+      <div class="bar"><span>3+3 upfront</span><div class="track"><div class="fill alt" id="b33"></div></div><span class="v" id="v33">–</span></div>
+    </div>
+    <div class="tablewrap" style="margin-top:10px"><table>
+      <thead><tr><th>Year</th><th class="n">1+3 path</th><th class="n">3+3 upfront</th></tr></thead>
+      <tbody id="yrRows"></tbody>
+    </table></div>
+    <p id="termVerdict" style="font-weight:600;margin-top:10px"></p>
+    <p class="k">Model: company owned, recommended ICICI plan. Year 1 is built from ICICI's real prices (₹1,09,265 before GST). Years 2–3 are estimates: own damage scales with the falling IDV, the NCB comes off, and add-ons are held at year-1 rupees before your % increase. The 3+3 figure is ICICI's real long-term quote (₹3,17,276) minus the owner PA (₹3,897).</p>
+  </div>
+  <div class="tip"><b>Bottom line:</b> 1+3 is cheaper unless ICICI raises prices steeply <i>and</i> you claim. 1+3 also lets you switch insurers at renewal if claims service is poor. Choose 3+3 only if you'd rather pay more for no renewals at all.</div>
+</section>
+
+<!-- ZERO DEP vs BATTERY -->
+<section id="zd">
+  <h2>Car value drop vs zero depreciation vs return to invoice</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>What it is</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>IDV (car's insured value)</b></td><td>What the insurer pays if the car is <b>stolen or completely destroyed</b>. It drops every year by a fixed table, and <b>no add-on stops that</b>.</td><td>Year 1 ₹39.8L → year 2 ~₹33.5L → year 3 ~₹29.3L</td></tr>
+      <tr><td><b>Zero depreciation</b></td><td>Applies to <b>repairs</b>. Normally the insurer pays less for replaced parts (up to 50% off for plastic, rubber, batteries). Zero dep makes it pay in full.</td><td>₹50,000 bumper: without it you pay ~₹25,000; with it, ₹0</td></tr>
+      <tr class="hl"><td><b>Return to invoice</b></td><td>Applies to <b>theft or total loss</b>. Pays the full invoice price instead of the lower IDV. <b>This</b> is what protects you from the car-value drop.</td><td>Stolen in year 2: without it ~₹33.5L; with it ~₹41.9L</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Zero depreciation and Battery Protect: why both?</h2>
+  <p>They cover <b>different problems</b>. Zero dep makes an <i>already covered</i> claim pay in full. Battery Protect adds cover for battery damage that a normal policy <i>doesn't cover at all</i>.</p>
+  <div class="grid g2">
+    <div class="card"><span class="pill acc">Zero depreciation, ₹15,922</span>
+      <p>Normally, when a part is replaced after an accident, the insurer deducts "depreciation": up to 50% on plastic, rubber, and batteries, and more on metal as the car ages. You pay that difference. Zero dep removes the deduction.</p>
+      <p class="k"><b>Only works when the damage itself is covered</b>: accident, fire, theft, flood, riots and so on.</p></div>
+    <div class="card"><span class="pill acc">Battery Protect, ₹11,544</span>
+      <p>ICICI: covers "repair or replacement expenses for damages caused by <b>water ingress or short circuits</b> to the battery".</p>
+      <p class="k">Those are usually excluded from a normal policy as "consequential" or "electrical breakdown" damage, the same way petrol cars need Engine Protect for water damage.</p></div>
+  </div>
+  <h3>Pick a situation to see who pays</h3>
+  <div class="scen" id="scenBtns"></div>
+  <div class="verdict" id="scenOut"></div>
+  <div class="note">Confirm with ICICI in writing: (1) that zero dep includes the traction battery, (2) how many claims zero dep and Battery Protect each allow per year, and (3) whether using a non-BYD charger affects Battery Protect.</div>
+</section>
+
+<!-- THIRD PARTY -->
+<section id="tp">
+  <h2>Third party: what it covers, and what happens after 3 years</h2>
+  <div class="grid g2">
+    <div class="card"><span class="pill good">Covers</span>
+      <ul><li>Injury or death of <b>other people</b> caused by your car: no upper limit, as decided by the court</li>
+      <li>Damage to <b>other people's property</b> (their car, wall, shop): up to ₹7.5 lakh</li>
+      <li>Legal liability to your paid driver (already in the ICICI quote)</li></ul></div>
+    <div class="card"><span class="pill bad">Does not cover</span>
+      <ul><li>Any damage to <b>your own</b> car: that's the own-damage part</li>
+      <li>Your own injuries: that's personal accident cover</li>
+      <li>Theft, fire or flood damage to your car</li></ul></div>
+  </div>
+  <h3>Timeline</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Period</th><th>Own damage</th><th>Third party</th></tr></thead>
+    <tbody>
+      <tr><td>Year 1 (Nov 2026 – Nov 2027)</td><td>Paid now (1+3)</td><td rowspan="3">Paid now for all 3 years: <b>₹20,907</b>. It's required by law for new cars, and the price is the same at every insurer.</td></tr>
+      <tr><td>Year 2</td><td>Renew own damage</td></tr>
+      <tr><td>Year 3</td><td>Renew own damage</td></tr>
+      <tr><td>Year 4 onwards</td><td>Renew own damage</td><td>Renew yearly together with own damage. Today's rate for EVs above 65 kW (yours is 170 kW) is <b>₹6,712 a year</b>. The government sets it and can revise it; EV rates haven't changed since 2022.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip">From year 4 you'll simply buy one normal "comprehensive" policy each year (own damage + third party together), from any insurer you like.</div>
+</section>
+
+<!-- CLAIM RISK -->
+<section id="claim">
+  <h2>If you ever have a big claim: lessons from the Venom's Tech video</h2>
+  <p class="k">Source: <a href="https://www.youtube.com/watch?v=WcTh6kOBev0" target="_blank" rel="noopener">"Mahindra XEV 9E is Costlier Than Diesel/Petrol"</a>, Venom's Tech, Feb 2026, 1.3M views. Read from the video's transcript. This is the creator's own account and hasn't been independently verified.</p>
+
+  <h3>What happened, step by step</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Step</th><th>What happened</th><th>Whose fault?</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>His 20-day-old Mahindra XEV 9e fell into a gorge near Dehradun (Aug 2025). The car was badly damaged.</td><td><span class="pill">Accident</span></td></tr>
+      <tr><td>2</td><td>Mahindra quoted <b>₹56 lakh</b> to repair it, more than the car's value. That normally means a <b>total loss</b>: the insurer pays out instead of repairing.</td><td><span class="pill">–</span></td></tr>
+      <tr><td>3</td><td>ICICI Lombard's surveyor said it could be repaired for about <b>₹11 lakh</b> and didn't declare a total loss. After 1.5 months he <b>agreed to the repair</b>, which he calls "the biggest mistake is mine".</td><td><span class="pill warn">ICICI's surveyor</span></td></tr>
+      <tr><td>4</td><td>The repaired car had a leaking door, a glitchy screen, key detection problems and humming. Worst of all, <b>range fell from ~400 km to ~250 km</b>. Mahindra tested the battery and said it was "completely fine".</td><td><span class="pill bad">Mahindra workshop</span></td></tr>
+      <tr><td>5</td><td>A Mahindra zonal head refused him a new car and hung up on him.</td><td><span class="pill bad">Mahindra</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid g2">
+    <div class="card"><span class="pill warn">What it says about ICICI</span>
+      <p>Its surveyor pushed a cheap repair instead of a total loss. <b>But every insurer uses surveyors, and their job is to keep payouts down.</b> This can happen with HDFC, Liberty or anyone else. I found no data showing ICICI does it more often.</p></div>
+    <div class="card"><span class="pill bad">What it says about Mahindra</span>
+      <p>The bad repair and the range loss are the workshop's doing; insurers don't repair cars. He actually <b>praises BYD</b> for replacing faulty Seal battery packs for free.</p></div>
+  </div>
+
+  <h3>Your protection: is this a total loss?</h3>
+  <p>A car is generally treated as a <b>constructive total loss</b> when the repair estimate is more than <b>about 75% of the insured value (IDV)</b>. Try it:</p>
+  <div class="card">
+    <label class="rng" for="estR">Dealer's repair estimate: <span id="estV">₹30,00,000</span></label>
+    <input type="range" id="estR" min="100000" max="6000000" step="50000" value="3000000">
+    <div class="bars">
+      <div class="bar"><span>Estimate</span><div class="track"><div class="fill alt" id="estB"></div></div><span class="v" id="estN">–</span></div>
+      <div class="bar"><span>75% of IDV</span><div class="track"><div class="fill" id="thrB"></div></div><span class="v">₹29,85,446</span></div>
+    </div>
+    <p id="ctlOut" style="font-weight:600"></p>
+    <p class="k">IDV ₹39,80,595 in year 1. It falls in later years (about ₹33.5L in year 2 and ₹29.3L in year 3), and so does the threshold. Some insurers also count towing and retrieval costs in the estimate.</p>
+  </div>
+
+  <h3>What to do if it ever happens to you</h3>
+  <ol class="checklist">
+    <li><b>Keep Return to Invoice</b> in your policy. If the car is declared a total loss, you get the full invoice price, not the lower IDV.</li>
+    <li><b>Don't agree to a repair under pressure.</b> That was his own admitted mistake.</li>
+    <li><b>Get it all in writing</b>: the dealer's estimate, the surveyor's report and its reasoning, and the insurer's decision.</li>
+    <li>For an EV, ask for a <b>written battery health report from BYD</b> (capacity and range) before you accept a repaired car.</li>
+    <li><b>Drive the repaired car for a week before you sign off.</b> He only found the range problem on a highway trip.</li>
+    <li>If you disagree, escalate in order: <b>ICICI grievance cell → IRDAI Bima Bharosa portal → Insurance Ombudsman (free) → consumer court</b>. You can also ask for an independent surveyor.</li>
+  </ol>
+  <div class="tip"><b>Does this change the recommendation?</b> No. The alternatives don't remove this risk: HDFC ERGO costs much more, Liberty covers less on a lower car value, and Tata AIG, Digit and Acko won't insure the car at all. What protects you is <b>Return to Invoice + written records + knowing the 75% rule</b>, with any insurer.</div>
+</section>
+
+<!-- ASK -->
+<section id="ask">
+  <h2>Questions to ask before you buy</h2>
+  <p class="k">Tick each one as you get the answer. Your ticks are saved in this browser. Ask ICICI first, then the BYD dealer.</p>
+
+  <div id="askList">
+  <div class="card">
+    <h3 style="margin-top:0">📞 ICICI Lombard (1800 2666)</h3>
+    <p class="k"><b>The quote itself</b></p>
+    <ol class="checklist">
+      <li><label><input type="checkbox"> Quote a new-car <b>1+3</b> policy in the <b>company's name</b> (title "M/S"), with <b>no owner-driver PA</b>.</label></li>
+      <li><label><input type="checkbox"> Add <b>PA cover for the paid driver</b>. What's the price for ₹2 lakh and for ₹5 lakh cover?</label></li>
+      <li><label><input type="checkbox"> RTO <b>TG30 Bhongir</b>. The website lists it as "Andhra Pradesh-Bhongir"; confirm it's correct.</label></li>
+      <li><label><input type="checkbox"> Keep the <b>IDV at ₹39,80,595</b> (the maximum).</label></li>
+      <li><label><input type="checkbox"> <b>Smart Cover + Battery Protect + Tyre Protect + Smart Assist Signature</b>. Confirm Signature <b>replaces</b> normal Roadside Assistance + Emergency Medical.</label></li>
+      <li><label><input type="checkbox"> Final price should be about <b>₹1.29–1.32 lakh incl. GST</b>. If it's higher, ask why.</label></li>
+    </ol>
+    <p class="k"><b>Battery and EV</b></p>
+    <ol class="checklist" start="7">
+      <li><label><input type="checkbox"> Does <b>Battery Protect</b> cover the full traction battery? How many claims does it allow?</label></li>
+      <li><label><input type="checkbox"> Does using a <b>non-BYD charger</b> affect Battery Protect?</label></li>
+      <li><label><input type="checkbox"> Does <b>zero dep</b> include the battery? How many zero-dep claims per year?</label></li>
+      <li><label><input type="checkbox"> Is <b>ADAS sensor recalibration</b> covered in accident repairs?</label></li>
+    </ol>
+    <p class="k"><b>Smart Assist and No Claim Bonus</b></p>
+    <ol class="checklist" start="11">
+      <li><label><input type="checkbox"> What's the limit on Signature's <b>Vehicle Breakdown Cover</b>?</label></li>
+      <li><label><input type="checkbox"> Does using <b>Smart Assist</b> (towing, jump start, EV charging help) affect my <b>No Claim Bonus</b>?</label></li>
+      <li><label><input type="checkbox"> Do you offer <b>NCB Protect</b> for this car? What does it cost?</label></li>
+      <li><label><input type="checkbox"> Does a <b>windscreen / glass-only claim</b> affect my No Claim Bonus?</label></li>
+    </ol>
+    <p class="k"><b>Parts and damage</b></p>
+    <ol class="checklist" start="15">
+      <li><label><input type="checkbox"> Does <b>Tyre Protect</b> cover the <b>alloy rims</b> too, or only tyres?</label></li>
+      <li><label><input type="checkbox"> Is damage <b>inside the car</b> (e.g. something hits the touchscreen) covered?</label></li>
+      <li><label><input type="checkbox"> Does <b>personal belongings</b> cover work on a company-owned policy?</label></li>
+      <li><label><input type="checkbox"> Does <b>Return to Invoice</b> include road tax and registration, or only the invoice price?</label></li>
+    </ol>
+    <p class="k"><b>Big claims (lessons from the Venom's Tech case)</b></p>
+    <ol class="checklist" start="19">
+      <li><label><input type="checkbox"> For an EV, what happens if the repair estimate is <b>above 75% of the IDV</b>? Do you declare a total loss?</label></li>
+      <li><label><input type="checkbox"> Do you require a <b>BYD battery health report</b> before closing a big repair claim?</label></li>
+      <li><label><input type="checkbox"> Confirm <b>cashless</b> at <b>Kun United</b> (Bachupally) and <b>VSN Commercials</b> (Begumpet). Is Mody BYD (Uppal) also on the list?</label></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">🚗 BYD dealer</h3>
+    <p class="k"><b>Warranty</b></p>
+    <ol class="checklist">
+      <li><label><input type="checkbox"> Show the standard warranty <b>in writing</b>: is it 3 years / <b>1,25,000 km</b> or <b>1,50,000 km</b>? (A listing online says 1,50,000.)</label></li>
+      <li><label><input type="checkbox"> Battery warranty 8 years / 1,60,000 km: what counts as a failure (e.g. capacity below what %)?</label></li>
+      <li><label><input type="checkbox"> Are the <b>motor and motor controller</b> covered for 8 years like the battery?</label></li>
+      <li><label><input type="checkbox"> What's the warranty on the <b>12V (low-voltage) battery</b>?</label></li>
+    </ol>
+    <p class="k"><b>₹75,000 extended warranty (to 8 years / 1,50,000 km)</b></p>
+    <ol class="checklist" start="5">
+      <li><label><input type="checkbox"> Is it <b>BYD's own</b> warranty, not a third-party company's?</label></li>
+      <li><label><input type="checkbox"> Exactly <b>what's covered</b>: touchscreen, AC, ADAS sensors, on-board charger, tailgate motor, suspension?</label></li>
+      <li><label><input type="checkbox"> Any <b>charge per claim</b>? Is it <b>transferable</b> if we sell the car?</label></li>
+      <li><label><input type="checkbox"> Can we buy it <b>later</b>, before the 3-year warranty ends? What's the last date?</label></li>
+      <li><label><input type="checkbox"> Can you give it <b>free or discounted</b> with the car? (BYD has bundled extended warranties in past offers.)</label></li>
+    </ol>
+    <p class="k"><b>Service, charging and delivery</b></p>
+    <ol class="checklist" start="10">
+      <li><label><input type="checkbox"> What <b>service schedule</b> keeps the warranty valid, and what does each service cost? Must it be done at BYD?</label></li>
+      <li><label><input type="checkbox"> Which <b>home charger</b> is included, and is installation free? Does a non-BYD charger affect the warranty?</label></li>
+      <li><label><input type="checkbox"> Give us the <b>engine (motor) and chassis numbers</b>, so we can also get a Bajaj quote.</label></li>
+      <li><label><input type="checkbox"> What's <b>your own insurance quote</b>? We'll compare it with ICICI's ~₹1.29 lakh.</label></li>
+      <li><label><input type="checkbox"> At delivery, check the <b>screen, ADAS, cameras, lights, rims, boot and paint</b> before signing the delivery note.</label></li>
+    </ol>
+    <p class="k"><b>Free services and current offers</b></p>
+    <ol class="checklist" start="15">
+      <li><label><input type="checkbox"> How many <b>free services</b> come with the Sealion 7 Dynamic, and at what km? (Reported: 3, the first at 10,000 km / 1 year.)</label></li>
+      <li><label><input type="checkbox"> In a free service, is it <b>labour only</b>, or are <b>parts and fluids</b> free too? Get the list in writing.</label></li>
+      <li><label><input type="checkbox"> Is the <b>August 2026 festive offer</b> (2 years complimentary maintenance + extended warranty up to 2 lakh km) still valid for the <b>Dynamic</b>? Is there a year-end offer?</label></li>
+      <li><label><input type="checkbox"> If there's a complimentary maintenance package, what <b>exactly</b> is covered, and for how many km?</label></li>
+      <li><label><input type="checkbox"> What does a <b>paid service</b> cost after the free ones (basic, and the major one at 2–3 years)?</label></li>
+      <li><label><input type="checkbox"> Is <b>pickup and drop</b> for service free?</label></li>
+      <li><label><input type="checkbox"> Will you include the <b>extended warranty and maintenance package free</b> instead of charging ₹75,000?</label></li>
+    </ol>
+  </div>
+  </div>
+
+  <h3>Free services: what we found</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>What</th><th>Details</th><th>Still valid?</th></tr></thead>
+    <tbody>
+      <tr><td>Standard free services</td><td>3 free services, the first at 10,000 km or 1 year (reported by Acko Drive)</td><td><span class="pill warn">Confirm what "free" includes</span></td></tr>
+      <tr><td>August 2026 festive offer</td><td>2 years complimentary maintenance, extended warranty up to 2 lakh km, finance from 7.77%. Sealion 7 listed, but "certain variants were exempt"</td><td><span class="pill warn">Ask the dealer</span></td></tr>
+      <tr><td>Anniversary Edition offer</td><td>2 years free service + free 11 kW charger, first 1,100 buyers</td><td><span class="pill bad">Ended 30 Apr 2026</span></td></tr>
+      <tr><td>Paid service cost</td><td>One BYD Seal owner paid ~₹8,000 for the first annual service. Estimates: ₹4,500–7,000 basic, ₹9,000–14,500 major</td><td><span class="pill">For reference</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><b>"Free service" vs "complimentary maintenance":</b> a free service usually means <b>labour is free but you pay for parts and fluids</b> (cabin filter, brake fluid, coolant, wiper fluid). A complimentary maintenance package usually covers <b>labour and the listed parts</b>. Ask for the list. <b>Negotiation point:</b> BYD's August offer included extended warranty, so ask for it free instead of paying ₹75,000.</div>
+
+  <h3>Warranty vs insurance: who pays for what</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Part</th><th>Damaged (accident, stone, pothole, theft, flood)</th><th>Stops working by itself / wears out</th></tr></thead>
+    <tbody>
+      <tr><td>Touchscreen, indicators, lights</td><td>Insurance (own damage)</td><td>BYD warranty</td></tr>
+      <tr><td>Windscreen</td><td>Insurance (glass has no depreciation cut)</td><td>–</td></tr>
+      <tr><td>Alloy rims</td><td>Insurance (accident). Ask if Tyre Protect covers rims.</td><td>–</td></tr>
+      <tr><td>Tyres</td><td>Tyre Protect (cuts, bursts, bulges)</td><td>Nobody: normal wear</td></tr>
+      <tr><td>Boot / tailgate</td><td>Insurance</td><td>BYD warranty (e.g. tailgate motor)</td></tr>
+      <tr><td>ADAS sensors, cameras, AC</td><td>Insurance</td><td>BYD warranty</td></tr>
+      <tr><td>Traction battery</td><td>Insurance (accident) / Battery Protect (water, short circuit)</td><td>BYD battery warranty, 8 yrs / 1,60,000 km</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid g2">
+    <div class="card"><span class="pill acc">BYD warranty you were offered</span>
+      <ul>
+        <li><b>Standard:</b> 3 years / 1,25,000 km (confirm, see question 1)</li>
+        <li><b>Battery:</b> 8 years / 1,60,000 km, already included</li>
+        <li><b>Extension for ₹75,000:</b> 8 years / 1,50,000 km. That's 5 more years but only <b>25,000 more km</b></li>
+      </ul></div>
+    <div class="card"><span class="pill good">Should you buy the extension?</span>
+      <p><b>Yes, if the car will do under ~18,000 km a year.</b> Then it covers all 8 years for about ₹9,400 a year, and one screen, AC or ADAS repair can cost more than that. At 25,000+ km a year it runs out around year 6, and for a very busy company car (40,000 km a year) it adds almost nothing.</p></div>
+  </div>
+
+  <div class="card"><span class="pill warn">Small claims</span>
+    <p>Any own-damage claim, even ₹2,000, resets your No Claim Bonus to 0%. A ₹3,000 claim in year 1 can cost you <b>~₹12,000–15,000</b> in lost discounts over the next few years (estimate). <b>Pay repairs under about ₹15,000 yourself.</b> Using Smart Assist (towing, jump start) isn't an own-damage claim; confirm with question 12.</p></div>
+
+  <p class="k">Optional: once the dealer gives you the engine and chassis numbers, try Bajaj General. It lists the Dynamic variant.</p>
+</section>
+
+<footer>
+  Prices were read from insurer websites on 10 Nov 2026 and may change. Years 2–3 renewal figures are estimates. This isn't financial advice. Check the policy wording before buying.
+</footer>
+</div>
+
+<script>
+(function(){
+  const fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+  /* theme */
+  const root=document.documentElement;
+  try{const s=localStorage.getItem('theme'); if(s) root.dataset.theme=s;}catch(e){}
+  document.getElementById('themeBtn').onclick=()=>{
+    const dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark?'light':'dark';
+    try{localStorage.setItem('theme',root.dataset.theme)}catch(e){}
+  };
+  /* nav */
+  const nav=document.getElementById('nav');
+  nav.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return;
+    nav.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.s));
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  /* ---------- BUILD ---------- */
+  const BASE=62309;
+  const addons=[
+    {id:'zd',n:'Zero depreciation',p:15922,on:true,why:'Pays the full parts cost, with no depreciation deducted. A must for a new car.'},
+    {id:'bat',n:'Battery Protect',p:11544,on:true,why:'Battery damage from water ingress or short circuits. Important in Hyderabad monsoons.'},
+    {id:'rti',n:'Return to invoice',p:7961,on:true,why:'If the car is stolen or written off, pays the full invoice price, not the lower IDV.'},
+    {id:'tyre',n:'Tyre Protect',p:4020,on:true,why:'EV tyres are heavy-duty, costly and wear faster.'},
+    {id:'cons',n:'Consumables',p:3981,on:true,why:'Nuts, bolts, coolant, oils: about 10–15% of a repair bill.'},
+    {id:'pass',n:'Passenger accident cover',p:1500,on:true,why:'Accident cover for people riding in the car.'},
+    {id:'belong',n:'Personal belongings',p:500,on:true,why:'Theft of items from the car. Check it works for a company policy.'},
+    {id:'key',n:'Key Protect',p:499,on:true,why:'BYD key cards are expensive to replace.'},
+    {id:'war',n:'War Risk',p:3981,on:false,why:'Damage from war or rebellion. Not needed.'},
+    {id:'gc',n:'Garage cash',p:1010,on:false,why:'A daily allowance while the car is being repaired. Low value.'}
+  ];
+  const CPA=3897, RSA=2030, EME=299;
+  const SA={sig:[1029,'IL Smart Assist, Signature tier','Replaces Roadside Assistance + Emergency Medical. 24 services: EV charging support, breakdown repair cover, hotel up to ₹5,000, taxi, legal help.'],
+            pro:[929,'IL Smart Assist, Pro tier','Replaces Roadside Assistance + Emergency Medical. EV charging support and breakdown repair cover, but no paid hotel or taxi.']};
+  let owner='co', rsaMode='sig';
+  const list=document.getElementById('addonList');
+  const fixedRow=(n,p,why)=>`<div class="addon"><input type="checkbox" checked disabled><div class="t"><b>${n}</b><div class="why">${why}</div></div><div class="p">${fmt(p)}</div></div>`;
+  function renderAddons(){
+    let h=fixedRow('Base: own damage (₹41,402) + 3-year third party (₹20,907)',BASE,'Always included.');
+    addons.forEach(a=>{h+=`<div class="addon"><input type="checkbox" id="a_${a.id}" ${a.on?'checked':''}><label class="t" for="a_${a.id}"><b>${a.n}</b><div class="why">${a.why}</div></label><div class="p">${fmt(a.p)}</div></div>`});
+    h+= SA[rsaMode]
+      ? fixedRow(SA[rsaMode][1],SA[rsaMode][0],SA[rsaMode][2])
+      : fixedRow('Roadside Assistance + Emergency Medical',RSA+EME,'ICICI\'s normal roadside help (₹2,030) + medical (₹299).');
+    if(owner==='ind') h+=fixedRow('Owner-driver personal accident cover',CPA,'Required for individual owners. Not applicable for a company.');
+    list.innerHTML=h;
+    addons.forEach(a=>{document.getElementById('a_'+a.id).onchange=e=>{a.on=e.target.checked; total();}});
+    total();
+  }
+  function total(){
+    let t=BASE+addons.filter(a=>a.on).reduce((s,a)=>s+a.p,0)+(SA[rsaMode]?SA[rsaMode][0]:RSA+EME)+(owner==='ind'?CPA:0);
+    document.getElementById('tNet').textContent=fmt(t);
+    document.getElementById('tGst').textContent=fmt(t*0.18);
+    document.getElementById('tAll').textContent=fmt(t*1.18);
+  }
+  function seg(id,cb){const el=document.getElementById(id); el.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; el.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); cb(b.dataset.v);});}
+  seg('ownerSeg',v=>{owner=v;renderAddons()});
+  seg('rsaSeg',v=>{rsaMode=v;renderAddons()});
+  renderAddons();
+
+  /* ---------- SMART ASSIST ---------- */
+  const F={
+    eda:['Emergency Driver Assist','A driver takes you and the car to hospital or home if you become unwell'],
+    tow:['Towing','To the nearest garage, up to 50 km'],
+    fuel:['Fuel delivery','Up to 5 litres. Not relevant for an EV'],
+    empty:['Emptying fuel tank','Wrong fuel filled. Not relevant for an EV'],
+    keys:['Arrangement of keys','Spare key delivery or unlocking, within 100 km'],
+    jump:['Battery jump start','12V battery jump start'],
+    flat:['Flat tyre help','Technician fits your spare'],
+    phone:['Breakdown help over phone','Phone guidance for minor issues'],
+    relay:['Message relay','Sends urgent messages to your contacts'],
+    minor:['Minor repairs on the spot','Labour + up to ₹2,000 of repairs'],
+    rental:['Rental car arrangement','They arrange it; you pay the rent'],
+    hotelArr:['Hotel arrangement','They arrange it; you pay'],
+    legalRef:['Legal advisor referral','Accident 50+ km from home'],
+    hospRef:['Hospital referral','Accident 50+ km from home'],
+    parts:['Spare parts delivery','When the local garage can\'t find parts'],
+    taxi:['Taxi benefit','Free travel up to 50 km after a breakdown 50+ km from home'],
+    hotel:['Hotel stay paid','Up to ₹5,000 if stuck 100+ km from home over 12 hrs'],
+    evc:['EV charging support','Phone/app/video help, mobile charging, finding chargers'],
+    vbd:['Vehicle Breakdown Cover','Pays repair costs after a technical fault, up to the sum insured'],
+    qa:['Repair quality guarantee','24 months / 10,000 km on insured repairs'],
+    puc:['PUC document help','Help replacing a lost PUC; fee is yours'],
+    wallet:['Wallet assistance','Up to ₹5,000 cash, card blocking, tickets'],
+    dlrc:['Lost DL / RC','Up to ₹5,000 for duplicates'],
+    legal:['Legal assistance','Bail and vehicle custody costs after an accident'],
+    eme:['Emergency medical','Hospital, ambulance for you and passengers'],
+    conv:['Convenience service','One-time package: maintenance, pick-up/drop'],
+    court:['Courtesy car / daily allowance','For up to 1 day while repaired'],
+    travel:['Travel inconvenience','Refund of missed train or flight tickets'],
+    sports:['Sports equipment','Up to ₹5,000'],
+    pet:['Pet cover','Vet help up to ₹5,000'],
+    daily:['Daily allowance (courtesy vehicle)','After 3 days in a network garage']
+  };
+  const BASICL=['eda','tow','fuel','keys','jump','flat','phone','minor','rental','hotelArr','conv'];
+  const ADVL=['tow','fuel','empty','keys','jump','flat','phone','relay','minor','rental','hotelArr','legalRef','hospRef','parts','taxi','hotel','legal'];
+  const PROL=['tow','keys','jump','flat','rental','evc','vbd','qa','puc','wallet','dlrc','legal','eme'];
+  const SIGL=[...new Set([...ADVL,...PROL])];
+  const TIERS=[
+    {n:'Basic',p:299,f:BASICL,note:'Same kind of help as the normal Roadside Assistance, but no emergency medical cover (it gets removed).'},
+    {n:'Advanced',p:529,f:ADVL,note:'Adds help on long trips: taxi, hotel up to ₹5,000, legal help. No EV charging, no medical.'},
+    {n:'Pro',p:929,f:PROL,note:'Best value for an EV: EV charging support, breakdown repair cover, emergency medical, wallet and DL/RC help.'},
+    {n:'Signature',p:1029,f:SIGL,note:'Advanced + Pro combined. Worth it if you take long highway trips often.'},
+    {n:'Essential',p:1299,f:['court','tow','fuel','keys','jump','flat','phone','minor','rental','hotelArr','conv'],note:'Basic + a courtesy car or daily allowance. No EV charging support.'},
+    {n:'Plus',p:1499,f:['court','eda','tow','fuel','keys','jump','flat','phone','minor','rental','hotelArr','conv'],note:'Essential + emergency driver assist. No EV charging support.'},
+    {n:'Elite',p:9529,f:[...SIGL,'travel','sports','pet','conv','daily'],note:'Everything, including pet, sports and travel cover. Expensive for what it adds.'}
+  ];
+  const tb=document.getElementById('tierBtns');
+  tb.innerHTML=TIERS.map((t,i)=>`<button data-i="${i}" class="${t.n==='Signature'?'on':''}">${t.n}${t.n==='Signature'?' ★':''}<small>${fmt(t.p)}</small></button>`).join('');
+  const allKeys=Object.keys(F);
+  function showTier(i){
+    const t=TIERS[i];
+    tb.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+    document.getElementById('tierName').textContent=t.n+' · '+fmt(t.p);
+    const d=t.p-(RSA+EME);
+    document.getElementById('tierDelta').textContent=(d<0?'–':'+')+fmt(Math.abs(d)).replace('₹','₹');
+    document.getElementById('tierDelta').style.color=d<0?'var(--good)':'var(--bad)';
+    document.getElementById('tierNote').textContent=t.note+' ('+t.f.length+' services.)';
+    const set=new Set(t.f);
+    const order=[...allKeys.filter(k=>set.has(k)),...allKeys.filter(k=>!set.has(k))];
+    document.getElementById('featGrid').innerHTML=order.map(k=>`<div class="${set.has(k)?'yes':'no'}"><b>${set.has(k)?'✓ ':''}${F[k][0]}</b>${F[k][1]}</div>`).join('');
+  }
+  tb.addEventListener('click',e=>{const b=e.target.closest('button'); if(b) showTier(+b.dataset.i)});
+  showTier(3);
+
+  /* ---------- TERM CALC ---------- */
+  const Y1=109265;            // recommended plan (Signature), company owned, before GST
+  const OD1=41402;            // real 1-yr own damage basic
+  const ADD=Y1-BASE;          // add-ons in year 1 (excl CPA) = 46,856
+  const T33=317276-CPA;       // real 3+3 quote minus owner PA
+  const idv=[0.95,0.80,0.70]; // IDV as share of ex-showroom
+  function calc(){
+    const h=+document.getElementById('hike').value/100;
+    document.getElementById('hikeV').textContent=Math.round(h*100);
+    const c1=document.getElementById('c1').checked, c2=document.getElementById('c2').checked;
+    const g=document.getElementById('gstToggle').checked?1.18:1;
+    const ncb2=c1?0:0.20;
+    const ncb3=c2?0:(c1?0.20:0.25);
+    const y2=(OD1*idv[1]/idv[0]*(1-ncb2)+ADD)*(1+h);
+    const y3=(OD1*idv[2]/idv[0]*(1-ncb3)+ADD)*(1+h)*(1+h);
+    const p13=[Y1,y2,y3].map(x=>x*g), s13=p13.reduce((a,b)=>a+b,0), s33=T33*g;
+    const mx=Math.max(s13,s33);
+    document.getElementById('b13').style.width=(s13/mx*100)+'%';
+    document.getElementById('b33').style.width=(s33/mx*100)+'%';
+    document.getElementById('v13').textContent=fmt(s13);
+    document.getElementById('v33').textContent=fmt(s33);
+    document.getElementById('yrRows').innerHTML=
+      `<tr><td>Year 1 <span class="pill good">real quote</span></td><td class="n">${fmt(p13[0])}</td><td class="n" rowspan="3" style="vertical-align:middle">${fmt(s33)}<br><span class="k">paid once</span></td></tr>`+
+      `<tr><td>Year 2 <span class="pill warn">estimate</span> · NCB ${Math.round(ncb2*100)}%</td><td class="n">${fmt(p13[1])}</td></tr>`+
+      `<tr><td>Year 3 <span class="pill warn">estimate</span> · NCB ${Math.round(ncb3*100)}%</td><td class="n">${fmt(p13[2])}</td></tr>`+
+      `<tr class="hl"><td><b>3-year total</b></td><td class="n"><b>${fmt(s13)}</b></td><td class="n"><b>${fmt(s33)}</b></td></tr>`;
+    const diff=s33-s13;
+    document.getElementById('termVerdict').textContent= diff>0
+      ? `In this scenario 1+3 saves about ${fmt(diff)} over 3 years.`
+      : `In this scenario 3+3 saves about ${fmt(-diff)} over 3 years.`;
+    document.getElementById('termVerdict').style.color= diff>0?'var(--good)':'var(--warn)';
+  }
+  ['hike','c1','c2','gstToggle'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+  calc();
+
+  /* ---------- SCENARIOS ---------- */
+  const S=[
+    {n:'Accident damages the battery pack',base:'Covered, but you pay depreciation on the new battery (can be 50%)',zd:'Pays that depreciation: you pay almost nothing',bp:'Not needed here',who:'Zero dep does the work'},
+    {n:'Drove through a flooded road, water entered the battery',base:'Often rejected as "consequential" damage',zd:'Doesn\'t help, because the claim itself isn\'t covered',bp:'Covered (water ingress)',who:'Battery Protect does the work'},
+    {n:'Short circuit damages the battery',base:'Usually excluded as electrical breakdown',zd:'Doesn\'t help',bp:'Covered (short circuit)',who:'Battery Protect does the work'},
+    {n:'Car parked during a flood (natural calamity)',base:'Covered as flood damage',zd:'Removes the depreciation deduction',bp:'May also apply to battery water ingress',who:'Both help'},
+    {n:'Bumper and door damaged in a fender-bender',base:'Covered, but 50% deducted on plastic parts',zd:'Pays the full parts cost',bp:'Not relevant',who:'Zero dep does the work'},
+    {n:'Battery slowly loses range over years',base:'Not covered (wear and tear)',zd:'Not covered',bp:'Not covered',who:'BYD\'s battery warranty, not insurance'}
+  ];
+  const sb=document.getElementById('scenBtns');
+  sb.innerHTML=S.map((s,i)=>`<button data-i="${i}" class="${i===1?'on':''}">${s.n}</button>`).join('');
+  function showS(i){const s=S[i]; sb.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+    document.getElementById('scenOut').innerHTML=
+      `<div class="card"><div class="k">Normal policy alone</div><p>${s.base}</p></div>`+
+      `<div class="card"><div class="k">+ Zero depreciation</div><p>${s.zd}</p></div>`+
+      `<div class="card"><div class="k">+ Battery Protect</div><p>${s.bp}</p></div>`+
+      `<div class="card" style="border-color:var(--accent)"><div class="k">Who really pays</div><p><b>${s.who}</b></p></div>`;}
+  sb.addEventListener('click',e=>{const b=e.target.closest('button'); if(b) showS(+b.dataset.i)});
+  showS(1);
+
+  /* ---------- TOTAL LOSS CHECK ---------- */
+  const IDV1=3980595, THR=IDV1*0.75, MAXE=6000000;
+  function ctl(){
+    const v=+document.getElementById('estR').value;
+    document.getElementById('estV').textContent=fmt(v);
+    document.getElementById('estN').textContent=fmt(v);
+    document.getElementById('estB').style.width=(v/MAXE*100)+'%';
+    document.getElementById('thrB').style.width=(THR/MAXE*100)+'%';
+    const o=document.getElementById('ctlOut');
+    if(v>THR){o.textContent='Above 75% of IDV: this should be treated as a total loss. With Return to Invoice you get the full invoice price. Don\'t accept a repair without written reasons.'; o.style.color='var(--bad)';}
+    else{o.textContent='Below 75% of IDV: the insurer will normally repair the car. Zero dep and consumables cover the full bill.'; o.style.color='var(--good)';}
+  }
+  document.getElementById('estR').addEventListener('input',ctl); ctl();
+
+  /* checklist memory */
+  const boxes=[...document.querySelectorAll('#askList input')];
+  try{const saved=JSON.parse(localStorage.getItem('askList2')||'[]'); boxes.forEach((b,i)=>b.checked=!!saved[i]);}catch(e){}
+  boxes.forEach(b=>b.onchange=()=>{try{localStorage.setItem('askList2',JSON.stringify(boxes.map(x=>x.checked)))}catch(e){}});
+})();
+</script>
+</body>
+</html>
