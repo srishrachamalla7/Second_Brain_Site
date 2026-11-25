@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VSM real-data test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#0B5E63; --accent-soft:#E6F0F0;
+  --bg:#F7F7F5; --surface:#FFFFFF; --text:#1D2425; --muted:#5D6869; --line:#DDE1E0;
+  --pass:#1F6F43; --pass-bg:#E5F2EA; --fail:#A12A2A; --fail-bg:#F8E6E6;
+  --part:#8A5A00; --part-bg:#FBF0DA; --na:#555; --na-bg:#ECECEC;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --accent:#5FB3B8; --accent-soft:#16302F;
+    --bg:#121515; --surface:#1A1F1F; --text:#E6EAEA; --muted:#A0AAAA; --line:#2C3434;
+    --pass:#7CCB9C; --pass-bg:#16291F; --fail:#F0A0A0; --fail-bg:#331A1A;
+    --part:#E5C07B; --part-bg:#30260F; --na:#BBB; --na-bg:#262A2A;
+  }
+}
+:root[data-theme="dark"]{
+  --accent:#5FB3B8; --accent-soft:#16302F;
+  --bg:#121515; --surface:#1A1F1F; --text:#E6EAEA; --muted:#A0AAAA; --line:#2C3434;
+  --pass:#7CCB9C; --pass-bg:#16291F; --fail:#F0A0A0; --fail-bg:#331A1A;
+  --part:#E5C07B; --part-bg:#30260F; --na:#BBB; --na-bg:#262A2A;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 64px}
+header{border-bottom:2px solid var(--accent);padding-bottom:14px;margin-bottom:24px}
+h1{font-size:24px;line-height:1.25;margin:0 0 6px;font-weight:600}
+.sub{color:var(--muted);margin:0}
+h2{font-size:19px;font-weight:600;margin:36px 0 12px;color:var(--accent)}
+h3{font-size:16px;font-weight:600;margin:24px 0 8px}
+p{margin:0 0 10px}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:13px}
+code{background:var(--accent-soft);padding:1px 4px;border-radius:3px;overflow-wrap:anywhere}
+.note{background:var(--part-bg);border-left:4px solid var(--part);padding:10px 14px;margin:16px 0;border-radius:0 4px 4px 0}
+.note strong{color:var(--part)}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.stat .n{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .l{color:var(--muted);font-size:13px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:var(--accent-soft);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:10px;white-space:nowrap}
+.pass{color:var(--pass);background:var(--pass-bg)}
+.fail{color:var(--fail);background:var(--fail-bg)}
+.part{color:var(--part);background:var(--part-bg)}
+.na{color:var(--na);background:var(--na-bg)}
+.sev-m{color:var(--fail);background:var(--fail-bg)}
+.sev-l{color:var(--part);background:var(--part-bg)}
+.bug{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:10px 0}
+.bug h3{margin:0 0 6px;font-size:15px}
+.bug dl{margin:6px 0 0;display:grid;grid-template-columns:110px 1fr;gap:4px 10px;font-size:14px}
+.bug dt{color:var(--muted)}
+.bug dd{margin:0}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin:12px 0}
+figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+figure a{display:block;max-height:440px;overflow:hidden;border-bottom:1px solid var(--line);background:#fff}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:8px 10px;font-size:13px;color:var(--muted)}
+figcaption b{color:var(--text);font-weight:600;display:block}
+ul,ol{padding-left:22px;margin:0 0 10px}
+li{margin:3px 0}
+nav.toc{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:14px}
+nav.toc a{color:var(--accent);text-decoration:none;margin-right:14px;white-space:nowrap;line-height:1.9}
+footer{margin-top:40px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:520px){h1{font-size:21px}.bug dl{grid-template-columns:1fr}.bug dt{margin-top:4px}.shots{grid-template-columns:1fr 1fr;gap:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>VSM Staff Portal: real-data test, 25 Nov 2026</h1>
+  <p class="sub">Local development build (phase 2), fresh database, the owner's real employee list and biometric report, tested in a browser at phone size (390 × 844).</p>
+</header>
+
+<nav class="toc">
+  <a href="#summary">Summary</a><a href="#checklist">Checklist</a><a href="#bugs">Bugs</a><a href="#data">Data findings</a><a href="#owner">Owner to do</a><a href="#shots">Screenshots</a>
+</nav>
+
+<div class="note"><strong>TEST values.</strong> There are no real salaries or Sunday batch lists yet. Every active employee was given a TEST salary of ₹10,000 a month (effective 1 Nov 2026, reason "TEST amount, replace with real salary"). Batches A/B/C are a TEST split into alphabetical thirds by name (29 / 29 / 28). One TEST swap, one TEST advance (₹2,000) and three TEST punch fixes were recorded to prove the flows. All rupee amounts below come from these TEST salaries.</div>
+
+<h2 id="summary">Summary</h2>
+<div class="stats">
+  <div class="stat"><div class="n">86</div><div class="l">employees imported (14 TEMPORARY rows skipped)</div></div>
+  <div class="stat"><div class="n">180</div><div class="l">device codes in the report (3 test codes ignored automatically)</div></div>
+  <div class="stat"><div class="n">155 / 22</div><div class="l">codes matched / still unmatched</div></div>
+  <div class="stat"><div class="n">85 of 86</div><div class="l">employees with at least one device code</div></div>
+  <div class="stat"><div class="n">3,240</div><div class="l">punch rows, 2–19 Nov (180 codes × 18 days)</div></div>
+  <div class="stat"><div class="n">757</div><div class="l">code-days with an in-punch; only 269 also have an out-punch</div></div>
+  <div class="stat"><div class="n">409 → 406</div><div class="l">incomplete days (no out-punch) before / after 3 TEST fixes</div></div>
+  <div class="stat"><div class="n">2</div><div class="l">6 to 8 h days to review</div></div>
+  <div class="stat"><div class="n">53 / 33</div><div class="l">pay run lines blocked / ready (1–15 Nov)</div></div>
+  <div class="stat"><div class="n">293</div><div class="l">incomplete days blocking the pay run</div></div>
+  <div class="stat"><div class="n">32</div><div class="l">other pay run warnings (30 no data, 2 extra Sunday)</div></div>
+  <div class="stat"><div class="n">57</div><div class="l">employees who punched at least once (29 never did)</div></div>
+</div>
+<p>Everything was done through the app: employee import, biometric upload, device-code matching, salary upload, batch import, swap, punch fixes, pay run, advance. The core flows work on real data. The pay run for 1–15 Nov (pay date Sat 28 Nov) was created and calculated: earned ₹4,30,000, absence cuts −₹1,96,350 (510 unpaid days across 72 staff), TEST advance recovery −₹2,000, net ₹2,31,650. As expected, it is <b>blocked</b> by 293 days with no out-punch, so "Mark reviewed" stays disabled and it could not be finalised. Payslips (A4 and 80 mm) and payouts in the ledger could not be tested for that reason.</p>
+<p>The API logged one server error (500) during the whole session (bug 1). There were no other server errors and no JavaScript errors. The other console messages were the expected 401 before login, expected 403s from deliberate clerk access checks, two 400s from the payslip log page (bug 8) and React Router upgrade warnings.</p>
+
+<h2 id="checklist">Checklist per screen</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Area / screen</th><th>Result</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Login (password)</td><td><span class="tag pass">Pass</span></td><td>Owner and clerk. Passkey sign-in not tested (no authenticator in the test browser).</td></tr>
+<tr><td>Home dashboard</td><td><span class="tag pass">Pass</span></td><td>Shows the last upload, the counts for 19 Nov and the needs-attention list (406 to fix, 22 unmatched codes, 2 short, 1 with no code).</td></tr>
+<tr><td>Employees: import from Excel</td><td><span class="tag pass">Pass</span></td><td>Preview flagged duplicate phone (VSM/006, VSM/007), 11-digit phone (VSM/009), one name part (VSM/082), no phone (VSM/085, VSM/086), and 14 TEMPORARY rows. 86 added.</td></tr>
+<tr><td>Employees: list and detail (Details, Salary, Attendance tabs)</td><td><span class="tag part">Partial</span></td><td>Works. The Attendance tab shows off Sundays as Absent (bug 2).</td></tr>
+<tr><td>Attendance: upload biometric report</td><td><span class="tag pass">Pass</span></td><td>.xls parsed: 3,240 rows, 180 new codes, upload history recorded.</td></tr>
+<tr><td>Attendance: device codes</td><td><span class="tag pass">Pass</span></td><td>"Confirm suggested matches" matched 153; two more were assigned by hand (142 M SANTOSH → VSM/003, 108 B NAVNEETA → VSM/078). Weak suggestions (75 or lower) were correctly not auto-confirmed.</td></tr>
+<tr><td>Attendance: fix punches</td><td><span class="tag pass">Pass</span></td><td>3 TEST fixes on 19 Nov (VSM/076, 077, 081). The count dropped 409 → 406 and the fixes are in the audit log.</td></tr>
+<tr><td>Attendance: 6 to 8 h days</td><td><span class="tag pass">Pass</span></td><td>2 days (VSM/085).</td></tr>
+<tr><td>Attendance: month view</td><td><span class="tag part">Partial</span></td><td>Loads 86 rows. Absent counts include off Sundays (bug 2).</td></tr>
+<tr><td>Salaries: CSV upload</td><td><span class="tag pass">Pass</span></td><td>86 changed. The list below does not refresh until you reload the page (bug 5).</td></tr>
+<tr><td>Sundays: calendar Nov / Dec</td><td><span class="tag part">Partial</span></td><td>Rotation is correct: Nov A 1, B 8, C 15, then 22 and 29 closed (3-Sunday cap). Dec A 6, B 13, C 20, 27 closed. The first open on a fresh database gave a 500 (bug 1).</td></tr>
+<tr><td>Sundays: batch import</td><td><span class="tag pass">Pass</span></td><td>TEST file, 86 changes, from 1 Nov, reason required.</td></tr>
+<tr><td>Sundays: record a swap</td><td><span class="tag pass">Pass</span></td><td>Two-way: BOINI MALLESH (A, Sun 6 Dec) ⇄ GUJJA SRIDHAR (B, Sun 13 Dec). Logged.</td></tr>
+<tr><td>Leave: November</td><td><span class="tag pass">Pass</span></td><td>Free day used 84 / 86, 2 to decide, "beyond leave" 679 days for 77 people. The month cannot be closed until it ends (correct).</td></tr>
+<tr><td>Leave: one employee</td><td><span class="tag part">Partial</span></td><td>Lists 11 months before the system existed as "unused, not decided" (bug 3).</td></tr>
+<tr><td>Pay: create pay run, draft lines, line detail, recalculate</td><td><span class="tag pass">Pass</span></td><td>Correctly blocked by incomplete days. Draft lines and the per-person breakdown are clear. The advance was picked up after recalculating.</td></tr>
+<tr><td>Pay: mark reviewed / finalise</td><td><span class="tag na">Not possible</span></td><td>Disabled while 293 incomplete days remain (expected with this data).</td></tr>
+<tr><td>Payslips A4 and 80 mm</td><td><span class="tag na">Not tested</span></td><td>Payslips need a finalised run. The draft guard works.</td></tr>
+<tr><td>Advances</td><td><span class="tag pass">Pass</span></td><td>TEST advance ₹2,000 to VSM/031, recovered on the 28 Nov pay day.</td></tr>
+<tr><td>Ledger (list and one employee)</td><td><span class="tag pass">Pass</span></td><td>Advance balance ₹2,000, owed ₹0 (nothing finalised).</td></tr>
+<tr><td>More, Rules and settings</td><td><span class="tag pass">Pass</span></td><td>Thresholds 8 h / 6 h are editable. Pay rules are read-only and show raw values (bug 9).</td></tr>
+<tr><td>Audit log</td><td><span class="tag pass">Pass</span></td><td>Imports, fixes, swap, pay run and advance are all logged with their reasons.</td></tr>
+<tr><td>Users, My account</td><td><span class="tag pass">Pass</span></td><td>Owner and clerk listed. Adding a passkey was not tested.</td></tr>
+<tr><td>Clerk (staff role): amounts hidden</td><td><span class="tag pass">Pass</span></td><td>No Pay tab and no Salary tab. Salaries, payroll, ledger, advances and payslips are blocked in the UI and the API (403). The audit log says "amounts hidden". Small leaks of UI chrome only (bug 7).</td></tr>
+</tbody></table></div>
+
+<h2 id="bugs">Bugs found</h2>
+<p>Nothing was changed in the code. Severity: <span class="tag sev-m">Medium</span> = wrong data or an error a user will hit. <span class="tag sev-l">Low</span> = cosmetic, or a small inconsistency.</p>
+
+<div class="bug"><h3>1. Sundays page: server error on first open <span class="tag sev-m">Medium</span></h3>
+<dl><dt>Where</dt><dd><code>backend/app/services/sundays.py</code> <code>ensure_months()</code> (line 317), called from GET handlers (<code>calendar.employee_calendar</code> line 64, <code>sundays.py</code> lines 433, 446, 576).</dd>
+<dt>Steps</dt><dd>Fresh database, open More &gt; Sundays &amp; batches.</dd>
+<dt>Expected</dt><dd>Both requests return 200.</dd>
+<dt>Actual</dt><dd><code>GET /api/sundays/batches</code> returns 500: <code>UniqueViolation ix_sunday_schedule_sunday (2026-11-01)</code>. The calendar and batches requests both lazily insert the same schedule rows at the same time. A reload fixes it. This can happen again whenever a new month enters the schedule horizon.</dd></dl></div>
+
+<div class="bug"><h3>2. Off Sundays shown as "Absent" in attendance views <span class="tag sev-m">Medium</span></h3>
+<dl><dt>Where</dt><dd><code>backend/app/services/attendance.py</code> around line 101: <code>off</code> is set only when <em>all</em> codes report WeeklyOff. The attendance views also ignore the Sunday roster (<code>calendar.sunday_off</code>).</dd>
+<dt>Steps</dt><dd>Staff &gt; MATURI MOUNIKA (TEST batch B) &gt; Attendance. Sun 15 Nov (batch C on duty).</dd>
+<dt>Expected</dt><dd>Off.</dd>
+<dt>Actual</dt><dd>Absent. Her old code 109 says WeeklyOff, but her new code 76 says Absent. Most staff have two codes, so the month view's Absent counts are inflated. Payroll and leave use the Sunday calendar correctly, so pay is not affected.</dd></dl></div>
+
+<div class="bug"><h3>3. Employee leave history shows months before go-live <span class="tag sev-m">Medium</span></h3>
+<dl><dt>Where</dt><dd><code>backend/app/routers/leave.py</code> <code>employee_view</code> (lines 158–176). It always walks back 12 months and stops only at <code>joining_date</code>, which is empty for every imported employee.</dd>
+<dt>Steps</dt><dd>Staff &gt; any employee &gt; Leave.</dd>
+<dt>Expected</dt><dd>History starts at the first month with data (or go-live).</dd>
+<dt>Actual</dt><dd>Dec 2025 – Oct 2026 each show "Unused · not decided yet, bank 0 → 1". November then opens with a bank of 0, which contradicts October's closing 1. The owner could be asked to decide on 11 phantom months per person.</dd></dl></div>
+
+<div class="bug"><h3>4. Employee with no attendance data gets full pay without a block <span class="tag sev-m">Medium</span> (risk)</h3>
+<dl><dt>Where</dt><dd>Pay run calculation (<code>backend/app/services/payroll.py</code>). "nodata" days are not deducted and only raise a non-blocking warning.</dd>
+<dt>Steps</dt><dd>Pay run 1–15 Nov, VANAMALA MADHU (VSM/086, no device code, 13 no-data days).</dd>
+<dt>Expected</dt><dd>Blocked, or a prominent warning that this person has no attendance at all.</dd>
+<dt>Actual</dt><dd>Line reads "no changes · ₹5,000". The only sign is one entry inside the collapsed "Other warnings (32)".</dd></dl></div>
+
+<div class="bug"><h3>5. Salaries list does not refresh after an upload <span class="tag sev-l">Low</span></h3>
+<dl><dt>Where</dt><dd><code>frontend/src/pages/Imports.tsx</code> <code>SalaryUpload.commit()</code> (lines 130–135) has no callback. <code>frontend/src/pages/Admin.tsx</code> <code>Salaries</code> never calls <code>list.reload()</code>.</dd>
+<dt>Steps</dt><dd>More &gt; Salaries, upload the CSV, Import.</dd>
+<dt>Expected</dt><dd>₹10,000 shown against each name.</dd>
+<dt>Actual</dt><dd>"86 salaries changed", but the list still shows "–" until a page reload.</dd></dl></div>
+
+<div class="bug"><h3>6. Rounding of the daily rate <span class="tag sev-l">Low</span></h3>
+<dl><dt>Where</dt><dd>Pay run line maths.</dd>
+<dt>Detail</dt><dd>The daily rate is rounded to ₹385 (10,000 ÷ 26 = 384.6), but period pay is exact (₹5,000 for 13 of 26 days). A person absent 12 of 13 days with 1 free leave day nets ₹380, not ₹385 (KOTA SWATHI, VSM/004, VSM/010). If all 13 days were unpaid the cut would be ₹5,005, more than the ₹5,000 earned. Not checked whether the result is clamped at zero.</dd></dl></div>
+
+<div class="bug"><h3>7. Clerk sees two owner-only bits of UI <span class="tag sev-l">Low</span></h3>
+<dl><dt>Where</dt><dd><code>frontend/src/pages/Employees.tsx</code> line 167 (Ledger link shown without <code>ledger.view</code>). <code>frontend/src/pages/Leave.tsx</code> lines 311–313 ("Cashed out" tile).</dd>
+<dt>Actual</dt><dd>Employee detail shows a "Ledger" row that silently sends the clerk to Home. The employee leave page shows "Cashed out ₹0" although the API returns the amounts as hidden (null). No real amounts leak.</dd></dl></div>
+
+<div class="bug"><h3>8. Payslip log fires requests for a draft run <span class="tag sev-l">Low</span></h3>
+<dl><dt>Where</dt><dd><code>frontend/src/pages/Payslip.tsx</code> lines 387–394. <code>isDraft</code> is unknown while the run list loads, so <code>/api/payslips/run/1</code> is requested anyway.</dd>
+<dt>Actual</dt><dd>Two 400 errors in the console on Pay &gt; Payslips for a draft run. The page itself shows the correct "still a draft" message.</dd></dl></div>
+
+<div class="bug"><h3>9. Small UI wording issues <span class="tag sev-l">Low</span></h3>
+<dl><dt>Detail</dt><dd>(a) Rules and settings shows raw values: "next_payday", "rotation or lose_turn", "A,B,C". (b) The button on each Fix punches card says "Save" but opens the fix sheet; "Fix" would be clearer. (c) Device codes keeps showing "153 matched" after later manual assigns. (d) Batch lists show a "– 29" group header because no departments are imported.</dd></dl></div>
+
+<h2 id="data">Data findings (not app bugs)</h2>
+<ul>
+  <li><b>Out-punches are mostly missing.</b> Of 757 code-days with an in-punch, only 269 have an out-punch. Many staff (for example VSM/001, VSM/003, VSM/005, VSM/006) punch in every day but never out. This is why 53 people are blocked in the pay run.</li>
+  <li><b>29 of 86 employees never punched</b> under any matched code between 2 and 19 Nov (for example VSM/004, VSM/010 are absent all 13 working days in the pay run). On weekdays about 45–56 people punch. They may have left, or may punch under one of the unmatched codes.</li>
+  <li><b>22 unmatched codes</b>, 12 of them with punches (about 100 days in total): 101, 131, 146 (no name, 16 / 10 / 12 days), 110 "A ANITHA" (11), 165 "A BALU" (13), 174 "GOPI CHAND" (9), 212 "KEERTHANA" (14), 132 "G VASANTHA" (2), 187 (6), 200 (5), 121 "P RAJU" (1), 230 (1).</li>
+  <li>VSM/086 VANAMALA MADHU has no device code at all.</li>
+  <li>The device holds most staff twice: new codes 1–86 (matching VSM IDs, few punches yet) and older 1xx/2xx codes that carry most of the punches. Both are mapped, and punches are merged per day.</li>
+  <li>The employee file has 86 real rows, not 83, and no department column. Departments exist on the device (MENS WEAR, SYNTHETICS, and so on).</li>
+  <li>Sunday 8 Nov: 30 people punched. Sunday 15 Nov: only 5. Compare these with the real batch lists once you have them.</li>
+</ul>
+
+<h2 id="owner">What the owner must still do</h2>
+<ol>
+  <li>Give the <b>real monthly salaries</b> (replace the TEST ₹10,000), ideally as an Excel sheet with EMPLOYEE ID, SALARY, EFFECTIVE DATE.</li>
+  <li>Give the <b>real Sunday batch lists</b> A / B / C (replace the TEST alphabetical split). Confirm that the 4th and 5th Sundays are closed (the current rule allows at most 3 open Sundays a month).</li>
+  <li>Decide what to do about <b>missing out-punches</b>: ask staff to punch out, and decide how the backlog of 406 days should be settled (fix one by one, or a rule such as "in-punch only = present").</li>
+  <li>Tell us who owns the <b>22 unmatched device codes</b> (especially 101, 131, 146, 110, 165, 174, 212), and enrol VSM/086 on the device.</li>
+  <li>Confirm the <b>29 staff with no punches</b>: still working, left, or using another code?</li>
+  <li>Fix the employee list: VSM/006 and VSM/007 share a phone, VSM/009 has 11 digits, VSM/082 has no surname, VSM/085 and VSM/086 have no phone. Add joining dates and departments if available.</li>
+  <li>After that, finalise the first pay run so payslips (A4 and 80 mm), payouts and the ledger can be tested end to end.</li>
+</ol>
+
+<h2 id="shots">Screenshots</h2>
+<p class="sub">Phone size, 390 px wide. Click a screenshot for the full image.</p>
+
+<h3>Sign in and home</h3>
+<div class="shots">
+<figure><a href="shots/01-login.png"><img src="shots/01-login.png" alt="Login screen" loading="lazy"></a><figcaption><b>Login</b>Passkey button and password form.</figcaption></figure>
+<figure><a href="shots/02-home-empty.png"><img src="shots/02-home-empty.png" alt="Home before data" loading="lazy"></a><figcaption><b>Home, empty database</b>Before any import.</figcaption></figure>
+<figure><a href="shots/53-home-dashboard.png"><img src="shots/53-home-dashboard.png" alt="Home dashboard with data" loading="lazy"></a><figcaption><b>Home with real data</b>19 Nov counts and needs-attention list.</figcaption></figure>
+</div>
+
+<h3>Employees</h3>
+<div class="shots">
+<figure><a href="shots/03-staff-empty.png"><img src="shots/03-staff-empty.png" alt="Empty staff list" loading="lazy"></a><figcaption><b>Staff, empty</b></figcaption></figure>
+<figure><a href="shots/04-import-preview-top.png"><img src="shots/04-import-preview-top.png" alt="Import preview" loading="lazy"></a><figcaption><b>Import preview</b>86 new, 14 skipped.</figcaption></figure>
+<figure><a href="shots/05-import-preview-full.png"><img src="shots/05-import-preview-full.png" alt="Full import preview" loading="lazy"></a><figcaption><b>Import preview, full page</b>Flags for phones, names, TEMPORARY rows.</figcaption></figure>
+<figure><a href="shots/06-import-done.png"><img src="shots/06-import-done.png" alt="Import finished" loading="lazy"></a><figcaption><b>Import finished</b>86 added, 0 updated.</figcaption></figure>
+<figure><a href="shots/07-staff-list.png"><img src="shots/07-staff-list.png" alt="Staff list" loading="lazy"></a><figcaption><b>Staff list</b>Before codes were mapped.</figcaption></figure>
+<figure><a href="shots/18-employee-detail.png"><img src="shots/18-employee-detail.png" alt="Employee details" loading="lazy"></a><figcaption><b>Employee details</b>Two device codes merged.</figcaption></figure>
+<figure><a href="shots/19-employee-salary-tab.png"><img src="shots/19-employee-salary-tab.png" alt="Employee salary tab" loading="lazy"></a><figcaption><b>Salary tab</b>TEST ₹10,000 with history.</figcaption></figure>
+<figure><a href="shots/20-employee-attendance-tab.png"><img src="shots/20-employee-attendance-tab.png" alt="Employee attendance tab" loading="lazy"></a><figcaption><b>Attendance tab</b>19 Nov fixed. Sun 15 Nov wrongly Absent (bug 2).</figcaption></figure>
+</div>
+
+<h3>Attendance</h3>
+<div class="shots">
+<figure><a href="shots/08-attendance-hub-empty.png"><img src="shots/08-attendance-hub-empty.png" alt="Attendance hub empty" loading="lazy"></a><figcaption><b>Attendance, before upload</b></figcaption></figure>
+<figure><a href="shots/09-attendance-upload-result.png"><img src="shots/09-attendance-upload-result.png" alt="Upload result" loading="lazy"></a><figcaption><b>Upload finished</b>3,240 rows, 180 new codes.</figcaption></figure>
+<figure><a href="shots/59-attendance-hub-loaded.png"><img src="shots/59-attendance-hub-loaded.png" alt="Attendance hub after upload" loading="lazy"></a><figcaption><b>Attendance hub</b>With upload history.</figcaption></figure>
+<figure><a href="shots/10-device-codes-before.png"><img src="shots/10-device-codes-before.png" alt="Device codes before" loading="lazy"></a><figcaption><b>Device codes</b>177 unmatched, 153 suggested.</figcaption></figure>
+<figure><a href="shots/11-device-codes-confirm.png"><img src="shots/11-device-codes-confirm.png" alt="After confirm" loading="lazy"></a><figcaption><b>After "Confirm suggested matches"</b>153 matched, 24 left.</figcaption></figure>
+<figure><a href="shots/12-device-codes-unmatched-after.png"><img src="shots/12-device-codes-unmatched-after.png" alt="Unmatched after manual" loading="lazy"></a><figcaption><b>Unmatched queue</b>22 left after 2 manual assigns.</figcaption></figure>
+<figure><a href="shots/13-device-codes-matched.png"><img src="shots/13-device-codes-matched.png" alt="Matched codes" loading="lazy"></a><figcaption><b>Matched tab</b>155 codes.</figcaption></figure>
+<figure><a href="shots/30-fix-punches-list.png"><img src="shots/30-fix-punches-list.png" alt="Fix punches list" loading="lazy"></a><figcaption><b>Fix punches</b>409 incomplete days.</figcaption></figure>
+<figure><a href="shots/31-fix-punch-sheet.png"><img src="shots/31-fix-punch-sheet.png" alt="Fix punch sheet" loading="lazy"></a><figcaption><b>Fix sheet</b>Out time and reason "TEST fix".</figcaption></figure>
+<figure><a href="shots/32-fix-punches-after.png"><img src="shots/32-fix-punches-after.png" alt="After fixes" loading="lazy"></a><figcaption><b>After 3 TEST fixes</b>406 left.</figcaption></figure>
+<figure><a href="shots/33-short-days.png"><img src="shots/33-short-days.png" alt="6 to 8 hour days" loading="lazy"></a><figcaption><b>6 to 8 h days</b>2 days to review.</figcaption></figure>
+<figure><a href="shots/34-month-grid.png"><img src="shots/34-month-grid.png" alt="Month view" loading="lazy"></a><figcaption><b>Month view</b>Per-person totals for November.</figcaption></figure>
+</div>
+
+<h3>Salaries (TEST amounts)</h3>
+<div class="shots">
+<figure><a href="shots/14-salaries-empty.png"><img src="shots/14-salaries-empty.png" alt="Salaries empty" loading="lazy"></a><figcaption><b>Salaries, none set</b></figcaption></figure>
+<figure><a href="shots/15-salaries-upload-preview.png"><img src="shots/15-salaries-upload-preview.png" alt="Salary upload preview" loading="lazy"></a><figcaption><b>Upload preview</b>TEST ₹10,000 from 1 Nov.</figcaption></figure>
+<figure><a href="shots/16-salaries-after-import.png"><img src="shots/16-salaries-after-import.png" alt="After salary import" loading="lazy"></a><figcaption><b>After import</b>List still shows "–" (bug 5).</figcaption></figure>
+<figure><a href="shots/17-salaries-list-reloaded.png"><img src="shots/17-salaries-list-reloaded.png" alt="Salaries after reload" loading="lazy"></a><figcaption><b>After reload</b>Amounts appear.</figcaption></figure>
+</div>
+
+<h3>Sundays and batches (TEST batches)</h3>
+<div class="shots">
+<figure><a href="shots/21-sundays-empty.png"><img src="shots/21-sundays-empty.png" alt="Sundays calendar before batches" loading="lazy"></a><figcaption><b>Calendar, no batches</b>The first load hit the 500 (bug 1).</figcaption></figure>
+<figure><a href="shots/22-sundays-batch-import-preview.png"><img src="shots/22-sundays-batch-import-preview.png" alt="Batch import preview" loading="lazy"></a><figcaption><b>Batch import preview</b>TEST split 29 / 29 / 28.</figcaption></figure>
+<figure><a href="shots/23-sundays-batches.png"><img src="shots/23-sundays-batches.png" alt="Batches tab" loading="lazy"></a><figcaption><b>Batches</b>After import.</figcaption></figure>
+<figure><a href="shots/24-sundays-calendar-nov.png"><img src="shots/24-sundays-calendar-nov.png" alt="November calendar" loading="lazy"></a><figcaption><b>November</b>A 1, B 8, C 15. 22 and 29 closed.</figcaption></figure>
+<figure><a href="shots/25-sundays-calendar-dec.png"><img src="shots/25-sundays-calendar-dec.png" alt="December calendar" loading="lazy"></a><figcaption><b>December</b>A 6, B 13, C 20. 27 closed.</figcaption></figure>
+<figure><a href="shots/26-swap-step1.png"><img src="shots/26-swap-step1.png" alt="Swap step 1" loading="lazy"></a><figcaption><b>Swap, step 1</b>Who cannot come, and which Sunday.</figcaption></figure>
+<figure><a href="shots/27-swap-step2.png"><img src="shots/27-swap-step2.png" alt="Swap step 2" loading="lazy"></a><figcaption><b>Swap, step 2</b>Partner list (57 free on 6 Dec).</figcaption></figure>
+<figure><a href="shots/28-swap-step3-confirm.png"><img src="shots/28-swap-step3-confirm.png" alt="Swap step 3" loading="lazy"></a><figcaption><b>Swap, step 3</b>Two-way, agreed, reason.</figcaption></figure>
+<figure><a href="shots/29-sundays-swaps-list.png"><img src="shots/29-sundays-swaps-list.png" alt="Swaps list" loading="lazy"></a><figcaption><b>Swaps</b>Recorded and logged.</figcaption></figure>
+</div>
+
+<h3>Leave</h3>
+<div class="shots">
+<figure><a href="shots/35-leave-november.png"><img src="shots/35-leave-november.png" alt="Leave November" loading="lazy"></a><figcaption><b>November</b>84 / 86 used the free day, 2 to decide.</figcaption></figure>
+<figure><a href="shots/36-leave-employee.png"><img src="shots/36-leave-employee.png" alt="Employee leave" loading="lazy"></a><figcaption><b>One employee</b>Phantom months Dec 2025 – Oct 2026 (bug 3).</figcaption></figure>
+</div>
+
+<h3>Pay run, advances, ledger</h3>
+<div class="shots">
+<figure><a href="shots/37-payroll-empty.png"><img src="shots/37-payroll-empty.png" alt="Pay overview" loading="lazy"></a><figcaption><b>Pay overview</b>Pay days 28 Nov, 12 Dec, 26 Dec.</figcaption></figure>
+<figure><a href="shots/38-payrun-start.png"><img src="shots/38-payrun-start.png" alt="New pay run" loading="lazy"></a><figcaption><b>New pay run</b>Pay date 28 Nov, period 1–15 Nov.</figcaption></figure>
+<figure><a href="shots/39-payrun-draft.png"><img src="shots/39-payrun-draft.png" alt="Pay run draft" loading="lazy"></a><figcaption><b>Draft, blocked</b>293 incomplete days.</figcaption></figure>
+<figure><a href="shots/40-payrun-draft-full.png"><img src="shots/40-payrun-draft-full.png" alt="Pay run draft full" loading="lazy"></a><figcaption><b>Draft, full page</b>Totals and all 86 lines.</figcaption></figure>
+<figure><a href="shots/41-payrun-mark-reviewed-blocked.png"><img src="shots/41-payrun-mark-reviewed-blocked.png" alt="Mark reviewed disabled" loading="lazy"></a><figcaption><b>Mark reviewed disabled</b>Cannot finalise.</figcaption></figure>
+<figure><a href="shots/42-payrun-other-warnings.png"><img src="shots/42-payrun-other-warnings.png" alt="Other warnings" loading="lazy"></a><figcaption><b>Other warnings (32)</b>No data on Sun 1 Nov, and so on.</figcaption></figure>
+<figure><a href="shots/43-payrun-line-detail.png"><img src="shots/43-payrun-line-detail.png" alt="Line detail" loading="lazy"></a><figcaption><b>Line detail</b>Breakdown of days and rupees.</figcaption></figure>
+<figure><a href="shots/50-payrun-after-recalc-advance.png"><img src="shots/50-payrun-after-recalc-advance.png" alt="After recalculation" loading="lazy"></a><figcaption><b>After recalculate</b>TEST advance recovery included.</figcaption></figure>
+<figure><a href="shots/44-payslips-draft-none.png"><img src="shots/44-payslips-draft-none.png" alt="Payslips draft" loading="lazy"></a><figcaption><b>Payslips</b>None for a draft run (correct).</figcaption></figure>
+<figure><a href="shots/45-payslip-draft-guard.png"><img src="shots/45-payslip-draft-guard.png" alt="Payslip guard" loading="lazy"></a><figcaption><b>Payslip by direct link</b>Refused until finalised.</figcaption></figure>
+<figure><a href="shots/47-advances-empty.png"><img src="shots/47-advances-empty.png" alt="Advances empty" loading="lazy"></a><figcaption><b>Advances, none</b></figcaption></figure>
+<figure><a href="shots/48-advance-new.png"><img src="shots/48-advance-new.png" alt="New advance" loading="lazy"></a><figcaption><b>New advance</b>TEST ₹2,000, one pay day.</figcaption></figure>
+<figure><a href="shots/49-advances-list.png"><img src="shots/49-advances-list.png" alt="Advances list" loading="lazy"></a><figcaption><b>Advance recorded</b></figcaption></figure>
+<figure><a href="shots/51-ledger-list.png"><img src="shots/51-ledger-list.png" alt="Ledger" loading="lazy"></a><figcaption><b>Ledger</b>Owed ₹0, advances ₹2,000.</figcaption></figure>
+<figure><a href="shots/52-ledger-employee.png"><img src="shots/52-ledger-employee.png" alt="Employee ledger" loading="lazy"></a><figcaption><b>Employee ledger</b>Advance entry.</figcaption></figure>
+</div>
+
+<h3>More, settings, audit, users</h3>
+<div class="shots">
+<figure><a href="shots/54-more-menu.png"><img src="shots/54-more-menu.png" alt="More menu" loading="lazy"></a><figcaption><b>More (owner)</b></figcaption></figure>
+<figure><a href="shots/55-settings.png"><img src="shots/55-settings.png" alt="Settings" loading="lazy"></a><figcaption><b>Rules and settings</b>Raw values (bug 9a).</figcaption></figure>
+<figure><a href="shots/56-audit-log.png"><img src="shots/56-audit-log.png" alt="Audit log" loading="lazy"></a><figcaption><b>Audit log</b>Before → after, with reasons.</figcaption></figure>
+<figure><a href="shots/57-users.png"><img src="shots/57-users.png" alt="Users" loading="lazy"></a><figcaption><b>Users</b>Owner and clerk.</figcaption></figure>
+<figure><a href="shots/58-account.png"><img src="shots/58-account.png" alt="My account" loading="lazy"></a><figcaption><b>My account</b>Passkeys and password.</figcaption></figure>
+</div>
+
+<h3>Clerk (staff role)</h3>
+<div class="shots">
+<figure><a href="shots/60-clerk-home.png"><img src="shots/60-clerk-home.png" alt="Clerk home" loading="lazy"></a><figcaption><b>Clerk home</b>No Pay tab.</figcaption></figure>
+<figure><a href="shots/61-clerk-more.png"><img src="shots/61-clerk-more.png" alt="Clerk more" loading="lazy"></a><figcaption><b>Clerk More</b>No Salaries, Payslips, Ledger, Advances or Users.</figcaption></figure>
+<figure><a href="shots/62-clerk-employee.png"><img src="shots/62-clerk-employee.png" alt="Clerk employee" loading="lazy"></a><figcaption><b>Clerk employee view</b>No Salary tab. Ledger link still shown (bug 7).</figcaption></figure>
+<figure><a href="shots/63-clerk-audit.png"><img src="shots/63-clerk-audit.png" alt="Clerk audit" loading="lazy"></a><figcaption><b>Clerk audit log</b>"Amounts hidden".</figcaption></figure>
+<figure><a href="shots/64-clerk-leave-employee.png"><img src="shots/64-clerk-leave-employee.png" alt="Clerk leave" loading="lazy"></a><figcaption><b>Clerk employee leave</b>"Cashed out ₹0" tile (bug 7).</figcaption></figure>
+<figure><a href="shots/65-clerk-sundays-batches.png"><img src="shots/65-clerk-sundays-batches.png" alt="Clerk batches" loading="lazy"></a><figcaption><b>Clerk Sundays</b>Can manage batches and swaps.</figcaption></figure>
+</div>
+
+<footer>Local dev database <span class="mono">vsm_staff</span> on the developer's computer. Real employee names and phone numbers, TEST salaries and TEST batches. Not for public sharing.</footer>
+</div>
+</body>
+</html>

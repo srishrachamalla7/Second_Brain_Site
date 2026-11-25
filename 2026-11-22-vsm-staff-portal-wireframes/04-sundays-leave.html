@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sundays and Leave Wireframes</title>
+<link rel="stylesheet" href="kit/kit.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+/* 04 Sundays & leave: screen-specific layout only, built from kit tokens */
+.subnav { display: flex; gap: var(--s1); border-bottom: 1px solid var(--border); background: var(--surface); padding: 0 var(--s2); flex: none; }
+.subnav a { display: inline-flex; align-items: center; min-height: var(--touch); padding: 0 var(--s3); font-size: var(--fs-15); font-weight: 500; color: var(--text-2); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.subnav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+.cal .d.wk { color: var(--text-2); }
+.cal .d.duty { background: var(--accent-soft); color: var(--accent); font-weight: 600; text-decoration: none; }
+.cal .d.duty.next { box-shadow: inset 0 0 0 2px var(--accent); }
+.cal .d.duty.out { opacity: .55; }
+.cal a.d, .cal button.d { cursor: pointer; text-decoration: none; }
+.legend .sw-duty { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.legend .sw-hatch { background: repeating-linear-gradient(135deg, transparent 0 3px, var(--border-strong) 3px 4px); box-shadow: inset 0 0 0 1px var(--border); }
+.legend .sw-dot { width: 6px !important; height: 6px !important; border-radius: 50% !important; background: var(--text-2); }
+.queue { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.queue svg { width: 14px; height: 14px; color: var(--text-3); }
+.qpill { display: inline-flex; align-items: center; min-height: 30px; padding: 0 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--surface-2); font-size: var(--fs-13); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.qpill.now { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s1); }
+.steps span { height: 4px; border-radius: 2px; background: var(--border); }
+.steps span.on { background: var(--accent); }
+.bank { display: inline-flex; gap: 3px; vertical-align: middle; }
+.bank i { width: 10px; height: 10px; border-radius: 2px; box-shadow: inset 0 0 0 1.5px var(--leave); display: inline-block; }
+.bank i.f { background: var(--leave); }
+.btag { width: 28px; height: 28px; border-radius: var(--r-sm); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-13); background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); flex: none; }
+.btag.on { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.moves { display: flex; flex-direction: column; }
+.moves .mv { display: flex; align-items: center; gap: var(--s3); min-height: 48px; padding: var(--s2) 0; font-size: var(--fs-15); }
+.moves .mv + .mv { border-top: 1px solid var(--border); }
+.moves .mv .grow { line-height: 1.35; }
+.moves .old { color: var(--text-2); text-decoration: line-through; }
+.moves svg.lucide { width: 16px; height: 16px; color: var(--text-3); }
+.radio-list.tall label { align-items: flex-start; padding-top: var(--s3); padding-bottom: var(--s3); }
+.radio-list.tall input { margin-top: 2px; }
+.radio-list label.off { opacity: .5; }
+.swap-dates { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-top: var(--s2); }
+.swap-dates > div { background: var(--surface-2); border-radius: var(--r-sm); padding: 6px var(--s2); font-size: var(--fs-13); line-height: 1.35; }
+.swap-dates b { display: block; font-size: var(--fs-15); font-variant-numeric: tabular-nums; }
+.day-type { display: flex; align-items: center; gap: var(--s3); }
+.day-type .dt { width: 72px; flex: none; font-size: var(--fs-15); line-height: 1.3; }
+.day-type .seg { flex: 1; }
+.row-sub .bank { margin-left: 2px; }
+label.row { cursor: pointer; }
+label.row.off { opacity: .5; cursor: default; }
+.desktop .cal .d { min-height: 40px; }
+.desktop .card .queue { margin-top: var(--s2); }
+</style>
+</head>
+<body class="wf-page">
+
+<header class="wf-header">
+  <a class="wf-back" href="index.html"><i data-lucide="arrow-left"></i> All wireframes</a>
+  <h1>04 · Sundays &amp; leave</h1>
+  <div class="wf-tools">
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-frame">Frame: on</button>
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-theme">Theme: auto</button>
+  </div>
+</header>
+
+<div class="wf-intro">
+  <h2>Sundays &amp; leave</h2>
+  <p>About 83 staff are split into Batches A, B and C. The store opens at most 3 Sundays a month and each batch works one of them as a normal day, with no extra pay. Admin users record swaps and holiday Sundays here, and keep track of the 1 free leave a month: used, banked (up to 3) or cashed out on the next pay day. Both areas open from <b>More</b>. Tap the calendar days, rows, chips and buttons: links jump to the next screen on this page.</p>
+</div>
+
+<div class="wf-section"><h2>Sundays &amp; batches</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 04-01 Sundays calendar ============ -->
+  <section class="wf-screen" id="s04-01">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:24</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Sundays &amp; batches</h1><div class="sub">83 staff · 3 batches · max 3 open Sundays a month</div></div>
+        <a class="icon-btn" href="#s04-05a" aria-label="Record a swap"><i data-lucide="repeat"></i></a>
+        <button class="icon-btn" data-open="s1-menu" aria-label="More actions"><i data-lucide="ellipsis-vertical"></i></button>
+      </header>
+      <nav class="subnav" aria-label="Sundays sections">
+        <a href="#s04-01" aria-current="page">Calendar</a><a href="#s04-03">Batches</a><a href="#s04-06">Swaps</a>
+      </nav>
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+          <span class="m">November 2026</span>
+          <a class="icon-btn" href="#s04-04" aria-label="Next month"><i data-lucide="chevron-right"></i></a>
+        </div>
+        <div class="cal" aria-label="November 2026, Sundays">
+          <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+          <span class="d out">26</span><span class="d out">27</span><span class="d out">28</span><span class="d out">29</span><span class="d out">30</span><span class="d out">31</span><span class="d closed">1<small>Closed</small></span>
+          <span class="d wk">2</span><span class="d wk">3</span><span class="d wk">4</span><span class="d wk">5</span><span class="d wk">6</span><span class="d wk">7</span><span class="d closed">8<small>Holiday</small></span>
+          <span class="d wk">9</span><span class="d wk">10</span><span class="d wk">11</span><span class="d wk">12</span><span class="d wk">13</span><span class="d wk">14</span><a class="d duty" href="#s04-02" aria-label="Sun 15 Nov, Batch C">15<small>C</small></a>
+          <span class="d wk">16</span><span class="d wk">17</span><span class="d wk">18</span><span class="d wk">19</span><span class="d wk">20</span><span class="d wk">21</span><a class="d duty edited" href="#s04-02" aria-label="Sun 22 Nov, Batch A, 2 swaps">22<small>A</small></a>
+          <span class="d wk today">23</span><span class="d wk">24</span><span class="d wk">25</span><span class="d wk">26</span><span class="d wk">27</span><span class="d wk">28</span><button class="d duty next edited" data-open="s1-day" aria-label="Sun 29 Nov, Batch B, next up, 2 swaps">29<small>B</small></button>
+          <span class="d wk">30</span><span class="d out">1</span><span class="d out">2</span><span class="d out">3</span><span class="d out">4</span><span class="d out">5</span><span class="d duty out">6<small>C</small></span>
+        </div>
+        <div class="legend"><span><i class="sw-duty"></i>Batch on duty</span><span><i class="sw-hatch"></i>Closed or holiday</span><span><i class="sw-dot"></i>Swaps recorded</span></div>
+
+        <div class="card accent-left">
+          <div class="between">
+            <div class="grow">
+              <div class="meta">Rotation queue</div>
+              <div class="t18 fw6">Next up: Batch B</div>
+              <div class="t15 muted">Sun 29 Nov · 27 staff · 2 swaps</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" data-open="s1-day">Open</button>
+          </div>
+          <div class="queue" style="margin-top: var(--s3)" aria-label="Queue order">
+            <span class="qpill now">B · 29 Nov</span><i data-lucide="chevron-right"></i><span class="qpill">C · 6 Dec</span><i data-lucide="chevron-right"></i><span class="qpill">A · 13 Dec</span><i data-lucide="chevron-right"></i><span class="qpill">B · 20 Dec</span>
+          </div>
+        </div>
+
+        <div class="banner banner-info">
+          <i data-lucide="info"></i>
+          <div class="grow t15"><span class="b-title">Holiday rule: proposal.</span> If an open Sunday becomes a holiday, nobody works and the batch that was due takes the next open Sunday. Waiting for the owner's OK.</div>
+        </div>
+
+        <h2 class="section-title">November</h2>
+        <div class="list inset">
+          <button class="row" data-open="s1-day"><span class="btag on">B</span><div class="row-main"><div class="row-title">Sun 29 Nov</div><div class="row-sub">27 staff · 2 swaps</div></div><span class="badge badge-accent">Next</span><i data-lucide="chevron-right" class="row-chevron"></i></button>
+          <a class="row" href="#s04-02"><span class="btag on">A</span><div class="row-main"><div class="row-title">Sun 22 Nov</div><div class="row-sub">25 of 28 punched · 3 missing</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s04-02"><span class="btag on">C</span><div class="row-main"><div class="row-title">Sun 15 Nov</div><div class="row-sub">Moved from 8 Nov (holiday) · 27 of 28 punched</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <div class="row"><span class="btag">–</span><div class="row-main"><div class="row-title">Sun 8 Nov</div><div class="row-sub">Holiday: Diwali · nobody worked</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+          <div class="row"><span class="btag">–</span><div class="row-main"><div class="row-title">Sun 1 Nov</div><div class="row-sub">Store closed (4th Sunday of the cycle)</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="s1-day" role="dialog" aria-modal="true" aria-labelledby="s1-day-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s1-day-t">Sun 29 Nov · Batch B</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <p class="muted t15" style="margin:0;padding:0 var(--s4)">27 on the roster. Naresh and Swapna are swapped out; Bhavani (A) and Anusha (C) come in.</p>
+          <div class="list">
+            <a class="row compact" href="#s04-02"><i data-lucide="users"></i><div class="row-main"><div class="row-title">Open roster</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s04-05a"><i data-lucide="repeat"></i><div class="row-main"><div class="row-title">Record a swap for this Sunday</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s04-04"><i data-lucide="calendar-x"></i><div class="row-main"><div class="row-title">Mark as a holiday</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="sheet" id="s1-menu" role="dialog" aria-modal="true" aria-labelledby="s1-menu-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s1-menu-t">Sundays</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <a class="row compact" href="#s04-04"><i data-lucide="calendar-x"></i><div class="row-main"><div class="row-title">Mark a Sunday as a holiday</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s04-05a"><i data-lucide="repeat"></i><div class="row-main"><div class="row-title">Record a swap</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s04-03"><i data-lucide="upload"></i><div class="row-main"><div class="row-title">Import batch lists</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-01</span>
+      <h3>Sundays calendar</h3>
+      <p>Opens from More → Sundays &amp; batches. Shows which batch works each open Sunday this month, which Sundays are closed or holidays (hatched), and who is next in the rotation queue.</p>
+      <ul>
+        <li><b>A batch Sunday</b> (15, 22) opens its roster, 04-02. <b>29 Nov</b> (next up, outlined) opens a sheet: roster, record a swap, mark as holiday.</li>
+        <li><b>Rotation queue card</b>: the order batches take open Sundays. It only moves forward on Sundays that actually open.</li>
+        <li><b>Next month arrow</b> goes to December (04-04). <b>Swap icon</b> starts 04-05. <b>⋮</b> holds holiday, swap and batch import.</li>
+        <li><b>Calendar / Batches / Swaps</b> switch between the three Sunday screens.</li>
+      </ul>
+      <div class="wf-note">Q-A: the holiday-Sunday rotation queue is a proposal, not yet approved by the owner. The alternative is that the due batch simply loses its turn that month.</div>
+    </div>
+  </section>
+
+  <!-- ============ 04-02 Sunday detail ============ -->
+  <section class="wf-screen" id="s04-02">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:26</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s04-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Sun 22 Nov · Batch A</div><div class="sub">Shift 10:00–21:00 · punches uploaded 23 Nov, 09:05</div></div>
+        <a class="icon-btn" href="#s04-05a" aria-label="Record a swap"><i data-lucide="repeat"></i></a>
+      </header>
+      <div class="app-body">
+        <div class="stats three">
+          <div class="stat"><span class="label">On roster</span><span class="value">28</span><span class="delta">26 of A + 2 in</span></div>
+          <div class="stat"><span class="label">Punched</span><span class="value">25</span><span class="delta">22 full days</span></div>
+          <div class="stat"><span class="label">Missing</span><span class="value c-absent">3</span><span class="delta">1 on leave</span></div>
+        </div>
+        <div class="chips" role="group" aria-label="Filter roster">
+          <button class="chip" aria-pressed="true">All <span class="count">28</span></button>
+          <button class="chip" aria-pressed="false">Missing <span class="count">3</span></button>
+          <button class="chip" aria-pressed="false">Short <span class="count">2</span></button>
+          <button class="chip" aria-pressed="false">Swaps <span class="count">2</span></button>
+        </div>
+
+        <h2 class="section-title">Not punched</h2>
+        <div class="list inset">
+          <button class="row" data-open="s2-ov"><span class="avatar">OY</span><div class="row-main"><div class="row-title">Oruganti Yadagiri</div><div class="row-sub">VSM/047 · Mens Wear · no punch</div></div><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></button>
+          <button class="row" data-open="s2-ov"><span class="avatar">RA</span><div class="row-main"><div class="row-title">Rapolu Anil</div><div class="row-sub">VSM/039 · Billing · no punch</div></div><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></button>
+          <a class="row" href="#s04-10"><span class="avatar">NS</span><div class="row-main"><div class="row-title">Nalla Sirisha</div><div class="row-sub">VSM/036 · free leave, applied 20 Nov</div></div><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></a>
+        </div>
+
+        <h2 class="section-title">Swaps applied</h2>
+        <div class="list inset">
+          <div class="row"><span class="avatar">TL</span><div class="row-main"><div class="row-title">Thota Lavanya <span class="muted t13">C</span></div><div class="row-sub">In for Bandi Saidulu · two-way · 09:56–21:04</div></div><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+          <div class="row"><span class="avatar">MS</span><div class="row-main"><div class="row-title">Madhara Sunil <span class="muted t13">B</span></div><div class="row-sub">In for Kurapati Manasa · one-way · 10:02–20:58</div></div><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+          <div class="row"><span class="avatar">BS</span><div class="row-main"><div class="row-title">Bandi Saidulu</div><div class="row-sub">Swapped out · works Sun 6 Dec instead</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+          <div class="row"><span class="avatar">KM</span><div class="row-main"><div class="row-title">Kurapati Manasa</div><div class="row-sub">Swapped out · one-way, no Sunday owed</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+        </div>
+
+        <h2 class="section-title">Punched · 25</h2>
+        <div class="list inset">
+          <div class="row"><span class="avatar">KS</span><div class="row-main"><div class="row-title">Kodari Sravani</div><div class="row-sub">VSM/018 · 10:41–17:31 · 6 h 50 m</div></div><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></div>
+          <div class="row"><span class="avatar">GP</span><div class="row-main"><div class="row-title">Gaddam Prashanth</div><div class="row-sub">VSM/033 · in 10:07 · no out-punch</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+          <div class="row"><span class="avatar">EB</span><div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub">VSM/058 · 10:01–21:02 · 11 h 1 m</div></div><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+          <button class="row compact" data-toast="Showing all 25 punched"><div class="row-main"><div class="row-title c-accent t15 fw6">Show all 25</div></div><i data-lucide="chevron-down" class="row-chevron"></i></button>
+        </div>
+
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">Changes to this Sunday</h2></div>
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="repeat"></i></span>
+              <div class="a-main">
+                <div class="a-what">Swap · Bandi Saidulu ⇄ Thota Lavanya</div>
+                <div class="a-change"><span class="a-old">Saidulu 22 Nov</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new">Lavanya 22 Nov, Saidulu 6 Dec</span></div>
+                <div class="a-reason">Saidulu's daughter's school function. Lavanya agreed in person.</div>
+                <div class="a-meta">Ramesh (Supervisor) · 18 Nov, 19:20</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="s2-ov" role="dialog" aria-modal="true" aria-labelledby="s2-ov-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s2-ov-t">Change day status</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Oruganti Yadagiri · Sun 22 Nov</span><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></div>
+            <div class="t15 muted">Batch A Sunday · no punch · deducts ₹560</div>
+          </div>
+          <div class="field">
+            <span class="label">New status</span>
+            <div class="seg" role="group" aria-label="New status">
+              <button aria-pressed="true">Present</button><button aria-pressed="false">Short</button><button aria-pressed="false">Leave</button><button aria-pressed="false">Absent</button>
+            </div>
+          </div>
+          <div class="field has-error">
+            <label for="s2-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s2-r" placeholder="e.g. Sent to the godown, couldn't punch"></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a reason before saving.</span>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. 22 Nov is now Present for Yadagiri.">Save change</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-02</span>
+      <h3>Sunday detail (roster)</h3>
+      <p>Who was supposed to work this Sunday, who punched, who swapped and who is missing. The roster is the batch list with swaps applied: people swapped in are added, people swapped out show as Off.</p>
+      <ul>
+        <li><b>A missing person</b> (Absent) opens the change-with-reason sheet, e.g. they were sent outside and couldn't punch.</li>
+        <li><b>A person on Leave</b> opens their leave history (04-10).</li>
+        <li><b>Chips</b> filter the roster. <b>Swap icon</b> records a swap for this Sunday (04-05).</li>
+        <li>The audit card lists every change that touched this Sunday.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 04-03 Batches ============ -->
+  <section class="wf-screen" id="s04-03">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:28</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Sundays &amp; batches</h1><div class="sub">83 staff · 3 batches</div></div>
+        <button class="icon-btn" data-open="s3-import" aria-label="Import batch lists"><i data-lucide="upload"></i></button>
+      </header>
+      <nav class="subnav" aria-label="Sundays sections">
+        <a href="#s04-01">Calendar</a><a href="#s04-03" aria-current="page">Batches</a><a href="#s04-06">Swaps</a>
+      </nav>
+      <div class="app-body">
+        <div class="stats three">
+          <div class="stat"><span class="label">Batch A</span><span class="value">28</span><span class="delta">Next 13 Dec</span></div>
+          <div class="stat"><span class="label">Batch B</span><span class="value">27</span><span class="delta">Next 29 Nov</span></div>
+          <div class="stat"><span class="label">Batch C</span><span class="value">28</span><span class="delta">Next 6 Dec</span></div>
+        </div>
+        <div class="search"><i data-lucide="search"></i><input placeholder="Search name or VSM number" aria-label="Search staff"></div>
+        <div class="card flush" data-tabs-scope>
+          <div class="tabs" data-tabs>
+            <button data-tab="ba" aria-selected="true">Batch A <span class="count">28</span></button>
+            <button data-tab="bb" aria-selected="false">Batch B <span class="count">27</span></button>
+            <button data-tab="bc" aria-selected="false">Batch C <span class="count">28</span></button>
+          </div>
+          <div data-panel="ba">
+            <p class="meta" style="margin:0;padding:var(--s2) var(--s4)">Billing 3 · Counter 2 · Accounts 1 · Pattu Sarees 4 · 18 others</p>
+            <div class="list" style="border-bottom:0">
+              <div class="row"><span class="avatar">AU</span><div class="row-main"><div class="row-title">Ankam Uday</div><div class="row-sub">VSM/021 · Kids Wear</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">BS</span><div class="row-main"><div class="row-title">Bandi Saidulu</div><div class="row-sub">VSM/012 · Pattu Sarees</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">EB</span><div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub">VSM/058 · Matching</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">GP</span><div class="row-main"><div class="row-title">Gaddam Prashanth</div><div class="row-sub">VSM/033 · Furnishing</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">JS</span><div class="row-main"><div class="row-title">Jangam Srikanth</div><div class="row-sub">VSM/052 · Fancy Sarees</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <button class="row compact" data-toast="Showing all 28 in Batch A"><div class="row-main"><div class="row-title c-accent t15 fw6">Show all 28</div></div><i data-lucide="chevron-down" class="row-chevron"></i></button>
+            </div>
+          </div>
+          <div data-panel="bb" hidden>
+            <p class="meta" style="margin:0;padding:var(--s2) var(--s4)">Billing 3 · Counter 2 · Accounts 1 · Mens Wear 4 · 17 others</p>
+            <div class="list" style="border-bottom:0">
+              <div class="row"><span class="avatar">GR</span><div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub">VSM/031 · Mens Wear</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">KN</span><div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub">VSM/044 · Billing</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">MS</span><div class="row-main"><div class="row-title">Madhara Sunil</div><div class="row-sub">VSM/029 · Readymade</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">PS</span><div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub">VSM/027 · Pattu Sarees</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <button class="row compact" data-toast="Showing all 27 in Batch B"><div class="row-main"><div class="row-title c-accent t15 fw6">Show all 27</div></div><i data-lucide="chevron-down" class="row-chevron"></i></button>
+            </div>
+          </div>
+          <div data-panel="bc" hidden>
+            <p class="meta" style="margin:0;padding:var(--s2) var(--s4)">Billing 2 · Counter 2 · Accounts 1 · Cotton Sarees 5 · 18 others</p>
+            <div class="list" style="border-bottom:0">
+              <div class="row"><span class="avatar">MA</span><div class="row-main"><div class="row-title">Mekala Anusha</div><div class="row-sub">VSM/063 · Cotton Sarees</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">NT</span><div class="row-main"><div class="row-title">Nimmala Tejaswini</div><div class="row-sub">VSM/074 · Synthetics</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">TL</span><div class="row-main"><div class="row-title">Thota Lavanya</div><div class="row-sub">VSM/069 · Counter</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <div class="row"><span class="avatar">VK</span><div class="row-main"><div class="row-title">Vemula Kiran</div><div class="row-sub">VSM/071 · Mens Wear</div></div><button class="btn btn-secondary btn-sm" data-open="s3-move">Move</button></div>
+              <button class="row compact" data-toast="Showing all 28 in Batch C"><div class="row-main"><div class="row-title c-accent t15 fw6">Show all 28</div></div><i data-lucide="chevron-down" class="row-chevron"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">Batch changes</h2><a class="card-link" href="#">Audit log</a></div>
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="pencil"></i></span>
+              <div class="a-main">
+                <div class="a-what">Sunkari Bhargavi · VSM/080</div>
+                <div class="a-change"><span class="a-old">Batch A</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new">Batch C</span></div>
+                <div class="a-reason">Batch C had only one billing person on Sundays.</div>
+                <div class="a-meta">Owner · 19 Nov, 20:15</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="s3-move" role="dialog" aria-modal="true" aria-labelledby="s3-move-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s3-move-t">Move to another batch</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Ankam Uday</span><span class="btag on">A</span></div>
+            <div class="t15 muted">VSM/021 · Kids Wear · next Sunday 13 Dec</div>
+          </div>
+          <div class="field">
+            <span class="label">New batch</span>
+            <div class="seg" role="group" aria-label="New batch">
+              <button aria-pressed="true">Batch B</button><button aria-pressed="false">Batch C</button>
+            </div>
+          </div>
+          <div class="banner banner-info"><i data-lucide="info"></i><div class="grow t15">His next Sunday changes from <b>13 Dec</b> to <b>29 Nov</b>. Batch A 28 → 27, Batch B 27 → 28.</div></div>
+          <div class="field">
+            <label for="s3-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s3-r">Kids Wear needs a second person on Batch B Sundays.</textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Moved to Batch B. Logged.">Move to B</button>
+        </div>
+      </div>
+
+      <div class="sheet" id="s3-import" role="dialog" aria-modal="true" aria-labelledby="s3-imp-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s3-imp-t">Import batch lists</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="dropzone">
+            <i data-lucide="file-spreadsheet"></i>
+            <div class="fw6" style="color:var(--text)">batches-dec-2026.xlsx</div>
+            <div class="t13">Columns: VSM ID, Name, Batch (A, B or C)</div>
+            <button class="btn btn-secondary btn-sm">Choose another file</button>
+          </div>
+          <dl class="kv">
+            <dt>Rows read</dt><dd class="num">83</dd>
+            <dt>Batch A / B / C</dt><dd class="num">28 / 27 / 28</dd>
+            <dt>Batch changes</dt><dd class="num">6 people</dd>
+          </dl>
+          <div class="banner banner-warn"><i data-lucide="triangle-alert"></i><div class="grow t15"><span class="b-title">2 IDs not found:</span> VSM/090, VSM/091. Add them in Staff first, or import without them.</div></div>
+          <div class="field">
+            <label for="s3-ir">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s3-ir">Owner's batch lists for December.</textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="81 rows imported. 6 batch changes logged.">Import 81</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-03</span>
+      <h3>Batches</h3>
+      <p>The three batch lists with counts and each batch's next Sunday. The department line under each tab shows whether every counter is covered on that batch's Sunday.</p>
+      <ul>
+        <li><b>Batch A / B / C tabs</b> switch the list. Try them.</li>
+        <li><b>Move</b> opens the change-with-reason sheet: pick the new batch, see the next-Sunday effect and new counts, type a reason.</li>
+        <li><b>Upload icon</b> imports the owner's batch lists (.xlsx/.csv) and shows what changes and which IDs don't match before saving.</li>
+      </ul>
+      <div class="wf-note">The owner hasn't sent the batch lists yet. Should a move take effect from the next Sunday, or from a chosen date?</div>
+    </div>
+  </section>
+
+  <!-- ============ 04-04 Mark holiday ============ -->
+  <section class="wf-screen" id="s04-04">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:31</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Sundays &amp; batches</h1><div class="sub">83 staff · 3 batches</div></div>
+        <button class="icon-btn" aria-label="More actions"><i data-lucide="ellipsis-vertical"></i></button>
+      </header>
+      <nav class="subnav" aria-label="Sundays sections">
+        <a href="#s04-01" aria-current="page">Calendar</a><a href="#s04-03">Batches</a><a href="#s04-06">Swaps</a>
+      </nav>
+      <div class="app-body">
+        <div class="month-switch">
+          <a class="icon-btn" href="#s04-01" aria-label="Previous month"><i data-lucide="chevron-left"></i></a>
+          <span class="m">December 2026</span>
+          <button class="icon-btn" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+        </div>
+        <div class="cal" aria-label="December 2026, Sundays">
+          <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+          <span class="d out">30</span><span class="d wk">1</span><span class="d wk">2</span><span class="d wk">3</span><span class="d wk">4</span><span class="d wk">5</span><span class="d sel">6<small>C</small></span>
+          <span class="d wk">7</span><span class="d wk">8</span><span class="d wk">9</span><span class="d wk">10</span><span class="d wk">11</span><span class="d wk">12</span><span class="d duty">13<small>A</small></span>
+          <span class="d wk">14</span><span class="d wk">15</span><span class="d wk">16</span><span class="d wk">17</span><span class="d wk">18</span><span class="d wk">19</span><span class="d duty">20<small>B</small></span>
+          <span class="d wk">21</span><span class="d wk">22</span><span class="d wk">23</span><span class="d wk">24</span><span class="d wk">25</span><span class="d wk">26</span><span class="d closed">27<small>Closed</small></span>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="s4-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s4-t">Mark Sun 6 Dec as a holiday</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Sun 6 Dec</span><span class="btag on">C</span></div>
+            <div class="t15 muted">Batch C due · 28 staff · 3 swaps</div>
+          </div>
+          <div class="field">
+            <label for="s4-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s4-r" style="min-height:64px">Store closed for the owner's family function.</textarea>
+          </div>
+          <div class="field">
+            <span class="label">What changes</span>
+            <div class="moves">
+              <div class="mv"><span class="btag">–</span><div class="grow">6 Dec: nobody works</div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+              <div class="mv"><span class="btag on">C</span><div class="grow">Batch C <span class="old">6 Dec</span> <i data-lucide="arrow-right"></i> <b>13 Dec</b></div></div>
+              <div class="mv"><span class="btag on">A</span><div class="grow">Batch A <span class="old">13 Dec</span> <i data-lucide="arrow-right"></i> <b>20 Dec</b></div></div>
+              <div class="mv"><span class="btag on">B</span><div class="grow">Batch B <span class="old">20 Dec</span> <i data-lucide="arrow-right"></i> <b>3 Jan</b><div class="meta">27 Dec stays closed</div></div></div>
+            </div>
+            <span class="help">The queue then continues: C 10 Jan, A 17 Jan.</span>
+          </div>
+          <label class="between" style="min-height:var(--touch)">
+            <span class="t15">Open Sun 27 Dec for Batch B instead<span class="meta" style="display:block">December would still have 3 open Sundays</span></span>
+            <input type="checkbox" class="switch" aria-label="Open Sun 27 Dec for Batch B">
+          </label>
+          <div class="banner banner-warn"><i data-lucide="triangle-alert"></i><div class="grow t15"><span class="b-title">3 swaps were on 6 Dec.</span> They move to 13 Dec with Batch C. Tell Bandi Saidulu, Peddi Swapna and Gundla Ravi Teja.</div></div>
+          <div class="banner banner-info"><i data-lucide="info"></i><div class="grow t15">This is the proposed rotation-queue rule. It is waiting for the owner's OK.</div></div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="6 Dec is a holiday. 3 batches moved. Logged.">Mark holiday</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-04</span>
+      <h3>Mark a Sunday as a holiday</h3>
+      <p>Opened from a Sunday or the ⋮ menu (shown open over December). Before saving, it previews how the rotation queue shifts, so nobody is surprised.</p>
+      <ul>
+        <li><b>What changes</b>: the due batch takes the next open Sunday, and every later batch moves one step. 27 Dec is the closed 4th Sunday, so Batch B goes to 3 Jan.</li>
+        <li><b>Switch</b>: open 27 Dec instead, so B still works in December. The preview updates.</li>
+        <li><b>Swaps</b> on that day move with the batch; the warning names who to tell.</li>
+        <li><b>Mark holiday</b> saves, logs an audit row (reason, who, when) and hatches 6 Dec on the calendar.</li>
+      </ul>
+      <div class="wf-note">Pending owner: Q-A (rotation queue vs. losing the turn). Also: when a holiday pushes a batch into the next month, should the app offer to open a closed Sunday? Do swaps move with the batch, or get cancelled?</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Record and manage swaps</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 04-05a Swap step 1 ============ -->
+  <section class="wf-screen" id="s04-05a">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:38</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s04-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Record a swap</div><div class="sub">Step 1 of 3 · who can't come</div></div>
+      </header>
+      <div class="app-body">
+        <div class="steps" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+        <div class="field">
+          <span class="label">Employee who can't come</span>
+          <div class="search"><i data-lucide="search"></i><input value="ravi" aria-label="Search employee"></div>
+        </div>
+        <div class="list inset">
+          <label class="row"><input type="radio" class="row-check" name="s5a-emp" checked><span class="avatar">GR</span><div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub">VSM/031 · Mens Wear · Batch B</div></div></label>
+          <label class="row"><input type="radio" class="row-check" name="s5a-emp"><span class="avatar">GR</span><div class="row-main"><div class="row-title">Gajula Ravinder</div><div class="row-sub">VSM/055 · Furnishing · Batch C</div></div></label>
+        </div>
+        <div class="field">
+          <span class="label">His Sunday</span>
+          <div class="radio-list tall">
+            <label><input type="radio" name="s5a-sun" checked><div class="grow"><div class="fw6">Sun 29 Nov</div><div class="t13 muted">Batch B · already 2 swaps that day</div></div></label>
+            <label><input type="radio" name="s5a-sun"><div class="grow"><div class="fw6">Sun 20 Dec</div><div class="t13 muted">Batch B · no swaps yet</div></div></label>
+          </div>
+          <span class="help">Only his own batch's upcoming Sundays are listed.</span>
+        </div>
+      </div>
+      <div class="action-bar">
+        <a class="btn btn-primary btn-lg" href="#s04-05b">Next: choose partner</a>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-05 · step 1</span>
+      <h3>Record a swap: who and which Sunday</h3>
+      <p>The employee tells an admin user they can't come. Employees don't use the app; the admin records the swap.</p>
+      <ul>
+        <li><b>Search</b> by name or VSM number, then pick the person.</li>
+        <li><b>His Sunday</b>: his batch's next Sundays, with how many swaps each already has.</li>
+        <li><b>Next</b> goes to step 2. Back returns to where you came from.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 04-05b Swap step 2 ============ -->
+  <section class="wf-screen" id="s04-05b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:39</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s04-05a" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Record a swap</div><div class="sub">Step 2 of 3 · partner</div></div>
+      </header>
+      <div class="app-body">
+        <div class="steps" aria-hidden="true"><span class="on"></span><span class="on"></span><span></span></div>
+        <div class="card" style="background:var(--surface-2);padding:var(--s3) var(--s4)">
+          <div class="between"><span class="fw6">Gundla Ravi Teja</span><span class="t15 muted">B · Sun 29 Nov</span></div>
+        </div>
+        <div class="search"><i data-lucide="search"></i><input placeholder="Search partner" aria-label="Search partner"></div>
+        <div class="chips" role="group" aria-label="Filter partners">
+          <button class="chip" aria-pressed="true">Free on 29 Nov <span class="count">49</span></button>
+          <button class="chip" aria-pressed="false">Batch A <span class="count">28</span></button>
+          <button class="chip" aria-pressed="false">Batch C <span class="count">28</span></button>
+          <button class="chip" aria-pressed="false">Mens Wear <span class="count">7</span></button>
+        </div>
+        <div class="list inset">
+          <label class="row"><input type="radio" class="row-check" name="s5b-p" checked><div class="row-main"><div class="row-title">Vemula Kiran</div><div class="row-sub">C · Mens Wear · own Sunday 6 Dec</div></div><span class="badge badge-accent">Same dept</span></label>
+          <label class="row"><input type="radio" class="row-check" name="s5b-p"><div class="row-main"><div class="row-title">Sanga Sandeep</div><div class="row-sub">C · Mens Wear · own Sunday 6 Dec</div></div><span class="badge badge-accent">Same dept</span></label>
+          <label class="row"><input type="radio" class="row-check" name="s5b-p"><div class="row-main"><div class="row-title">Jangam Srikanth</div><div class="row-sub">A · Fancy Sarees · own Sunday 13 Dec</div></div></label>
+          <label class="row off"><input type="radio" class="row-check" name="s5b-p" disabled><div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub">A · already covering Naresh, 29 Nov</div></div><span class="badge badge-neutral"><i data-lucide="repeat"></i>Swap</span></label>
+          <label class="row off"><input type="radio" class="row-check" name="s5b-p" disabled><div class="row-main"><div class="row-title">Nimmala Tejaswini</div><div class="row-sub">C · leave applied for 29 Nov</div></div><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></label>
+        </div>
+      </div>
+      <div class="action-bar">
+        <a class="btn btn-secondary btn-lg" href="#s04-05a">Back</a>
+        <a class="btn btn-primary btn-lg" href="#s04-05c">Next</a>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-05 · step 2</span>
+      <h3>Record a swap: pick the partner</h3>
+      <p>Only people from the other two batches are listed, with whether they can take that Sunday.</p>
+      <ul>
+        <li><b>Free on 29 Nov</b> (default chip): not on leave and not already in a swap that day. Others are greyed with the reason.</li>
+        <li><b>Same dept</b> tag: a partner from the same counter keeps the floor covered.</li>
+        <li><b>Next</b> goes to step 3.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 04-05c Swap step 3 ============ -->
+  <section class="wf-screen" id="s04-05c">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:41</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s04-05b" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Record a swap</div><div class="sub">Step 3 of 3 · type and confirm</div></div>
+      </header>
+      <div class="app-body">
+        <div class="steps" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span></div>
+        <div class="field">
+          <span class="label">What did they agree?</span>
+          <div class="radio-list tall">
+            <label><input type="radio" name="s5c-type" checked><div class="grow">
+              <div class="fw6">Two-way: they trade Sundays</div>
+              <div class="swap-dates"><div><b>Sun 29 Nov</b>Kiran works</div><div><b>Sun 6 Dec</b>Ravi Teja works</div></div>
+            </div></label>
+            <label><input type="radio" name="s5c-type"><div class="grow">
+              <div class="fw6">One-way: Kiran covers</div>
+              <div class="swap-dates"><div><b>Sun 29 Nov</b>Kiran works</div><div><b>Sun 6 Dec</b>Kiran works (his own)</div></div>
+              <div class="t13 muted" style="margin-top:6px">Ravi Teja has no Sunday this round.</div>
+            </div></label>
+          </div>
+        </div>
+        <div class="list inset">
+          <label class="row compact"><input type="checkbox" class="row-check" checked><div class="row-main"><div class="row-title t15">Both employees agreed</div></div></label>
+        </div>
+        <div class="field">
+          <label for="s5c-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+          <textarea class="textarea" id="s5c-r" style="min-height:64px">Ravi Teja's cousin's wedding in Warangal. Kiran agreed in person.</textarea>
+        </div>
+        <dl class="kv">
+          <dt>Batch B on 29 Nov</dt><dd>27 staff, 3 swaps</dd>
+          <dt>Batch C on 6 Dec</dt><dd>28 staff, 3 swaps</dd>
+          <dt>Pay</dt><dd>No change</dd>
+        </dl>
+      </div>
+      <div class="action-bar">
+        <a class="btn btn-secondary btn-lg" href="#s04-05b">Back</a>
+        <button class="btn btn-primary btn-lg" data-toast="Swap recorded. Rosters updated and logged.">Record swap</button>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-05 · step 3</span>
+      <h3>Record a swap: one-way or two-way</h3>
+      <p>The two employees decide; the app supports both. Each option spells out who works on which date, so the admin can read it back to them.</p>
+      <ul>
+        <li><b>Two-way</b>: they trade Sundays. <b>One-way</b>: the partner covers; nobody owes a Sunday back.</li>
+        <li><b>Record swap</b> is blocked until "Both agreed" is ticked and a reason is typed. On save: toast, both Sunday rosters update, and an audit row appears in the swap log (04-06).</li>
+      </ul>
+      <div class="wf-note">One-way swaps: the partner works two Sundays and the other person none. Still no extra pay for the extra Sunday, and nothing deducted from the person who skipped? Owner to confirm.</div>
+    </div>
+  </section>
+
+  <!-- ============ 04-06 Swaps list ============ -->
+  <section class="wf-screen" id="s04-06">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:42</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Sundays &amp; batches</h1><div class="sub">83 staff · 3 batches</div></div>
+        <a class="icon-btn" href="#s04-05a" aria-label="Record a swap"><i data-lucide="plus"></i></a>
+      </header>
+      <nav class="subnav" aria-label="Sundays sections">
+        <a href="#s04-01">Calendar</a><a href="#s04-03">Batches</a><a href="#s04-06" aria-current="page">Swaps</a>
+      </nav>
+      <div class="app-body">
+        <div class="tabs" data-tabs style="border:1px solid var(--border);border-radius:var(--r-md)">
+          <button data-tab="up" aria-selected="true">Upcoming <span class="count">4</span></button>
+          <button data-tab="past" aria-selected="false">Past <span class="count">5</span></button>
+        </div>
+
+        <div data-panel="up" class="stack">
+          <h2 class="section-title">Sun 29 Nov · Batch B</h2>
+          <div class="list inset">
+            <button class="row" data-open="s6-cancel"><i data-lucide="repeat" class="row-chevron"></i><div class="row-main"><div class="row-title">Gundla Ravi Teja ⇄ Vemula Kiran</div><div class="row-sub">Kiran 29 Nov · Ravi Teja 6 Dec · Ramesh, today</div></div><span class="badge badge-neutral">Two-way</span></button>
+            <button class="row" data-open="s6-cancel"><i data-lucide="arrow-right" class="row-chevron"></i><div class="row-main"><div class="row-title">Kavali Naresh → Ennam Bhavani</div><div class="row-sub">Bhavani covers 29 Nov · Padma, 20 Nov</div></div><span class="badge badge-neutral">One-way</span></button>
+            <button class="row" data-open="s6-cancel"><i data-lucide="repeat" class="row-chevron"></i><div class="row-main"><div class="row-title">Peddi Swapna ⇄ Mekala Anusha</div><div class="row-sub">Anusha 29 Nov · Swapna 6 Dec · Ramesh, 19 Nov</div></div><span class="badge badge-neutral">Two-way</span></button>
+          </div>
+          <h2 class="section-title">Sun 6 Dec · Batch C</h2>
+          <div class="list inset">
+            <button class="row" data-open="s6-cancel"><i data-lucide="repeat" class="row-chevron"></i><div class="row-main"><div class="row-title">Bandi Saidulu ⇄ Thota Lavanya</div><div class="row-sub">2nd half: Saidulu works 6 Dec · 22 Nov done</div></div><span class="badge badge-neutral">Two-way</span></button>
+          </div>
+        </div>
+
+        <div data-panel="past" class="stack" hidden>
+          <h2 class="section-title">Sun 22 Nov · Batch A</h2>
+          <div class="list inset">
+            <div class="row"><i data-lucide="repeat" class="row-chevron"></i><div class="row-main"><div class="row-title">Bandi Saidulu ⇄ Thota Lavanya</div><div class="row-sub">Lavanya worked 22 Nov · Saidulu due 6 Dec</div></div><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+            <div class="row"><i data-lucide="arrow-right" class="row-chevron"></i><div class="row-main"><div class="row-title">Kurapati Manasa → Madhara Sunil</div><div class="row-sub">Sunil covered 22 Nov</div></div><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+          </div>
+          <h2 class="section-title">Sun 15 Nov · Batch C</h2>
+          <div class="list inset">
+            <div class="row"><i data-lucide="arrow-right" class="row-chevron"></i><div class="row-main"><div class="row-title">Sanga Sandeep → Pulla Spandana</div><div class="row-sub">Spandana covered 15 Nov</div></div><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+            <div class="row"><i data-lucide="x" class="row-chevron"></i><div class="row-main"><div class="row-title">Sunkari Bhargavi ⇄ Ankam Uday</div><div class="row-sub">Cancelled by Padma, 14 Nov</div></div><span class="badge badge-off">Cancelled</span></div>
+          </div>
+        </div>
+
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">Swap log</h2><a class="card-link" href="#">Audit log</a></div>
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="repeat"></i></span>
+              <div class="a-main">
+                <div class="a-what">Swap recorded · Sun 29 Nov</div>
+                <div class="a-change"><span>Gundla Ravi Teja ⇄ Vemula Kiran, two-way</span></div>
+                <div class="a-reason">Ravi Teja's cousin's wedding in Warangal. Kiran agreed in person.</div>
+                <div class="a-meta">Ramesh (Supervisor) · today 10:41</div>
+              </div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="x"></i></span>
+              <div class="a-main">
+                <div class="a-what">Swap cancelled · Sun 15 Nov</div>
+                <div class="a-change"><span class="a-old">Bhargavi ⇄ Uday</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new">own Sundays</span></div>
+                <div class="a-reason">Uday's leave got approved for that week.</div>
+                <div class="a-meta">Padma (Accountant) · 14 Nov, 11:20</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="s6-cancel" role="dialog" aria-modal="true" aria-labelledby="s6-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s6-t">Cancel swap</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Gundla Ravi Teja ⇄ Vemula Kiran</span><span class="badge badge-neutral">Two-way</span></div>
+            <div class="t15 muted">Kiran 29 Nov · Ravi Teja 6 Dec</div>
+          </div>
+          <div class="field">
+            <span class="label">After cancelling</span>
+            <div class="moves">
+              <div class="mv"><span class="btag on">B</span><div class="grow">Ravi Teja works his own <b>Sun 29 Nov</b></div></div>
+              <div class="mv"><span class="btag on">C</span><div class="grow">Kiran works his own <b>Sun 6 Dec</b></div></div>
+            </div>
+          </div>
+          <div class="field has-error">
+            <label for="s6-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s6-r" placeholder="e.g. Wedding postponed, Ravi Teja can come"></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a reason before cancelling.</span>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Keep swap</button>
+          <button class="btn btn-danger" data-toast="Swap cancelled. Logged.">Cancel swap</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-06</span>
+      <h3>Swaps list</h3>
+      <p>Every swap, grouped by Sunday. A two-way swap stays under Upcoming until its second Sunday is done.</p>
+      <ul>
+        <li><b>Upcoming / Past</b> toggles the list. Try it.</li>
+        <li><b>An upcoming swap</b> opens the cancel sheet: it shows who goes back to which Sunday and needs a reason. Past swaps can't be cancelled.</li>
+        <li><b>+</b> records a new swap (04-05). The swap log shows the audit rows.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Leave</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 04-07 Leave overview ============ -->
+  <section class="wf-screen" id="s04-07">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:50</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Leave</h1><div class="sub">1 free day a month · bank up to 3</div></div>
+        <a class="icon-btn" href="#s04-09" aria-label="Apply leave"><i data-lucide="calendar-plus"></i></a>
+      </header>
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+          <span class="m">November 2026</span>
+          <button class="icon-btn" aria-label="Next month" disabled><i data-lucide="chevron-right"></i></button>
+        </div>
+        <div class="banner banner-warn">
+          <i data-lucide="calendar-clock"></i>
+          <div class="grow t15"><span class="b-title">Month closes Mon 30 Nov.</span> 46 people still have an unused day with no choice recorded. Cash-outs are paid on Sat 12 Dec.</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="label"><i data-lucide="calendar-heart" class="ic-sm"></i>Free day used</span><span class="value">31 <small>/ 83</small></span></div>
+          <div class="stat"><span class="label">Unused, to decide</span><span class="value">46</span><span class="delta">6 already decided</span></div>
+          <div class="stat"><span class="label">Banked days held</span><span class="value">58</span><span class="delta">9 people at 3/3</span></div>
+          <div class="stat"><span class="label">Beyond leave</span><span class="value c-absent">6 <small>days</small></span><span class="delta">4 people · deducted</span></div>
+        </div>
+        <div class="chips" role="group" aria-label="Filter">
+          <button class="chip" aria-pressed="true">To decide <span class="count">46</span></button>
+          <button class="chip" aria-pressed="false">All <span class="count">83</span></button>
+          <button class="chip" aria-pressed="false">Used <span class="count">31</span></button>
+          <button class="chip" aria-pressed="false">Bank full <span class="count">9</span></button>
+          <button class="chip" aria-pressed="false">Deductions <span class="count">4</span></button>
+        </div>
+        <div class="list inset">
+          <div class="row"><a class="row-main" href="#s04-10" style="text-decoration:none;color:inherit"><div class="row-title">Peddi Swapna</div><div class="row-sub">VSM/027 · unused · bank <span class="bank" aria-hidden="true"><i class="f"></i><i class="f"></i><i></i></span> 2/3</div></a><a class="btn btn-secondary btn-sm" href="#s04-08">Decide</a></div>
+          <div class="row"><a class="row-main" href="#s04-10" style="text-decoration:none;color:inherit"><div class="row-title">Kavali Naresh</div><div class="row-sub">VSM/044 · unused · bank <span class="bank" aria-hidden="true"><i class="f"></i><i class="f"></i><i class="f"></i></span> 3/3 full</div></a><a class="btn btn-secondary btn-sm" href="#s04-08b">Decide</a></div>
+          <div class="row"><a class="row-main" href="#s04-10" style="text-decoration:none;color:inherit"><div class="row-title">Thota Lavanya</div><div class="row-sub">VSM/069 · unused · bank <span class="bank" aria-hidden="true"><i class="f"></i><i></i><i></i></span> 1/3</div></a><a class="btn btn-secondary btn-sm" href="#s04-08">Decide</a></div>
+          <div class="row"><a class="row-main" href="#s04-10" style="text-decoration:none;color:inherit"><div class="row-title">Jangam Srikanth</div><div class="row-sub">VSM/052 · booked 26–27 Nov · bank 1/3</div></a><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></div>
+          <div class="row"><a class="row-main" href="#s04-10" style="text-decoration:none;color:inherit"><div class="row-title">Pulla Spandana</div><div class="row-sub">VSM/015 · cash out ₹538 on 12 Dec</div></a><span class="badge badge-neutral"><i data-lucide="check"></i>Decided</span></div>
+          <div class="row"><a class="row-main" href="#s04-10" style="text-decoration:none;color:inherit"><div class="row-title">Oruganti Yadagiri</div><div class="row-sub">VSM/047 · used 4 Nov · 2 more days −₹1,120</div></a><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent 2</span></div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-07</span>
+      <h3>Leave overview (month)</h3>
+      <p>Opens from More → Leave. For each employee: was this month's free day used, their banked balance (x/3), and whether a bank-or-cash-out choice is still pending. It opens on "To decide" because that is the work before month end.</p>
+      <ul>
+        <li><b>Decide</b> opens the end-of-month choice (04-08; 04-08b when the bank is full).</li>
+        <li><b>A name</b> opens that person's leave history (04-10).</li>
+        <li><b>Calendar-plus</b> applies leave for someone (04-09). <b>Chips</b> filter; <b>Deductions</b> lists absences beyond free and banked leave.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 04-08 Leave decision ============ -->
+  <section class="wf-screen" id="s04-08">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:52</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Leave</h1><div class="sub">November 2026</div></div>
+        <button class="icon-btn" aria-label="Apply leave"><i data-lucide="calendar-plus"></i></button>
+      </header>
+      <div class="app-body">
+        <div class="list inset">
+          <div class="row"><div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub">VSM/027 · unused · bank 2/3</div></div></div>
+          <div class="row"><div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub">VSM/044 · unused · bank 3/3 full</div></div></div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="s8-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s8-t">November leave · Peddi Swapna</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">1 unused day</span><span class="t15">Bank <span class="bank" aria-hidden="true"><i class="f"></i><i class="f"></i><i></i></span> <span class="num">2/3</span></span></div>
+            <div class="t15 muted">VSM/027 · Pattu Sarees · Batch B</div>
+          </div>
+          <div class="field">
+            <span class="label">Her choice</span>
+            <div class="radio-list tall">
+              <label><input type="radio" name="s8-c" checked><div class="grow"><div class="fw6">Bank it · 2/3 → 3/3</div><div class="t13 muted">Used later against an absence. Bank will then be full.</div></div></label>
+              <label><input type="radio" name="s8-c"><div class="grow"><div class="fw6">Cash out <span class="money">₹612</span> on Sat 12 Dec</div><div class="t13 muted">Added to the 16–30 Nov pay run</div></div></label>
+            </div>
+          </div>
+          <dl class="kv">
+            <dt>Monthly salary</dt><dd class="money">₹15,900</dd>
+            <dt>Working days in Nov</dt><dd class="num">26</dd>
+            <dt class="total">Daily rate</dt><dd class="total money">₹612</dd>
+          </dl>
+          <span class="help" style="margin-top:calc(-1 * var(--s2))">26 = 25 weekdays + her batch Sunday (29 Nov). Rounded to the rupee.</span>
+          <div class="field">
+            <label for="s8-r">Note <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s8-r" style="min-height:64px">Swapna asked to bank it. Told Padma at the counter.</textarea>
+            <span class="help">Applied on Mon 30 Nov if the day is still unused. If she takes leave before then, this choice is dropped.</span>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. Bank goes to 3/3 on 30 Nov. Logged.">Save choice</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-08</span>
+      <h3>End-of-month leave decision</h3>
+      <p>The employee chooses what happens to an unused free day. The admin records it; the sheet shows both outcomes in plain numbers.</p>
+      <ul>
+        <li><b>Bank it</b>: shows the balance before and after (max 3).</li>
+        <li><b>Cash out</b>: the amount and the pay day it lands on (the next pay day after month end), with how the daily rate is worked out.</li>
+        <li><b>Save choice</b> needs a note, writes an audit row and updates the list.</li>
+      </ul>
+      <div class="wf-note">Can the choice be recorded early (as here) and applied at month end? Does banked leave expire? The default is no expiry; the owner hasn't said. Working days per person = weekdays + their batch Sunday: please confirm.</div>
+    </div>
+  </section>
+
+  <!-- ============ 04-08b Bank full ============ -->
+  <section class="wf-screen" id="s04-08b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:54</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Leave</h1><div class="sub">November 2026</div></div>
+        <button class="icon-btn" aria-label="Apply leave"><i data-lucide="calendar-plus"></i></button>
+      </header>
+      <div class="app-body">
+        <div class="list inset">
+          <div class="row"><div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub">VSM/027 · bank, from 30 Nov</div></div></div>
+          <div class="row"><div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub">VSM/044 · unused · bank 3/3 full</div></div></div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="s8b-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="s8b-t">November leave · Kavali Naresh</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">1 unused day</span><span class="t15">Bank <span class="bank" aria-hidden="true"><i class="f"></i><i class="f"></i><i class="f"></i></span> <span class="num">3/3</span></span></div>
+            <div class="t15 muted">VSM/044 · Billing · Batch B</div>
+          </div>
+          <div class="field">
+            <span class="label">His choice</span>
+            <div class="radio-list tall">
+              <label class="off"><input type="radio" name="s8b-c" disabled><div class="grow"><div class="fw6">Bank it</div><div class="t13 muted">Bank is full (3/3). He needs to use a banked day first.</div></div></label>
+              <label><input type="radio" name="s8b-c" checked><div class="grow"><div class="fw6">Cash out <span class="money">₹700</span> on Sat 12 Dec</div><div class="t13 muted">Default when the bank is full</div></div></label>
+            </div>
+          </div>
+          <dl class="kv">
+            <dt>Monthly salary</dt><dd class="money">₹18,200</dd>
+            <dt>Working days in Nov</dt><dd class="num">26</dd>
+            <dt class="total">Daily rate</dt><dd class="total money">₹700</dd>
+          </dl>
+          <div class="field">
+            <label for="s8b-r">Note <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="s8b-r" style="min-height:64px">Bank full, cash-out. Naresh informed on 23 Nov.</textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. ₹700 added to the 12 Dec payout. Logged.">Save choice</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-08b</span>
+      <h3>Leave decision: bank full</h3>
+      <p>Same sheet when the bank already holds 3 days. Banking is disabled with the reason written next to it, and cash-out is selected by default.</p>
+      <ul>
+        <li>If nobody records a choice by 30 Nov, the app cashes out automatically for people with a full bank.</li>
+        <li><b>Save choice</b> adds the amount to the 16–30 Nov pay run (paid Sat 12 Dec) and logs it.</li>
+      </ul>
+      <div class="wf-note">For people whose bank isn't full and who never chose, should the default at month end be bank or cash out? Proposed: bank.</div>
+    </div>
+  </section>
+
+  <!-- ============ 04-09 Apply leave ============ -->
+  <section class="wf-screen" id="s04-09">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>11:02</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s04-07" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Apply leave</div><div class="sub">Jangam Srikanth · VSM/052 · Batch A</div></div>
+      </header>
+      <div class="app-body">
+        <div class="stats three">
+          <div class="stat"><span class="label">Free · Nov</span><span class="value">1</span><span class="delta">left</span></div>
+          <div class="stat"><span class="label">Banked</span><span class="value">1 <small>/ 3</small></span><span class="delta">days</span></div>
+          <div class="stat"><span class="label">Daily rate</span><span class="value money">₹500</span><span class="delta">₹13,000 ÷ 26</span></div>
+        </div>
+        <div class="field">
+          <span class="label">Dates</span>
+          <div class="btn-row">
+            <div class="date-field grow"><i data-lucide="calendar"></i><span>Thu, 26 Nov</span></div>
+            <div class="date-field grow"><i data-lucide="calendar"></i><span>Fri, 27 Nov</span></div>
+          </div>
+          <span class="help">2 working days. Tap a date to open the month picker.</span>
+        </div>
+        <div class="field">
+          <span class="label">Type for each day</span>
+          <div class="day-type"><span class="dt fw6">Thu 26</span><div class="seg" role="group" aria-label="Type for Thu 26 Nov"><button aria-pressed="true">Free</button><button aria-pressed="false">Banked</button><button aria-pressed="false">Unpaid</button></div></div>
+          <div class="day-type"><span class="dt fw6">Fri 27</span><div class="seg" role="group" aria-label="Type for Fri 27 Nov"><button aria-pressed="false">Free</button><button aria-pressed="true">Banked</button><button aria-pressed="false">Unpaid</button></div></div>
+          <span class="help">Filled in for you: free day first, then banked, then unpaid.</span>
+        </div>
+        <div class="card">
+          <div class="card-header" style="margin-bottom:var(--s2)"><h2 class="card-title">Effect on pay</h2><span class="meta">Pay run 16–30 Nov · Sat 12 Dec</span></div>
+          <dl class="kv">
+            <dt>Free day (Nov)</dt><dd><span class="a-old">1</span> → 0</dd>
+            <dt>Banked</dt><dd><span class="a-old">1/3</span> → 0/3</dd>
+            <dt class="total">Deduction</dt><dd class="total money">₹0</dd>
+          </dl>
+          <div class="t13 muted" style="margin-top:var(--s2)">If both days were unpaid: <span class="money c-absent">−₹1,000</span>. November's free day can't be cashed out once used.</div>
+        </div>
+        <div class="field">
+          <label for="s9-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+          <textarea class="textarea" id="s9-r" style="min-height:64px">Sister's wedding in Nalgonda.</textarea>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="btn btn-primary btn-lg" data-toast="Leave saved for 26–27 Nov. Logged.">Save leave</button>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-09</span>
+      <h3>Apply leave for an employee</h3>
+      <p>The employee asks an admin user; the admin enters it. Balances are on top so the admin can answer "do I have leave left?" straight away.</p>
+      <ul>
+        <li><b>Dates</b> open the month picker (the kit calendar). One or more days.</li>
+        <li><b>Type per day</b>: Free / Banked / Unpaid, filled in the cheapest way for the employee; the admin can change it.</li>
+        <li><b>Effect on pay</b> updates live: balances before → after, the deduction and which pay run it hits.</li>
+        <li><b>Save leave</b> needs a reason, marks the days as Leave in attendance and logs an audit row.</li>
+      </ul>
+      <div class="wf-note">Can free or banked leave be taken on the employee's batch Sunday? Half-day leave: not planned. Confirm.</div>
+    </div>
+  </section>
+
+  <!-- ============ 04-10 Leave history ============ -->
+  <section class="wf-screen" id="s04-10">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>11:05</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s04-07" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Peddi Swapna</div><div class="sub">VSM/027 · Pattu Sarees · Batch B</div></div>
+        <a class="icon-btn" href="#s04-09" aria-label="Apply leave"><i data-lucide="calendar-plus"></i></a>
+      </header>
+      <div class="app-body">
+        <div class="stats three">
+          <div class="stat"><span class="label">Banked</span><span class="value">2 <small>/ 3</small></span><span class="delta">3/3 from 30 Nov</span></div>
+          <div class="stat"><span class="label">Cashed out</span><span class="value money">₹567</span><span class="delta">in 2026</span></div>
+          <div class="stat"><span class="label">Unpaid days</span><span class="value">0</span><span class="delta">in 2026</span></div>
+        </div>
+        <h2 class="section-title">By month</h2>
+        <div class="list inset">
+          <div class="row"><div class="row-main"><div class="row-title">November</div><div class="row-sub">Unused · chose to bank, applies 30 Nov</div></div><div class="row-trail"><span class="num t15">2 → 3</span><span class="meta">bank</span></div></div>
+          <div class="row"><div class="row-main"><div class="row-title">October</div><div class="row-sub">Free day used Wed 14 Oct</div></div><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></div>
+          <div class="row"><div class="row-main"><div class="row-title">September</div><div class="row-sub">Unused · banked</div></div><div class="row-trail"><span class="num t15">1 → 2</span><span class="meta">bank</span></div></div>
+          <div class="row"><div class="row-main"><div class="row-title">August</div><div class="row-sub">Unused · cashed out, paid Sat 12 Sep</div></div><div class="row-trail"><span class="money t15">₹567</span><span class="meta">₹15,300 ÷ 27</span></div></div>
+          <div class="row"><div class="row-main"><div class="row-title">July</div><div class="row-sub">Unused · banked</div></div><div class="row-trail"><span class="num t15">0 → 1</span><span class="meta">bank</span></div></div>
+        </div>
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">Changes</h2><a class="card-link" href="#">Audit log</a></div>
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="calendar-heart"></i></span>
+              <div class="a-main">
+                <div class="a-what">November leave choice</div>
+                <div class="a-change"><span class="a-old">Not decided</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new">Bank (2/3 → 3/3)</span></div>
+                <div class="a-reason">Swapna asked to bank it. Told Padma at the counter.</div>
+                <div class="a-meta">Padma (Accountant) · today 10:52</div>
+              </div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="pencil"></i></span>
+              <div class="a-main">
+                <div class="a-what">Leave applied · Wed 14 Oct</div>
+                <div class="a-change"><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></div>
+                <div class="a-reason">Hospital visit with her mother. Free day used.</div>
+                <div class="a-meta">Ramesh (Supervisor) · 15 Oct, 10:12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-10</span>
+      <h3>Leave history (one employee)</h3>
+      <p>One line per month: free day used, banked or cashed out, with the bank balance moving and the amount paid. The same view is the Leave tab of the staff profile.</p>
+      <ul>
+        <li><b>Calendar-plus</b> applies leave for her (04-09).</li>
+        <li>Cash-out rows show how the amount was worked out (salary ÷ that month's working days).</li>
+        <li><b>Changes</b>: the audit rows for her leave. "Audit log" opens the full log filtered to her.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Desktop</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 04-11 Desktop Sundays ============ -->
+  <section class="wf-screen wide" id="s04-11">
+    <div class="wf-scroll-x"><div class="desktop">
+      <nav class="rail" aria-label="Main">
+        <div class="rail-brand">VSM Staff</div>
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <div class="rail-group">More</div>
+        <a href="#s04-11" aria-current="page"><i data-lucide="calendar-range"></i>Sundays &amp; batches</a>
+        <a href="#s04-12"><i data-lucide="calendar-heart"></i>Leave</a>
+        <a href="#"><i data-lucide="file-text"></i>Payslips</a>
+        <a href="#"><i data-lucide="book-open"></i>Ledger</a>
+        <a href="#"><i data-lucide="history"></i>Audit log</a>
+        <a href="#"><i data-lucide="settings"></i>Settings &amp; users</a>
+      </nav>
+      <div class="main">
+        <header class="appbar">
+          <div class="appbar-title"><h1>Sundays &amp; batches</h1><div class="sub">83 staff · Batch A 28 · Batch B 27 · Batch C 28</div></div>
+          <div class="hstack">
+            <button class="btn btn-secondary"><i data-lucide="calendar-x"></i>Mark holiday</button>
+            <button class="btn btn-primary"><i data-lucide="repeat"></i>Record swap</button>
+          </div>
+        </header>
+        <div class="app-body">
+          <div class="cols cols-2">
+            <div class="card">
+              <div class="month-switch" style="margin-bottom:var(--s2)">
+                <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+                <span class="m">November 2026</span>
+                <button class="icon-btn" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+              </div>
+              <div class="cal">
+                <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+                <span class="d out">26</span><span class="d out">27</span><span class="d out">28</span><span class="d out">29</span><span class="d out">30</span><span class="d out">31</span><span class="d closed">1<small>Closed</small></span>
+                <span class="d wk">2</span><span class="d wk">3</span><span class="d wk">4</span><span class="d wk">5</span><span class="d wk">6</span><span class="d wk">7</span><span class="d closed">8<small>Holiday</small></span>
+                <span class="d wk">9</span><span class="d wk">10</span><span class="d wk">11</span><span class="d wk">12</span><span class="d wk">13</span><span class="d wk">14</span><span class="d duty">15<small>C</small></span>
+                <span class="d wk">16</span><span class="d wk">17</span><span class="d wk">18</span><span class="d wk">19</span><span class="d wk">20</span><span class="d wk">21</span><span class="d duty edited">22<small>A</small></span>
+                <span class="d wk today">23</span><span class="d wk">24</span><span class="d wk">25</span><span class="d wk">26</span><span class="d wk">27</span><span class="d wk">28</span><span class="d duty next edited">29<small>B</small></span>
+                <span class="d wk">30</span><span class="d out">1</span><span class="d out">2</span><span class="d out">3</span><span class="d out">4</span><span class="d out">5</span><span class="d duty out">6<small>C</small></span>
+              </div>
+              <div class="legend" style="margin-top:var(--s3)"><span><i class="sw-duty"></i>Batch on duty</span><span><i class="sw-hatch"></i>Closed or holiday</span><span><i class="sw-dot"></i>Swaps recorded</span></div>
+            </div>
+            <div class="stack" style="gap:var(--s4)">
+              <div class="card accent-left">
+                <div class="meta">Rotation queue</div>
+                <div class="t18 fw6">Next up: Batch B · Sun 29 Nov</div>
+                <div class="queue"><span class="qpill now">B · 29 Nov</span><i data-lucide="chevron-right"></i><span class="qpill">C · 6 Dec</span><i data-lucide="chevron-right"></i><span class="qpill">A · 13 Dec</span><i data-lucide="chevron-right"></i><span class="qpill">B · 20 Dec</span></div>
+                <div class="t13 muted" style="margin-top:var(--s2)">Holiday rule (rotation queue) is a proposal waiting for the owner's OK.</div>
+              </div>
+              <div class="card flush">
+                <div class="card-header"><h2 class="card-title">Upcoming swaps</h2><a class="card-link" href="#s04-06">All swaps</a></div>
+                <table class="table">
+                  <thead><tr><th>Sunday</th><th>Swap</th><th>Type</th></tr></thead>
+                  <tbody>
+                    <tr><td class="num">29 Nov</td><td>Gundla Ravi Teja ⇄ Vemula Kiran</td><td><span class="badge badge-neutral">Two-way</span></td></tr>
+                    <tr><td class="num">29 Nov</td><td>Kavali Naresh → Ennam Bhavani</td><td><span class="badge badge-neutral">One-way</span></td></tr>
+                    <tr><td class="num">29 Nov</td><td>Peddi Swapna ⇄ Mekala Anusha</td><td><span class="badge badge-neutral">Two-way</span></td></tr>
+                    <tr><td class="num">6 Dec</td><td>Bandi Saidulu ⇄ Thota Lavanya</td><td><span class="badge badge-neutral">Two-way</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card flush">
+            <div class="card-header"><h2 class="card-title">Last Sunday · 22 Nov · Batch A</h2><a class="card-link" href="#s04-02">Full roster</a></div>
+            <table class="table">
+              <thead><tr><th>Employee</th><th>ID</th><th>Note</th><th class="r">In – out</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Oruganti Yadagiri</td><td class="num">VSM/047</td><td>No punch</td><td class="r">–</td><td><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></td></tr>
+                <tr><td>Rapolu Anil</td><td class="num">VSM/039</td><td>No punch</td><td class="r">–</td><td><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></td></tr>
+                <tr><td>Nalla Sirisha</td><td class="num">VSM/036</td><td>Free leave</td><td class="r">–</td><td><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></td></tr>
+                <tr><td>Thota Lavanya</td><td class="num">VSM/069</td><td>Swap in for Bandi Saidulu</td><td class="r">09:56 – 21:04</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td>Kodari Sravani</td><td class="num">VSM/018</td><td>6 h 50 m</td><td class="r">10:41 – 17:31</td><td><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-11</span>
+      <h3>Desktop: Sundays &amp; batches</h3>
+      <p>Same content as 04-01, 04-02 and 04-06 side by side: the month calendar, the rotation queue, upcoming swaps and last Sunday's roster problems. Mark holiday and Record swap open as a right-side panel with the same fields as the phone sheets.</p>
+    </div>
+  </section>
+
+  <!-- ============ 04-12 Desktop Leave ============ -->
+  <section class="wf-screen wide" id="s04-12">
+    <div class="wf-scroll-x"><div class="desktop">
+      <nav class="rail" aria-label="Main">
+        <div class="rail-brand">VSM Staff</div>
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <div class="rail-group">More</div>
+        <a href="#s04-11"><i data-lucide="calendar-range"></i>Sundays &amp; batches</a>
+        <a href="#s04-12" aria-current="page"><i data-lucide="calendar-heart"></i>Leave</a>
+        <a href="#"><i data-lucide="file-text"></i>Payslips</a>
+        <a href="#"><i data-lucide="book-open"></i>Ledger</a>
+        <a href="#"><i data-lucide="history"></i>Audit log</a>
+        <a href="#"><i data-lucide="settings"></i>Settings &amp; users</a>
+      </nav>
+      <div class="main">
+        <header class="appbar">
+          <div class="appbar-title"><h1>Leave · November 2026</h1><div class="sub">1 free day a month · bank up to 3 · cash-outs paid Sat 12 Dec</div></div>
+          <button class="btn btn-primary"><i data-lucide="calendar-plus"></i>Apply leave</button>
+        </header>
+        <div class="app-body">
+          <div class="banner banner-warn"><i data-lucide="calendar-clock"></i><div class="grow"><span class="b-title">Month closes Mon 30 Nov.</span> 46 people have an unused day with no choice recorded.</div></div>
+          <div class="cols cols-4">
+            <div class="stat"><span class="label"><i data-lucide="calendar-heart" class="ic-sm"></i>Free day used</span><span class="value">31 <small>/ 83</small></span></div>
+            <div class="stat"><span class="label">Unused, to decide</span><span class="value">46</span></div>
+            <div class="stat"><span class="label">Banked days held</span><span class="value">58</span></div>
+            <div class="stat"><span class="label">Beyond leave (deducted)</span><span class="value c-absent">6 <small>days</small></span></div>
+          </div>
+          <div class="card flush">
+            <div class="card-header">
+              <div class="chips" role="group" aria-label="Filter">
+                <button class="chip" aria-pressed="true">To decide <span class="count">46</span></button>
+                <button class="chip" aria-pressed="false">All <span class="count">83</span></button>
+                <button class="chip" aria-pressed="false">Used <span class="count">31</span></button>
+                <button class="chip" aria-pressed="false">Bank full <span class="count">9</span></button>
+                <button class="chip" aria-pressed="false">Deductions <span class="count">4</span></button>
+              </div>
+              <div class="search" style="max-width:280px"><i data-lucide="search"></i><input placeholder="Search name or VSM number" aria-label="Search"></div>
+            </div>
+            <table class="table">
+              <thead><tr><th>Employee</th><th>ID</th><th>Batch</th><th>Free day (Nov)</th><th>Bank</th><th class="r">Daily rate</th><th>Choice</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>Peddi Swapna</td><td class="num">VSM/027</td><td>B</td><td>Unused</td><td><span class="bank"><i class="f"></i><i class="f"></i><i></i></span> <span class="num">2/3</span></td><td class="r">₹612</td><td class="muted">Not decided</td><td><a class="btn btn-secondary btn-sm" href="#s04-08">Decide</a></td></tr>
+                <tr><td>Kavali Naresh</td><td class="num">VSM/044</td><td>B</td><td>Unused</td><td><span class="bank"><i class="f"></i><i class="f"></i><i class="f"></i></span> <span class="num">3/3</span></td><td class="r">₹700</td><td class="muted">Cash out (bank full)</td><td><a class="btn btn-secondary btn-sm" href="#s04-08b">Decide</a></td></tr>
+                <tr><td>Thota Lavanya</td><td class="num">VSM/069</td><td>C</td><td>Unused</td><td><span class="bank"><i class="f"></i><i></i><i></i></span> <span class="num">1/3</span></td><td class="r">₹550</td><td class="muted">Not decided</td><td><a class="btn btn-secondary btn-sm" href="#s04-08">Decide</a></td></tr>
+                <tr><td>Vemula Kiran</td><td class="num">VSM/071</td><td>C</td><td>Unused</td><td><span class="bank"><i></i><i></i><i></i></span> <span class="num">0/3</span></td><td class="r">₹654</td><td class="muted">Not decided</td><td><a class="btn btn-secondary btn-sm" href="#s04-08">Decide</a></td></tr>
+                <tr><td>Ankam Uday</td><td class="num">VSM/021</td><td>A</td><td>Unused</td><td><span class="bank"><i class="f"></i><i class="f"></i><i></i></span> <span class="num">2/3</span></td><td class="r">₹481</td><td class="muted">Not decided</td><td><a class="btn btn-secondary btn-sm" href="#s04-08">Decide</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">04-12</span>
+      <h3>Desktop: Leave overview</h3>
+      <p>The month overview (04-07) as a table for working through decisions at the store desk. Decide opens the same bank-or-cash-out panel (04-08) on the right.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

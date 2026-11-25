@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributor Profit Check</title>
+<meta name="description" content="Why the Bi2Bi distributor profit screen is wrong, why FIFO alone will not fix it, and the smaller fix. With queries the team can run to verify.">
+<style>
+:root{
+  --bg:#f7f6f2; --card:#ffffff; --ink:#1d1d1b; --muted:#66645e; --line:#e3e0d8;
+  --accent:#2f5d50; --accent-soft:#e3eee9; --bad:#b3401f; --bad-soft:#f8e6df;
+  --ok:#2f6b2f; --ok-soft:#e4f0e1; --warn:#8a6100; --warn-soft:#f6edd5; --code:#f0eee8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161614; --card:#201f1d; --ink:#ecebe6; --muted:#a3a097; --line:#36342f;
+    --accent:#8cc5b3; --accent-soft:#1f302b; --bad:#f08a6b; --bad-soft:#3a221b;
+    --ok:#9bd38f; --ok-soft:#1f2e1d; --warn:#e6c26a; --warn-soft:#352c16; --code:#2a2926;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161614; --card:#201f1d; --ink:#ecebe6; --muted:#a3a097; --line:#36342f;
+  --accent:#8cc5b3; --accent-soft:#1f302b; --bad:#f08a6b; --bad-soft:#3a221b;
+  --ok:#9bd38f; --ok-soft:#1f2e1d; --warn:#e6c26a; --warn-soft:#352c16; --code:#2a2926;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:30px;line-height:1.2;margin:0 0 8px}
+h2{font-size:21px;margin:44px 0 10px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:20px 0 6px}
+p{margin:8px 0}
+.sub{color:var(--muted);margin:0 0 20px}
+.tldr{background:var(--accent-soft);border-left:4px solid var(--accent);padding:14px 18px;border-radius:8px}
+.tldr ol{margin:6px 0 0;padding-left:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.warn{background:var(--warn-soft);color:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:13px;background:var(--code);border-radius:6px}
+code{padding:1px 5px}
+pre{padding:12px;overflow-x:auto;margin:8px 0;white-space:pre}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+.box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px}
+.box.bad{border-color:var(--bad);background:var(--bad-soft)}
+.arrow{color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.tabs button{font:inherit;font-size:14px;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.result{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:6px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.stat .k{font-size:12px;color:var(--muted)} .stat .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.verdict{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:15px}
+.verdict.bad{background:var(--bad-soft);color:var(--bad)} .verdict.ok{background:var(--ok-soft);color:var(--ok)}
+.bar{height:10px;border-radius:5px;background:var(--line);position:relative;margin-top:4px}
+.bar span{position:absolute;top:0;bottom:0;border-radius:5px}
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+.check{list-style:none;padding:0}
+.check li{padding:6px 0 6px 28px;position:relative}
+.check li::before{content:"☐";position:absolute;left:4px;color:var(--accent)}
+.foot{color:var(--muted);font-size:13px;margin-top:40px}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Distributor profit check</h1>
+<p class="sub">Bi2Bi · checked 20 Nov 2026 against the code (backend <code>3a67436</code>) and read-only queries on the live database. Nothing was changed.</p>
+
+<div class="tldr">
+  <strong>In short</strong>
+  <ol>
+    <li>The profit screen has a real bug. One sugar bag shows ₹2,698 of fake profit.</li>
+    <li>The cause is <b>wrong prices saved on old Admin → distributor orders</b> (11 lines, Aug–Oct). The method of picking the latest purchase is not the main problem.</li>
+    <li>FIFO would still read those same wrong prices. <b>FIFO alone does not fix this.</b></li>
+    <li>The app does <b>not</b> show 40–50% profit today. North Zone shows 2.77% this month.</li>
+    <li>Smaller fix: if a saved price looks too low, use the catalogue price. Also lock the cost on each sale.</li>
+  </ol>
+</div>
+
+<h2>1. How the profit screen works today</h2>
+<p>The distributor app's <b>Profit</b> screen calls the backend. The backend does three steps:</p>
+<div class="flow">
+  <div class="box">Take every consumer order <b>delivered</b> in the period</div><span class="arrow">→</span>
+  <div class="box">For each item, find the <b>cost</b>: the price on this distributor's <b>latest delivered purchase from Admin</b> for that exact pack</div><span class="arrow">→</span>
+  <div class="box">Profit = sales (without GST) − cost</div>
+</div>
+<p>If no purchase is found, it uses the catalogue distributor price. The code is in
+<code>bi2bi-backend/app/distributor/analytics_helpers.py</code>: <code>build_profit_margin()</code> calls <code>last_purchase_costs()</code>.</p>
+
+<h2>2. The sugar example (try it)</h2>
+<p>Consumer order <code>CONS-67-E465229A-1794326501</code> (id 1027, Bi2Bi North Zone, delivered 11 Nov 2026) sold one <b>Sugar 50 Kg</b> bag for <b>₹2,850</b>.</p>
+<p>Pick a cost method to see what profit the screen would show for this one bag:</p>
+
+<div class="card">
+  <div class="tabs" role="group" aria-label="Cost method">
+    <button data-m="today" aria-pressed="true">Today's code</button>
+    <button data-m="fifo" aria-pressed="false">Friend's FIFO plan</button>
+    <button data-m="guard" aria-pressed="false">Suggested fix</button>
+    <button data-m="real" aria-pressed="false">Correct price</button>
+  </div>
+  <p id="m-explain" style="margin-top:0"></p>
+  <div class="result">
+    <div class="stat"><div class="k">Sale price</div><div class="v">₹2,850</div></div>
+    <div class="stat"><div class="k">Cost used</div><div class="v" id="m-cost"></div></div>
+    <div class="stat"><div class="k">Profit shown</div><div class="v" id="m-profit"></div></div>
+    <div class="stat"><div class="k">Margin</div><div class="v" id="m-margin"></div><div class="bar"><span id="m-bar"></span></div></div>
+  </div>
+  <div class="verdict" id="m-verdict"></div>
+</div>
+
+<h3>Where ₹151.43 comes from</h3>
+<p>Admin order <code>DIS-77-20260909-46EB</code> (9 Sep 2026) really billed North Zone <b>₹151.43 per 50 kg sugar bag</b>. The catalogue price for that bag is <b>₹2,714.29</b>. That order is the only delivered purchase of this pack, so the screen uses it.</p>
+<div class="scroll"><table>
+<tr><th>Admin order</th><th>Pack</th><th class="num">Qty</th><th class="num">Price billed</th><th class="num">Catalogue price</th></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>50 Kg</td><td class="num">50</td><td class="num"><span class="pill bad">₹151.43</span></td><td class="num">₹2,714.29</td></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>25 Kg</td><td class="num">50</td><td class="num"><span class="pill bad">₹246.43</span></td><td class="num">₹1,363.10</td></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>10 Kg</td><td class="num">50</td><td class="num">₹490.48</td><td class="num">₹550.00</td></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>(no pack)</td><td class="num">50</td><td class="num"><span class="pill bad">₹1,214.29</span></td><td class="num">₹2,714.29</td></tr>
+<tr><td>DIS-77-20260910-F5B7</td><td>5 kg</td><td class="num">50</td><td class="num">₹157.14</td><td class="num">₹277.86</td></tr>
+</table></div>
+<p>The prices look shuffled between pack sizes: a 50 kg bag cheaper than a 10 kg bag. This matches the September variant-price bug.</p>
+
+<h2>3. It is not just sugar</h2>
+<p>Delivered Admin → distributor order lines where the price billed is <b>less than half</b> the catalogue price. All are for Bi2Bi North Zone (distributor 77).</p>
+<div class="scroll"><table>
+<tr><th>Admin order</th><th>Product</th><th>Pack</th><th class="num">Billed</th><th class="num">Catalogue</th></tr>
+<tr><td>DIS-77-20260829-9D55</td><td>Trukid Milk Cream Eclairs</td><td>Mrp 1 re</td><td class="num">₹9.52</td><td class="num">₹109.52</td></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>Sugar</td><td>50 Kg</td><td class="num">₹151.43</td><td class="num">₹2,714.29</td></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>Sugar</td><td>25 Kg</td><td class="num">₹246.43</td><td class="num">₹1,363.10</td></tr>
+<tr><td>DIS-77-20260909-46EB</td><td>Sugar</td><td>—</td><td class="num">₹1,214.29</td><td class="num">₹2,714.29</td></tr>
+<tr><td>DIS-77-20260911-02A9</td><td>Great India Chakki Atta</td><td>—</td><td class="num">₹38.10</td><td class="num">₹915.20</td></tr>
+<tr><td>DIS-77-20260911-02A9</td><td>Great India Chakki Atta</td><td>—</td><td class="num">₹210.48</td><td class="num">₹915.20</td></tr>
+<tr><td>DIS-77-20260924-A7F3</td><td>Groundnut | Palli - Regular</td><td>—</td><td class="num">₹425.71</td><td class="num">₹7,023.81</td></tr>
+<tr><td>DIS-77-20260924-58F5</td><td>Great India Chakki Atta</td><td>—</td><td class="num">₹40.95</td><td class="num">₹915.20</td></tr>
+<tr><td>DIS-77-20261012-65C7</td><td>Gokul Besan</td><td>—</td><td class="num">₹97.14</td><td class="num">₹3,240.00</td></tr>
+<tr><td>DIS-77-20261012-2BFB</td><td>Shreya Gold Kandi Pappu</td><td>—</td><td class="num">₹700.00</td><td class="num">₹6,904.76</td></tr>
+<tr><td>DIS-77-20261012-2BFB</td><td>Shreya Gold Kandi Pappu</td><td>—</td><td class="num">₹425.71</td><td class="num">₹6,904.76</td></tr>
+</table></div>
+<p><b>Note for the team:</b> the catalogue price is today's price. Some of these may be a different pack or unit (for example a 1 kg line against a 25 kg catalogue price), not a pricing error. Each line needs a quick look.</p>
+
+<h2>4. What the app shows today</h2>
+<p>Bi2Bi North Zone is the only distributor with delivered consumer orders. These are the numbers the live code returns:</p>
+<div class="scroll"><table>
+<tr><th>Period</th><th class="num">Sales (no GST)</th><th class="num">Cost</th><th class="num">Profit</th><th class="num">Margin</th><th class="num">Orders</th></tr>
+<tr><td>This week (app "Weekly")</td><td class="num">₹38,184</td><td class="num">₹41,500</td><td class="num">−₹3,316</td><td class="num"><span class="pill warn">−8.68%</span></td><td class="num">31</td></tr>
+<tr><td>This month (app "Monthly")</td><td class="num">₹1,89,945</td><td class="num">₹1,84,686</td><td class="num">₹5,259</td><td class="num">2.77%</td><td class="num">138</td></tr>
+<tr><td>October 2026</td><td class="num">₹3,02,984</td><td class="num">₹2,80,760</td><td class="num">₹22,224</td><td class="num">7.33%</td><td class="num">219</td></tr>
+<tr><td>September 2026</td><td class="num">₹85,846</td><td class="num">₹90,171</td><td class="num">−₹4,324</td><td class="num"><span class="pill warn">−5.04%</span></td><td class="num">100</td></tr>
+<tr><td>This year</td><td class="num">₹5,81,253</td><td class="num">₹5,57,699</td><td class="num">₹23,554</td><td class="num">4.05%</td><td class="num">461</td></tr>
+</table></div>
+<p>So <b>40–50% is not on the screen today.</b> The "true margin 2.71%" in the FIFO proposal is about what the app already shows, and that figure still contains the fake sugar profit. Without it, this month is about <b>₹2,696 profit, ~1.4%</b>.</p>
+<p>Two weeks also show a <b>loss</b>. That suggests some costs are too high too (for example a recent price increase, or sales below cost). That needs a separate look.</p>
+<p><b>Question for the client:</b> where did they see 40–50%? Which screen, which date, which app version? It may be from an older backend version or another screen.</p>
+
+<h2>5. The FIFO proposal, point by point</h2>
+<div class="scroll"><table>
+<tr><th>Claim</th><th>Verdict</th><th>Notes</th></tr>
+<tr><td>Profit uses <code>last_purchase_costs()</code></td><td><span class="pill ok">True</span></td><td>Latest delivered Admin purchase of that exact pack.</td></tr>
+<tr><td>Sugar ₹2,850 sale matched to ₹151.43</td><td><span class="pill ok">True</span></td><td>Order id 1027, delivered 11 Nov.</td></tr>
+<tr><td>~530 purchases and ~1,600 sales in <code>stock_movements</code></td><td><span class="pill ok">True</span></td><td>532 purchase, 1,626 sale, 71 return rows for North Zone.</td></tr>
+<tr><td>App shows 40–50% margin</td><td><span class="pill bad">Not today</span></td><td>2.77% monthly, −8.68% weekly.</td></tr>
+<tr><td>The cause is "using the last invoice"</td><td><span class="pill bad">Mostly no</span></td><td>The cause is the wrong price saved on that invoice.</td></tr>
+<tr><td>FIFO fixes it</td><td><span class="pill bad">No</span></td><td>The FIFO lot would also cost ₹151.43.</td></tr>
+<tr><td>Only 4 files, minimal change</td><td><span class="pill warn">Too optimistic</span></td><td>Every sale, cancel, return, edit, manual adjust and the new held-stock flow must update lots. It needs a prod migration and a backfill that guesses the cost of current stock.</td></tr>
+<tr><td>Lock <code>purchase_cost</code> on <code>order_items</code></td><td><span class="pill ok">Good idea</span></td><td>Past profit stops changing when new purchases arrive.</td></tr>
+<tr><td>No app update needed</td><td><span class="pill ok">True</span></td><td>Same response fields.</td></tr>
+<tr><td>Rename to "Gross Margin"</td><td><span class="pill ok">Good idea</span></td><td>The number does not subtract delivery or other costs.</td></tr>
+</table></div>
+
+<h2>6. What about batches?</h2>
+<p>The FIFO proposal also raises a fair point: the same product can be bought at different prices at different times. Today the distributor side has <b>no batches</b>. Each pack is one stock number in <code>distributor_inventories</code> (for example "20 bags"), and every unit gets the <b>last price paid</b> as its cost.</p>
+
+<div class="card">
+  <h3 style="margin-top:0">Example</h3>
+  <div class="scroll"><table>
+  <tr><th>Date</th><th>Event</th><th class="num">Bags</th><th class="num">Price per bag</th></tr>
+  <tr><td>1 Nov</td><td>Buy from Admin</td><td class="num">10</td><td class="num">₹2,700</td></tr>
+  <tr><td>10 Nov</td><td>Buy from Admin</td><td class="num">10</td><td class="num">₹2,850</td></tr>
+  <tr><td>12 Nov</td><td>Sell one of the 1 Nov bags</td><td class="num">1</td><td class="num">₹3,000</td></tr>
+  </table></div>
+  <div class="tabs" role="group" aria-label="Batch method" style="margin-top:12px">
+    <button data-b="last" aria-pressed="true">Today (last price)</button>
+    <button data-b="avg" aria-pressed="false">Average cost</button>
+    <button data-b="fifo" aria-pressed="false">FIFO batches</button>
+  </div>
+  <p id="b-explain" style="margin-top:0"></p>
+  <div class="result">
+    <div class="stat"><div class="k">Cost used</div><div class="v" id="b-cost"></div></div>
+    <div class="stat"><div class="k">Profit shown</div><div class="v" id="b-profit"></div></div>
+    <div class="stat"><div class="k">Error vs real ₹300</div><div class="v" id="b-err"></div></div>
+  </div>
+</div>
+
+<h3>How big is this problem?</h3>
+<div class="scroll"><table>
+<tr><th>Problem</th><th>How wrong profit gets</th><th>How common (North Zone)</th></tr>
+<tr><td>No batches (old vs new price)</td><td><span class="pill warn">A little</span> Only as much as the price changed, e.g. ₹150 on a bag</td><td>Only <b>7</b> of ~490 packs were ever bought at more than one price</td></tr>
+<tr><td>Wrong price saved on an Admin order</td><td><span class="pill bad">Hugely</span> e.g. ₹2,698 fake profit on one bag</td><td>11 order lines (Aug–Oct)</td></tr>
+</table></div>
+<p>So batches are a real gap, but a small one today. The wrong saved prices are the big problem. FIFO batches would not fix those, because the batch would carry the same wrong price.</p>
+
+<h3>Admin already has batches</h3>
+<p>Admin's own stock already uses batches: the <code>inventory_batches</code> table keeps <code>purchase_price</code> and <code>quantity_remaining</code> per batch, and <code>reserve_admin_stock()</code> in <code>app/utils/stock_manager.py</code> uses the earliest-expiring batch first. Only the distributor side lacks this. If distributor batches are built, copy this existing pattern instead of making a new one.</p>
+
+<h3>Two ways to handle it</h3>
+<div class="grid">
+  <div class="card"><span class="pill ok">Simple</span><h3>Average cost</h3><p>Keep one average price per pack and update it on each purchase: (old qty × old avg + new qty × new price) ÷ total qty. One extra column on <code>distributor_inventories</code>. It is an accepted accounting method, and cancels and returns need no batch logic.</p></div>
+  <div class="card"><span class="pill warn">Exact, more work</span><h3>FIFO batches</h3><p>Each delivery is a batch with its own price, and the oldest is used first. Every sale, cancel, return, edit, manual adjustment and held-stock change must update batches. It also needs a backfill for current stock.</p></div>
+</div>
+<p><b>Suggested order:</b> fix the wrong prices first, then lock the cost on each sale. If the client wants batch accuracy after that, start with average cost. Move to FIFO only if it is really needed.</p>
+
+<h2>7. Suggested fix</h2>
+<div class="grid">
+  <div class="card"><span class="pill ok">Step 1 · small</span><h3>Ignore bad purchase prices</h3><p>If the saved purchase price is far below the catalogue price (for example under half), use the catalogue price. A few lines in <code>last_purchase_costs()</code> plus a test. No database change.</p></div>
+  <div class="card"><span class="pill ok">Step 2 · small</span><h3>Lock the cost on each sale</h3><p>Add <code>purchase_cost</code> to <code>order_items</code> and fill it at delivery. One column, so it needs a prod migration with approval and a backup first.</p></div>
+  <div class="card"><span class="pill warn">Step 3 · check</span><h3>Find where the bad prices came from</h3><p>Check whether new Admin orders still get wrong prices. If they don't, it was a one-time data problem from Aug–Oct.</p></div>
+  <div class="card"><span class="pill warn">Later · big</span><h3>FIFO, only if needed</h3><p>Use it if the client needs exact batch-level profit. It is a larger project, and it still needs correct prices to start with.</p></div>
+</div>
+
+<h2>8. How the team can verify</h2>
+<p>Run these as <b>read-only SELECTs</b> on the Bi2Bi production database.</p>
+<ul class="check">
+  <li>The sugar sale and the cost the screen used:</li>
+</ul>
+<pre>SELECT o.order_number, o.delivered_at, oi.variant_id, oi.quantity, oi.unit_price
+FROM orders o JOIN order_items oi ON oi.order_id = o.id
+WHERE o.id = 1027;
+
+SELECT o.order_number, o.status, oi.variant_id, oi.quantity, oi.unit_price
+FROM orders o JOIN order_items oi ON oi.order_id = o.id
+WHERE o.distributor_id = 77 AND o.order_type = 'distributor_to_admin'
+  AND oi.product_id = 1454
+ORDER BY o.created_at DESC;
+
+SELECT id, name, distributor_price FROM product_variants WHERE product_id = 1454;</pre>
+<ul class="check">
+  <li>All delivered Admin purchase lines billed under half the catalogue price:</li>
+</ul>
+<pre>SELECT o.order_number, p.name, v.name AS pack, oi.unit_price,
+       COALESCE(v.distributor_price, p.distributor_price) AS catalogue
+FROM order_items oi
+JOIN orders o ON o.id = oi.order_id
+JOIN products p ON p.id = oi.product_id
+LEFT JOIN product_variants v ON v.id = oi.variant_id
+WHERE o.order_type = 'distributor_to_admin' AND o.status = 'delivered'
+  AND oi.unit_price &gt; 0
+  AND oi.unit_price &lt; 0.5 * COALESCE(v.distributor_price, p.distributor_price);</pre>
+<ul class="check">
+  <li>Stock movement counts for North Zone:</li>
+</ul>
+<pre>SELECT sm.change_type, COUNT(*)
+FROM stock_movements sm
+JOIN distributor_inventories di ON di.id = sm.inventory_id
+WHERE di.distributor_id = 77
+GROUP BY sm.change_type;</pre>
+<ul class="check">
+  <li>Open the distributor app → Analytics → Profit as North Zone. Check that Monthly shows about 2.8% and Weekly is negative.</li>
+  <li>Ask the client for the screenshot or date of the 40–50% figure.</li>
+</ul>
+
+<details>
+  <summary>Why FIFO gives the same wrong answer here</summary>
+  <p>FIFO keeps each delivery from Admin as a batch with its own cost. When a consumer buys, the oldest batch is used first. For the sugar bag, the only batch is the 9 Sep delivery, and its saved cost is ₹151.43. FIFO would use ₹151.43, the same as today's code. FIFO helps when <i>correct</i> prices change over time. It cannot fix a price that was saved wrong.</p>
+</details>
+
+<p class="foot">Prepared with Claude Code from read-only checks. Numbers are as of 20 Nov 2026, about 23:00 IST.</p>
+</main>
+<script>
+const SALE = 2850, REAL = 2714.29;
+const M = {
+  today:{cost:151.43, text:"Today's code takes the price from the latest delivered Admin purchase of this pack: ₹151.43 on DIS-77-20260909-46EB.", bad:true, verdict:"Wrong. About ₹2,700 of fake profit from one bag."},
+  fifo:{cost:151.43, text:"FIFO uses the oldest batch still in stock. The only batch of this pack is the same 9 Sep delivery, saved at ₹151.43.", bad:true, verdict:"Still wrong. FIFO reads the same bad saved price."},
+  guard:{cost:REAL, text:"Suggested fix: ₹151.43 is under half of the catalogue ₹2,714.29, so the system ignores it and uses the catalogue price.", bad:false, verdict:"Right. A believable grocery margin of about 5%."},
+  real:{cost:REAL, text:"What the bag really costs the distributor at the catalogue price.", bad:false, verdict:"This is what the profit should look like."}
+};
+const inr = n => (n<0?"−":"") + "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
+function show(k){
+  const m = M[k], p = SALE - m.cost, pct = p / SALE * 100;
+  document.getElementById("m-explain").textContent = m.text;
+  document.getElementById("m-cost").textContent = inr(m.cost);
+  document.getElementById("m-profit").textContent = inr(p);
+  document.getElementById("m-margin").textContent = pct.toFixed(1) + "%";
+  const bar = document.getElementById("m-bar");
+  bar.style.width = Math.min(100, Math.max(2, pct)) + "%";
+  bar.style.background = m.bad ? "var(--bad)" : "var(--ok)";
+  const v = document.getElementById("m-verdict");
+  v.textContent = m.verdict; v.className = "verdict " + (m.bad ? "bad" : "ok");
+  document.querySelectorAll("button[data-m]").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === k));
+}
+document.querySelectorAll("button[data-m]").forEach(b => b.addEventListener("click", () => show(b.dataset.m)));
+show("today");
+
+const B = {
+  last:{cost:2850, text:"Today's code uses the last price paid (₹2,850) for every bag, even the older ₹2,700 ones."},
+  avg:{cost:2775, text:"Average cost: (10 × ₹2,700 + 10 × ₹2,850) ÷ 20 = ₹2,775 for every bag."},
+  fifo:{cost:2700, text:"FIFO: the bag sold comes from the oldest batch (1 Nov), so its cost is ₹2,700. Exactly right."}
+};
+function showB(k){
+  const m = B[k], p = 3000 - m.cost, err = p - 300;
+  document.getElementById("b-explain").textContent = m.text;
+  document.getElementById("b-cost").textContent = inr(m.cost);
+  document.getElementById("b-profit").textContent = inr(p);
+  document.getElementById("b-err").textContent = err === 0 ? "none" : inr(err);
+  document.querySelectorAll("button[data-b]").forEach(b => b.setAttribute("aria-pressed", b.dataset.b === k));
+}
+document.querySelectorAll("button[data-b]").forEach(b => b.addEventListener("click", () => showB(b.dataset.b)));
+showB("last");
+</script>
+</body>
+</html>

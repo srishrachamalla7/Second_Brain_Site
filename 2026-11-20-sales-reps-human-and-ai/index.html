@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sales Reps, Human and AI</title>
+<meta name="description" content="Plain explainer of Salesforge, AiSDR, CommissionCrowd and RepHunter: what they solve, the product we could build, and what it could earn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f4ee; --card:#ffffff; --ink:#1d1b18; --muted:#6b655c; --line:#e5dfd4;
+  --ai:#2f5bd3; --ai-soft:#e6ecfb; --hum:#c2571a; --hum-soft:#fbeadf;
+  --mix:#1f7a5a; --mix-soft:#dff1e9; --warn:#a33a3a; --warn-soft:#f8e3e3;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15140f; --card:#1f1d18; --ink:#f1ede4; --muted:#a8a094; --line:#34312a;
+    --ai:#7f9ef2; --ai-soft:#1d2540; --hum:#ef9a62; --hum-soft:#3a2416;
+    --mix:#5fc79f; --mix-soft:#14302a; --warn:#ef8b8b; --warn-soft:#3a1d1d;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15140f; --card:#1f1d18; --ink:#f1ede4; --muted:#a8a094; --line:#34312a;
+  --ai:#7f9ef2; --ai-soft:#1d2540; --hum:#ef9a62; --hum-soft:#3a2416;
+  --mix:#5fc79f; --mix-soft:#14302a; --warn:#ef8b8b; --warn-soft:#3a1d1d;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:90px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(1.9rem,7vw,2.8rem)}
+h2{font-size:clamp(1.45rem,5.5vw,1.9rem)}
+h3{font-size:1.1rem}
+p{margin:0 0 1em}
+a{color:var(--ai)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+section{padding:40px 0 8px;scroll-margin-top:60px}
+.kicker{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.4em}
+.muted{color:var(--muted)}
+.small{font-size:.87rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:12px}
+@media(min-width:620px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+
+/* top nav */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding-top:10px;padding-bottom:10px}
+.top .wrap::-webkit-scrollbar{display:none}
+.top a{flex:none;text-decoration:none;color:var(--ink);font-size:.85rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card)}
+.top a.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#theme{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 10px;font-size:.85rem}
+
+/* hero */
+.hero{padding:32px 0 8px}
+.tldr{border-left:4px solid var(--mix);background:var(--mix-soft);padding:14px 16px;border-radius:0 12px 12px 0;margin:18px 0}
+.pill{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px}
+.pill.ai{background:var(--ai-soft);color:var(--ai)}
+.pill.hum{background:var(--hum-soft);color:var(--hum)}
+.pill.mix{background:var(--mix-soft);color:var(--mix)}
+
+/* buttons */
+button{font:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:12px 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;text-decoration:none;min-height:46px}
+.btn.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.full{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 13px;font-size:.88rem}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* choose */
+.opt{text-align:left;width:100%;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:14px}
+.opt.on{border-color:var(--ink)}
+.opt b{display:block;margin-bottom:2px}
+.result{margin-top:12px;display:none}
+.result.show{display:block}
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;border-radius:6px;transition:width .4s}
+
+/* site cards */
+.site{cursor:pointer;position:relative}
+.site h3{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:.2em}
+.site .more{display:none;margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+.site.open .more{display:block}
+.site .tap{font-size:.8rem;color:var(--muted)}
+.site.hide{display:none}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.9rem}
+dt{color:var(--muted)}
+dd{margin:0}
+
+/* split diagram */
+.split{display:grid;grid-template-columns:1fr;gap:10px;align-items:stretch}
+.half{border-radius:14px;padding:14px}
+.half.ai{background:var(--ai-soft)}
+.half.hum{background:var(--hum-soft)}
+.half.mix{background:var(--mix-soft);border:2px solid var(--mix)}
+.plus{text-align:center;font-size:1.6rem;font-weight:700;color:var(--muted);line-height:1}
+.half ul{margin:6px 0 0;padding-left:18px}
+
+/* steps */
+.stepper .dots{display:flex;gap:6px;margin-bottom:14px}
+.stepper .dots span{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.stepper .dots span.on{background:var(--mix)}
+.step-ico{font-size:2rem;line-height:1}
+.step-nav{display:flex;gap:10px;margin-top:16px}
+.step-nav .btn{flex:1}
+
+/* accordion */
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{list-style:none;padding:14px 16px;font-weight:600;display:flex;justify-content:space-between;gap:10px;align-items:center;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;color:var(--muted)}
+details[open] summary::after{content:"–"}
+details .body{padding:0 16px 14px}
+details ul{margin:0;padding-left:18px}
+.fix{background:var(--mix-soft);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:.92rem}
+
+/* calculator */
+.calc label{display:block;font-size:.9rem;margin:14px 0 2px}
+.calc label span{float:right;font-weight:600}
+input[type=range]{width:100%;accent-color:var(--mix);height:28px}
+.out{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.out div{background:var(--bg);border-radius:12px;padding:12px}
+.out b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.35rem}
+.out small{color:var(--muted)}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:14px 0 6px;background:var(--line)}
+.stack i{display:block;height:100%;transition:width .3s}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+
+/* checklist */
+.check{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.check:last-child{border-bottom:0}
+.check input{width:22px;height:22px;accent-color:var(--mix);flex:none;margin-top:2px}
+
+/* glossary */
+.term{display:inline-block;border-bottom:1px dotted var(--muted);cursor:help}
+
+/* ask ai */
+.ask{background:var(--ink);color:var(--bg);border-radius:18px;padding:20px}
+.ask h2{color:var(--bg)}
+.ask .muted{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.ask .btn{border:0}
+.ask .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.btn.gpt{background:#10a37f;color:#fff}
+.btn.cl{background:#d97757;color:#fff}
+.ask .chip{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 35%,transparent);text-align:left}
+.ask textarea{width:100%;min-height:76px;border-radius:12px;border:0;padding:12px;font:inherit;background:var(--bg);color:var(--ink)}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:13px 18px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--mix);color:#fff;padding:10px 16px;border-radius:999px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:40}
+.toast.show{opacity:1}
+footer{padding:30px 0;color:var(--muted);font-size:.82rem}
+</style>
+</head>
+<body>
+
+<nav class="top"><div class="wrap" id="nav">
+  <a href="#start">Start</a>
+  <a href="#problem">Problem</a>
+  <a href="#sites">The 4 sites</a>
+  <a href="#idea">Our idea</a>
+  <a href="#how">How it works</a>
+  <a href="#build">Build plan</a>
+  <a href="#money">Revenue</a>
+  <a href="#risks">Risks</a>
+  <a href="#client">Ask client</a>
+  <a href="#ask">Ask AI</a>
+  <button id="theme" aria-label="Switch light or dark">◐</button>
+</div></nav>
+
+<main class="wrap">
+
+<section id="start" class="hero">
+  <div class="kicker">Requirement explainer · Nov 2026</div>
+  <h1>Getting sales done without hiring salespeople</h1>
+  <p class="muted">An explainer of four websites (Salesforge, AiSDR, CommissionCrowd, RepHunter): what they do, what they have in common, and what we could build.</p>
+  <div class="tldr">
+    <b>In one line:</b> companies want more sales but can't afford full-time salespeople.
+    Two sites answer with <span class="pill ai">AI that does the selling</span>, the other two with
+    <span class="pill hum">human reps paid only on commission</span>.
+    The opportunity is to <span class="pill mix">combine both</span>.
+  </div>
+  <p class="small muted">Tap the coloured chips at the top to jump around. Tap the cards to open them. There is a calculator in the Revenue section. Use the <b>Ask AI</b> button at any time to discuss this with ChatGPT or Claude.</p>
+</section>
+
+<section id="problem">
+  <div class="kicker">1 · The problem</div>
+  <h2>You run a small company. You need 10 sales meetings a month. What do you do?</h2>
+  <p class="muted small">Tap an option and see the trade-off.</p>
+  <div class="grid">
+    <button class="opt" data-o="hire"><b>👔 Hire a salesperson (SDR)</b><span class="muted small">Full-time employee who books meetings</span></button>
+    <button class="opt" data-o="ai"><b>🤖 Use an AI SDR tool</b><span class="muted small">Like Salesforge or AiSDR</span></button>
+    <button class="opt" data-o="rep"><b>🤝 Find a commission-only rep</b><span class="muted small">Like CommissionCrowd or RepHunter</span></button>
+  </div>
+  <div class="card result" id="optResult"></div>
+  <p class="small muted" style="margin-top:12px">Costs are rough US figures, for comparison only.</p>
+</section>
+
+<section id="sites">
+  <div class="kicker">2 · The four sites</div>
+  <h2>Two are software, two are marketplaces</h2>
+  <div class="chips" id="siteFilter">
+    <button class="chip on" data-f="all">All</button>
+    <button class="chip" data-f="ai">🤖 AI tools</button>
+    <button class="chip" data-f="hum">🤝 Rep marketplaces</button>
+  </div>
+  <div class="grid g2">
+    <article class="card site" data-k="ai">
+      <h3>Salesforge <span class="pill ai">AI tool</span></h3>
+      <p class="small">Sends cold emails and LinkedIn messages at huge scale. Also sells the mailboxes and "warm-up" needed so emails don't land in spam. Its AI agent "Frank" writes, follows up and books meetings.</p>
+      <span class="tap">Tap for details ▾</span>
+      <div class="more"><dl>
+        <dt>Price</dt><dd>$48–96/mo tool · Frank from ~$499–599/mo · mailboxes $2–4 each</dd>
+        <dt>Claims</dt><dd>10,000+ businesses, G2 rating 4.6</dd>
+        <dt>Best at</dt><dd>Volume. Email infrastructure. Agencies running many clients.</dd>
+        <dt>Weak at</dt><dd>Complex or trust-based sales</dd>
+      </dl></div>
+    </article>
+    <article class="card site" data-k="ai">
+      <h3>AiSDR <span class="pill ai">AI tool</span></h3>
+      <p class="small">A "virtual sales rep" called Ami. It finds leads, researches each person, writes a personal message, answers replies within minutes, and books meetings in your calendar.</p>
+      <span class="tap">Tap for details ▾</span>
+      <div class="more"><dl>
+        <dt>Price</dt><dd>$1.50 per prospect · ~$250–900/mo · $2,500/mo fully managed</dd>
+        <dt>Claims</dt><dd>250+ teams, ~2.5M emails, 1–3 meetings per 100 contacts</dd>
+        <dt>Best at</dt><dd>Doing the whole SDR job end to end</dd>
+        <dt>Weak at</dt><dd>Relationships, industries where buyers ignore cold email</dd>
+      </dl></div>
+    </article>
+    <article class="card site" data-k="hum">
+      <h3>CommissionCrowd <span class="pill hum">Marketplace</span></h3>
+      <p class="small">Companies post a "sales opportunity". Freelance agents who work only for commission apply. Deals and commission payments are tracked in the app.</p>
+      <span class="tap">Tap for details ▾</span>
+      <div class="more"><dl>
+        <dt>Price</dt><dd>Companies £895–1,395/yr <b>plus 1–2% of every closed deal</b>. Agents free.</dd>
+        <dt>Claims</dt><dd>2,500 companies, 33,786 agents</dd>
+        <dt>Best at</dt><dd>Built-in CRM, training and commission payouts</dd>
+        <dt>Weak at</dt><dd>No smart matching. Dated design (pricing page footer still says 2015–2018).</dd>
+      </dl></div>
+    </article>
+    <article class="card site" data-k="hum">
+      <h3>RepHunter <span class="pill hum">Marketplace</span></h3>
+      <p class="small">A directory of independent reps, running since 2001. Manufacturers search by who the rep already sells to (for example "Walmart") and contact them.</p>
+      <span class="tap">Tap for details ▾</span>
+      <div class="more"><dl>
+        <dt>Price</dt><dd>Companies $199/mo to $1,799/yr · recruiting service $2,999/mo · guaranteed hire $6k–12k. Reps free.</dd>
+        <dt>Claims</dt><dd>10,000+ rep profiles</dd>
+        <dt>Best at</dt><dd>"Who do you already sell to" search. Paid recruiting service.</dd>
+        <dt>Weak at</dt><dd>Just a database. No deal tracking, no AI.</dd>
+      </dl></div>
+    </article>
+  </div>
+
+  <h3 style="margin-top:28px">What all four share</h3>
+  <div class="grid g2">
+    <div class="card small">💸 <b>Pay for results, not salaries.</b> Commission or pay-per-lead instead of a fixed salary.</div>
+    <div class="card small">🔗 <b>Matching.</b> A product meets someone, or something, that can sell it.</div>
+    <div class="card small">📊 <b>Pipeline tracking.</b> CRM, deal manager, HubSpot/Salesforce sync.</div>
+    <div class="card small">🏢 <b>Companies pay.</b> The rep or user side is free or cheap.</div>
+  </div>
+</section>
+
+<section id="idea">
+  <div class="kicker">3 · The opportunity</div>
+  <h2>Nobody has joined the two halves</h2>
+  <div class="split">
+    <div class="half hum"><b>🤝 Marketplaces have…</b><ul class="small"><li>Real humans with relationships</li><li>Pay only on results</li><li>…but zero AI, old design, manual search</li></ul></div>
+    <div class="plus">+</div>
+    <div class="half ai"><b>🤖 AI tools have…</b><ul class="small"><li>Speed and huge volume</li><li>Automatic research and writing</li><li>…but can't close deals that need trust</li></ul></div>
+    <div class="plus">=</div>
+    <div class="half mix"><b>✨ Our product: an AI-powered sales-rep marketplace</b>
+      <p class="small" style="margin:6px 0 0">A company lists its product. AI finds the right commission-only reps. Every rep gets an AI assistant that fills their pipeline. Deals and commissions are tracked and paid inside the platform.</p></div>
+  </div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card small"><b>For companies</b><br>A sales force in days. Pay mostly on results. One dashboard for every rep.</div>
+    <div class="card small"><b>For reps</b><br>Good products to sell. AI does the boring prospecting. Commission arrives on time.</div>
+    <div class="card small"><b>For us</b><br>3 revenue streams: subscription + % of deals + AI credits. Competitors have 1.</div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="kicker">4 · How it works</div>
+  <h2>Follow one deal through the platform</h2>
+  <div class="card stepper">
+    <div class="dots" id="dots"></div>
+    <div id="stepBody"></div>
+    <div class="step-nav">
+      <button class="btn" id="prev">← Back</button>
+      <button class="btn dark" id="next">Next →</button>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="kicker">5 · Build plan</div>
+  <h2>Three phases, about 6–8 months for the first two</h2>
+  <details open><summary>Phase 1 · MVP marketplace (3–4 months)</summary><div class="body"><ul class="small">
+    <li>Company onboarding: product, ideal customer, commission terms, territory</li>
+    <li>Rep profiles: industries, regions, <b>accounts they already sell to</b></li>
+    <li>AI matching: score reps against opportunities, send weekly match emails</li>
+    <li>Chat, contract template, <b>deal registration</b> (protects the rep's commission)</li>
+    <li>Deal pipeline and commission payouts (Stripe Connect / Razorpay Route)</li>
+  </ul></div></details>
+  <details><summary>Phase 2 · AI toolkit for reps (3 months)</summary><div class="body"><ul class="small">
+    <li>Lead finder through a data API (Apollo, People Data Labs). Don't build our own database.</li>
+    <li>AI research and personal email drafts, using the company's product material</li>
+    <li>Send through the rep's own Gmail/Outlook, with daily limits</li>
+    <li>One inbox for all replies, with AI tagging (interested / not now / no)</li>
+  </ul></div></details>
+  <details><summary>Phase 3 · Automation and extras</summary><div class="body"><ul class="small">
+    <li>Fully automatic "AI rep" option for companies that want no humans</li>
+    <li>Rep reputation scores and reviews</li>
+    <li>Early commission advances for reps (CommissionCrowd lists this as "coming soon")</li>
+    <li>Paid recruiting service (RepHunter charges $6k–12k for this)</li>
+  </ul></div></details>
+  <div class="card small" style="border-color:var(--warn);background:var(--warn-soft)">
+    <b>⚠️ Don't build:</b> our own email-sending infrastructure (mailboxes, IPs, warm-up). Salesforge runs six products just for that. Plug into Instantly or Smartlead instead.
+  </div>
+</section>
+
+<section id="money">
+  <div class="kicker">6 · Revenue</div>
+  <h2>What could it earn? Play with the numbers</h2>
+  <p class="small muted">These are my estimates, not real data. None of the four sites publish revenue. Tap a scenario, then move the sliders.</p>
+  <div class="chips" id="scen">
+    <button class="chip" data-s="con">Conservative</button>
+    <button class="chip on" data-s="base">Base</button>
+    <button class="chip" data-s="opt">Optimistic</button>
+  </div>
+  <div class="card calc">
+    <label>Paying companies <span id="vCo"></span></label>
+    <input type="range" id="co" min="10" max="2000" step="10">
+    <label>Monthly fee per company <span id="vFee"></span></label>
+    <input type="range" id="fee" min="50" max="1000" step="25">
+    <label>Avg deals closed per company per month <span id="vDeals"></span></label>
+    <input type="range" id="deals" min="0" max="10" step="0.5">
+    <label>Average deal size <span id="vSize"></span></label>
+    <input type="range" id="size" min="500" max="20000" step="250">
+    <label>Our cut of each deal <span id="vTake"></span></label>
+    <input type="range" id="take" min="0" max="10" step="0.5">
+    <label>Reps paying for AI credits <span id="vReps"></span></label>
+    <input type="range" id="reps" min="0" max="10000" step="50">
+    <label>AI credit plan per rep per month <span id="vRepFee"></span></label>
+    <input type="range" id="repfee" min="0" max="99" step="1">
+
+    <div class="stack"><i id="sSub" style="background:var(--mix)"></i><i id="sTake" style="background:var(--hum)"></i><i id="sRep" style="background:var(--ai)"></i></div>
+    <div class="legend"><span><i style="background:var(--mix)"></i>Subscriptions</span><span><i style="background:var(--hum)"></i>Deal cut</span><span><i style="background:var(--ai)"></i>Rep AI credits</span></div>
+
+    <div class="out">
+      <div><small>Per month</small><b id="oMonth"></b></div>
+      <div><small>Per year</small><b id="oYear"></b></div>
+      <div><small>In ₹ per year</small><b id="oInr"></b></div>
+      <div><small>Compared with</small><b id="oCmp" style="font-size:1rem;font-family:Inter"></b></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:22px">The three scenarios over 3 years</h3>
+  <div class="scroll"><table>
+    <tr><th></th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+    <tr><td><b>Conservative</b></td><td>~$120k</td><td>~$540k</td><td>~$1.7M</td></tr>
+    <tr><td><b>Base</b></td><td>~$300k</td><td>~$1.5M</td><td>~$5M</td></tr>
+    <tr><td><b>Optimistic</b></td><td>~$600k</td><td>~$3.5M</td><td>$10M+</td></tr>
+  </table></div>
+  <p class="small muted" style="margin-top:10px">The base case needs a marketing budget and one focused niche. A generic "for everyone" launch usually lands in the conservative row.</p>
+
+  <h3 style="margin-top:22px">How big are the competitors? (my guess)</h3>
+  <div class="grid g2 small">
+    <div class="card">CommissionCrowd / RepHunter<br><b>~$0.5–2M a year</b> each</div>
+    <div class="card">AiSDR<br><b>~$3–7M a year</b></div>
+    <div class="card">Salesforge (all products)<br><b>~$8–15M a year</b></div>
+    <div class="card">Build cost<br><b>3–5 people, 6–8 months</b> for phases 1–2</div>
+  </div>
+</section>
+
+<section id="risks">
+  <div class="kicker">7 · Risks</div>
+  <h2>What can go wrong, and the fix</h2>
+  <details><summary>🐔 Chicken and egg</summary><div class="body small">No reps means no companies, and no companies means no reps.<div class="fix"><b>Fix:</b> launch in one industry and one region. Recruit 200+ reps before inviting companies.</div></div></details>
+  <details><summary>🚪 Deals move off the platform</summary><div class="body small">After meeting, the company and rep may cut us out.<div class="fix"><b>Fix:</b> deal registration, payouts only through us, contract protection for the rep.</div></div></details>
+  <details><summary>📧 Spam and the law</summary><div class="body small">Emails land in spam. CAN-SPAM, GDPR and India's DPDP Act apply. LinkedIn bans automation.<div class="fix"><b>Fix:</b> sending limits, opt-out links, use proven sending tools, no LinkedIn bots.</div></div></details>
+  <details><summary>📉 Weak reps</summary><div class="body small">Most commission-only reps quit within weeks.<div class="fix"><b>Fix:</b> vetting, reviews, activity scores, and the AI toolkit so they see results early.</div></div></details>
+  <details><summary>⚖️ Contractor vs employee</summary><div class="body small">If reps look like employees, there are tax and labour problems.<div class="fix"><b>Fix:</b> clear independent-contractor agreements, reviewed by a lawyer per country.</div></div></details>
+</section>
+
+<section id="client">
+  <div class="kicker">8 · Before building</div>
+  <h2>Questions to ask the client</h2>
+  <p class="small muted">Tick them off as you get answers. Your ticks stay on this phone.</p>
+  <div class="card" id="checks">
+    <label class="check"><input type="checkbox" data-c="1"><span><b>Which model?</b> Marketplace only, AI tool only, or the hybrid?</span></label>
+    <label class="check"><input type="checkbox" data-c="2"><span><b>Which industry and country first?</b></span></label>
+    <label class="check"><input type="checkbox" data-c="3"><span><b>Will we handle commission payments?</b> This brings payments and compliance work.</span></label>
+    <label class="check"><input type="checkbox" data-c="4"><span><b>A SaaS business to sell,</b> or a tool for the client's own sales?</span></label>
+    <label class="check"><input type="checkbox" data-c="5"><span><b>Budget and timeline?</b> Phases 1–2 need roughly 6–8 months.</span></label>
+  </div>
+
+  <h3 style="margin-top:24px">Words you'll hear</h3>
+  <div class="grid g2 small">
+    <div class="card"><b>SDR</b>: Sales Development Rep. The person who finds leads and books meetings.</div>
+    <div class="card"><b>ICP</b>: Ideal Customer Profile. Who you want to sell to.</div>
+    <div class="card"><b>Deliverability</b>: whether your emails reach the inbox or the spam folder.</div>
+    <div class="card"><b>Warm-up</b>: slowly raising how many emails a new mailbox sends, so it isn't flagged as spam.</div>
+    <div class="card"><b>Take rate</b>: the % a marketplace keeps from each deal.</div>
+    <div class="card"><b>Churn</b>: % of customers who cancel each month.</div>
+    <div class="card"><b>ACV</b>: Annual Contract Value. What one customer pays per year.</div>
+    <div class="card"><b>1099 rep</b>: a US independent contractor, not an employee.</div>
+  </div>
+</section>
+
+<section id="ask">
+  <div class="ask">
+    <div class="kicker" style="color:inherit;opacity:.7">9 · Keep talking</div>
+    <h2>Ask ChatGPT or Claude about this</h2>
+    <p class="muted small">The button opens the app with a full summary of this page already attached, so you can ask anything.</p>
+    <textarea id="q" placeholder="Type your question… (optional)"></textarea>
+    <div class="chips" id="sugg">
+      <button class="chip">Explain this whole idea to me like I'm new to sales</button>
+      <button class="chip">Which tech stack should we use to build the MVP?</button>
+      <button class="chip">Is the revenue estimate realistic? Challenge it.</button>
+      <button class="chip">How do we get the first 200 reps and 20 companies?</button>
+      <button class="chip">Should we target India, US or both first?</button>
+    </div>
+    <div class="row">
+      <button class="btn gpt" id="toGpt">Open in ChatGPT</button>
+      <button class="btn cl" id="toClaude">Open in Claude</button>
+    </div>
+    <button class="btn full" id="copy" style="background:var(--bg);color:var(--ink)">📋 Copy full summary + question</button>
+    <button class="btn full" id="share" style="margin-top:10px;background:transparent;color:var(--bg);border:1px solid color-mix(in srgb,var(--bg) 35%,transparent)">↗ Share this page</button>
+    <p class="small muted" style="margin:12px 0 0">If the app opens without the text, tap "Copy" and paste it into the chat.</p>
+  </div>
+</section>
+
+<footer>Based on the public websites of Salesforge, AiSDR, CommissionCrowd and RepHunter, read on 20 Nov 2026. Prices and figures are the companies' own claims. Revenue figures are estimates.</footer>
+</main>
+
+<button class="fab" onclick="document.getElementById('ask').scrollIntoView()">💬 Ask AI</button>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
+
+/* theme */
+const root=document.documentElement, saved=store.get('theme'); if(saved) root.dataset.theme=saved;
+$('#theme').onclick=()=>{const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;root.dataset.theme=dark?'light':'dark';store.set('theme',root.dataset.theme)};
+
+/* nav highlight */
+const links=$$('#nav a'); const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)); const on=links.find(a=>a.classList.contains('on')); on&&on.scrollIntoView({inline:'center',block:'nearest'})}})},{rootMargin:'-45% 0px -50% 0px'});
+$$('main section').forEach(s=>io.observe(s));
+
+/* option picker */
+const opts={
+ hire:{t:'👔 Hiring an SDR',cost:85,speed:20,risk:80,txt:'About $60–90k a year in salary and benefits. Takes 3–6 months to start producing, and many hires don\'t work out. You pay even if there are no results.'},
+ ai:{t:'🤖 AI SDR tool',cost:15,speed:90,risk:40,txt:'About $250–2,500 a month. Starts in days and sends at huge volume. Works well for simple products with a clear buyer. Weak where buyers need trust or a relationship.'},
+ rep:{t:'🤝 Commission-only rep',cost:10,speed:50,risk:55,txt:'Platform fee of about $200–1,400 a year, then the rep is paid only when a deal closes. The rep brings real contacts. The hard parts are finding a good one and keeping them motivated.'}};
+$$('.opt').forEach(b=>b.onclick=()=>{$$('.opt').forEach(x=>x.classList.toggle('on',x===b));const o=opts[b.dataset.o],r=$('#optResult');
+ r.innerHTML=`<h3>${o.t}</h3><p class="small">${o.txt}</p>
+ <div class="small">Fixed cost</div><div class="bar"><i style="width:${o.cost}%;background:var(--warn)"></i></div>
+ <div class="small">Speed to start</div><div class="bar"><i style="width:${o.speed}%;background:var(--mix)"></i></div>
+ <div class="small">Risk if it doesn't work</div><div class="bar"><i style="width:${o.risk}%;background:var(--hum)"></i></div>
+ <p class="small muted" style="margin:0">That's why both the AI tools and the marketplaces exist. Our idea uses both.</p>`;r.classList.add('show')});
+
+/* site filter + expand */
+$$('.site').forEach(c=>c.onclick=()=>{c.classList.toggle('open');c.querySelector('.tap').textContent=c.classList.contains('open')?'Tap to close ▴':'Tap for details ▾'});
+$$('#siteFilter .chip').forEach(ch=>ch.onclick=()=>{$$('#siteFilter .chip').forEach(x=>x.classList.toggle('on',x===ch));const f=ch.dataset.f;$$('.site').forEach(c=>c.classList.toggle('hide',f!=='all'&&c.dataset.k!==f))});
+
+/* stepper */
+const steps=[
+ ['🏭','A company lists its product','"We make solar inverters. We pay 10% commission. We want reps in Texas and Dubai." It sets its ideal customer and uploads product material.'],
+ ['🧠','AI finds matching reps','The platform scores reps by industry, region and the accounts they already sell to. The best 10 are notified, and the company sees them ranked.'],
+ ['✍️','Both sides sign','They chat, agree terms and sign a ready-made contract inside the app. The rep can now start selling.'],
+ ['🤖','The rep\'s AI assistant gets to work','It finds leads, researches each one and drafts personal emails using the company\'s material. The rep approves and sends. Replies land in one inbox.'],
+ ['📝','The rep registers the deal','When a lead looks serious, the rep logs it. This protects their commission, so the company can\'t go around them.'],
+ ['💰','Deal closes, everyone is paid','The company pays commission through the platform. The rep gets paid out and we keep our cut (for example 2–5%). The company dashboard updates.']];
+let si=0;const dots=$('#dots');steps.forEach(()=>dots.appendChild(document.createElement('span')));
+function drawStep(){const [i,t,d]=steps[si];$('#stepBody').innerHTML=`<div class="step-ico">${i}</div><div class="kicker" style="margin-top:8px">Step ${si+1} of ${steps.length}</div><h3>${t}</h3><p class="small" style="margin:0">${d}</p>`;
+ [...dots.children].forEach((d,k)=>d.classList.toggle('on',k<=si));$('#prev').disabled=si===0;$('#prev').style.opacity=si===0?.4:1;$('#next').textContent=si===steps.length-1?'Start again ↺':'Next →'}
+$('#next').onclick=()=>{si=si===steps.length-1?0:si+1;drawStep()};$('#prev').onclick=()=>{if(si>0){si--;drawStep()}};drawStep();
+
+/* calculator */
+const S={con:{co:40,fee:250,deals:0.5,size:2000,take:2,reps:0,repfee:0},base:{co:300,fee:400,deals:1,size:3000,take:2,reps:500,repfee:29},opt:{co:1500,fee:450,deals:2,size:4000,take:3,reps:4000,repfee:39}};
+const ids=['co','fee','deals','size','take','reps','repfee'];
+const usd=n=>n>=1e6?'$'+(n/1e6).toFixed(2)+'M':n>=1e3?'$'+Math.round(n/1e3)+'k':'$'+Math.round(n);
+const inr=n=>{n*=84;return n>=1e7?'₹'+(n/1e7).toFixed(1)+' Cr':n>=1e5?'₹'+(n/1e5).toFixed(1)+' L':'₹'+Math.round(n)};
+function calc(){const v={};ids.forEach(k=>v[k]=+$('#'+k).value);
+ $('#vCo').textContent=v.co;$('#vFee').textContent='$'+v.fee;$('#vDeals').textContent=v.deals;$('#vSize').textContent='$'+v.size.toLocaleString();$('#vTake').textContent=v.take+'%';$('#vReps').textContent=v.reps.toLocaleString();$('#vRepFee').textContent='$'+v.repfee;
+ const sub=v.co*v.fee, tk=v.co*v.deals*v.size*v.take/100, rp=v.reps*v.repfee, m=sub+tk+rp, y=m*12;
+ $('#oMonth').textContent=usd(m);$('#oYear').textContent=usd(y);$('#oInr').textContent=inr(y);
+ $('#oCmp').textContent=y<5e5?'Smaller than CommissionCrowd':y<2e6?'About CommissionCrowd / RepHunter size':y<7e6?'About AiSDR size':y<15e6?'About Salesforge size':'Bigger than all four';
+ const t=m||1;$('#sSub').style.width=sub/t*100+'%';$('#sTake').style.width=tk/t*100+'%';$('#sRep').style.width=rp/t*100+'%'}
+function setScen(k){ids.forEach(i=>$('#'+i).value=S[k][i]);$$('#scen .chip').forEach(c=>c.classList.toggle('on',c.dataset.s===k));calc()}
+ids.forEach(k=>$('#'+k).addEventListener('input',()=>{$$('#scen .chip').forEach(c=>c.classList.remove('on'));calc()}));
+$$('#scen .chip').forEach(c=>c.onclick=()=>setScen(c.dataset.s));setScen('base');
+
+/* checklist */
+$$('#checks input').forEach(cb=>{cb.checked=store.get('chk'+cb.dataset.c)==='1';cb.onchange=()=>store.set('chk'+cb.dataset.c,cb.checked?'1':'0')});
+
+/* ask AI */
+const SUMMARY=`Context: I got a requirement to build an app similar to Salesforge.ai, AiSDR.com, CommissionCrowd.com and RepHunter.net. Here is an analysis:
+- Common problem: companies need sales but full-time salespeople (SDRs, ~$60-90k/yr) are costly and slow to ramp.
+- Salesforge: AI cold email + LinkedIn outreach at scale, plus mailbox infrastructure and warm-up. $48-96/mo; AI agent "Frank" from ~$499/mo. Claims 10,000+ businesses.
+- AiSDR: AI SDR "Ami" finds leads, researches, writes, replies, books meetings. ~$1.50/prospect, ~$250-2,500/mo. Claims 250+ teams.
+- CommissionCrowd: marketplace linking companies with commission-only freelance sales agents. Companies pay £895-1,395/yr + 1-2% of closed deals; agents free. Claims 2,500 companies, 33,786 agents. Has CRM and commission payouts but no AI.
+- RepHunter: directory of independent reps since 2001; search by accounts reps sell to. Companies $199/mo-$1,799/yr, recruiting $2,999/mo, guaranteed hires $6-12k. 10,000+ reps.
+- Proposed product: an AI-powered sales-rep marketplace. Companies list products, AI matches commission-only reps, reps get an AI SDR toolkit (lead finding, research, email drafting, unified inbox), deals and commissions tracked and paid in-app. Revenue: subscriptions + 2-5% deal cut + AI credits.
+- Plan: Phase 1 MVP marketplace (3-4 months), Phase 2 AI toolkit for reps (3 months), Phase 3 autonomous AI rep, reputation, commission advances, recruiting. Don't build own email infrastructure.
+- Estimated revenue (assumptions): conservative ~$120k / $540k / $1.7M over years 1-3; base ~$300k / $1.5M / $5M; optimistic ~$600k / $3.5M / $10M+.
+- Risks: marketplace cold start, deals leaving the platform, spam laws and LinkedIn ToS, weak rep quality, contractor classification.
+Please answer simply and practically.`;
+const page=location.href.split('#')[0];
+function prompt(){const q=$('#q').value.trim()||'Explain this idea simply and tell me what I should do next.';return SUMMARY+'\n\nMy question: '+q}
+$$('#sugg .chip').forEach(c=>c.onclick=()=>{$('#q').value=c.textContent;$('#q').focus()});
+$('#toGpt').onclick=()=>window.open('https://chatgpt.com/?q='+encodeURIComponent(prompt()),'_blank');
+$('#toClaude').onclick=()=>window.open('https://claude.ai/new?q='+encodeURIComponent(prompt()),'_blank');
+$('#copy').onclick=async()=>{const t=prompt()+'\n\n(Source page: '+page+')';try{await navigator.clipboard.writeText(t);toast('Copied. Paste it into ChatGPT or Claude')}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copied')}};
+$('#share').onclick=async()=>{if(navigator.share){try{await navigator.share({title:document.title,text:'Explainer: AI sales tools and commission-rep marketplaces',url:page})}catch(e){}}else{try{await navigator.clipboard.writeText(page);toast('Link copied')}catch(e){}}};
+})();
+</script>
+</body>
+</html>

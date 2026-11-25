@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VSM Staff Wireframes</title>
+<link rel="stylesheet" href="kit/kit.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="kit/kit.js"></script>
+</head>
+<body class="wf-page">
+
+<header class="wf-header">
+  <h1>VSM Staff Portal · Wireframes</h1>
+  <div class="wf-tools">
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-theme">Theme: auto</button>
+  </div>
+</header>
+
+<div class="wf-intro">
+  <h2>Wireframes for the owner's review</h2>
+  <p>Mid-fidelity, phone first (390 × 844). Real layout, colours and type, but every name and amount is invented. Each page holds one group of screens. Under each screen, a caption says what it is for and what happens on tap. Draft of 23 Nov 2026.</p>
+</div>
+
+<nav class="idx-list" aria-label="Screen groups">
+  <a class="idx-item" href="01-access-dashboard.html"><span class="idx-n">01</span><div><h3>Access &amp; dashboard</h3><p>Install to home screen, Face ID / fingerprint login, password fallback, the Home dashboard and the More menu.</p></div></a>
+  <a class="idx-item" href="02-employees-salary.html"><span class="idx-n">02</span><div><h3>Employees &amp; salary</h3><p>Staff list, employee profile, add/edit/deactivate, bulk import, device-code mapping, salary changes and increment history.</p></div></a>
+  <a class="idx-item" href="03-attendance.html"><span class="idx-n">03</span><div><h3>Attendance</h3><p>Upload the biometric export, day and month views, fix incomplete punches, short-day flags, overrides with reason, unmatched codes.</p></div></a>
+  <a class="idx-item" href="04-sundays-leave.html"><span class="idx-n">04</span><div><h3>Sundays &amp; leave</h3><p>The 3 batches, Sunday rotation calendar, holiday Sundays, one-way and two-way swaps, free leave: bank it or cash it out.</p></div></a>
+  <a class="idx-item" href="05-payroll-payslips-ledger.html"><span class="idx-n">05</span><div><h3>Payroll, payslips &amp; ledger</h3><p>Biweekly pay runs (2nd and 4th Saturday), payouts, the payslip (A4 and 80 mm, share to WhatsApp, print), the employee ledger.</p></div></a>
+  <a class="idx-item" href="kit/example.html"><span class="idx-n">K</span><div><h3>Kit example</h3><p>Reference screens for designers: dashboard, the override-with-reason sheet, loading/error/empty states, desktop layout.</p></div></a>
+</nav>
+
+<section class="navmap" aria-labelledby="nm-h">
+  <h2 id="nm-h" class="t20">Navigation map</h2>
+  <p class="muted t15">Four tabs plus More at the bottom of the phone. On a desktop (1024 px and wider) the same items sit in a left rail.</p>
+  <div class="nm-scroll"><svg viewBox="0 0 820 400" role="img" aria-label="Navigation map: Login leads to Home. Bottom tabs are Home, Attendance, Staff, Pay and More. More holds Sundays and batches, Leave, Payslips, Ledger, Audit log, Settings and users.">
+    <!-- login -> app -->
+    <rect class="nm-box" x="20" y="20" width="150" height="52" rx="10"/>
+    <text x="95" y="43" text-anchor="middle" font-size="14" font-weight="600">Login</text>
+    <text x="95" y="60" text-anchor="middle" class="nm-sub">Face ID · password</text>
+    <path class="nm-line" d="M170 46 H 330"/>
+    <rect class="nm-root" x="330" y="20" width="160" height="52" rx="10"/>
+    <text x="410" y="51" text-anchor="middle" font-size="14" class="nm-root-t">Bottom tab bar</text>
+    <!-- tabs -->
+    <path class="nm-line" d="M410 72 V 100 M 90 100 H 730 M90 100 V 120 M250 100 V 120 M410 100 V 120 M570 100 V 120 M730 100 V 120"/>
+    <g font-size="14" font-weight="600" text-anchor="middle">
+      <rect class="nm-tab" x="20" y="120" width="140" height="44" rx="10"/><text x="90" y="147">Home</text>
+      <rect class="nm-tab" x="180" y="120" width="140" height="44" rx="10"/><text x="250" y="147">Attendance</text>
+      <rect class="nm-tab" x="340" y="120" width="140" height="44" rx="10"/><text x="410" y="147">Staff</text>
+      <rect class="nm-tab" x="500" y="120" width="140" height="44" rx="10"/><text x="570" y="147">Pay</text>
+      <rect class="nm-tab" x="660" y="120" width="140" height="44" rx="10"/><text x="730" y="147">More</text>
+    </g>
+    <!-- children -->
+    <g font-size="12" text-anchor="middle" class="nm-sub">
+      <text x="90" y="186">Needs attention</text><text x="90" y="204">Today's attendance</text><text x="90" y="222">Next Sunday, payout</text><text x="90" y="240">Recent changes</text>
+      <text x="250" y="186">Upload export</text><text x="250" y="204">Day · Month views</text><text x="250" y="222">Fix punches</text><text x="250" y="240">Override + reason</text><text x="250" y="258">Unmatched codes</text>
+      <text x="410" y="186">Staff list, filters</text><text x="410" y="204">Profile</text><text x="410" y="222">Salary history</text><text x="410" y="240">Add · Import</text><text x="410" y="258">Device codes</text>
+      <text x="570" y="186">Pay runs</text><text x="570" y="204">Run detail</text><text x="570" y="222">Record payout</text><text x="570" y="240">Payslip preview</text>
+    </g>
+    <path class="nm-line" d="M730 164 V 290"/>
+    <g font-size="13" text-anchor="middle">
+      <rect class="nm-box" x="20" y="290" width="246" height="40" rx="8"/><text x="143" y="315">Sundays &amp; batches · swaps</text>
+      <rect class="nm-box" x="286" y="290" width="120" height="40" rx="8"/><text x="346" y="315">Leave</text>
+      <rect class="nm-box" x="426" y="290" width="120" height="40" rx="8"/><text x="486" y="315">Payslips</text>
+      <rect class="nm-box" x="566" y="290" width="110" height="40" rx="8"/><text x="621" y="315">Ledger</text>
+      <rect class="nm-box" x="696" y="290" width="104" height="40" rx="8"/><text x="748" y="315">Audit log</text>
+      <rect class="nm-box" x="566" y="345" width="234" height="40" rx="8"/><text x="683" y="370">Settings &amp; users · pay dates</text>
+    </g>
+    <path class="nm-line" d="M730 280 H 143 V 290 M346 280 V 290 M486 280 V 290 M621 280 V 290 M748 280 V 290 M683 330 V 345" />
+    <text x="20" y="372" font-size="12" class="nm-sub" text-anchor="start">Employee profile links to: attendance month, leave, ledger, payslips (filtered to that person).</text>
+  </svg></div>
+</section>
+
+</body>
+</html>

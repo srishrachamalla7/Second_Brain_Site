@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit Example: Dashboard</title>
+<link rel="stylesheet" href="kit.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="kit.js"></script>
+</head>
+<body class="wf-page">
+
+<header class="wf-header">
+  <a class="wf-back" href="../index.html"><i data-lucide="arrow-left"></i> All wireframes</a>
+  <h1>Kit example: Dashboard</h1>
+  <div class="wf-tools">
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-frame">Frame: on</button>
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-theme">Theme: auto</button>
+  </div>
+</header>
+
+<div class="wf-intro">
+  <h2>Dashboard (quality bar for screen files)</h2>
+  <p>Sample screens built only with kit classes. All names and amounts are invented. Screen files copy this structure: header, intro, then one <code>.wf-screen</code> per screen, each with a phone frame and a caption.</p>
+</div>
+
+<main class="wf-grid">
+
+  <!-- ============ D-01 Dashboard ============ -->
+  <section class="wf-screen" id="d-01">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:24</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar large">
+        <div class="appbar-row">
+          <div>
+            <div class="meta">Monday, 23 Nov 2026</div>
+            <h1>Good morning, Padma</h1>
+          </div>
+          <button class="icon-btn" aria-label="Recent changes"><i data-lucide="history"></i></button>
+        </div>
+      </header>
+
+      <div class="app-body">
+        <!-- Needs attention: the work queue, most important first -->
+        <div class="banner banner-warn">
+          <i data-lucide="triangle-alert"></i>
+          <div class="grow">
+            <div class="b-title">Pay day Saturday, 28 Nov</div>
+            <div class="t15">Fix 9 incomplete days before you run payroll for 1–15 Nov.</div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Needs attention</h2>
+        <div class="list inset">
+          <a class="row" href="#">
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>9</span>
+            <div class="row-main"><div class="row-title">Incomplete punches</div><div class="row-sub">No out-punch. Enter the time or mark the day.</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="#">
+            <span class="badge badge-flagged"><i data-lucide="clock"></i>6</span>
+            <div class="row-main"><div class="row-title">Short days (6–8 h)</div><div class="row-sub">Supervisor to talk to the employee</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="#">
+            <span class="badge badge-neutral"><i data-lucide="fingerprint"></i>3</span>
+            <div class="row-main"><div class="row-title">Unmatched device codes</div><div class="row-sub">Punches with no employee assigned</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+
+        <h2 class="section-title">Attendance · Sat 21 Nov</h2>
+        <div class="card">
+          <div class="between" style="margin-bottom: var(--s3)">
+            <div><span class="hero-figure">61</span> <span class="muted">of 83 present</span></div>
+            <span class="meta">Uploaded 22 Nov, 09:12</span>
+          </div>
+          <div class="progress" role="img" aria-label="61 present, 6 short, 9 incomplete, 4 absent, 3 on leave">
+            <span class="bg-present" style="width:73%"></span><span class="bg-flagged" style="width:7%"></span><span class="bg-incomplete" style="width:11%"></span><span class="bg-absent" style="width:5%"></span><span class="bg-leave" style="width:4%"></span>
+          </div>
+          <div class="legend" style="margin-top: var(--s3)">
+            <span><i class="bg-present"></i>Present 61</span><span><i class="bg-flagged"></i>Short 6</span><span><i class="bg-incomplete"></i>Incomplete 9</span><span><i class="bg-absent"></i>Absent 4</span><span><i class="bg-leave"></i>Leave 3</span>
+          </div>
+        </div>
+
+        <div class="stats">
+          <a class="stat" href="#">
+            <span class="label"><i data-lucide="calendar-days" class="ic-sm"></i>Next Sunday</span>
+            <span class="value">Batch B</span>
+            <span class="delta">29 Nov · 27 staff · 2 swaps</span>
+          </a>
+          <a class="stat" href="#">
+            <span class="label"><i data-lucide="wallet" class="ic-sm"></i>Payout 1–15 Nov</span>
+            <span class="value money" data-inr="1124350">₹11,24,350</span>
+            <span class="delta">Draft · 83 employees</span>
+          </a>
+        </div>
+
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">Recent changes</h2><a class="card-link" href="#">See all</a></div>
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="pencil"></i></span>
+              <div class="a-main">
+                <div class="a-what">Gundla Ravi Teja · 18 Nov</div>
+                <div class="a-change"><span class="badge badge-absent">Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present">Present</span></div>
+                <div class="a-reason">Sent to the Hyderabad wholesaler for stock pickup</div>
+                <div class="a-meta">Ramesh (Supervisor) · today 09:40</div>
+              </div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="indian-rupee"></i></span>
+              <div class="a-main">
+                <div class="a-what">Mekala Anusha · monthly salary</div>
+                <div class="a-change"><span class="a-old money">₹14,000</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new money">₹15,500</span></div>
+                <div class="a-meta">Owner · yesterday 18:05 · effective 1 Dec</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#" aria-current="page"><i data-lucide="house"></i>Home</a>
+        <a href="#" class="tb-dot-wrap"><span class="tb-dot"><i data-lucide="calendar-check"></i></span>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <button data-open="more-sheet"><i data-lucide="menu"></i>More</button>
+      </nav>
+
+      <!-- More sheet (opens from the 5th tab) -->
+      <div class="sheet" id="more-sheet" role="dialog" aria-modal="true" aria-label="More" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>More</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <a class="row compact" href="#"><i data-lucide="calendar-range"></i><div class="row-main"><div class="row-title">Sundays &amp; batches</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="calendar-heart"></i><div class="row-main"><div class="row-title">Leave</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="file-text"></i><div class="row-main"><div class="row-title">Payslips</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="book-open"></i><div class="row-main"><div class="row-title">Ledger</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="history"></i><div class="row-main"><div class="row-title">Audit log</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="settings"></i><div class="row-main"><div class="row-title">Settings &amp; users</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">D-01</span>
+      <h3>Dashboard (Home tab)</h3>
+      <p>The first screen after Face ID / fingerprint login. It answers "what do I need to do today?" before showing totals.</p>
+      <ul>
+        <li><b>Banner</b>: the next pay date and what blocks payroll. Tap goes to the blocking list.</li>
+        <li><b>Needs attention rows</b>: tap opens Attendance filtered to that status.</li>
+        <li><b>Attendance card</b>: the last uploaded day. Tap opens that day in Attendance.</li>
+        <li><b>Next Sunday</b> opens the Sunday calendar. <b>Payout</b> opens the draft payroll run.</li>
+        <li><b>Recent changes</b>: audit rows. "See all" opens the Audit log.</li>
+        <li><b>More</b> (5th tab) opens a sheet. Try it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ D-02 Override sheet ============ -->
+  <section class="wf-screen" id="d-02">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:26</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <button class="icon-btn" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <div class="appbar-title"><div class="t">Gundla Ravi Teja</div><div class="sub">VSM/031 · Mens Wear · Batch B</div></div>
+        <button class="icon-btn" aria-label="More actions"><i data-lucide="ellipsis-vertical"></i></button>
+      </header>
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+          <span class="m">November 2026</span>
+          <button class="icon-btn" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+        </div>
+        <div class="cal">
+          <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+          <span class="d out">26</span><span class="d out">27</span><span class="d out">28</span><span class="d out">29</span><span class="d out">30</span><span class="d out">31</span><span class="d closed">1</span>
+          <span class="d present">2</span><span class="d present">3</span><span class="d flagged">4</span><span class="d present">5</span><span class="d present">6</span><span class="d present">7</span><span class="d closed">8</span>
+          <span class="d present">9</span><span class="d present">10</span><span class="d leave">11</span><span class="d present">12</span><span class="d incomplete">13</span><span class="d present">14</span><span class="d present">15</span>
+          <span class="d present">16</span><span class="d present">17</span><span class="d sel">18</span><span class="d present">19</span><span class="d flagged">20</span><span class="d present">21</span><span class="d closed">22</span>
+        </div>
+      </div>
+      <!-- Static open state for the wireframe: class="sheet is-open" -->
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="ov-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ov-t">Change day status</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Wed, 18 Nov</span><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></div>
+            <div class="t15 muted">In 10:52 · no out-punch · 0 h counted</div>
+          </div>
+          <div class="field">
+            <span class="label">New status</span>
+            <div class="seg" role="group" aria-label="New status">
+              <button aria-pressed="true">Present</button><button aria-pressed="false">Short</button><button aria-pressed="false">Leave</button><button aria-pressed="false">Absent</button>
+            </div>
+          </div>
+          <div class="field has-error">
+            <label for="ov-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="ov-r" placeholder="e.g. Sent outside for store work"></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a reason before saving.</span>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. 18 Nov is now Present.">Save change</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">D-02</span>
+      <h3>Override with reason (shared sheet)</h3>
+      <p>The one pattern for every manual change: day status, missed punch, salary, leave, swap. Old value on top, new value, required reason.</p>
+      <ul>
+        <li><b>Save</b> is blocked until a reason is typed (error shown under the field, not as a popup).</li>
+        <li>On save: toast "Saved", the calendar day gets a small dot (<code>.cal .d.edited</code>) and an audit row is written.</li>
+        <li>Cancel, the X, swipe down or tapping the dim area closes it without saving.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ D-03 States ============ -->
+  <section class="wf-screen" id="d-03">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:30</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar"><div class="appbar-title"><h1>Attendance</h1></div><button class="icon-btn" aria-label="Upload"><i data-lucide="upload"></i></button></header>
+      <div class="app-body">
+        <div class="search"><i data-lucide="search"></i><input placeholder="Search name or VSM number" aria-label="Search"></div>
+        <div class="chips" role="group" aria-label="Filter by status">
+          <button class="chip" aria-pressed="true">All <span class="count">83</span></button>
+          <button class="chip" aria-pressed="false">Incomplete <span class="count">9</span></button>
+          <button class="chip" aria-pressed="false">Short <span class="count">6</span></button>
+          <button class="chip" aria-pressed="false">Absent <span class="count">4</span></button>
+        </div>
+        <h2 class="section-title">Loading</h2>
+        <div class="list inset">
+          <div class="row"><span class="skel skel-circle"></span><div class="row-main"><div class="skel skel-line" style="width:60%"></div><div class="skel skel-line" style="width:40%"></div></div></div>
+          <div class="row"><span class="skel skel-circle"></span><div class="row-main"><div class="skel skel-line" style="width:70%"></div><div class="skel skel-line" style="width:35%"></div></div></div>
+        </div>
+        <h2 class="section-title">Error</h2>
+        <div class="banner banner-error"><i data-lucide="wifi-off"></i><div class="grow"><div class="b-title">Couldn't load attendance</div><div class="t15">Check the connection and try again.</div></div><button class="btn btn-secondary btn-sm">Retry</button></div>
+        <h2 class="section-title">Empty</h2>
+        <div class="card"><div class="empty" style="padding:var(--s4)">
+          <div class="empty-icon"><i data-lucide="upload"></i></div>
+          <h3>No attendance for December yet</h3>
+          <p>Upload the biometric export (.xls) to see who was present.</p>
+          <button class="btn btn-primary">Upload export</button>
+        </div></div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">D-03</span>
+      <h3>Loading, error and empty states</h3>
+      <p>Reference for the three states every list screen needs. Real screens show one at a time.</p>
+      <ul>
+        <li><b>Loading</b>: skeleton rows in the shape of the real rows, no spinner on a blank page.</li>
+        <li><b>Error</b>: say what failed and give a Retry button in place.</li>
+        <li><b>Empty</b>: say why it is empty and give the one action that fills it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ D-04 Desktop ============ -->
+  <section class="wf-screen wide" id="d-04">
+    <div class="wf-scroll-x"><div class="desktop">
+      <nav class="rail" aria-label="Main">
+        <div class="rail-brand">VSM Staff</div>
+        <a href="#" aria-current="page"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <div class="rail-group">More</div>
+        <a href="#"><i data-lucide="calendar-range"></i>Sundays &amp; batches</a>
+        <a href="#"><i data-lucide="calendar-heart"></i>Leave</a>
+        <a href="#"><i data-lucide="file-text"></i>Payslips</a>
+        <a href="#"><i data-lucide="book-open"></i>Ledger</a>
+        <a href="#"><i data-lucide="history"></i>Audit log</a>
+        <a href="#"><i data-lucide="settings"></i>Settings &amp; users</a>
+      </nav>
+      <div class="main">
+        <header class="appbar"><div class="appbar-title"><h1>Good morning, Padma</h1><div class="sub">Monday, 23 Nov 2026</div></div><button class="btn btn-secondary"><i data-lucide="upload"></i>Upload attendance</button></header>
+        <div class="app-body">
+          <div class="banner banner-warn"><i data-lucide="triangle-alert"></i><div class="grow"><span class="b-title">Pay day Saturday, 28 Nov.</span> Fix 9 incomplete days before you run payroll for 1–15 Nov.</div></div>
+          <div class="cols cols-4">
+            <a class="stat" href="#"><span class="label"><span class="dot bg-present"></span>Present · 21 Nov</span><span class="value">61 <small>/ 83</small></span></a>
+            <a class="stat" href="#"><span class="label"><span class="dot bg-incomplete"></span>Incomplete</span><span class="value">9</span></a>
+            <a class="stat" href="#"><span class="label"><span class="dot bg-flagged"></span>Short days</span><span class="value">6</span></a>
+            <a class="stat" href="#"><span class="label"><i data-lucide="wallet" class="ic-sm"></i>Payout 1–15 Nov</span><span class="value money">₹11,24,350</span></a>
+          </div>
+          <div class="cols cols-2">
+            <div class="card flush">
+              <div class="card-header"><h2 class="card-title">Incomplete punches</h2><a class="card-link" href="#">Fix all</a></div>
+              <table class="table">
+                <thead><tr><th>Employee</th><th>Date</th><th class="r">In</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Peddi Swapna</td><td class="num">20 Nov</td><td class="r">10:08</td><td><span class="badge badge-incomplete">No out-punch</span></td></tr>
+                  <tr><td>Kavali Naresh</td><td class="num">20 Nov</td><td class="r">10:31</td><td><span class="badge badge-incomplete">No out-punch</span></td></tr>
+                  <tr><td>Ennam Bhavani</td><td class="num">19 Nov</td><td class="r">09:57</td><td><span class="badge badge-incomplete">No out-punch</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card flush">
+              <div class="card-header"><h2 class="card-title">Recent changes</h2><a class="card-link" href="#">Audit log</a></div>
+              <div class="list">
+                <div class="audit"><span class="a-icon"><i data-lucide="pencil"></i></span><div class="a-main"><div class="a-what">Gundla Ravi Teja · 18 Nov</div><div class="a-change"><span class="badge badge-absent">Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present">Present</span></div><div class="a-meta">Ramesh (Supervisor) · today 09:40 · "Sent to the Hyderabad wholesaler"</div></div></div>
+                <div class="audit"><span class="a-icon"><i data-lucide="indian-rupee"></i></span><div class="a-main"><div class="a-what">Mekala Anusha · salary <span class="a-old money">₹14,000</span> → <span class="money">₹15,500</span></div><div class="a-meta">Owner · yesterday 18:05 · effective 1 Dec</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">D-04</span>
+      <h3>Desktop (≥ 1024 px): same app, widened</h3>
+      <p>The bottom tab bar becomes a left rail with the "More" items listed under it. Cards sit in a grid; long lists may become tables. Same content, same order, same actions as the phone.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,186 @@
+# PingLoom Android UX plan
+
+**Scope:** Product A, Kotlin + Jetpack Compose + Material 3. This is a screen and interaction plan for M3 implementation; it is not a claim that the app exists. P0 is the MVP contract. P1 appears only after its API behavior is implemented. P2/Product B is excluded from active navigation and controls.
+
+## Product and design direction
+
+The app is a dependable shared alert inbox, not a generic push demo. The primary job is to open an alert, understand its source and current processing state, and either mark it read (personal state) or acknowledge it (one shared team state). Keep content scannable under time pressure, explain uncertainty honestly, and make the in-app inbox useful even when Android blocks notifications or the network is unavailable.
+
+Use a restrained Material 3 foundation: warm-neutral/light and charcoal/dark surfaces, one saturated indigo-blue action color, and semantic status colors for high priority, retrying, failed, and success. Keep priority/status meaning in text and icon shape as well as color. Use system light/dark preference, semantic theme tokens, and measured contrast (at least 4.5:1 for normal text; 3:1 for meaningful non-text controls). Avoid gradients, glass effects, and decorative dashboard-style charts in a work inbox. System font scaling must reflow cards and actions without truncating event titles or hiding controls. Use an 8 dp spacing rhythm, predictable 16 dp phone gutters, Material typography, and vector icons from one family. Do not use emoji as system or navigation icons.
+
+Use Material 3 native surfaces and controls rather than imitating web cards. Event cards should present a clear title, short body preview, project/channel source, relative time with an accessible absolute-time description, priority label, and a separate unread indicator. Status chips use concise words, not color-only dots. Keep action hierarchy clear: one dominant action per screen, with secondary actions in a menu or below the fold. Use stable semantic color tokens per theme rather than per-screen hex values.
+
+The UI/UX Pro Max `jetpack-compose` search returned Compose-specific guidance to emit navigation as one-shot ViewModel events (avoid replayable state navigation), use content descriptions and Compose semantics. Its accessibility search surfaced touch spacing and accessible authentication guidance. The accompanying native pre-delivery rules call for 48 dp targets, clear press feedback, safe-area handling, meaningful icon labels, support for large text/reduced motion, visible state in both themes, and alternatives to swipe-only actions. Treat these as design checks for implementation, not as completed test results.
+
+## Navigation model
+
+After authentication, use four persistent top-level destinations in a Material 3 bottom navigation bar on phones:
+
+1. **Inbox** — chronological events and inbox filters.
+2. **Projects** — accessible projects and their channels/subscriptions.
+3. **Devices** — this account's device registration and notification permission status.
+4. **Account** — profile, workspace selection, preferences, help/legal and sign-out/deletion.
+
+Keep the same destinations and order throughout the authenticated app. Use a NavigationRail on larger widths if the adaptive layout is implemented; retain labels and the same hierarchy. Detail, filter sheet, sign-in, verification, reset, subscription management and account deletion are child destinations, not extra bottom tabs. Do not put primary navigation inside a modal. Each tab retains its scroll/filter state when switching. System Back and predictive Back return through the active tab stack, close a transient sheet first, then leave the tab; they must never silently reset the inbox. A notification deep link first restores/validates the user session and workspace access, then fetches the authoritative event; unauthorized, deleted, or unavailable targets resolve to a clear safe screen rather than leaking event text.
+
+Navigation events should be one-shot and collected on the main dispatcher, as recommended by the Compose stack search. Compose controls should expose selected/expanded/pressed state and descriptive semantics. Bottom navigation labels remain visible; unread badges are sparing, textually announced, and never the only indicator.
+
+## Screen inventory and scope
+
+| Screen / route | Priority | Main content and actions | Required states / behavior |
+|---|---|---|---|
+| Session restore / splash | P0 | PingLoom wordmark, brief progress indicator | Restore a valid session and pending event deep link; otherwise route to sign-in. Bounded load with retry/error; never spin forever. |
+| Sign in | P0 | Email and password, show/hide password, Sign in, Forgot password, Create account | Visible labels, inline field errors, loading/disabled submit, generic safe auth error, no network retry. Allow password manager, autofill and paste. Expired session returns here while preserving a safe destination. |
+| Create account | P0 | Name if required by API, email, password, terms/privacy links, Create account | Password guidance before submit, inline validation, email-already-used and weak-password errors. On success show verification-required state; do not pretend an unverified account is ready. |
+| Verify email | P0 | Masked address, resend verification, change email/sign out | Explain that the link may take time; resend cooldown and server error; return to sign-in after verified state. Do not expose whether unrelated addresses have accounts. |
+| Forgot/reset password | P0 | Email request; reset link continuation/new password if deep link is supported | Confirmation that does not reveal account existence, expired/used link path, new-password validation and recoverable server error. |
+| Notification onboarding | P0 | Short value explanation, “Allow notifications” and “Not now” | Ask in context, after the user understands benefit. Request Android runtime permission on explicit tap. On denial, keep onboarding/app usable and show a non-blocking explanation plus a Settings route where OS policy permits. No repeated permission prompt loop. |
+| Inbox | P0 | Newest-first paginated feed; project and channel filters; unread state; priority and event-state labels; refresh | Loading skeleton; first-use empty state with setup guidance; filtered-empty state with Clear filters; offline cached feed with a stale/offline banner; refresh retry; pagination error retry; 401 session recovery; forbidden/removed access state. Preserve scroll/filter state. |
+| Inbox filter controls | P0 | Project picker, channel picker, unread/all toggle if implemented, clear/apply | State is explicit and resettable. Filters never imply membership in projects the user cannot access. Search and richer filtering are P1 only when implemented. |
+| Notification detail | P0 | Full fetched title/body, source/project/channel, occurred/received time, priority, current event state, safe action URL, personal read state, shared acknowledgement | Mark as read on opening or explicit control according to product contract; display that state as “Read by you.” Show acknowledgement actor/time or enabled Acknowledge button to authorized members. Retry fetch, offline cached detail marked stale, deleted/unavailable and forbidden states. Validate HTTPS link and open only after user taps; never auto-open. |
+| Projects | P0 | Only projects available through the user's workspace membership, project name/environment, channel count | Loading, no projects (point to web setup), unavailable/forbidden, fetch error. Mobile does not create projects/API keys unless those endpoints are deliberately implemented; no decorative controls. |
+| Project / channel subscriptions | P0 | Project channels and the signed-in user's subscription state; toggle per channel | Explicit saving/saved/error states; show disabled access separately from unsubscribed; preserve the prior server-confirmed state after a failed save and offer retry. Subscription changes affect future routing, not event acknowledgement or historical access. |
+| Device status | P0 | Current installation label, permission state, server-confirmed registration state, last successful token sync, retry/sync action, test notification only if backed by a real endpoint | Distinguish OS permission from server registration. `Ready` only after API confirms registration. Explain that a registered token with permission denied cannot show system notifications. Registration pending, FCM/token failure, offline, stale sync and signed-out states; do not claim test success before a real result. |
+| Notification preferences | P0 | Per-user notification preference controls supported by the backend; lock-screen preview/privacy choice if available | Show only implemented controls. Permission-off state links to OS Settings and does not claim an in-app toggle can override OS denial. Saving/error states reflect server state. |
+| Account / workspace | P0 | Profile identity, current workspace, allowed workspace switcher if API supports it, links to device/preferences/help/privacy | Workspace switch clears tenant-scoped cached data before showing the next workspace; loading, no membership, forbidden, expired session and API failure. Avoid displaying raw IDs or secrets. |
+| Export / delete account | P0 | Privacy actions and export status; separate destructive delete flow with explicit consequences and confirmation | Require clear confirmation and reauthentication if required by API; state what data deletion means and any documented backup-retention lag. Pending, failure, completed, and session-revoked states; never claim deletion before server confirmation. Keep destructive controls away from ordinary settings actions. |
+| Sign out | P0 | Confirmation if needed, explanation that this device is disconnected, Sign out | Revoke this installation's association on the server before clearing local credentials; if offline, clearly explain revocation is pending/failed and avoid claiming success. Clear account-scoped cache and notification/deep-link state so the next user cannot see it. |
+| Accept invitation | P1 | Invitation workspace, inviter/role, Accept/Decline | Auth required; expired, revoked, already accepted, wrong-account, and server-error states. It is not an MVP active route until invitations ship. |
+| Usage / plan | P1 | Read-only plan/usage status and web billing link | No purchase CTA in Android. Show exact source timestamp and loading/error states. If the backend is absent, omit from active nav or mark “Coming soon”; do not show mock quota progress. |
+
+P2 items—including embedded SDK setup, customer Firebase credential management, third-party recipient identity, iOS/APNs, web push, branded in-app inbox, escalation schedules, and advanced integrations—must not appear as active Android destinations, switches, or working-looking disabled controls. If a roadmap mention is needed, label it plainly “Coming soon” outside the core flow.
+
+## Core user journeys
+
+### First sign-in and device setup (P0)
+
+1. Restore session or sign in/create an account; verification-required accounts see the verify step.
+2. Explain what PingLoom notifications contain and that lock-screen content is minimized. Offer Allow and Not now.
+3. If allowed, request the OS permission; then register/refresh the FCM token with the authenticated API. If denied, keep the user in the app and explain how to enable later in Android Settings.
+4. Show device state independently: permission `Allowed`/`Off` and registration `Syncing`/`Ready`/`Needs attention`. Never use `Ready` until the server confirms registration.
+5. Land in the inbox. With no events, give concise next steps: create a project and send a first event from the web dashboard. Do not expose API-key creation inside Android.
+
+### Open and act on an alert (P0)
+
+1. Inbox notification taps and push taps enter the same authenticated event detail route.
+2. Fetch full event over the user session; push payload contains only an opaque event reference and minimal non-sensitive display information, never full body, credentials, API keys or customer data.
+3. Detail clearly separates event processing state, “Read by you,” and shared acknowledgement. Marking read changes only the current user's state. Acknowledge writes the one shared state; once successful, every member sees “Acknowledged by [name] · [time]”.
+4. Network failure leaves the event readable only from explicitly labeled cached data and disables actions whose server result cannot be confirmed. Retry does not duplicate acknowledgement.
+
+### Permission denied or later disabled (P0)
+
+The inbox, history, refresh, filters, detail and read/acknowledge remain functional with permission denied. A compact persistent status on Devices (and a dismissible/contextual inbox notice, not a blocking dialog) states that system notifications are off and offers “Open notification settings.” If permission is later granted, refresh token registration as needed and wait for server confirmation. Explain that Android may suppress or delay notifications; never promise instant display.
+
+### Token refresh, account change and logout (P0)
+
+FCM token refresh queues an authenticated sync and updates the displayed last-sync only on server confirmation. A failed sync preserves an honest retry state. On sign-out, revoke the device association, delete user-scoped cached data and local credentials, and clear any queued notification navigation. On a later account sign-in, bind only after the new user is authenticated; never let an old account's event be delivered/opened under the new account.
+
+### P1 invite / usage
+
+Add invitation acceptance and read-only usage only when their API endpoints and authorization semantics are real. Invitations must state workspace and role and explain expiry. Usage links to hosted web billing; no native purchase flow. P1 search and richer priority/state filters can be added to Inbox with clear-filter and no-match states when backend query support exists.
+
+## Inbox and detail interaction details
+
+- Sort newest first by authoritative event time; differentiate event occurrence time from server acceptance/receipt time when both are available. Keep stable pagination and restore position after detail/back.
+- Do not equate FCM acceptance with phone display. Use exact event status labels: **Accepted**, **Queued**, **Provider accepted**, **Retrying**, and **Failed**. A helper line may say “PingLoom submitted this notification to Firebase; Android may delay or suppress display.” Never use “Delivered” or “Received on device” without a device acknowledgement signal, which this model does not guarantee.
+- A high-priority event is indicated by both a label and a shape/icon, not red alone. Low/normal/high are urgency metadata, not delivery outcomes. Avoid urgent red for normal events.
+- Optional card swipe can expose Mark read/unread only with a visible hint and an equivalent overflow/detail button. Do not put Acknowledge behind swipe. Keep vertical feed scroll and Android system-back gestures free of horizontal gesture conflicts. Pull-to-refresh has a visible toolbar refresh alternative and announces completion/failure.
+- Acknowledge is a visible button with progress and an idempotent result. Prevent duplicate taps during submission. Failed submission retains the action and explains “Couldn’t acknowledge. Try again.” After confirmed submission, replace it with shared actor/time. If someone else wins the shared acknowledgement race, render their authoritative acknowledgement rather than an error or duplicate.
+- “Open link” is a user action on a validated HTTPS URL. Display the host/domain before leaving the app where feasible. Invalid/unavailable link gets an inline explanation; never auto-open URLs from push or event payload.
+
+## Exact microcopy
+
+### Permission onboarding
+
+**Title:** “Keep important events close”  
+**Body:** “PingLoom can show alerts from your projects. Notification previews stay minimal on your lock screen. You can still use the inbox if notifications are off.”  
+**Primary:** “Allow notifications”  
+**Secondary:** “Not now”
+
+After OS denial: **Title:** “Notifications are off” · **Body:** “Your inbox still works. Turn on PingLoom notifications in Android Settings when you’re ready.” · **Action:** “Open notification settings” · **Other:** “Later”.
+
+### Inbox, device and event states
+
+- First-use inbox: **“Your inbox is ready”** / “Events sent to your subscribed project channels will appear here.” / “Set up a project on the web dashboard.”
+- Filtered empty: **“No events match these filters.”** / “Clear filters”
+- Offline: **“You’re offline. Showing saved events from [time].”** / “Try again”
+- Device sync: **“Registering this device…”**, **“Device ready”** (only after server confirmation), **“Device needs attention”**, **“Notifications are off on this device”**. Supporting copy for confirmed device while permission is denied: “PingLoom has registered this device, but Android is blocking notification display.”
+- Push processing: **“Provider accepted”** / “Firebase accepted PingLoom’s request. This does not confirm that Android displayed it.”
+- Retry: **“Retrying”** / “PingLoom will try again.”
+- Failed: **“Failed to submit”** / “PingLoom could not submit this event to the push provider.”
+- Read state: **“Read by you”** / **“Unread”**
+- Shared acknowledgement action: **“Acknowledge”**; success: **“Acknowledged by [name] · [date/time]”**.
+- Read failure: **“Couldn’t update read status. Try again.”**
+- Acknowledge failure: **“Couldn’t acknowledge. Try again.”**
+- Session expiry: **“Your session expired. Sign in to continue.”** Preserve a safe event destination after login.
+- Access failure: **“You no longer have access to this event.”** Do not disclose whether a cross-workspace ID exists.
+- Generic service failure: **“PingLoom couldn’t load this right now.”** / “Try again”
+- Sign out confirmation: **“Sign out of this device?”** / “This disconnects this device from your PingLoom account.” / “Sign out” / “Cancel”.
+- Delete account: **“Delete your account?”** / “This removes your account access and starts the data deletion process described in our privacy policy. Some backups may remain until their scheduled expiry.”** Use the actual backend deletion and retention contract before shipping this copy.
+
+### Form errors and completion
+
+Use specific, inline copy and preserve entered values when safe: “Enter a valid email address.”, “Password must be at least [server rule].”, “That email or password didn’t work.”, “Couldn’t send the verification email. Try again.” The successful signup state says “Check your email to verify your PingLoom account.” Do not say a notification was sent to the phone merely because API acceptance or FCM provider acceptance succeeded.
+
+## Four realistic sample events for visual design and QA fixtures
+
+Use synthetic, non-sensitive data; label sample fixtures in development. Each item carries title, summary, project/channel, event time, priority, and the provider/event state. These examples are not a claim of delivery.
+
+| Title | Body preview | Project / channel | Priority | Example state |
+|---|---|---|---|---|
+| “Nightly backup completed” | “The 02:00 backup finished. 18.4 GB archived in 6m 12s.” | `Storefront API` / `operations` | Low | Provider accepted |
+| “Payment webhook retrying” | “Order `ord_7K2M` returned HTTP 503. PingLoom will retry the provider submission.” | `Checkout` / `payments` | High | Retrying |
+| “Agent needs approval” | “The deployment agent is waiting for approval before applying the production change.” | `Release assistant` / `approvals` | Normal | Queued |
+| “Worker queue unavailable” | “The image-render queue has no healthy consumers. Last successful check: 09:42 UTC.” | `Media pipeline` / `incidents` | High | Failed |
+
+Keep sample identifiers non-secret and bodies free of real customer names, email addresses, credentials, payment data, or FCM tokens. In lock-screen notification UI, show a generic title/source only by default (for example “PingLoom · Checkout”) and no body; full content is fetched after authenticated app open.
+
+## State and edge-case coverage
+
+Every primary route needs loading, empty, forbidden/access-lost, expired-session, offline/service-error, and retry behavior appropriate to the operation. Do not render an empty list as a blank screen. Distinguish first-use empty from a filter result with no matches. For offline cached data, show its age and stale state; do not let stale cache impersonate server confirmation for mark-read, acknowledgement, subscription, registration or deletion.
+
+| Situation | Expected user experience |
+|---|---|
+| Permission not requested yet | Explain benefit before system prompt; user can continue with “Not now.” |
+| Permission denied / blocked in Settings | Inbox stays fully usable; device screen shows OS state and settings action. Never repeat the system prompt automatically. |
+| FCM token unavailable, refresh failed, or API registration rejected | Registration is `Needs attention`, with safe error and Retry; no “Ready” state. Do not display token content. |
+| API confirms token but OS permission is off | Registration can be `Ready` while separate notification permission says `Off`; supporting text explains no system display. |
+| FCM reports invalid token | Server disables the device; show re-registration/attention after next valid token sync, not a false push success. |
+| App foreground receives a push | Refresh/invalidate the inbox item and avoid duplicate system notification if foreground presentation is suppressed by user preferences. |
+| Push tap arrives while signed out/session expired | Sign in, revalidate workspace access, then fetch event. Clear the pending deep link on sign-out/account switch. |
+| Event deleted, retention-expired, or membership revoked | Safe unavailable/access message; no body or metadata leak. Return to inbox with state preserved. |
+| Acknowledge race across members/devices | Server's single acknowledgement wins; all clients converge on actor/time. Retry is idempotent. |
+| Rotated token or reinstall | Update the installation's registration after authenticated sync; stale tokens are not treated as active. |
+| Workspace switch | Clear prior tenant's local rows before rendering new workspace; re-fetch authorized projects/events. |
+| Account deletion started/failed | Explain server-confirmed result and any documented retention delay; never silently sign out as though deletion succeeded. |
+| Long title/body, large font, landscape, small phone | Wrap content; actions remain reachable; no horizontal scrolling or clipped essential status. |
+
+## Accessibility and gesture requirements
+
+- Every tappable control has at least a 48 × 48 dp hit target and at least 8 dp separation where adjacent. Keep content clear of status/navigation bars and account for IME in auth forms.
+- Provide visible labels for all fields; password show/hide has an accessible name and state. Permit paste, autofill and password managers. Move focus to the first invalid field or a concise validation summary after submit.
+- Use Compose `contentDescription` and `semantics` according to context: hide decorative icons when adjacent text conveys the same information; label standalone icon buttons; expose selected, expanded, disabled and action-in-progress states. Group each event card so TalkBack announces one useful summary in visual order, with separate accessible actions for open/read/acknowledge.
+- Do not communicate unread, priority, permission or event state through color alone. Announce new inbox count/status as one contextual update without unexpectedly moving accessibility focus. Avoid announcing every polling refresh.
+- Respect system font scaling, dark theme, increased contrast where supported, and reduced-motion expectations. Motion should clarify navigation or confirmation and never gate reading; pressed feedback must not shift layout. Verify primary/secondary text contrast independently in both themes.
+- Support Android system Back/predictive Back. Critical actions use buttons, not swipe alone. Swipe-to-refresh and optional row swipe have explicit equivalents. Do not hijack horizontal system-back gestures or nest drag actions in a scrollable event row.
+- Provide real notification channel names/descriptions and system settings routes. Android's notification channel settings are user-controlled; explain this rather than presenting a PingLoom toggle as authoritative when the OS channel is disabled.
+
+## P0 acceptance checklist for Android UX
+
+- Sign up, verification, sign in, reset, session restore/expiry, and sign out have complete loading/error/recovery states.
+- Permission prompt is contextual and Android 13+ compatible; denial preserves inbox use and explains Settings recovery.
+- Device readiness requires server-confirmed registration and is displayed separately from Android notification permission.
+- Inbox paginates chronologically, filters projects/channels, refreshes, works from labeled cache offline, and has first-use and filtered-empty states.
+- Push tap and inbox tap resolve to the same authenticated detail; authorization is checked before loading event content.
+- Read is per-user; acknowledgement is shared, idempotent, race-safe in UI, and shows actor/time.
+- Status vocabulary matches API semantics and never says “delivered.”
+- Lock-screen content is minimal; payload contains no sensitive body or credential; full event is fetched authenticated after open.
+- Token refresh, account switching and logout revoke/replace device association without cross-account cached content.
+- Project/channel subscriptions reflect the signed-in user's server state; inaccessible projects never appear.
+- Account export/deletion controls match implemented endpoints and documented retention.
+- P1 and P2 controls are not active before their backends/scope exist.
+- Screen reader order, labels, live updates, 48 dp targets, 4.5:1 text contrast, large font, both themes, small phone, landscape, and gesture alternatives are reviewed on real devices/emulators before M3 completion.
+
+## Rationale / implementation boundary
+
+These choices preserve the PRD's central distinction between an event accepted by the API, a request accepted by FCM, and a notification actually displayed by Android. They also keep the two state models legible: personal reads and shared acknowledgement. Permission, token registration, workspace authorization and cached data are separate concerns in the interface because the system treats them separately. The four-destination navigation emphasizes the daily inbox while keeping device health visible; account and destructive operations remain away from alert actions. P1 stays out of the MVP path until invitations, usage/billing, and advanced search have real backend support; P2 remains a separate future product with no false promise in the shared PingLoom receiver app.

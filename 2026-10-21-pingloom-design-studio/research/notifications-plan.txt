@@ -1,0 +1,124 @@
+# PingLoom notification experience plan
+
+**Scope:** Product A notification experience across the Android app, the shared team inbox, and the server-side event status surface. This is a product and interaction plan; it does not define implementation details beyond the boundaries needed to preserve the behavior in the PRD.
+
+## Experience principles
+
+1. **The inbox is authoritative.** Push is a timely pointer to an event, not the event record. The app fetches full details through the authenticated user API after opening. Cached inbox content can support offline review, but stale content is identified as such.
+2. **Keep delivery claims precise.** `accepted` means the API validated and committed the event; `queued` means it awaits routing; `provider_accepted` means FCM accepted a send request. None means the phone displayed it. `seen` is personal to each user. `acknowledged` is shared across the event and its workspace.
+3. **Treat privacy as the default.** Lock-screen copy omits customer titles, bodies, identifiers, URLs, and custom data unless a user explicitly enables a detail preview. Notification payloads contain only the minimum routing reference needed to fetch the event after authentication.
+4. **Keep three controls separate.** Project channel subscription decides whether the user is an eligible recipient. PingLoom notification preferences decide whether/when the app should notify. Android notification permission and OS notification channels decide whether/how Android presents eligible notifications. One setting must never be represented as a substitute for another.
+5. **Never promise urgency or arrival.** Priority expresses sender intent and can influence FCM transport and local presentation. Android, FCM, device power/network state, and user settings can delay or suppress a notification.
+
+## Three meanings of “channel” and priority
+
+- **PingLoom project channel** (for example `production`): a server-defined event routing category with a per-user subscription. A user receives an event only when they are an authorized workspace member and subscribed to that project channel. This is the recipient filter; it is not an Android setting.
+- **Android notification channel** (Android calls these categories in Settings): an app-defined, stable system control for sound, interruption, and visibility. Users have final control. Use a small fixed set based on PingLoom priority, not one OS channel per project or customer-created slug. Android channel behavior cannot be changed after creation, so IDs, names, and initial importance need deliberate versioning and migration policy.
+- **PingLoom event priority**: `low | normal | high`, set by the API caller. Map this to transport/display defaults, but do not equate it with Android channel importance or bypass user settings. In particular, `high` alone does not mean “urgent-hours exception.”
+
+## Routing decision flow
+
+1. **Accept and persist:** Validate the request, quota, and `(project_id, idempotency_key)` record. Commit the event and outbox together before returning `202`. An identical replay returns the original event; a key reused with a different payload returns `409`. Neither retrying the worker nor replaying the request creates a second event.
+2. **Resolve eligible recipients:** From event project/channel, select workspace members with access and an enabled PingLoom channel subscription. Apply any user/project notification preferences and (in P1) quiet-hours policy. Do not infer subscription from Android permission or OS channel status.
+3. **Resolve active devices:** Create at most one delivery per `(event_id, device_id)` for each active registered device. A logged-out, revoked, or disabled device is ineligible. Retry transient FCM failures with bounded backoff; dead-letter terminal failures. Disable a device when FCM identifies its token as invalid. An invalid token disables that device only; it must not log the user out or revoke other devices.
+4. **Submit a minimal push:** Include an opaque event reference and minimal routing context only. Do not include API keys, session tokens, FCM tokens, full `data`, action URLs, customer body, or other secrets. The notification title/body shown by default are generic. FCM acceptance updates provider submission state, never a “delivered” state.
+5. **Present once:** In background, let the platform tray notification open a PingLoom event deep link. In foreground, refresh the inbox and show an in-app/system notification only when the user preference allows it and the same event is not already visibly presented. Use a stable event notification identifier/tag so retried or duplicate pushes update/coalesce one notification rather than stacking copies.
+6. **Open safely:** Require a valid user session, fetch the event from `GET /v1/events/{id}`, and verify current workspace membership before rendering. If signed out or expired, send the user through sign-in, then resume the deep link only after authorization. Never fetch or auto-open `action_url` as part of push handling.
+7. **Record actions separately:** Opening the detail marks `seen` for the current user when the authenticated read succeeds. Acknowledge is a deliberate action, shared across the event; show who acknowledged and when. Repeating the same acknowledgement is safe and does not create a second shared acknowledgement.
+
+## Channel and notification type matrix
+
+The names below describe app-owned Android channels. Use localized labels and stable IDs. The same event can still appear in the authenticated inbox if notifications are denied, muted, or filtered from the tray.
+
+| PingLoom event type / priority | Recipient eligibility | Android channel and FCM intent | Default tray content | In-app behavior |
+|---|---|---|---|---|
+| Low | Authorized member subscribed to event’s project channel; user has not muted this type | `pingloom_low`; FCM normal priority. Android `IMPORTANCE_LOW` or equivalent non-interruptive default. | **PingLoom update** / **New activity is available in your inbox.** No sender title/body on lock screen. | Add to inbox without interruptive foreground alert by default; unread marker and low-priority label. |
+| Normal | Same eligibility | `pingloom_normal`; FCM normal priority. Android default importance. | **PingLoom update** / **A new event is waiting in your inbox.** Generic by default. | Refresh inbox; optional foreground notification per user preference. |
+| High | Same eligibility; quiet-hours exception is not implied | `pingloom_high`; FCM high priority only when it is a genuinely time-sensitive, user-visible alert. Android high/default importance as initially created, subject to user control. | **PingLoom alert** / **A high-priority event is waiting in your inbox.** Generic by default. | Clearly show High badge, timestamp, project/channel and actions. During quiet hours, suppress unless the user explicitly opted into the separate urgent exception category. |
+| P1 opted-in urgent category (distinct from `high`) | Authorized member subscribed to the relevant channel **and** explicitly opted into urgent quiet-hours exceptions | Dedicated stable app channel such as `pingloom_urgent`; FCM high priority only for qualifying visible alerts. User can still silence/disable it in OS settings and DND can still affect presentation. | **PingLoom urgent alert** / **An opted-in urgent event is waiting in your inbox.** No sensitive event text by default. | Indicate that the urgent exception preference caused an interruption. Settings provide an easy opt-out. If the user has not opted in, apply normal quiet-hours suppression. |
+| Retry / provider failure | Not a new event recipient notification by default | No extra push for each retry. Delivery health is an operator/dashboard concern; avoid repeated user alerts. | None. | Preserve event in inbox. Show send/provider status in event detail or delivery health view, not as a duplicate event. |
+| Acknowledged / seen update | Existing event; no new event fanout | No push by default for a read or shared acknowledgement. | None. | Per-user Seen status; one shared Acknowledged state with actor and timestamp. |
+
+**OS channel notes:** Do not create a channel per project channel slug: that would multiply OS settings, expose tenant taxonomy, and make subscription controls hard to understand. Let Android users alter sound/importance/visibility at the OS level; PingLoom settings should link to app notification settings where appropriate and reflect the observed permission/channel state. Never tell users that enabling an Android channel subscribes them to a project feed.
+
+## Content templates
+
+### Default privacy-preserving notification
+
+- **Low:** `PingLoom update` — `New activity is available in your inbox.`
+- **Normal:** `PingLoom update` — `A new event is waiting in your inbox.`
+- **High:** `PingLoom alert` — `A high-priority event is waiting in your inbox.`
+- **Opted-in urgent exception:** `PingLoom urgent alert` — `An opted-in urgent event is waiting in your inbox.`
+- **Visible context, where space permits:** project name and event time can appear in the authenticated inbox; only include them in a notification if the user opted into previews and the data is safe to expose.
+- **Never include by default:** event title/body, `data`, `action_url`, personal data, workspace secrets, API keys, access/refresh tokens, or device tokens.
+
+### Optional full preview
+
+Only after a deliberate user choice, such as **Show event details in notifications**, may the app display a sanitized sender title and a short, bounded body. Make the privacy tradeoff explicit. Do not treat the app preference as overriding OS lock-screen privacy settings. Android private lock-screen visibility should have a generic public version; the notification’s expanded content still requires an authenticated fetch for authoritative details. Do not put complete customer content in the remote payload just to support previews.
+
+### Event detail and team inbox
+
+Show sender title/body and validated fields after authenticated fetch. Keep priority, project, project channel, source/event time, current processing state, the user’s Seen state, and shared Acknowledged state visually distinct. Render `action_url` as a user-invoked **Open link** action only after HTTPS and URL validation; present the host/domain before leaving PingLoom, use the system browser/custom tab, and never auto-launch it from a push or deep link. The server must never fetch customer URLs.
+
+## State language and edge-state microcopy
+
+| State / trigger | Recommended microcopy | Interaction |
+|---|---|---|
+| Android notification permission not requested | **Turn on notifications?** “Get alerts for channels you follow. You can still use your inbox if you choose Not now.” | Ask in context after the user understands the inbox, not on cold launch. Explain first; invoke the system permission prompt from a clear action. |
+| Permission denied | **Notifications are off** — “Your inbox still works. Turn on notifications in Android settings to see alerts outside PingLoom.” | Keep inbox, refresh, and detail usable. Offer **Open notification settings**. If Android won’t show the permission dialog again, route to app settings and state why. Do not repeatedly prompt. |
+| Permission allowed, an OS priority channel muted | **This alert type is muted in Android settings** — “Events can still appear in your PingLoom inbox.” | Link directly to app notification settings. Show each channel state if observable; do not present this as a subscription issue. |
+| No channel subscriptions | **Choose channels to follow** — “You’re not subscribed to any project channels yet.” | Offer project/channel settings if the user has access. Do not show “notifications are broken.” |
+| Channel not subscribed | **Not receiving this channel** — “Subscribe to `production` to receive its events.” | Subscription change is explicit and separate from Android permission. |
+| Device registration pending | **Connecting this device…** — “Ready appears after PingLoom confirms registration.” | Retry registration; no `Ready` until server confirms. Never claim FCM works from a locally cached token alone. |
+| FCM configuration missing in local/test environment | **Real push is unavailable** — “Firebase credentials are not configured. Simulated sends do not reach a phone.” | Label any mock event **Simulation**. Do not report a successful real push. |
+| API accepted | **Accepted** — “PingLoom saved this event.” | `202` only after event + outbox commit. This does not mean a push was sent. |
+| Waiting in durable queue | **Queued** — “PingLoom is preparing delivery.” | Provide event detail/status refresh. |
+| FCM accepted send | **Submitted to FCM** — “The push service accepted the request. This does not confirm that a device displayed it.” | Use `provider_accepted` in details. Never label this Delivered. |
+| Retry scheduled | **Retrying** — “Push submission failed temporarily. PingLoom will retry.” | Show last attempt/retry time where available; avoid repeated pushes for retries. |
+| Terminal failure | **Push failed** — “PingLoom could not submit this event after retrying. The event remains in the inbox.” | Give actionable reason when safe; do not expose provider internals or tokens. |
+| No active recipient/device | **No active devices to notify** — “The event is saved, but no subscribed member has an active device.” | Explain next step: subscribe a member or sign in/register a device. Keep event accessible in inbox. |
+| Device token invalid | **This device needs to reconnect** — “PingLoom disabled an expired device registration. Sign in and register this device again.” | Disable only that device token. Do not silently change account state or log the user out. |
+| User signed out / session expired on tap | **Sign in to view this event** — “The notification is private to your PingLoom account.” | Authenticate and re-check workspace authorization before resuming event navigation. |
+| Event no longer accessible | **Event unavailable** — “You may no longer have access to this workspace or event.” | Avoid confirming another tenant’s event existence. Return to the user’s workspace list. |
+| Offline with cached event | **Offline — showing saved details** — “Last updated [time]. Reconnect to refresh status.” | Allow cached read; visibly mark it stale. Queue no destructive action as success. Retry refresh when online. |
+| Offline without cached detail | **You’re offline** — “Reconnect to load this event. It remains in your inbox when you’re online.” | Keep event identity minimal; provide Retry. Do not show a blank error or false read/ack result. |
+| Repeated event collapsed by P1 dedupe | **Repeated event updated** — “This event was updated with the latest occurrence at [time].” | Preserve first-seen / latest-occurrence context and occurrence count if useful; do not silently erase history. |
+| Acknowledgement already exists | **Acknowledged by [name] · [time]** | Treat repeated acknowledgement requests as the same shared state. User may still mark their own event Seen independently. |
+
+## Foreground, background, offline, and permission behavior
+
+- **Foreground:** FCM receipt refreshes the inbox. By default, avoid a system tray alert for an event already open and visible. If foreground alerts are enabled, post at most one local/system notification using the same stable event identifier used for push deduplication. Do not both render an FCM system notification and manually render a second local one.
+- **Background or app process absent:** A tap opens the app and resolves the event through authenticated API fetch. If the session expired, sign in, then resume only after membership verification. The launch target is the event detail, not an untrusted external `action_url`.
+- **Permission denied:** The app still supports inbox list, refresh, cached details, subscriptions, and acknowledgement while online. Make the platform limitation visible in device status and offer a Settings path. Never disable the inbox or present an alert as successfully delivered.
+- **Offline:** The inbox may show cached events with last-sync time. Background push can be delayed or unavailable without connectivity; tap behavior must tolerate stale/empty cache and retry. Once online, sync from the API and reconcile event state. A successful local tap/open is not proof of provider or display delivery.
+- **Token rotation/account change:** Upsert refreshed token to the currently authenticated account, revoke device association at logout, and prevent notifications for the previous account after logout. If server/provider reports an invalid token, mark that device inactive; the user’s account remains signed in unless they chose logout.
+- **Do Not Disturb / battery restrictions:** State that Android controls may silence or defer presentation. PingLoom must not suggest that high priority bypasses DND, user channel settings, or platform policy.
+
+## Quiet hours and urgent exception (P1)
+
+Quiet hours are a PingLoom recipient preference, with explicit local timezone and a clear schedule. They suppress user notifications, not event ingest or inbox storage. Normal/low/high priority all remain subject to quiet hours by default. A separate **Allow opted-in urgent alerts during quiet hours** toggle must be off by default, explain that it can interrupt rest, and apply only to an explicitly classified urgent category selected by the recipient. A sender setting `priority: high` must not automatically claim this exception. Show the user which notifications can pass quiet hours, allow per-channel opt-in/out, and preserve OS notification controls as final authority. Queue delivery/resume strategy should be explicit in implementation; event detail/inbox should make clear that an event was held by quiet hours rather than lost. Do not imply emergency-grade delivery.
+
+## Deduplication versus idempotency
+
+These solve different problems and must be labeled differently:
+
+- **API idempotency (MVP):** caller-supplied idempotency key, scoped to project, with request hash, retained 24 hours. Same key + same payload resolves to the original event; same key + different payload returns `409`. This prevents duplicate creation from client/network retries.
+- **P1 event deduplication:** a separate, explicit event-key/rule feature that may group repeated accepted events. It must not reuse the API idempotency key silently. Define the grouping window, display of first/latest timestamps and count, and acknowledgement semantics before activation. In the inbox, clearly indicate that repeats were grouped. Keep individual occurrence auditability available to authorized users.
+- **Push/display dedupe:** a client-side/platform notification identifier suppresses duplicate tray cards for the same event when worker retries or provider delivery repeats. It does not delete or merge the durable event.
+
+## iOS/APNs future boundary (P2)
+
+iOS is explicitly P2. Keep product-level concepts portable—priority, project channel subscription, privacy preference, quiet hours, event identity, and provider-neutral delivery attempt—but do not claim an iOS client, APNs push, or shared push semantics in Product A. A future APNs adapter needs its own platform token lifecycle, provider status semantics, permission state, presentation behavior, payload budget, and tests. APNs is best-effort; notifications may be delayed, coalesced, or reordered. Apple authorization and lock-screen settings remain user-controlled. Preserve the same generic lock-screen copy and authenticated fetch model; avoid designing the backend around FCM-only token or delivery fields as the universal device contract.
+
+## Evidence and constraints
+
+- **PRD source of truth:** §5–6 (Journeys A/B and Android screen/notification behavior), §8–10 (functional requirements, event model/statuses/security), §11 (API), §12 (data model), §14 (privacy/operations), §17 (milestones), §18 (acceptance), and §20 (vendor verification). Repository constraints also require minimal FCM payloads, Android 13+ permission handling, usable inbox after denial, server-confirmed `Ready`, device revocation on logout, HTTPS-only validated action links, no SSRF, and no “delivered” claim based on provider acceptance.
+- **Android notification permission:** Android 13+ requires `POST_NOTIFICATIONS` runtime permission for non-exempt notifications; Android recommends asking after the user understands the feature. Denial must be supported in-app. [Android Developers: Notification runtime permission](https://developer.android.com/develop/ui/compose/notifications/notification-permission)
+- **Android system channels:** Android 8.0+ requires notifications to be assigned to channels; users control channel behavior, and behavior cannot be changed after the channel is created. [Android Developers: Create and manage notification channels](https://developer.android.com/develop/ui/compose/notifications/channels)
+- **Lock-screen privacy:** Android supports private visibility with a generic public version, as well as public/secret visibility. [Android Developers: Create a notification](https://developer.android.com/develop/ui/compose/notifications/create-notification)
+- **FCM priority:** FCM supports normal and high transport priority. Normal delivery may be delayed while backgrounded/Doze; high priority is intended for time-sensitive, user-visible content and can be deprioritized if it does not lead to user-visible outcomes. [Firebase: Set and manage Android message priority](https://firebase.google.com/docs/cloud-messaging/android-message-priority) and [Firebase: Set the priority of a message](https://firebase.google.com/docs/cloud-messaging/customize-messages/setting-message-priority)
+- **FCM foreground/background handling:** Background notification messages are shown by the SDK/system tray, while foreground handling belongs to app code; mixed notification/data payload behavior differs by app state. This informs the no-duplicate presentation rule. [Firebase: Receive messages in Android apps](https://firebase.google.com/docs/cloud-messaging/android/receive-messages) and [Firebase: Message types](https://firebase.google.com/docs/cloud-messaging/customize-messages/set-message-type)
+- **Future Apple behavior:** Apple requires notification authorization for user-visible alerts and lets users adjust settings; APNs is best-effort and may store/coalesce notifications while a device is offline. [Apple: Asking permission to use notifications](https://developer.apple.com/documentation/usernotifications/asking-permission-to-use-notifications) and [Apple: Setting up a remote notification server](https://developer.apple.com/documentation/usernotifications/setting-up-a-remote-notification-server)
+- **Design guidance used:** UI/UX Pro Max `ui-ux-pro-max` skill; queried mobile notification permission/privacy UX and Jetpack Compose guidance. The latter query returned no stack-specific matches, so this plan relies on the PRD and official platform docs for notification behavior.
+
+Platform behavior changes over time. Recheck target API policy, Firebase SDK versions, and APNs behavior at implementation time, as required by PRD §20.

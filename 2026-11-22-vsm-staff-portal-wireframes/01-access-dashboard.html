@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Access and Dashboard Wireframes</title>
+<link rel="stylesheet" href="kit/kit.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+  /* Screen-specific layout only. Kit tokens, no new colours. */
+  .login-top { display: flex; flex-direction: column; gap: var(--s2); padding-top: var(--s8); }
+  .app-mark { width: 56px; height: 56px; border-radius: var(--r-lg); background: var(--accent); color: var(--on-accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-15); letter-spacing: .04em; }
+  .login-top h1 { margin: var(--s2) 0 0; font-size: var(--fs-24); font-weight: 700; }
+  .or-line { display: flex; align-items: center; gap: var(--s3); color: var(--text-3); font-size: var(--fs-13); }
+  .or-line::before, .or-line::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .pw-wrap { position: relative; }
+  .pw-wrap .input { padding-right: 52px; }
+  .pw-wrap .icon-btn { position: absolute; right: 2px; top: 2px; color: var(--text-2); }
+  .ib-wrap { position: relative; }
+  .ib-wrap .count { position: absolute; top: 2px; right: 0; height: 18px; min-width: 18px; font-size: 11px; pointer-events: none; }
+  .hero-ic { width: 72px; height: 72px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; }
+  .hero-ic svg { width: 36px; height: 36px; }
+  .hero-ic.ok { background: var(--present-bg); color: var(--present); }
+  .ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s3); font-size: var(--fs-15); color: var(--text-2); }
+  .ticks li { display: flex; gap: var(--s3); align-items: flex-start; }
+  .ticks li svg { flex: none; color: var(--accent); margin-top: 2px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .steps li { display: flex; gap: var(--s3); align-items: center; min-height: 56px; border-top: 1px solid var(--border); font-size: var(--fs-15); }
+  .steps li:first-child { border-top: 0; }
+  .steps .n { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; font-size: var(--fs-13); font-weight: 600; flex: none; }
+  .steps .ui { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; color: var(--text); }
+  .safari-bar { flex: none; display: flex; justify-content: space-around; align-items: center; height: 50px; padding-bottom: 6px; background: var(--surface-2); border-top: 1px solid var(--border); color: var(--accent); }
+  .safari-url { flex: none; margin: 0 var(--s4) var(--s2); padding: var(--s2) var(--s3); border-radius: var(--r-md); background: var(--surface-2); font-size: var(--fs-13); color: var(--text-2); text-align: center; }
+  .matrix th:not(:first-child), .matrix td:not(:first-child) { text-align: center; width: 64px; padding-left: 0; padding-right: 0; }
+  .matrix td { padding-top: 10px; padding-bottom: 10px; }
+  .matrix td:first-child { font-size: var(--fs-15); }
+  .matrix .yes { color: var(--present); }
+  .matrix .no { color: var(--text-3); }
+  .matrix svg { width: 18px; height: 18px; }
+  .stat .label svg { flex: none; }
+  .setting-trail { font-size: var(--fs-15); color: var(--text-2); text-align: right; }
+  .switch-row { cursor: pointer; }
+  button.date-field { width: 100%; text-align: left; color: var(--text); }
+</style>
+</head>
+<body class="wf-page">
+
+<header class="wf-header">
+  <a class="wf-back" href="index.html"><i data-lucide="arrow-left"></i> All wireframes</a>
+  <h1>01 · Access &amp; dashboard</h1>
+  <div class="wf-tools">
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-frame">Frame: on</button>
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-theme">Theme: auto</button>
+  </div>
+</header>
+
+<div class="wf-intro">
+  <h2>Access &amp; dashboard</h2>
+  <p>How the 3 admin users get in (password the first time, then Face ID through a passkey), the one-time "add to home screen" helper for iPhone Safari, the Home dashboard and inbox, and the admin screens behind More: settings, users and roles, and the audit log. All names and amounts are invented. Today is Monday, 23 Nov 2026.</p>
+</div>
+
+<!-- ================================================================== -->
+<div class="wf-section"><h2>Sign in</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 01-01 Login ============ -->
+  <section class="wf-screen" id="s01-01">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:18</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <div class="app-body">
+        <div class="login-top">
+          <div class="app-mark" aria-hidden="true">VSM</div>
+          <h1>VSM Staff</h1>
+          <p class="muted mt0" style="margin-bottom:0">Attendance, salary and pay for store staff. Admin users only.</p>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" data-toast="Look at your iPhone to sign in"><i data-lucide="scan-face"></i>Sign in with Face ID</button>
+        <div class="or-line">or use your password</div>
+        <form class="form" onsubmit="return false">
+          <div class="field">
+            <label for="l1-u">Username</label>
+            <input class="input" id="l1-u" value="padma" autocomplete="username" autocapitalize="none">
+          </div>
+          <div class="field">
+            <label for="l1-p">Password</label>
+            <div class="pw-wrap">
+              <input class="input" id="l1-p" type="password" value="sample-pass" autocomplete="current-password">
+              <button type="button" class="icon-btn" aria-label="Show password"><i data-lucide="eye"></i></button>
+            </div>
+          </div>
+          <a class="btn btn-secondary btn-lg btn-block" href="#s01-02">Sign in</a>
+        </form>
+        <p class="t13 muted center" style="margin:0">Forgot your password? Ask the Owner to reset it from Settings &rsaquo; Users.</p>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-01</span>
+      <h3>Sign in</h3>
+      <p>Face ID (a passkey stored on the phone) is the main way in. The password form is the fallback and the only way for the very first sign-in.</p>
+      <ul>
+        <li><b>Sign in with Face ID</b>: the iPhone asks for Face ID, then opens Home (01-04). On Android it is the fingerprint prompt.</li>
+        <li><b>Sign in</b> with the password: on the first sign-in from this phone it goes to 01-02 (set up Face ID); after that, straight to Home.</li>
+        <li><b>Eye button</b> shows the password. No "create account": the Owner creates users (01-08).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 01-01b Login error ============ -->
+  <section class="wf-screen" id="s01-01b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:19</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <div class="app-body">
+        <div class="login-top">
+          <div class="app-mark" aria-hidden="true">VSM</div>
+          <h1>VSM Staff</h1>
+          <p class="muted mt0" style="margin-bottom:0">Attendance, salary and pay for store staff. Admin users only.</p>
+        </div>
+        <div class="banner banner-error">
+          <i data-lucide="scan-face"></i>
+          <div class="grow"><div class="b-title">Face ID didn't recognise you</div><div class="t15">Try again, or sign in with your password below.</div></div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" data-toast="Look at your iPhone to sign in"><i data-lucide="scan-face"></i>Try Face ID again</button>
+        <div class="or-line">or use your password</div>
+        <form class="form" onsubmit="return false">
+          <div class="field">
+            <label for="l2-u">Username</label>
+            <input class="input" id="l2-u" value="padma" autocomplete="username" autocapitalize="none">
+          </div>
+          <div class="field has-error">
+            <label for="l2-p">Password</label>
+            <div class="pw-wrap">
+              <input class="input" id="l2-p" type="password" value="wrong" autocomplete="current-password" aria-describedby="l2-err">
+              <button type="button" class="icon-btn" aria-label="Show password"><i data-lucide="eye"></i></button>
+            </div>
+            <span class="error-text" id="l2-err"><i data-lucide="circle-alert" class="ic-sm"></i>Wrong username or password. 2 tries left, then sign-in locks for 15 minutes.</span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-lg btn-block" data-toast="Checking...">Sign in</button>
+        </form>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-01b</span>
+      <h3>Sign in: error states</h3>
+      <p>Both failure types on one screen for review. In the app only the one that happened shows.</p>
+      <ul>
+        <li><b>Face ID failed or was cancelled</b>: a banner above the button, with "Try Face ID again". The password form stays open.</li>
+        <li><b>Wrong password</b>: the message sits under the field and says how many tries are left. It never says which of the two was wrong.</li>
+        <li>After 5 wrong tries the form locks for 15 minutes and the Owner sees a row in the audit log (01-09).</li>
+      </ul>
+      <div class="wf-note">Proposal: 5 tries, 15-minute lock. Owner to confirm.</div>
+    </div>
+  </section>
+
+  <!-- ============ 01-02 Set up Face ID ============ -->
+  <section class="wf-screen" id="s01-02">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:20</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <div class="app-body" style="padding-top:var(--s10)">
+        <div class="hero-ic"><i data-lucide="scan-face"></i></div>
+        <div>
+          <h1 class="t24" style="font-size:var(--fs-24);margin:0 0 var(--s2)">Use Face ID next time?</h1>
+          <p class="muted" style="margin:0">Hi Padma. Turn on Face ID and you won't need your password on this iPhone again.</p>
+        </div>
+        <ul class="ticks">
+          <li><i data-lucide="shield-check"></i><span>Your face stays on this phone. The app only keeps a passkey, never a photo.</span></li>
+          <li><i data-lucide="key-round"></i><span>Your password still works if Face ID fails or you use another phone.</span></li>
+          <li><i data-lucide="smartphone"></i><span>You can remove this phone later in Settings &rsaquo; Users.</span></li>
+        </ul>
+      </div>
+      <div class="action-bar" style="flex-direction:column">
+        <a class="btn btn-primary btn-lg" href="#s01-02b"><i data-lucide="scan-face"></i>Turn on Face ID</a>
+        <a class="btn btn-ghost" href="#s01-04">Not now</a>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-02</span>
+      <h3>First run: set up Face ID</h3>
+      <p>Shown once, right after the first password sign-in on a phone that has no passkey yet.</p>
+      <ul>
+        <li><b>Turn on Face ID</b>: iOS shows its own "Save a passkey" prompt. When it succeeds, 01-02b.</li>
+        <li><b>Not now</b> goes to Home (01-04). The prompt comes back once more after 7 days, then only from Settings.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 01-02b Face ID success ============ -->
+  <section class="wf-screen" id="s01-02b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:21</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <div class="app-body" style="padding-top:var(--s10)">
+        <div class="hero-ic ok"><i data-lucide="circle-check"></i></div>
+        <div>
+          <h1 style="font-size:var(--fs-24);margin:0 0 var(--s2)">Face ID is on</h1>
+          <p class="muted" style="margin:0">Next time, open VSM Staff and look at your phone.</p>
+        </div>
+        <h2 class="section-title">Phones that can sign in as Padma</h2>
+        <div class="list inset">
+          <div class="row">
+            <i data-lucide="smartphone"></i>
+            <div class="row-main"><div class="row-title">iPhone (this phone)</div><div class="row-sub">Face ID · added today, 10:21</div></div>
+            <span class="badge badge-accent">New</span>
+          </div>
+        </div>
+        <p class="t13 muted" style="margin:0">Added to the audit log: "Padma (Accountant) added a passkey".</p>
+      </div>
+      <div class="action-bar">
+        <a class="btn btn-primary btn-lg" href="#s01-04">Go to Home</a>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-02b</span>
+      <h3>First run: Face ID set up</h3>
+      <p>Confirms the passkey was saved and lists the phones that can sign in for this user, so a lost phone is easy to spot.</p>
+      <ul>
+        <li><b>Go to Home</b> opens 01-04. On mobile Safari (not installed) the install helper 01-03 shows first, once.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 01-03 Install helper ============ -->
+  <section class="wf-screen" id="s01-03">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:21</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <div class="app-body">
+        <div class="skel skel-line" style="width:55%;height:22px"></div>
+        <div class="stats"><div class="stat"></div><div class="stat"></div></div>
+        <div class="card" style="height:200px"></div>
+      </div>
+      <div class="safari-url">staff.example.in</div>
+      <div class="safari-bar" aria-hidden="true"><i data-lucide="chevron-left"></i><i data-lucide="chevron-right"></i><i data-lucide="share"></i><i data-lucide="book-open"></i><i data-lucide="copy"></i></div>
+
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="inst-t" style="bottom:56px;border-radius:var(--r-xl)">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="inst-t">Add VSM Staff to your Home Screen</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-bottom:var(--s4)">
+          <p class="t15 muted" style="margin:0">It then opens full screen like an app, and Face ID sign-in and alerts work best from there.</p>
+          <ol class="steps">
+            <li><span class="n">1</span><span>Tap <span class="ui"><i data-lucide="share" class="ic-sm"></i>Share</span> in the Safari bar below</span></li>
+            <li><span class="n">2</span><span>Scroll down, tap <span class="ui"><i data-lucide="square-plus" class="ic-sm"></i>Add to Home Screen</span></span></li>
+            <li><span class="n">3</span><span>Tap <span class="ui">Add</span>, then open VSM Staff from its icon</span></li>
+          </ol>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-toast="OK. We won't show this again.">Don't show again</button>
+            <button class="btn btn-primary" data-toast="We'll remind you next time">Got it</button>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-03</span>
+      <h3>Install on your iPhone (helper)</h3>
+      <p>iOS has no install button, so the app explains the 3 Safari steps. It sits just above Safari's bottom bar, where the Share button is.</p>
+      <ul>
+        <li>Shown only in <b>mobile Safari</b>, only when the app is <b>not</b> already running from the Home Screen, and at most once per phone after sign-in.</li>
+        <li><b>Got it</b> closes it; it can come back once a week. <b>Don't show again</b> stops it. It is always reachable from More &rsaquo; "Install on this phone".</li>
+        <li>On Android Chrome the browser's own "Install app" prompt is used instead.</li>
+      </ul>
+      <div class="wf-note">Alerts (push notifications) need iOS 16.4+ and the app on the Home Screen. Do we want alerts at all, or is the Home inbox enough?</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================================================================== -->
+<div class="wf-section"><h2>Home</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 01-04 Home dashboard ============ -->
+  <section class="wf-screen" id="s01-04">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:24</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar large">
+        <div class="appbar-row">
+          <div>
+            <div class="meta">Monday, 23 Nov 2026</div>
+            <h1>Good morning, Padma</h1>
+          </div>
+          <a class="icon-btn ib-wrap" href="#s01-05" aria-label="Inbox, 23 items"><i data-lucide="inbox"></i><span class="count alert">23</span></a>
+        </div>
+      </header>
+
+      <div class="app-body">
+        <a class="row" href="03-attendance.html" style="border:1px solid var(--border);border-radius:var(--r-lg);min-height:52px">
+          <i data-lucide="fingerprint" class="c-2"></i>
+          <div class="row-main"><div class="row-title t15">Uploaded Sun 22 Nov</div><div class="row-sub">Biometric file · 2–21 Nov · Padma</div></div>
+          <span class="btn btn-secondary btn-sm"><i data-lucide="upload" class="ic-sm"></i>Upload</span>
+        </a>
+
+        <h2 class="section-title">Attendance · Sat 21 Nov</h2>
+        <div class="stats">
+          <a class="stat" href="03-attendance.html">
+            <span class="label"><i data-lucide="circle-check" class="ic-sm c-present"></i>Present</span>
+            <span class="value num">61 <small>/ 83</small></span>
+            <span class="delta">Punched in and out, 8 h+</span>
+          </a>
+          <a class="stat" href="03-attendance.html">
+            <span class="label"><i data-lucide="clock" class="ic-sm c-flagged"></i>Short</span>
+            <span class="value num">6</span>
+            <span class="delta">6–8 h · counted present</span>
+          </a>
+          <a class="stat" href="03-attendance.html">
+            <span class="label"><i data-lucide="circle-dashed" class="ic-sm"></i>Incomplete</span>
+            <span class="value num">9</span>
+            <span class="delta">No out-punch · fix it</span>
+          </a>
+          <a class="stat" href="03-attendance.html">
+            <span class="label"><i data-lucide="circle-x" class="ic-sm c-absent"></i>Absent</span>
+            <span class="value num">4</span>
+            <span class="delta">+ 3 on Leave</span>
+          </a>
+        </div>
+
+        <h2 class="section-title">Needs attention</h2>
+        <div class="list inset">
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>9</span>
+            <div class="row-main"><div class="row-title">Incomplete punches</div><div class="row-sub">Fix before pay day · oldest 13 Nov</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-neutral"><i data-lucide="fingerprint"></i>3</span>
+            <div class="row-main"><div class="row-title">Unmatched device codes</div><div class="row-sub">131, 184, 204 punch daily, no name</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-flagged"><i data-lucide="clock"></i>6</span>
+            <div class="row-main"><div class="row-title">Short days to review</div><div class="row-sub">Ramesh to talk to each person</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+        <p class="t13 muted center" style="margin:0">Scroll for pay day, Sunday and leave. See 01-04b.</p>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04" aria-current="page"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><span class="tb-dot"><i data-lucide="calendar-check"></i></span>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <button data-open="more-04"><i data-lucide="menu"></i>More</button>
+      </nav>
+
+      <div class="sheet" id="more-04" role="dialog" aria-modal="true" aria-label="More" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>More</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <a class="row compact" href="04-sundays-leave.html"><i data-lucide="calendar-range"></i><div class="row-main"><div class="row-title">Sundays &amp; batches</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="04-sundays-leave.html"><i data-lucide="calendar-heart"></i><div class="row-main"><div class="row-title">Leave</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="05-payroll-payslips-ledger.html"><i data-lucide="file-text"></i><div class="row-main"><div class="row-title">Payslips</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="05-payroll-payslips-ledger.html"><i data-lucide="book-open"></i><div class="row-main"><div class="row-title">Ledger</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s01-09"><i data-lucide="history"></i><div class="row-main"><div class="row-title">Audit log</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s01-07"><i data-lucide="settings"></i><div class="row-main"><div class="row-title">Settings &amp; users</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-04</span>
+      <h3>Home dashboard (top)</h3>
+      <p>Answers "what must I fix today?" first. The figures come from the last biometric upload, so the card is labelled with that day, not "today".</p>
+      <ul>
+        <li><b>Upload row</b>: when the file was last uploaded and which dates it covers. "Upload" opens the import in Attendance (03). Turns amber after 3 days.</li>
+        <li><b>Four status tiles</b> open Attendance for 21 Nov filtered to that status. Present + Short + Incomplete + Absent + Leave = 83.</li>
+        <li><b>Needs attention rows</b> open the matching Attendance list (fix punches, assign codes, short-day review).</li>
+        <li><b>Inbox</b> (top right) opens 01-05 with every open item. <b>More</b> opens the sheet (01-06). Try it.</li>
+      </ul>
+      <div class="wf-note">Design question: "today's" counts need the device data the same day. With a monthly file upload, Home can only show the last uploaded day. Can the store upload daily, or should we look at a direct link to the device later?</div>
+    </div>
+  </section>
+
+  <!-- ============ 01-04b Home scrolled ============ -->
+  <section class="wf-screen" id="s01-04b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:24</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><div class="t">Home</div></div>
+        <a class="icon-btn ib-wrap" href="#s01-05" aria-label="Inbox, 23 items"><i data-lucide="inbox"></i><span class="count alert">23</span></a>
+      </header>
+
+      <div class="app-body">
+        <div class="card accent-left">
+          <div class="between">
+            <span class="t13 fw6 c-accent" style="text-transform:uppercase;letter-spacing:.05em">Next pay day</span>
+            <span class="badge badge-neutral">Draft</span>
+          </div>
+          <div class="between" style="margin-top:var(--s1)">
+            <div><div class="t18 fw6">Sat, 28 Nov</div><div class="t13 muted">Pay run 1–15 Nov · 83 staff · in 5 days</div></div>
+            <div class="right"><div class="hero-figure money" style="font-size:var(--fs-24)">₹11,24,350</div><div class="t13 muted">to pay out</div></div>
+          </div>
+          <hr class="divider">
+          <a class="between" href="05-payroll-payslips-ledger.html" style="text-decoration:none;color:inherit;min-height:44px">
+            <span class="hstack t15"><i data-lucide="hand-coins" class="ic-sm c-2"></i>4 advances to recover</span>
+            <span class="hstack"><span class="money fw6">₹14,500</span><i data-lucide="chevron-right" class="row-chevron"></i></span>
+          </a>
+          <a class="between" href="05-payroll-payslips-ledger.html" style="text-decoration:none;color:inherit;min-height:44px">
+            <span class="hstack t15"><i data-lucide="calendar-heart" class="ic-sm c-2"></i>3 leave cash-outs added</span>
+            <span class="hstack"><span class="money fw6">₹1,950</span><i data-lucide="chevron-right" class="row-chevron"></i></span>
+          </a>
+        </div>
+
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">This Sunday · 29 Nov</h2><a class="card-link" href="04-sundays-leave.html">Calendar</a></div>
+          <div style="padding:0 var(--s4) var(--s3)" class="hstack t15"><span class="badge badge-accent"><i data-lucide="calendar-range"></i>Batch B on duty</span><span class="muted">27 staff · A and C off</span></div>
+          <div class="list">
+            <button class="row" data-open="swap-04b">
+              <i data-lucide="repeat" class="c-2"></i>
+              <div class="row-main"><div class="row-title">Bhavani ⇄ Srikanth</div><div class="row-sub">Two-way · 29 Nov ↔ 13 Dec</div></div>
+              <span class="badge badge-flagged"><i data-lucide="clock"></i>Pending</span>
+            </button>
+            <button class="row" data-open="swap-04b">
+              <i data-lucide="repeat" class="c-2"></i>
+              <div class="row-main"><div class="row-title">Praveen → Kalyani</div><div class="row-sub">One-way · Kalyani works 29 Nov</div></div>
+              <span class="badge badge-flagged"><i data-lucide="clock"></i>Pending</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card flush">
+          <div class="card-header"><h2 class="card-title">Banked-leave cash-outs</h2><span class="count">3</span></div>
+          <div class="list">
+            <button class="row" data-open="cash-04b">
+              <span class="avatar">BL</span>
+              <div class="row-main"><div class="row-title">Boya Lavanya</div><div class="row-sub">VSM/044 · 1 of 2 banked days</div></div>
+              <div class="row-trail"><span class="money fw6">₹600</span><span class="t13 muted">Approve</span></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04" aria-current="page"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><span class="tb-dot"><i data-lucide="calendar-check"></i></span>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <!-- Swap approval (override with reason) -->
+      <div class="sheet" id="swap-04b" role="dialog" aria-modal="true" aria-labelledby="sw-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sw-t">Record Sunday swap</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="fw6">Ennam Bhavani (B) ⇄ Thota Srikanth (C)</div>
+            <div class="t15 muted">Now: Bhavani works 29 Nov, Srikanth works 13 Dec</div>
+          </div>
+          <div class="field"><span class="label">After the swap</span>
+            <div class="t15">Srikanth works <b>29 Nov</b> · Bhavani works <b>13 Dec</b></div>
+          </div>
+          <div class="field">
+            <label for="sw-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="sw-r" placeholder="e.g. Sister's wedding on 29 Nov; Srikanth agreed"></textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Swap saved. Calendar updated.">Save swap</button>
+        </div>
+      </div>
+
+      <!-- Cash-out approval (override with reason) -->
+      <div class="sheet" id="cash-04b" role="dialog" aria-modal="true" aria-labelledby="co-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="co-t">Cash out banked leave</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Boya Lavanya · VSM/044</span><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>2 banked</span></div>
+            <div class="t15 muted">Daily rate ₹600 (₹15,600 ÷ 26 working days)</div>
+          </div>
+          <div class="field"><span class="label">Days to cash out</span>
+            <div class="seg" role="group" aria-label="Days to cash out"><button aria-pressed="true">1 day</button><button aria-pressed="false">2 days</button></div>
+            <span class="help">Paid on the next pay day, Sat 28 Nov. 1 day stays banked (cap 3).</span>
+          </div>
+          <div class="field">
+            <label for="co-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="co-r" placeholder="e.g. Asked in person on 21 Nov"></textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Approved. ₹600 added to the 28 Nov payout.">Approve ₹600</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-04b</span>
+      <h3>Home dashboard (scrolled)</h3>
+      <p>The lower half of Home: money and people decisions coming up this week.</p>
+      <ul>
+        <li><b>Next pay day</b>: date, amount due, advances to recover and cash-outs included. Rows open the pay run (05).</li>
+        <li><b>This Sunday</b>: which batch is on duty. A <b>pending swap</b> opens the "record swap" sheet with a required reason. Try it.</li>
+        <li><b>Cash-out request</b> opens the approval sheet: days, daily rate, required reason. Approving adds it to the next payout.</li>
+      </ul>
+      <div class="wf-note">Open: Q-A (a holiday Sunday) is unanswered. The card assumes the rotation-queue default. Who records a cash-out request: does the employee ask Ramesh in person, then Padma approves?</div>
+    </div>
+  </section>
+
+  <!-- ============ 01-05 Inbox ============ -->
+  <section class="wf-screen" id="s01-05">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:25</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-04" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Inbox</div><div class="sub">23 open · 14 block the 28 Nov pay run</div></div>
+        <button class="icon-btn" aria-label="Filters" data-open="inbox-filter"><i data-lucide="sliders-horizontal"></i></button>
+      </header>
+      <div class="app-body">
+        <div class="seg" role="group" aria-label="Show"><button aria-pressed="true">Open</button><button aria-pressed="false">Done</button></div>
+        <div class="chips" role="group" aria-label="Filter by type">
+          <button class="chip" aria-pressed="true">All <span class="count">23</span></button>
+          <button class="chip" aria-pressed="false">Punches <span class="count">9</span></button>
+          <button class="chip" aria-pressed="false">Short <span class="count">6</span></button>
+          <button class="chip" aria-pressed="false">Codes <span class="count">3</span></button>
+          <button class="chip" aria-pressed="false">Swaps <span class="count">2</span></button>
+          <button class="chip" aria-pressed="false">Leave <span class="count">3</span></button>
+        </div>
+
+        <h2 class="section-title">Before pay day · 28 Nov</h2>
+        <div class="list inset">
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span>
+            <div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub">Fri 20 Nov · in 10:08, no out-punch</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span>
+            <div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub">Fri 20 Nov · in 10:31, no out-punch</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-neutral"><i data-lucide="fingerprint"></i>Code 184</span>
+            <div class="row-main"><div class="row-title">Unmatched device code</div><div class="row-sub">Punched 17 of 18 days · no name</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="#s01-04b">
+            <span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Cash-out</span>
+            <div class="row-main"><div class="row-title">Boya Lavanya</div><div class="row-sub">1 banked day · <span class="money">₹600</span></div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+
+        <h2 class="section-title">For Ramesh</h2>
+        <div class="list inset">
+          <a class="row" href="03-attendance.html">
+            <span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span>
+            <div class="row-main"><div class="row-title">Jangam Sirisha</div><div class="row-sub">3rd short day this month · 7 h 12 m</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row" href="#s01-04b">
+            <span class="badge badge-accent"><i data-lucide="repeat"></i>Swap</span>
+            <div class="row-main"><div class="row-title">Ennam Bhavani ⇄ Thota Srikanth</div><div class="row-sub">Sunday 29 Nov · two-way</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04" aria-current="page"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><span class="tb-dot"><i data-lucide="calendar-check"></i></span>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="inbox-filter" role="dialog" aria-modal="true" aria-labelledby="if-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="if-t">Filter inbox</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="field"><span class="label">Assigned to</span>
+            <div class="seg" role="group" aria-label="Assigned to"><button aria-pressed="true">Everyone</button><button aria-pressed="false">Me</button><button aria-pressed="false">Ramesh</button></div>
+          </div>
+          <div class="field"><span class="label">Sort</span>
+            <div class="radio-list">
+              <label><input type="radio" name="if-s" checked> Blocks pay day first</label>
+              <label><input type="radio" name="if-s"> Oldest first</label>
+              <label><input type="radio" name="if-s"> By employee</label>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Reset</button>
+          <button class="btn btn-primary" data-close>Show 23 items</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-05</span>
+      <h3>Inbox (things needing action)</h3>
+      <p>Every open item in one list, grouped by urgency: first what blocks the next pay run, then what the Supervisor handles.</p>
+      <ul>
+        <li><b>Chips</b> filter by type; <b>Open / Done</b> shows items already handled (each Done item links to its audit row).</li>
+        <li><b>Filter icon</b> opens assignee and sort options. Try it.</li>
+        <li><b>A row</b> opens the place where it is fixed: the punch editor, code mapping (03), the short-day review, or the swap / cash-out sheet (01-04b).</li>
+        <li>Items leave the inbox by themselves once fixed. There is no "mark as read".</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 01-06 More sheet ============ -->
+  <section class="wf-screen" id="s01-06">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:26</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar large">
+        <div class="appbar-row">
+          <div><div class="meta">Monday, 23 Nov 2026</div><h1>Good morning, Padma</h1></div>
+          <span class="icon-btn ib-wrap" aria-hidden="true"><i data-lucide="inbox"></i><span class="count alert">23</span></span>
+        </div>
+      </header>
+      <div class="app-body">
+        <div class="stats"><div class="stat"></div><div class="stat"></div><div class="stat"></div><div class="stat"></div></div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><span class="tb-dot"><i data-lucide="calendar-check"></i></span>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-label="More">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>More</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0;gap:var(--s3)">
+          <div class="list">
+            <a class="row compact" href="04-sundays-leave.html"><i data-lucide="calendar-range"></i><div class="row-main"><div class="row-title">Sundays &amp; batches</div></div><span class="count">2</span><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="04-sundays-leave.html"><i data-lucide="calendar-heart"></i><div class="row-main"><div class="row-title">Leave</div></div><span class="count">3</span><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="05-payroll-payslips-ledger.html"><i data-lucide="file-text"></i><div class="row-main"><div class="row-title">Payslips</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="05-payroll-payslips-ledger.html"><i data-lucide="book-open"></i><div class="row-main"><div class="row-title">Ledger</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s01-09"><i data-lucide="history"></i><div class="row-main"><div class="row-title">Audit log</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s01-07"><i data-lucide="settings"></i><div class="row-main"><div class="row-title">Settings &amp; users</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+          <div class="list">
+            <a class="row compact" href="#s01-03"><i data-lucide="square-plus"></i><div class="row-main"><div class="row-title">Install on this phone</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <div class="row compact">
+              <span class="avatar" style="width:32px;height:32px;font-size:var(--fs-13)">P</span>
+              <div class="row-main"><div class="row-title t15">Padma</div><div class="row-sub">Accountant · Face ID on</div></div>
+              <a class="btn btn-ghost btn-sm" href="#s01-01"><i data-lucide="log-out" class="ic-sm"></i>Sign out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-06</span>
+      <h3>More sheet (open)</h3>
+      <p>The fifth tab opens a sheet instead of a page, so the user never loses their place. Counts show where items are waiting.</p>
+      <ul>
+        <li><b>Sundays, Leave</b> open screen group 04. <b>Payslips, Ledger</b> open group 05.</li>
+        <li><b>Audit log</b> opens 01-09. <b>Settings &amp; users</b> opens 01-07.</li>
+        <li><b>Install on this phone</b> reopens the helper (01-03). <b>Sign out</b> returns to 01-01; Face ID stays set up.</li>
+        <li>X, swipe down or tapping the dim area closes it.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================================================================== -->
+<div class="wf-section"><h2>Settings, users and audit</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 01-07 Settings ============ -->
+  <section class="wf-screen" id="s01-07">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:28</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-06" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Settings</div><div class="sub">Changes need a reason and are logged</div></div>
+      </header>
+      <div class="app-body">
+        <h2 class="section-title">Pay</h2>
+        <div class="list inset">
+          <a class="row compact" href="#s01-07b">
+            <i data-lucide="calendar-days" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Pay days</div><div class="row-sub">2nd &amp; 4th Sat · next 28 Nov</div></div>
+            <span class="setting-trail">1 moved</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+
+        <h2 class="section-title">Attendance, Sundays &amp; leave</h2>
+        <div class="list inset">
+          <button class="row compact" data-open="set-hours">
+            <i data-lucide="clock" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Hour thresholds</div><div class="row-sub">Full day 8 h · Short from 6 h</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+          <button class="row compact" data-open="set-sundays">
+            <i data-lucide="calendar-range" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Open Sundays a month</div></div>
+            <span class="setting-trail num">3</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+          <button class="row compact" data-open="set-holidays">
+            <i data-lucide="calendar-x" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Holidays</div><div class="row-sub">Next: Fri 25 Dec, Christmas</div></div>
+            <span class="setting-trail num">4</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+          <button class="row compact" data-open="set-cap">
+            <i data-lucide="calendar-heart" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Banked-leave cap</div><div class="row-sub">1 free day a month, bank or cash out</div></div>
+            <span class="setting-trail">3 days</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+        </div>
+
+        <h2 class="section-title">Payslips</h2>
+        <div class="list inset">
+          <button class="row compact" data-open="set-printer">
+            <i data-lucide="printer" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Default print layout</div></div>
+            <span class="setting-trail">A4 (PDF)</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+          <div class="row compact switch-row" data-open="set-wa">
+            <i data-lucide="share-2" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Share to WhatsApp</div><div class="row-sub">Button on each payslip</div></div>
+            <input type="checkbox" class="switch" checked aria-label="Share to WhatsApp">
+          </div>
+        </div>
+
+        <h2 class="section-title">People</h2>
+        <div class="list inset">
+          <a class="row compact" href="#s01-08">
+            <i data-lucide="user-cog" class="c-2"></i>
+            <div class="row-main"><div class="row-title">Users &amp; roles</div></div>
+            <span class="setting-trail">3 active</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <!-- Hours -->
+      <div class="sheet" id="set-hours" role="dialog" aria-modal="true" aria-labelledby="sh-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sh-t">Hour thresholds</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)"><div class="t15">Now: <b>8 h</b> or more = Present · <b>6–8 h</b> = Short · under 6 h = Absent</div></div>
+          <div class="hstack" style="gap:var(--s3)">
+            <div class="field grow"><label for="sh-f">Full day from</label><div class="input-group"><input id="sh-f" inputmode="decimal" value="8"><span class="suffix">h</span></div></div>
+            <div class="field grow"><label for="sh-m">Short from</label><div class="input-group"><input id="sh-m" inputmode="decimal" value="6"><span class="suffix">h</span></div></div>
+          </div>
+          <span class="help">Applies from the next upload. Past days keep their status.</span>
+          <div class="field"><label for="sh-r">Reason <span class="opt">(required, saved in the audit log)</span></label><textarea class="textarea" id="sh-r"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-toast="Saved. Applies from the next upload.">Save change</button></div>
+      </div>
+
+      <!-- Sundays -->
+      <div class="sheet" id="set-sundays" role="dialog" aria-modal="true" aria-labelledby="ss-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ss-t">Open Sundays a month</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)"><div class="t15">Now: <b>3</b> open Sundays, one per batch (A, B, C). The rest are Off.</div></div>
+          <div class="field"><span class="label">New value</span><div class="seg" role="group" aria-label="Open Sundays"><button aria-pressed="false">2</button><button aria-pressed="true">3</button><button aria-pressed="false">4</button></div></div>
+          <div class="field"><label for="ss-r">Reason <span class="opt">(required, saved in the audit log)</span></label><textarea class="textarea" id="ss-r"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-toast="Saved">Save change</button></div>
+      </div>
+
+      <!-- Holidays -->
+      <div class="sheet" id="set-holidays" role="dialog" aria-modal="true" aria-labelledby="sho-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sho-t">Holidays</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <div class="row compact"><div class="row-main"><div class="row-title">Fri, 25 Dec · Christmas</div><div class="row-sub">Store open · normal day</div></div><span class="badge badge-neutral">Open</span></div>
+            <div class="row compact"><div class="row-main"><div class="row-title">Thu, 14 Jan · Sankranti</div><div class="row-sub">Store closed · paid</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+            <div class="row compact"><div class="row-main"><div class="row-title">Fri, 15 Jan · Kanuma</div><div class="row-sub">Store closed · paid</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+            <div class="row compact"><div class="row-main"><div class="row-title">Sun, 17 Jan · holiday Sunday</div><div class="row-sub">Batch A moves to 24 Jan (rotation)</div></div><span class="badge badge-off"><i data-lucide="moon"></i>Off</span></div>
+          </div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Close</button><button class="btn btn-primary" data-toast="Add holiday: date, name, closed or open, reason">Add holiday</button></div>
+      </div>
+
+      <!-- Cap -->
+      <div class="sheet" id="set-cap" role="dialog" aria-modal="true" aria-labelledby="sc-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sc-t">Banked-leave cap</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)"><div class="t15">Now: up to <b>3 days</b> banked. No expiry.</div></div>
+          <div class="field"><label for="sc-v">New cap</label><div class="input-group"><input id="sc-v" inputmode="numeric" value="3"><span class="suffix">days</span></div><span class="help">2 staff are at the cap now. Lowering it does not take days away.</span></div>
+          <div class="field"><label for="sc-r">Reason <span class="opt">(required, saved in the audit log)</span></label><textarea class="textarea" id="sc-r"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-toast="Saved">Save change</button></div>
+      </div>
+
+      <!-- Printer -->
+      <div class="sheet" id="set-printer" role="dialog" aria-modal="true" aria-labelledby="sp-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sp-t">Default print layout</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="field"><span class="label">Layout</span><div class="seg" role="group" aria-label="Print layout"><button aria-pressed="true">A4 (PDF)</button><button aria-pressed="false">80 mm thermal</button></div><span class="help">The other layout stays one tap away on every payslip.</span></div>
+          <div class="field"><label for="sp-r">Reason <span class="opt">(required, saved in the audit log)</span></label><textarea class="textarea" id="sp-r" placeholder="e.g. Bought the thermal printer for the counter"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-toast="Saved">Save change</button></div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="sheet" id="set-wa" role="dialog" aria-modal="true" aria-labelledby="sw2-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sw2-t">Turn off WhatsApp sharing?</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)"><div class="t15">Now: on. Payslips show "Share to WhatsApp" next to Print. Printing is always on.</div></div>
+          <div class="field"><label for="sw2-r">Reason <span class="opt">(required, saved in the audit log)</span></label><textarea class="textarea" id="sw2-r"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-toast="WhatsApp sharing turned off">Turn off</button></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-07</span>
+      <h3>Settings</h3>
+      <p>The store's rules in one place. Every row opens the same "change with reason" sheet, so rule changes appear in the audit log like any other edit.</p>
+      <ul>
+        <li><b>Pay days</b> opens 01-07b (the rule, plus moving one date).</li>
+        <li><b>Hours, Open Sundays, Holidays, Cap, Print layout</b> each open a sheet with the current value, the new value and a required reason. Try them.</li>
+        <li><b>WhatsApp switch</b> doesn't flip straight away: tapping it asks for a reason first.</li>
+        <li>Only the Owner can save here (see 01-08b). Others see the values read-only.</li>
+      </ul>
+      <div class="wf-note">Open: are store-closed festival days paid (question 3)? The holiday list assumes yes. Is Christmas a working day?</div>
+    </div>
+  </section>
+
+  <!-- ============ 01-07b Move a pay day ============ -->
+  <section class="wf-screen" id="s01-07b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:29</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-07" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Pay days</div><div class="sub">Rule: 2nd and 4th Saturday</div></div>
+      </header>
+      <div class="app-body">
+        <div class="list inset">
+          <div class="row compact"><div class="row-main"><div class="row-title">Sat, 28 Nov</div><div class="row-sub">Pay run 1–15 Nov</div></div><span class="badge badge-accent">Next</span></div>
+          <div class="row compact"><div class="row-main"><div class="row-title">Sat, 12 Dec</div><div class="row-sub">Pay run 16–30 Nov</div></div></div>
+          <div class="row compact"><div class="row-main"><div class="row-title">Sat, 26 Dec</div><div class="row-sub">Pay run 1–15 Dec</div></div></div>
+          <div class="row compact"><div class="row-main"><div class="row-title">Sat, 9 Jan</div><div class="row-sub">Pay run 16–31 Dec</div></div></div>
+        </div>
+      </div>
+
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="pd-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="pd-t">Move a pay day</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Sat, 9 Jan 2027</span><span class="badge badge-neutral">2nd Saturday</span></div>
+            <div class="t15 muted">Pay run 16–31 Dec · 83 staff</div>
+          </div>
+          <div class="field">
+            <label>New pay day</label>
+            <button class="date-field" data-toast="Opens the month calendar"><i data-lucide="calendar-days" class="ic-sm c-2"></i><span>Tue, 12 Jan 2027</span><i data-lucide="chevron-down" class="ic-sm"></i></button>
+            <span class="help">Only this date moves. The rule stays 2nd and 4th Saturday.</span>
+          </div>
+          <div class="field has-error">
+            <label for="pd-r">Reason <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="pd-r" placeholder="e.g. Pay before Sankranti on 14 Jan"></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a reason before saving.</span>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. Pay day moved to Tue 12 Jan.">Move pay day</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-07b</span>
+      <h3>Pay days: move one date</h3>
+      <p>The list shows the coming pay days from the rule. Tapping one opens the change-with-reason sheet to move just that date (here, earlier pay before Sankranti).</p>
+      <ul>
+        <li><b>New pay day</b> opens the date-picker calendar.</li>
+        <li><b>Move pay day</b> stays blocked until a reason is typed. A moved date shows "moved from 9 Jan" in the list, on Home and in the audit log.</li>
+      </ul>
+      <div class="wf-note">Which dates each pay run covers (here 1–15 / 16–end) is still open (question 1). Group 05 should use the same mapping.</div>
+    </div>
+  </section>
+
+  <!-- ============ 01-08 Users ============ -->
+  <section class="wf-screen" id="s01-08">
+    <div class="phone"><div class="screen" data-tabs-scope>
+      <div class="statusbar"><span>10:31</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-07" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Users &amp; roles</div><div class="sub">Only the Owner can change these</div></div>
+        <button class="icon-btn" aria-label="Add user" data-open="add-user"><i data-lucide="user-plus"></i></button>
+      </header>
+      <div class="tabs" data-tabs>
+        <button data-tab="u-users" aria-selected="true">Users</button>
+        <button data-tab="u-roles" aria-selected="false">Roles &amp; permissions</button>
+      </div>
+      <div class="app-body" data-panel="u-users">
+        <div class="list inset">
+          <div class="row">
+            <span class="avatar">O</span>
+            <div class="row-main"><div class="row-title">Owner</div><div class="row-sub">Face ID · active today 08:55</div></div>
+            <span class="badge badge-accent">Owner</span>
+          </div>
+          <button class="row" data-open="user-ramesh">
+            <span class="avatar">R</span>
+            <div class="row-main"><div class="row-title">Ramesh</div><div class="row-sub">Face ID · active today 09:40</div></div>
+            <span class="badge badge-neutral">Supervisor</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+          <button class="row" data-open="user-ramesh">
+            <span class="avatar">P</span>
+            <div class="row-main"><div class="row-title">Padma</div><div class="row-sub">Face ID · active now</div></div>
+            <span class="badge badge-neutral">Accountant</span><i data-lucide="chevron-right" class="row-chevron"></i>
+          </button>
+        </div>
+        <h2 class="section-title">Deactivated</h2>
+        <div class="list inset">
+          <div class="row">
+            <span class="avatar">GM</span>
+            <div class="row-main"><div class="row-title c-2">Gorla Mahender</div><div class="row-sub">Supervisor · off since 2 Nov · history kept</div></div>
+            <button class="btn btn-ghost btn-sm" data-toast="Reactivate asks for a reason first">Reactivate</button>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-block" data-open="add-user"><i data-lucide="user-plus"></i>Add user</button>
+      </div>
+      <div class="app-body" data-panel="u-roles" hidden>
+        <p class="t15 muted" style="margin:0">See 01-08b.</p>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <!-- Add user -->
+      <div class="sheet" id="add-user" role="dialog" aria-modal="true" aria-labelledby="au-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="au-t">Add user</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="field"><label for="au-n">Name</label><input class="input" id="au-n" placeholder="e.g. Nalla Prasanna"></div>
+          <div class="field"><label for="au-u">Username</label><input class="input" id="au-u" autocapitalize="none" placeholder="e.g. prasanna"></div>
+          <div class="field"><span class="label">Role</span>
+            <div class="radio-list">
+              <label><input type="radio" name="au-r" checked> Supervisor</label>
+              <label><input type="radio" name="au-r"> Accountant</label>
+              <label><input type="radio" name="au-r"> Owner</label>
+            </div>
+          </div>
+          <span class="help">They get a one-time password to share in person, and set up Face ID on first sign-in.</span>
+          <div class="field"><label for="au-why">Reason <span class="opt">(required, saved in the audit log)</span></label><textarea class="textarea" id="au-why" placeholder="e.g. New billing supervisor from 1 Dec"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-toast="User added. One-time password: shown once.">Add user</button></div>
+      </div>
+
+      <!-- User detail -->
+      <div class="sheet" id="user-ramesh" role="dialog" aria-modal="true" aria-labelledby="ur-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ur-t">Ramesh · Supervisor</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <dl class="kv">
+            <dt>Username</dt><dd>ramesh</dd>
+            <dt>Sign-in</dt><dd>Face ID on 1 iPhone</dd>
+            <dt>Added</dt><dd>2 Nov 2026 by Owner</dd>
+            <dt>Changes made</dt><dd class="num">38 (see audit log)</dd>
+          </dl>
+          <div class="list inset">
+            <button class="row compact" data-toast="Change role: opens the change-with-reason sheet"><i data-lucide="user-cog" class="c-2"></i><div class="row-main"><div class="row-title">Change role</div></div><i data-lucide="chevron-right" class="row-chevron"></i></button>
+            <button class="row compact" data-toast="Password reset. One-time password: shown once."><i data-lucide="key-round" class="c-2"></i><div class="row-main"><div class="row-title">Reset password</div></div><i data-lucide="chevron-right" class="row-chevron"></i></button>
+            <button class="row compact" data-toast="Phone removed. Ramesh must use his password."><i data-lucide="smartphone" class="c-2"></i><div class="row-main"><div class="row-title">Remove Face ID phone</div></div><i data-lucide="chevron-right" class="row-chevron"></i></button>
+          </div>
+          <button class="btn btn-secondary btn-block c-absent" data-open="deact-dialog"><i data-lucide="user-x"></i>Deactivate Ramesh</button>
+        </div>
+      </div>
+
+      <div class="dialog" id="deact-dialog" role="alertdialog" aria-modal="true" aria-labelledby="dd-t" aria-hidden="true">
+        <h2 id="dd-t">Deactivate Ramesh?</h2>
+        <p>He can't sign in from any phone. His past changes stay in the audit log.</p>
+        <div class="field" style="margin-bottom:var(--s4)"><label for="dd-r">Reason <span class="opt">(required)</span></label><input class="input" id="dd-r" placeholder="e.g. Left the job on 30 Nov"></div>
+        <div class="btn-row"><button class="btn btn-danger" data-toast="Ramesh deactivated">Deactivate</button><button class="btn btn-secondary" data-close>Cancel</button></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-08</span>
+      <h3>Users &amp; roles: users</h3>
+      <p>The 3 admin users who can sign in. Staff never sign in. Deactivated users stay listed so their audit history still has a name.</p>
+      <ul>
+        <li><b>Add user</b> (icon or button): name, username, role, reason. Try it.</li>
+        <li><b>A user row</b> opens their sheet: change role, reset password, remove a Face ID phone, <b>Deactivate</b> (confirm dialog with reason).</li>
+        <li>The <b>Roles &amp; permissions</b> tab is shown in 01-08b.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 01-08b Roles matrix ============ -->
+  <section class="wf-screen" id="s01-08b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:32</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-07" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Users &amp; roles</div><div class="sub">Only the Owner can change these</div></div>
+        <button class="icon-btn" aria-label="Add user"><i data-lucide="user-plus"></i></button>
+      </header>
+      <div class="tabs">
+        <button aria-selected="false">Users</button>
+        <button aria-selected="true">Roles &amp; permissions</button>
+      </div>
+      <div class="app-body">
+        <div class="card flush">
+          <table class="table matrix">
+            <thead><tr><th>Can…</th><th>Owner</th><th>Superv.</th><th>Acct.</th></tr></thead>
+            <tbody>
+              <tr><td>Change salary</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td></tr>
+              <tr><td>Override attendance</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td></tr>
+              <tr><td>Upload attendance</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td></tr>
+              <tr><td>Record swaps</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td></tr>
+              <tr><td>Approve cash-outs</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td></tr>
+              <tr><td>Record payouts</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td></tr>
+              <tr><td>Give advances</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td></tr>
+              <tr><td>Print payslips</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td></tr>
+              <tr><td>Settings &amp; users</td><td class="yes"><i data-lucide="check" aria-label="Yes"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td><td class="no"><i data-lucide="minus" aria-label="No"></i></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-08b</span>
+      <h3>Users &amp; roles: permission matrix</h3>
+      <p>Three fixed roles. A tick means the role can save that kind of change; a dash means view only.</p>
+      <ul>
+        <li>Everyone can see every screen; the matrix only controls who can <b>save</b> a change.</li>
+        <li>Roles are fixed (no custom roles) to keep it simple for 3–4 users.</li>
+        <li>When someone without the right taps a change button, it is shown disabled with "Ask the Owner".</li>
+      </ul>
+      <div class="wf-note">Proposed defaults for question 12, not decided: only the Owner changes salary; the Supervisor overrides attendance and swaps; the Accountant handles payouts, advances and payslips. Should the Owner be able to tick boxes per role?</div>
+    </div>
+  </section>
+
+  <!-- ============ 01-09 Audit log ============ -->
+  <section class="wf-screen" id="s01-09">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:34</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-06" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Audit log</div><div class="sub">Every change, newest first</div></div>
+        <button class="icon-btn" aria-label="Filter by person and date" data-open="audit-filter"><i data-lucide="sliders-horizontal"></i></button>
+      </header>
+      <div class="app-body flush" style="gap:var(--s3)">
+        <div style="padding:0 var(--s4)"><div class="search"><i data-lucide="search"></i><input placeholder="Search employee or VSM number" aria-label="Search audit log"></div></div>
+        <div class="chips" role="group" aria-label="Filter by type">
+          <button class="chip" aria-pressed="true">All</button>
+          <button class="chip" aria-pressed="false">Attendance</button>
+          <button class="chip" aria-pressed="false">Salary</button>
+          <button class="chip" aria-pressed="false">Leave</button>
+          <button class="chip" aria-pressed="false">Swap</button>
+          <button class="chip" aria-pressed="false">Payout</button>
+          <button class="chip" aria-pressed="false">Advance</button>
+          <button class="chip" aria-pressed="false">Payslip</button>
+          <button class="chip" aria-pressed="false">Settings</button>
+        </div>
+        <h2 class="section-title">Today</h2>
+        <div class="list">
+          <button class="audit" data-open="audit-detail" style="border:0;width:100%;text-align:left;color:inherit">
+            <span class="a-icon"><i data-lucide="pencil"></i></span>
+            <div class="a-main">
+              <div class="a-what">Gundla Ravi Teja · Wed 18 Nov</div>
+              <div class="a-change"><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+              <div class="a-reason">Sent to the Hyderabad wholesaler for stock pickup</div>
+              <div class="a-meta">Ramesh (Supervisor) · 09:40</div>
+            </div>
+          </button>
+        </div>
+        <h2 class="section-title">Yesterday</h2>
+        <div class="list">
+          <div class="audit">
+            <span class="a-icon"><i data-lucide="indian-rupee"></i></span>
+            <div class="a-main">
+              <div class="a-what">Mekala Anusha · monthly salary</div>
+              <div class="a-change"><span class="a-old money">₹14,000</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new money">₹15,500</span></div>
+              <div class="a-reason">Yearly increment, effective 1 Dec</div>
+              <div class="a-meta">Owner · 18:05</div>
+            </div>
+          </div>
+          <div class="audit">
+            <span class="a-icon"><i data-lucide="hand-coins"></i></span>
+            <div class="a-main">
+              <div class="a-what">Kavali Naresh · advance given</div>
+              <div class="a-change"><span class="a-new money">₹3,000</span><span class="muted t13">cash · recover 28 Nov</span></div>
+              <div class="a-reason">Hospital bill for his mother</div>
+              <div class="a-meta">Padma (Accountant) · 17:20</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#s01-04"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#s01-06" aria-current="page"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="audit-filter" role="dialog" aria-modal="true" aria-labelledby="af-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="af-t">Filter audit log</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="field"><span class="label">Changed by</span>
+            <div class="chips" data-multi role="group" aria-label="Changed by"><button class="chip" aria-pressed="true">Owner</button><button class="chip" aria-pressed="true">Ramesh</button><button class="chip" aria-pressed="true">Padma</button><button class="chip" aria-pressed="false">Gorla Mahender</button></div>
+          </div>
+          <div class="field"><label for="af-e">Employee</label><input class="input" id="af-e" placeholder="Name or VSM number"></div>
+          <div class="field"><span class="label">When</span>
+            <div class="seg" role="group" aria-label="When"><button aria-pressed="false">7 days</button><button aria-pressed="true">This month</button><button aria-pressed="false">Pick dates</button></div>
+          </div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Reset</button><button class="btn btn-primary" data-close>Show 214 changes</button></div>
+      </div>
+
+      <div class="sheet" id="audit-detail" role="dialog" aria-modal="true" aria-labelledby="ad-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ad-t">Attendance override</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <dl class="kv">
+            <dt>Employee</dt><dd>Gundla Ravi Teja · VSM/031</dd>
+            <dt>Day</dt><dd>Wed, 18 Nov 2026</dd>
+            <dt>Old</dt><dd><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></dd>
+            <dt>New</dt><dd><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></dd>
+            <dt>Changed by</dt><dd>Ramesh (Supervisor)</dd>
+            <dt>When</dt><dd>23 Nov 2026, 09:40</dd>
+          </dl>
+          <div class="a-reason t15" style="background:var(--surface-2);border-radius:var(--r-sm);padding:var(--s2) var(--s3)">Sent to the Hyderabad wholesaler for stock pickup</div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Close</button><a class="btn btn-primary" href="03-attendance.html">Open day</a></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-09</span>
+      <h3>Audit log</h3>
+      <p>One feed of every change: who changed what, old → new, the reason and when. Nothing here can be edited or deleted.</p>
+      <ul>
+        <li><b>Type chips</b>: attendance override, salary, leave, swap, payout, advance, payslip print/share, settings.</li>
+        <li><b>Filter icon</b>: by admin user, employee and date range. Try it.</li>
+        <li><b>The first row</b> opens the detail sheet (01-09b). "Open day" jumps to that employee's day.</li>
+        <li>Undo is never a delete: changing it back is a new override with its own reason.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 01-09b Audit detail ============ -->
+  <section class="wf-screen" id="s01-09b">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:35</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s01-09" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Audit log</div><div class="sub">Filtered: Payslip · Payout</div></div>
+        <button class="icon-btn" aria-label="Filters"><i data-lucide="sliders-horizontal"></i></button>
+      </header>
+      <div class="app-body flush" style="gap:var(--s3)">
+        <h2 class="section-title">Sat 14 Nov · pay day</h2>
+        <div class="list">
+          <div class="audit">
+            <span class="a-icon"><i data-lucide="printer"></i></span>
+            <div class="a-main">
+              <div class="a-what">Payslips 16–31 Oct · printed</div>
+              <div class="a-change"><span class="a-new num">79</span><span class="muted t13">80 mm · counter printer</span></div>
+              <div class="a-meta">Padma (Accountant) · 11:02</div>
+            </div>
+          </div>
+          <div class="audit">
+            <span class="a-icon"><i data-lucide="share-2"></i></span>
+            <div class="a-main">
+              <div class="a-what">Rachakonda Divya · payslip shared</div>
+              <div class="a-change"><span class="muted t13">WhatsApp · 16–31 Oct</span></div>
+              <div class="a-meta">Padma (Accountant) · 10:48</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="ad2-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ad2-t">Payout recorded</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <dl class="kv">
+            <dt>Employee</dt><dd>Rachakonda Divya · VSM/058</dd>
+            <dt>Pay run</dt><dd>16–31 Oct</dd>
+            <dt>Amount</dt><dd><span class="a-old money" style="color:var(--text-2);text-decoration:line-through">₹7,250</span> → <b class="money">₹6,750</b></dd>
+            <dt>Mode</dt><dd>UPI</dd>
+            <dt>Changed by</dt><dd>Padma (Accountant)</dd>
+            <dt>When</dt><dd>14 Nov 2026, 10:40</dd>
+          </dl>
+          <div class="t15" style="background:var(--surface-2);border-radius:var(--r-sm);padding:var(--s2) var(--s3)">₹500 of her 10 Oct advance recovered from this payout, as agreed with the Owner</div>
+          <h2 class="section-title">Earlier changes to this record</h2>
+          <div class="list inset">
+            <div class="row compact"><i data-lucide="hand-coins" class="c-2"></i><div class="row-main"><div class="row-title t15">Advance <span class="money">₹1,000</span> given</div><div class="row-sub">Owner · 10 Oct, 19:15</div></div></div>
+          </div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Close</button><a class="btn btn-primary" href="05-payroll-payslips-ledger.html">Open ledger</a></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-09b</span>
+      <h3>Audit log: detail sheet</h3>
+      <p>Tapping any row shows the full record: subject, old → new, mode, who, exact time, the reason, and earlier linked changes. Shown here on a payout after a filter for payslips and payouts.</p>
+      <ul>
+        <li><b>Open ledger</b> (or "Open day" for attendance) jumps to the record in its own screen.</li>
+        <li>Print and share rows have no reason (they change nothing) but are still logged, as the owner asked.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================================================================== -->
+<div class="wf-section"><h2>Desktop</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 01-10 Desktop dashboard ============ -->
+  <section class="wf-screen wide" id="s01-10">
+    <div class="wf-scroll-x"><div class="desktop">
+      <nav class="rail" aria-label="Main">
+        <div class="rail-brand">VSM Staff</div>
+        <a href="#s01-10" aria-current="page"><i data-lucide="house"></i>Home</a>
+        <a href="03-attendance.html"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="02-employees-salary.html"><i data-lucide="users"></i>Staff</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="wallet"></i>Pay</a>
+        <div class="rail-group">More</div>
+        <a href="04-sundays-leave.html"><i data-lucide="calendar-range"></i>Sundays &amp; batches</a>
+        <a href="04-sundays-leave.html"><i data-lucide="calendar-heart"></i>Leave</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="file-text"></i>Payslips</a>
+        <a href="05-payroll-payslips-ledger.html"><i data-lucide="book-open"></i>Ledger</a>
+        <a href="#s01-09"><i data-lucide="history"></i>Audit log</a>
+        <a href="#s01-07"><i data-lucide="settings"></i>Settings &amp; users</a>
+      </nav>
+      <div class="main">
+        <header class="appbar">
+          <div class="appbar-title"><h1>Good morning, Padma</h1><div class="sub">Monday, 23 Nov 2026 · biometric file uploaded Sun 22 Nov, 09:12 (covers 2–21 Nov)</div></div>
+          <a class="icon-btn ib-wrap" href="#s01-05" aria-label="Inbox, 23 items"><i data-lucide="inbox"></i><span class="count alert">23</span></a>
+          <a class="btn btn-secondary" href="03-attendance.html"><i data-lucide="upload"></i>Upload attendance</a>
+        </header>
+        <div class="app-body">
+          <div class="cols cols-4">
+            <a class="stat" href="03-attendance.html"><span class="label"><i data-lucide="circle-check" class="ic-sm c-present"></i>Present · Sat 21 Nov</span><span class="value num">61 <small>/ 83</small></span></a>
+            <a class="stat" href="03-attendance.html"><span class="label"><i data-lucide="clock" class="ic-sm c-flagged"></i>Short (6–8 h)</span><span class="value num">6</span></a>
+            <a class="stat" href="03-attendance.html"><span class="label"><i data-lucide="circle-dashed" class="ic-sm"></i>Incomplete</span><span class="value num">9</span></a>
+            <a class="stat" href="03-attendance.html"><span class="label"><i data-lucide="circle-x" class="ic-sm c-absent"></i>Absent</span><span class="value num">4 <small>+ 3 Leave</small></span></a>
+          </div>
+          <div class="cols cols-2">
+            <div class="card flush">
+              <div class="card-header"><h2 class="card-title">Needs attention</h2><a class="card-link" href="#s01-05">Inbox</a></div>
+              <div class="list">
+                <a class="row compact" href="03-attendance.html"><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>9</span><div class="row-main"><div class="row-title t15">Incomplete punches</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+                <a class="row compact" href="03-attendance.html"><span class="badge badge-neutral"><i data-lucide="fingerprint"></i>3</span><div class="row-main"><div class="row-title t15">Unmatched device codes</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+                <a class="row compact" href="03-attendance.html"><span class="badge badge-flagged"><i data-lucide="clock"></i>6</span><div class="row-main"><div class="row-title t15">Short days to review</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+                <a class="row compact" href="04-sundays-leave.html"><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>3</span><div class="row-main"><div class="row-title t15">Leave cash-outs</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+              </div>
+            </div>
+            <div class="card accent-left">
+              <div class="t13 fw6 c-accent" style="text-transform:uppercase;letter-spacing:.05em">Next pay day</div>
+              <div class="t18 fw6" style="margin-top:var(--s1)">Sat, 28 Nov <span class="t13 muted" style="font-weight:400">· in 5 days</span></div>
+              <div class="hero-figure money" style="margin:var(--s2) 0 0">₹11,24,350</div>
+              <div class="t13 muted">Pay run 1–15 Nov · 83 staff · draft</div>
+              <hr class="divider">
+              <dl class="kv">
+                <dt>4 advances to recover</dt><dd class="money">₹14,500</dd>
+                <dt>3 leave cash-outs added</dt><dd class="money">₹1,950</dd>
+              </dl>
+              <div class="banner banner-warn" style="margin-top:var(--s3)"><i data-lucide="triangle-alert"></i><div class="grow t15">Fix 9 incomplete days before running payroll.</div></div>
+            </div>
+          </div>
+          <div class="cols cols-2" style="align-items:start">
+            <div class="card flush">
+              <div class="card-header"><h2 class="card-title">This Sunday · 29 Nov</h2><a class="card-link" href="04-sundays-leave.html">Calendar</a></div>
+              <div style="padding:0 var(--s4) var(--s3)" class="hstack t15"><span class="badge badge-accent"><i data-lucide="calendar-range"></i>Batch B on duty</span><span class="muted">27 staff</span></div>
+              <div class="list">
+                <a class="row compact" href="04-sundays-leave.html"><i data-lucide="repeat" class="c-2"></i><div class="row-main"><div class="row-title t15">Ennam Bhavani ⇄ Thota Srikanth</div><div class="row-sub">Two-way swap · 29 Nov ↔ 13 Dec</div></div><span class="badge badge-flagged"><i data-lucide="clock"></i>Pending</span></a>
+                <a class="row compact" href="04-sundays-leave.html"><i data-lucide="repeat" class="c-2"></i><div class="row-main"><div class="row-title t15">Vadla Praveen → Bairi Kalyani</div><div class="row-sub">One-way swap · Kalyani works 29 Nov</div></div><span class="badge badge-flagged"><i data-lucide="clock"></i>Pending</span></a>
+              </div>
+            </div>
+            <div class="card flush">
+              <div class="card-header"><h2 class="card-title">Recent changes</h2><a class="card-link" href="#s01-09">Audit log</a></div>
+              <div class="list">
+                <div class="audit"><span class="a-icon"><i data-lucide="pencil"></i></span><div class="a-main"><div class="a-what">Gundla Ravi Teja · 18 Nov</div><div class="a-change"><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div><div class="a-reason">Sent to the Hyderabad wholesaler for stock pickup</div><div class="a-meta">Ramesh (Supervisor) · today 09:40</div></div></div>
+                <div class="audit"><span class="a-icon"><i data-lucide="indian-rupee"></i></span><div class="a-main"><div class="a-what">Mekala Anusha · monthly salary</div><div class="a-change"><span class="a-old money">₹14,000</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new money">₹15,500</span></div><div class="a-reason">Yearly increment, effective 1 Dec</div><div class="a-meta">Owner · yesterday 18:05</div></div></div>
+                <div class="audit"><span class="a-icon"><i data-lucide="hand-coins"></i></span><div class="a-main"><div class="a-what">Kavali Naresh · advance given</div><div class="a-change"><span class="a-new money">₹3,000</span><span class="muted t13">cash · recover 28 Nov</span></div><div class="a-reason">Hospital bill for his mother</div><div class="a-meta">Padma (Accountant) · yesterday 17:20</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">01-10</span>
+      <h3>Desktop (≥ 1024 px): Home</h3>
+      <p>The same Home as 01-04 and 01-04b, widened for the store PC. The tab bar becomes the left rail with the More items listed under it; the inbox and upload sit in the top bar.</p>
+      <ul>
+        <li><b>Status tiles</b> and <b>Needs attention</b> rows open Attendance filtered, as on the phone.</li>
+        <li><b>Recent changes</b> shows audit rows with their reasons. "Audit log" opens 01-09.</li>
+        <li>Sheets (swap, cash-out, settings) open as a 480 px right-side panel.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

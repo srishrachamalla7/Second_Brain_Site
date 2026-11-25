@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employees and Salary</title>
+<link rel="stylesheet" href="kit/kit.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+  /* Screen-specific layout for 02 only. Tokens from kit.css, no new colours. */
+  .steps { display: flex; gap: var(--s1); }
+  .steps span { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+  .steps span.on { background: var(--accent); }
+  .p-head { display: flex; align-items: center; gap: var(--s3); }
+  .p-head .p-name { font-size: var(--fs-18); font-weight: 600; line-height: 1.25; }
+  .two { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--s3); }
+  .tabs { scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .old { color: var(--text-2); text-decoration: line-through; }
+  .hl { background: var(--accent-soft); color: var(--accent); font-weight: 600; padding: 1px 6px; border-radius: var(--r-sm); }
+  .row.warn { box-shadow: inset 3px 0 0 var(--flagged); }
+  .row.dim .row-title { color: var(--text-2); }
+  .issue-rows { font-size: var(--fs-13); color: var(--text-2); margin: var(--s1) 0 var(--s3); }
+  .tl { position: relative; padding-left: 28px; display: flex; flex-direction: column; gap: var(--s3); }
+  .tl::before { content: ""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; }
+  .tl-item::before { content: ""; position: absolute; left: -24px; top: 18px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border-strong); }
+  .tl-item.now::before { background: var(--accent); border-color: var(--accent); }
+  .tl-item.next::before { border-color: var(--accent); border-style: dashed; }
+  .tl-date { font-size: var(--fs-13); font-weight: 600; color: var(--text-2); margin-bottom: var(--s1); }
+  .code-row { display: flex; align-items: center; gap: var(--s3); }
+  .desk-tools { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+  .desk-tools .search { width: 300px; }
+  .table td .sub { font-size: var(--fs-13); color: var(--text-2); }
+  .table tbody tr:hover td { background: var(--surface-2); }
+</style>
+</head>
+<body class="wf-page">
+
+<header class="wf-header">
+  <a class="wf-back" href="index.html"><i data-lucide="arrow-left"></i> All wireframes</a>
+  <h1>02 · Employees &amp; salary</h1>
+  <div class="wf-tools">
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-frame">Frame: on</button>
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-theme">Theme: auto</button>
+  </div>
+</header>
+
+<div class="wf-intro">
+  <h2>Employees &amp; salary</h2>
+  <p>The Staff tab: find a person, open their profile, edit or deactivate them, bring the first employee list in from Excel, change a salary (owner only) and give or track salary advances. Every manual change asks for a reason and lands in the employee's History tab. All names, phone numbers and amounts are invented.</p>
+</div>
+
+<div class="wf-section"><h2>Staff list and profile</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 02-01 Staff list ============ -->
+  <section class="wf-screen" id="s02-01">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:24</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar">
+        <div class="appbar-title"><h1>Staff</h1><div class="sub">83 active · 2 inactive</div></div>
+        <button class="icon-btn" aria-label="Add or import staff" data-open="add-menu"><i data-lucide="user-plus"></i></button>
+      </header>
+      <div class="app-body">
+        <div class="search"><i data-lucide="search"></i><input placeholder="Search name, VSM number or phone" aria-label="Search staff"></div>
+        <div class="stack" style="gap:var(--s2)">
+          <div class="chips" role="group" aria-label="Active or inactive">
+            <button class="chip" aria-pressed="true">Active <span class="count">83</span></button>
+            <button class="chip" aria-pressed="false">Inactive <span class="count">2</span></button>
+            <button class="chip" aria-pressed="false">All <span class="count">85</span></button>
+            <button class="chip" aria-pressed="false" data-open="dept-sheet">Department <i data-lucide="chevron-down" class="ic-sm"></i></button>
+          </div>
+          <div class="chips" role="group" aria-label="Batch">
+            <button class="chip" aria-pressed="true">All batches</button>
+            <button class="chip" aria-pressed="false">Batch A <span class="count">28</span></button>
+            <button class="chip" aria-pressed="false">Batch B <span class="count">27</span></button>
+            <button class="chip" aria-pressed="false">Batch C <span class="count">28</span></button>
+          </div>
+        </div>
+        <div class="between"><span class="meta">Status for Sat 21 Nov, the last uploaded day</span><span class="meta">A–Z</span></div>
+        <div class="list inset">
+          <a class="row" href="#s02-02">
+            <span class="avatar">AN</span>
+            <div class="row-main"><div class="row-title">Ambati Naveen</div><div class="row-sub">VSM/053 · Billing · Batch A</div></div>
+            <span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span>
+          </a>
+          <a class="row" href="#s02-02">
+            <span class="avatar">BS</span>
+            <div class="row-main"><div class="row-title">Bandi Srikanth</div><div class="row-sub">VSM/039 · Pattu Sarees · Batch C</div></div>
+            <span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span>
+          </a>
+          <a class="row" href="#s02-02">
+            <span class="avatar">DP</span>
+            <div class="row-main"><div class="row-title">Dasari Pavani</div><div class="row-sub">VSM/018 · Kids Wear · Batch B</div></div>
+            <span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span>
+          </a>
+          <a class="row" href="#s02-02">
+            <span class="avatar">EB</span>
+            <div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub">VSM/064 · Fancy Sarees · Batch A</div></div>
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span>
+          </a>
+          <a class="row" href="#s02-02">
+            <span class="avatar">GH</span>
+            <div class="row-main"><div class="row-title">Gaddam Harish</div><div class="row-sub">VSM/027 · Furnishing · Batch C</div></div>
+            <span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span>
+          </a>
+          <a class="row" href="#s02-02">
+            <span class="avatar">RT</span>
+            <div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub">VSM/031 · Mens Wear · Batch B</div></div>
+            <span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span>
+          </a>
+          <a class="row" href="#s02-02">
+            <span class="avatar">JM</span>
+            <div class="row-main"><div class="row-title">Jakkula Mounika</div><div class="row-sub">VSM/071 · Cotton Sarees · Batch A</div></div>
+            <span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span>
+          </a>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#" aria-current="page"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <button data-open="more-02"><i data-lucide="menu"></i>More</button>
+      </nav>
+
+      <div class="sheet" id="add-menu" role="dialog" aria-modal="true" aria-label="Add staff" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>Add staff</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <a class="row" href="#s02-03"><i data-lucide="user-plus"></i><div class="row-main"><div class="row-title">Add one employee</div><div class="row-sub">Fill in a short form</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row" href="#s02-06"><i data-lucide="upload"></i><div class="row-main"><div class="row-title">Import from Excel</div><div class="row-sub">First-time setup, .xlsx employee list</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row" href="#s02-11"><i data-lucide="indian-rupee"></i><div class="row-main"><div class="row-title">Upload salaries</div><div class="row-sub">Owner only · .xlsx with VSM number and salary</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet" id="dept-sheet" role="dialog" aria-modal="true" aria-labelledby="dept-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="dept-t">Department</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <p class="t15 muted" style="margin:0">Pick one or more.</p>
+          <div class="chips wrap" data-multi role="group" aria-label="Departments">
+            <button class="chip" aria-pressed="false">Pattu Sarees <span class="count">14</span></button>
+            <button class="chip" aria-pressed="true">Mens Wear <span class="count">10</span></button>
+            <button class="chip" aria-pressed="false">Fancy Sarees <span class="count">9</span></button>
+            <button class="chip" aria-pressed="false">Cotton Sarees <span class="count">8</span></button>
+            <button class="chip" aria-pressed="false">Kids Wear <span class="count">7</span></button>
+            <button class="chip" aria-pressed="false">Counter <span class="count">7</span></button>
+            <button class="chip" aria-pressed="false">Billing <span class="count">6</span></button>
+            <button class="chip" aria-pressed="false">Readymade <span class="count">6</span></button>
+            <button class="chip" aria-pressed="false">Furnishing <span class="count">5</span></button>
+            <button class="chip" aria-pressed="false">Synthetics <span class="count">4</span></button>
+            <button class="chip" aria-pressed="false">Matching <span class="count">4</span></button>
+            <button class="chip" aria-pressed="false">Accounts <span class="count">3</span></button>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Clear</button>
+          <button class="btn btn-primary" data-close>Show 10 staff</button>
+        </div>
+      </div>
+
+      <div class="sheet" id="more-02" role="dialog" aria-modal="true" aria-label="More" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>More</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <a class="row compact" href="#"><i data-lucide="calendar-range"></i><div class="row-main"><div class="row-title">Sundays &amp; batches</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="calendar-heart"></i><div class="row-main"><div class="row-title">Leave</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="file-text"></i><div class="row-main"><div class="row-title">Payslips</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="book-open"></i><div class="row-main"><div class="row-title">Ledger</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="history"></i><div class="row-main"><div class="row-title">Audit log</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="settings"></i><div class="row-main"><div class="row-title">Settings &amp; users</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-01</span>
+      <h3>Staff list (Staff tab)</h3>
+      <p>Find anyone in two taps. Each row: name, VSM number, department, batch and the latest day's status (icon + word + colour).</p>
+      <ul>
+        <li><b>Search</b> matches name, VSM number (31, 031 or VSM/031) and phone.</li>
+        <li><b>First chip row</b>: Active / Inactive / All. <b>Department</b> opens a multi-select sheet. Try it.</li>
+        <li><b>Second chip row</b>: batch A, B or C. Filters combine and stay in the URL.</li>
+        <li><b>Row</b> opens the profile (02-02). <b>Add</b> (top right) opens: add one (02-03), import from Excel (02-06), upload salaries (02-11).</li>
+      </ul>
+      <div class="wf-note">Attendance arrives by upload, so "today" is really the last uploaded day (Sat 21 Nov here). If the owner wants a true today status, the export has to be uploaded every morning.</div>
+    </div>
+  </section>
+
+  <!-- ============ 02-02 Employee profile ============ -->
+  <section class="wf-screen" id="s02-02">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:25</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Gundla Ravi Teja</div><div class="sub">VSM/031 · Mens Wear · Batch B</div></div>
+        <a class="icon-btn" href="#s02-03" aria-label="Edit employee"><i data-lucide="pencil"></i></a>
+        <button class="icon-btn" aria-label="More actions" data-open="prof-actions"><i data-lucide="ellipsis-vertical"></i></button>
+      </header>
+      <div class="tabs" data-tabs role="tablist" aria-label="Profile sections">
+        <button data-tab="ov" aria-selected="true">Overview</button>
+        <button data-tab="att" aria-selected="false">Attendance</button>
+        <button data-tab="pay" aria-selected="false">Pay</button>
+        <button data-tab="lv" aria-selected="false">Leave</button>
+        <button data-tab="adv" aria-selected="false">Advances</button>
+        <button data-tab="his" aria-selected="false">History</button>
+      </div>
+      <div class="app-body">
+
+        <!-- Overview -->
+        <div data-panel="ov" class="stack" style="gap:var(--s4)">
+          <div class="card">
+            <div class="p-head">
+              <span class="avatar lg">RT</span>
+              <div class="grow">
+                <div class="p-name">Gundla Ravi Teja</div>
+                <div class="t15 muted">VSM/031 · since 10 Jan 2024</div>
+                <div class="hstack" style="margin-top:var(--s1)"><span class="badge badge-accent">Active</span><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span><span class="meta">Sat 21 Nov</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <dl class="kv">
+              <dt>Phone</dt><dd><a href="#">90100 23131</a></dd>
+              <dt>Department</dt><dd>Mens Wear</dd>
+              <dt>Joined</dt><dd>10 Jan 2024</dd>
+              <dt>Batch</dt><dd>B · next Sunday 29 Nov</dd>
+              <dt>Shift</dt><dd class="num">10:00–21:00</dd>
+            </dl>
+          </div>
+          <div class="card flush">
+            <div class="card-header"><h2 class="card-title">Biometric device codes</h2><button class="card-link" style="border:0;background:none" data-toast="Opens code picker (unmatched codes first)">Link code</button></div>
+            <div class="list">
+              <div class="row compact">
+                <i data-lucide="fingerprint"></i>
+                <div class="row-main"><div class="row-title">Code 156 · "G RAVI TEJA"</div><div class="row-sub">Last punch Sat 21 Nov, 21:06</div></div>
+                <span class="badge badge-accent">In use</span>
+              </div>
+              <div class="row compact">
+                <i data-lucide="fingerprint"></i>
+                <div class="row-main"><div class="row-title">Code 31 · old enrolment</div><div class="row-sub">No punches since import</div></div>
+                <button class="btn btn-ghost btn-sm" data-toast="Code 31 unlinked. Saved in History.">Unlink</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attendance -->
+        <div data-panel="att" class="stack" style="gap:var(--s4)" hidden>
+          <div class="month-switch">
+            <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+            <span class="m">November 2026</span>
+            <button class="icon-btn" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+          </div>
+          <div class="legend">
+            <span><i class="bg-present"></i>Present <b class="num">14</b></span><span><i class="bg-flagged"></i>Short <b class="num">2</b></span><span><i class="bg-leave"></i>Leave <b class="num">1</b></span><span><i class="bg-incomplete"></i>Incomplete <b class="num">1</b></span><span><i class="bg-absent"></i>Absent <b class="num">0</b></span><span>Off <b class="num">4</b></span>
+          </div>
+          <div class="cal" role="img" aria-label="November 2026 attendance">
+            <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+            <span class="d out">26</span><span class="d out">27</span><span class="d out">28</span><span class="d out">29</span><span class="d out">30</span><span class="d out">31</span><span class="d closed">1</span>
+            <span class="d present">2</span><span class="d present">3</span><span class="d flagged">4</span><span class="d present">5</span><span class="d present">6</span><span class="d present">7</span><span class="d closed">8</span>
+            <span class="d present">9</span><span class="d present">10</span><span class="d leave">11</span><span class="d present">12</span><span class="d incomplete">13</span><span class="d present">14</span><span class="d closed">15</span>
+            <span class="d present">16</span><span class="d present">17</span><span class="d present edited">18</span><span class="d present">19</span><span class="d flagged">20</span><span class="d present">21</span><span class="d closed">22</span>
+            <span class="d today">23</span><span class="d">24</span><span class="d">25</span><span class="d">26</span><span class="d">27</span><span class="d">28</span><span class="d">29<small>B</small></span>
+          </div>
+          <div class="banner banner-warn"><i data-lucide="circle-dashed"></i><div class="grow"><div class="b-title">Fri 13 Nov is incomplete</div><div class="t15">In 10:12, no out-punch. Fix it before the 28 Nov pay run.</div></div></div>
+          <a class="btn btn-secondary btn-block" href="#">Open full month in Attendance</a>
+        </div>
+
+        <!-- Pay -->
+        <div data-panel="pay" class="stack" style="gap:var(--s4)" hidden>
+          <div class="card">
+            <div class="meta">Monthly salary · since 2 Nov 2026</div>
+            <div class="hero-figure money">₹15,500</div>
+            <hr class="divider">
+            <dl class="kv">
+              <dt>Working days in Nov</dt><dd class="num">26 <span class="muted">(25 + 1 Sunday)</span></dd>
+              <dt>Daily rate</dt><dd class="money">₹596</dd>
+              <dt>Next pay day</dt><dd>Sat 28 Nov</dd>
+            </dl>
+          </div>
+          <a class="btn btn-primary btn-block" href="#s02-09"><i data-lucide="indian-rupee"></i>Change salary</a>
+          <p class="help" style="margin:0">Owner only. Padma and Ramesh see this button greyed out.</p>
+          <div class="card flush">
+            <div class="card-header"><h2 class="card-title">Increment history</h2><a class="card-link" href="#s02-10">See all 4</a></div>
+            <div class="list">
+              <div class="audit">
+                <span class="a-icon"><i data-lucide="indian-rupee"></i></span>
+                <div class="a-main"><div class="a-what">Starting salary in the app</div><div class="a-change"><span class="a-new money">₹15,500</span></div><div class="a-meta">Padma (Accountant) · 2 Nov 2026 · salary upload</div></div>
+              </div>
+              <div class="audit">
+                <span class="a-icon"><i data-lucide="indian-rupee"></i></span>
+                <div class="a-main"><div class="a-what">1 Apr 2026 <span class="badge badge-neutral">From old records</span></div><div class="a-change"><span class="a-old money">₹14,000</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new money">₹15,500</span></div><div class="a-meta">Entered by Owner · 2 Nov 2026</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leave -->
+        <div data-panel="lv" class="stack" style="gap:var(--s4)" hidden>
+          <div class="stats">
+            <div class="stat"><span class="label"><i data-lucide="calendar-heart" class="ic-sm"></i>Free leave · Nov</span><span class="value">Used</span><span class="delta">Wed 11 Nov</span></div>
+            <div class="stat"><span class="label"><i data-lucide="archive" class="ic-sm"></i>Banked</span><span class="value num">2 <small>of 3 days</small></span><span class="delta">Worth ₹1,192 now</span></div>
+          </div>
+          <div class="card">
+            <div class="between"><span class="t15 fw6">Bank space left</span><span class="num t15">1 day</span></div>
+            <div class="progress" style="margin-top:var(--s2)" role="img" aria-label="2 of 3 banked days used"><span style="width:66%;background:var(--accent)"></span></div>
+            <p class="help" style="margin:var(--s2) 0 0">Unused free leave can be banked (max 3 days, no expiry) or cashed out on the next pay day.</p>
+          </div>
+          <div class="list inset">
+            <div class="row compact"><div class="row-main"><div class="row-title">November</div><div class="row-sub">Used on Wed 11 Nov</div></div><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></div>
+            <div class="row compact"><div class="row-main"><div class="row-title">October</div><div class="row-sub">Not used · banked by Padma</div></div><span class="t15 num">+1 day</span></div>
+            <div class="row compact"><div class="row-main"><div class="row-title">September</div><div class="row-sub">Not used · banked (from old records)</div></div><span class="t15 num">+1 day</span></div>
+          </div>
+          <a class="btn btn-secondary btn-block" href="#">Bank or cash out (Leave)</a>
+        </div>
+
+        <!-- Advances -->
+        <div data-panel="adv" class="stack" style="gap:var(--s4)" hidden>
+          <div class="card">
+            <div class="between"><span class="meta">Still to recover</span><span class="meta">of <span class="money">₹5,000</span></span></div>
+            <div class="hero-figure money">₹2,500</div>
+            <div class="progress" style="margin-top:var(--s2)" role="img" aria-label="Half recovered"><span style="width:50%;background:var(--accent)"></span></div>
+            <p class="help" style="margin:var(--s2) 0 0">Next recovery <b class="money">−₹2,500</b> on Sat 28 Nov.</p>
+          </div>
+          <div class="list inset">
+            <a class="row" href="#s02-14"><i data-lucide="hand-coins"></i><div class="row-main"><div class="row-title">Advance · 10 Nov 2026</div><div class="row-sub">Split over 2 payouts · given by Padma</div></div><div class="row-trail"><span class="money">₹2,500</span><span class="meta">left</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row" href="#s02-14"><i data-lucide="hand-coins"></i><div class="row-main"><div class="row-title">Advance · 2 Nov 2026</div><div class="row-sub">Full from next payout · closed 14 Nov</div></div><div class="row-trail"><span class="money">₹0</span><span class="meta">closed</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+          <a class="btn btn-primary btn-block" href="#s02-13"><i data-lucide="plus"></i>Give advance</a>
+        </div>
+
+        <!-- History -->
+        <div data-panel="his" class="stack" style="gap:var(--s4)" hidden>
+          <div class="chips" role="group" aria-label="Filter history">
+            <button class="chip" aria-pressed="true">All</button>
+            <button class="chip" aria-pressed="false">Salary</button>
+            <button class="chip" aria-pressed="false">Attendance</button>
+            <button class="chip" aria-pressed="false">Details</button>
+          </div>
+          <div class="card flush"><div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="pencil"></i></span>
+              <div class="a-main"><div class="a-what">Day status · Wed 18 Nov</div><div class="a-change"><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div><div class="a-reason">Sent to the Hyderabad wholesaler for stock pickup</div><div class="a-meta">Ramesh (Supervisor) · 23 Nov, 09:40</div></div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="calendar-range"></i></span>
+              <div class="a-main"><div class="a-what">Batch</div><div class="a-change"><span class="a-old">Not set</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="a-new">B</span></div><div class="a-reason">First batch lists from the owner</div><div class="a-meta">Owner · 20 Nov, 18:12</div></div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="calendar-heart"></i></span>
+              <div class="a-main"><div class="a-what">Day status · Wed 11 Nov</div><div class="a-change"><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></div><div class="a-reason">Told Ramesh a day before. Sister's engagement.</div><div class="a-meta">Padma (Accountant) · 12 Nov, 11:03</div></div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="fingerprint"></i></span>
+              <div class="a-main"><div class="a-what">Device code 156 linked</div><div class="a-meta">Padma (Accountant) · 3 Nov, 10:20 · matched by name</div></div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="user-plus"></i></span>
+              <div class="a-main"><div class="a-what">Added by Excel import</div><div class="a-meta">Padma (Accountant) · 2 Nov, 16:45</div></div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#s02-01" aria-current="page"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="sheet" id="prof-actions" role="dialog" aria-modal="true" aria-label="Employee actions" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>Gundla Ravi Teja</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <a class="row compact" href="#s02-03"><i data-lucide="pencil"></i><div class="row-main"><div class="row-title">Edit details</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s02-09"><i data-lucide="indian-rupee"></i><div class="row-main"><div class="row-title">Change salary</div><div class="row-sub">Owner only</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#s02-13"><i data-lucide="hand-coins"></i><div class="row-main"><div class="row-title">Give advance</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><i data-lucide="file-text"></i><div class="row-main"><div class="row-title">Payslips and ledger</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact c-absent" href="#s02-05"><i data-lucide="user-x"></i><div class="row-main"><div class="row-title">Deactivate</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-02</span>
+      <h3>Employee profile (six tabs, all clickable)</h3>
+      <p>Everything about one person. The tabs scroll sideways on a phone.</p>
+      <ul>
+        <li><b>Overview</b>: phone (tap to call), department, joined date, batch and next Sunday, shift, and linked device codes. "Unlink" asks nothing more because the old code has no punches; unlinking a code with punches uses the reason sheet.</li>
+        <li><b>Attendance</b>: this month's calendar with counts. Dot on 18 Nov = edited. "Open full month" goes to 03.</li>
+        <li><b>Pay</b>: current salary, working days, daily rate (salary ÷ working days), last two increments. "Change salary" opens 02-09; "See all" opens 02-10.</li>
+        <li><b>Leave</b>: this month's free leave, banked days (max 3), month by month. Bank / cash out lives in 04.</li>
+        <li><b>Advances</b>: balance left, each advance (opens 02-14), "Give advance" (02-13).</li>
+        <li><b>History</b>: this person's audit trail, filterable.</li>
+        <li><b>Pencil</b> opens 02-03. <b>⋮</b> opens an actions sheet with Deactivate at the bottom (02-05).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 02-03 Add / edit employee ============ -->
+  <section class="wf-screen" id="s02-03">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:27</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-02" aria-label="Back"><i data-lucide="x"></i></a>
+        <div class="appbar-title"><div class="t">Edit employee</div><div class="sub">VSM/031 · 2 changes</div></div>
+      </header>
+      <div class="app-body">
+        <form class="form" onsubmit="return false">
+          <div class="field">
+            <label for="e-id">VSM number</label>
+            <input class="input num" id="e-id" value="VSM/031" readonly style="background:var(--surface-2)">
+            <span class="help">Set once. New employees get the next free number (VSM/086).</span>
+          </div>
+          <div class="two">
+            <div class="field"><label for="e-fn">First name</label><input class="input" id="e-fn" value="Ravi Teja"></div>
+            <div class="field"><label for="e-ln">Last name</label><input class="input" id="e-ln" value="Gundla"></div>
+          </div>
+          <div class="field">
+            <label for="e-ph">Phone</label>
+            <div class="input-group"><span class="prefix">+91</span><input id="e-ph" inputmode="numeric" value="90100 23113" style="text-align:left;font-size:var(--fs-16);font-weight:400"></div>
+            <span class="help">Changed from 90100 23131</span>
+          </div>
+          <div class="field">
+            <label for="e-dep">Department</label>
+            <select class="select" id="e-dep"><option>Mens Wear</option><option>Pattu Sarees</option><option>Readymade</option></select>
+          </div>
+          <div class="field">
+            <span class="label">Sunday batch</span>
+            <div class="seg" role="group" aria-label="Batch"><button aria-pressed="false">A</button><button aria-pressed="false">B</button><button aria-pressed="true">C</button><button aria-pressed="false">Not set</button></div>
+            <span class="help">Changed from B. Takes effect from the next rotation (Dec).</span>
+          </div>
+          <div class="field">
+            <span class="label">Joined</span>
+            <div class="date-field"><i data-lucide="calendar"></i><span>10 Jan 2024</span></div>
+          </div>
+          <div class="field">
+            <span class="label">Monthly salary</span>
+            <div class="between card" style="padding:var(--s3)"><span class="money t18">₹15,500</span><a href="#s02-09" class="t15">Change (owner)</a></div>
+            <span class="help">Salary is changed only through the salary sheet, so it gets an effective date and a reason.</span>
+          </div>
+        </form>
+      </div>
+      <div class="action-bar">
+        <a class="btn btn-secondary" href="#s02-02">Cancel</a>
+        <a class="btn btn-primary" href="#s02-04">Review 2 changes</a>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-03</span>
+      <h3>Add / edit employee (one form)</h3>
+      <p>The same form adds a new person (empty, next VSM number filled in, salary field editable once) or edits one. Shown here in edit mode with two fields changed.</p>
+      <ul>
+        <li>Changed fields show the old value under them.</li>
+        <li><b>Salary</b> is read-only on edit; "Change" opens the owner's salary sheet (02-09).</li>
+        <li><b>Review 2 changes</b> opens the reason sheet (02-04). Adding a new person saves straight away, with "Added by Padma" in History.</li>
+        <li>Device codes are linked on the profile (02-02) or from Attendance → unmatched codes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 02-04 Review changes with reason ============ -->
+  <section class="wf-screen" id="s02-04">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:28</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <button class="icon-btn" aria-label="Close"><i data-lucide="x"></i></button>
+        <div class="appbar-title"><div class="t">Edit employee</div><div class="sub">VSM/031 · 2 changes</div></div>
+      </header>
+      <div class="app-body">
+        <div class="field"><label>First name</label><input class="input" value="Ravi Teja" aria-label="First name"></div>
+        <div class="field"><label>Phone</label><input class="input" value="+91 90100 23113" aria-label="Phone"></div>
+      </div>
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="rv-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="rv-t">Save 2 changes?</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card flush" style="background:var(--surface-2)">
+            <div class="list" style="background:none">
+              <div class="row compact" style="background:none"><div class="row-main"><div class="row-sub">Phone</div><div class="t15"><span class="old num">90100 23131</span> → <b class="num">90100 23113</b></div></div></div>
+              <div class="row compact" style="background:none"><div class="row-main"><div class="row-sub">Sunday batch (from Dec rotation)</div><div class="t15"><span class="old">B</span> → <b>C</b></div></div></div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rv-r">Reason <span class="opt">(required, saved in History)</span></label>
+            <textarea class="textarea" id="rv-r">New SIM. Moved to Batch C so Mens Wear has two people every open Sunday.</textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Back</button>
+          <button class="btn btn-primary" data-toast="Saved. 2 changes added to History.">Save changes</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-04</span>
+      <h3>Save changes with a reason (D-02 pattern)</h3>
+      <p>Edits to an existing person go through the shared override sheet: each changed field old → new, then one required reason.</p>
+      <ul>
+        <li><b>Save changes</b> is blocked until a reason is typed (error under the field, as in D-02).</li>
+        <li>On save: toast, back to the profile, one audit row per field in History, all with the same reason.</li>
+        <li><b>Back</b> returns to the form with the edits kept.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 02-05 Deactivate ============ -->
+  <section class="wf-screen" id="s02-05">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:31</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <button class="icon-btn" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <div class="appbar-title"><div class="t">Bairi Anil</div><div class="sub">VSM/076 · Furnishing · Batch A</div></div>
+      </header>
+      <div class="app-body">
+        <div class="card"><div class="p-head"><span class="avatar lg">BA</span><div><div class="p-name">Bairi Anil</div><div class="t15 muted">VSM/076 · since 4 Mar 2025</div></div></div></div>
+      </div>
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="de-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="de-t">Deactivate Bairi Anil?</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="banner banner-warn"><i data-lucide="triangle-alert"></i><div class="grow"><div class="b-title">Money still open</div><div class="t15">Pay for 16–21 Nov (<span class="money">₹2,640</span>) goes out on Sat 28 Nov. Advance left: <span class="money">₹1,500</span>, recovered from it.</div></div></div>
+          <div class="field">
+            <span class="label">Last working day</span>
+            <div class="date-field"><i data-lucide="calendar"></i><span>Sat, 21 Nov 2026</span><i data-lucide="chevron-down" class="ic-sm"></i></div>
+          </div>
+          <div class="field">
+            <span class="label">Why</span>
+            <div class="radio-list">
+              <label><input type="radio" name="de-why" checked> Resigned</label>
+              <label><input type="radio" name="de-why"> Stopped coming</label>
+              <label><input type="radio" name="de-why"> Asked to leave</label>
+              <label><input type="radio" name="de-why"> Other</label>
+            </div>
+          </div>
+          <div class="field has-error">
+            <label for="de-r">Details <span class="opt">(required, saved in History)</span></label>
+            <textarea class="textarea" id="de-r" placeholder="e.g. Joined a shop in Hyderabad, gave one week's notice"></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a few words before deactivating.</span>
+          </div>
+          <p class="help" style="margin:0">Attendance, pay and history are kept. Device codes are freed. You can reactivate from the Inactive list.</p>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-danger" data-toast="Bairi Anil deactivated. Undo available for 10 s.">Deactivate</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-05</span>
+      <h3>Deactivate with a reason</h3>
+      <p>From the profile's ⋮ menu. Never a delete: the person moves to Inactive and drops out of attendance, batches and future pay runs.</p>
+      <ul>
+        <li><b>Banner</b> shows unpaid days and any advance balance, so nobody leaves owing or owed without it being seen.</li>
+        <li><b>Last working day</b> opens the date picker; days after it are not counted.</li>
+        <li><b>Deactivate</b> (danger) is blocked until details are typed. Toast offers Undo.</li>
+      </ul>
+      <div class="wf-note">If the advance left is bigger than the last pay, what happens to the rest: written off, or kept in the ledger as owed?</div>
+    </div>
+  </section>
+</main>
+
+<div class="wf-section"><h2>Bulk import (first-time setup)</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 02-06 Import step 1 ============ -->
+  <section class="wf-screen" id="s02-06">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>16:40</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-01" aria-label="Close import"><i data-lucide="x"></i></a>
+        <div class="appbar-title"><div class="t">Import employees</div><div class="sub">Step 1 of 3 · Upload</div></div>
+      </header>
+      <div class="app-body">
+        <div class="steps" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+        <div class="dropzone">
+          <i data-lucide="file-spreadsheet"></i>
+          <div class="fw6" style="color:var(--text)">Choose the employee list</div>
+          <div class="t15">Excel (.xlsx). One row per person.</div>
+          <button class="btn btn-secondary" data-toast="Opens the phone's file picker">Choose file</button>
+        </div>
+        <div class="card">
+          <div class="code-row">
+            <i data-lucide="file-spreadsheet" class="c-accent"></i>
+            <div class="grow"><div class="fw6">VSM_staff_list.xlsx</div><div class="meta">48 KB · 2 sheets · chosen 16:39</div></div>
+            <button class="icon-btn" aria-label="Remove file"><i data-lucide="x"></i></button>
+          </div>
+          <hr class="divider">
+          <div class="field">
+            <span class="label">Which sheet?</span>
+            <div class="seg" role="group" aria-label="Sheet"><button aria-pressed="true">Sheet1 · 100 rows</button><button aria-pressed="false">Sheet2 · 29 rows</button></div>
+            <span class="help">All 29 names on Sheet2 are also on Sheet1.</span>
+          </div>
+        </div>
+        <h2 class="section-title">Columns found</h2>
+        <div class="list inset">
+          <div class="row compact"><i data-lucide="check" class="c-accent"></i><div class="row-main"><div class="row-title">VSM number</div></div><span class="meta">Column A</span></div>
+          <div class="row compact"><i data-lucide="check" class="c-accent"></i><div class="row-main"><div class="row-title">Name</div></div><span class="meta">Column B</span></div>
+          <div class="row compact"><i data-lucide="check" class="c-accent"></i><div class="row-main"><div class="row-title">Phone</div></div><span class="meta">Column D</span></div>
+          <div class="row compact"><i data-lucide="minus" class="c-2"></i><div class="row-main"><div class="row-title">Department, batch, salary</div><div class="row-sub">Not in file. Set after import.</div></div></div>
+        </div>
+        <a href="#" class="t15">Download a blank template</a>
+      </div>
+      <div class="action-bar"><a class="btn btn-primary btn-lg" href="#s02-07">Check 100 rows</a></div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-06</span>
+      <h3>Import step 1: upload the .xlsx</h3>
+      <p>Used once to load the current list, then rarely. Shown after a file was chosen.</p>
+      <ul>
+        <li><b>Choose file</b> opens the file picker (phone or desktop).</li>
+        <li><b>Sheet</b>: the file has two sheets; Sheet1 is picked by default.</li>
+        <li><b>Columns found</b>: matched by header name. Missing ones are listed, not blocking.</li>
+        <li><b>Check 100 rows</b> goes to the preview (02-07). The address column is ignored on purpose.</li>
+      </ul>
+      <div class="wf-note">What is Sheet2 (29 names) for? If it is a batch list, the importer could set the batch from it.</div>
+    </div>
+  </section>
+
+  <!-- ============ 02-07 Import step 2 preview ============ -->
+  <section class="wf-screen" id="s02-07">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>16:41</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-06" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Import employees</div><div class="sub">Step 2 of 3 · Check rows</div></div>
+      </header>
+      <div class="app-body">
+        <div class="steps" aria-hidden="true"><span class="on"></span><span class="on"></span><span></span></div>
+        <div class="stats three">
+          <div class="stat"><span class="label">Ready</span><span class="value num">81</span></div>
+          <div class="stat"><span class="label">To check</span><span class="value num c-flagged">4</span></div>
+          <div class="stat"><span class="label">Skip</span><span class="value num">15</span></div>
+        </div>
+
+        <div class="card">
+          <div class="hstack"><span class="badge badge-flagged"><i data-lucide="phone"></i>Same phone</span><span class="meta">2 rows</span></div>
+          <div class="issue-rows">VSM/006 Kandula Sravani · VSM/007 Kandula Mahesh · both 90300 41177</div>
+          <div class="seg" role="group" aria-label="Same phone"><button aria-pressed="true">Keep both</button><button aria-pressed="false" data-open="fix-phone">Fix</button><button aria-pressed="false">Skip</button></div>
+        </div>
+
+        <div class="card">
+          <div class="hstack"><span class="badge badge-flagged"><i data-lucide="hash"></i>Phone length</span><span class="meta">1 row</span></div>
+          <div class="issue-rows">VSM/009 Erla Santhosh · 948 9012 3456 (11 digits)</div>
+          <div class="seg" role="group" aria-label="Phone length"><button aria-pressed="false">Import blank</button><button aria-pressed="true" data-open="fix-phone">Fix</button><button aria-pressed="false">Skip</button></div>
+        </div>
+
+        <div class="card">
+          <div class="hstack"><span class="badge badge-flagged"><i data-lucide="user-round"></i>No last name</span><span class="meta">1 row</span></div>
+          <div class="issue-rows">VSM/082 "Shabana"</div>
+          <div class="seg" role="group" aria-label="No last name"><button aria-pressed="true">Import as is</button><button aria-pressed="false">Fix</button><button aria-pressed="false">Skip</button></div>
+        </div>
+
+        <div class="card">
+          <div class="hstack"><span class="badge badge-neutral"><i data-lucide="user-round-x"></i>"TEMPORARY"</span><span class="meta">14 rows</span></div>
+          <div class="issue-rows">VSM/086–100 (except 088): "TEMPORARY 1" … "TEMPORARY 14". Placeholders, not people.</div>
+          <div class="seg" role="group" aria-label="Temporary rows"><button aria-pressed="false">Keep IDs free</button><button aria-pressed="true">Skip</button></div>
+        </div>
+
+        <div class="card">
+          <div class="hstack"><span class="badge badge-neutral"><i data-lucide="square-dashed"></i>Blank row</span><span class="meta">1 row</span></div>
+          <div class="issue-rows">Row 89 (VSM/088): no name, no phone. Always skipped.</div>
+        </div>
+
+        <a href="#" class="t15">See all 100 rows</a>
+      </div>
+      <div class="action-bar"><a class="btn btn-primary btn-lg" href="#s02-08">Continue · 85 to import</a></div>
+
+      <div class="sheet" id="fix-phone" role="dialog" aria-modal="true" aria-labelledby="fp-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="fp-t">Fix phone · VSM/009</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)"><div class="t15">Erla Santhosh</div><div class="meta">In file: <span class="num">948 9012 3456</span></div></div>
+          <div class="field has-error">
+            <label for="fp-n">Phone</label>
+            <div class="input-group"><span class="prefix">+91</span><input id="fp-n" inputmode="numeric" value="94890 123456" style="text-align:left;font-size:var(--fs-16);font-weight:400"></div>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>11 digits. A mobile number has 10.</span>
+          </div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-close>Use this number</button></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-07</span>
+      <h3>Import step 2: preview, issues flagged</h3>
+      <p>Only the rows that need a decision are shown; the 81 clean rows are counted, not listed.</p>
+      <ul>
+        <li>Each issue type is one card with its rows and a <b>fix / skip</b> choice (plus a safe middle option where one exists).</li>
+        <li><b>Fix</b> opens a small sheet to correct the value in place (try it on "Phone length"). The fix is checked live.</li>
+        <li>"TEMPORARY" placeholders and the blank row are skipped by default.</li>
+        <li><b>Continue</b> shows the live count to import and goes to 02-08.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 02-08 Import step 3 confirm ============ -->
+  <section class="wf-screen" id="s02-08">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>16:43</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-07" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Import employees</div><div class="sub">Step 3 of 3 · Confirm</div></div>
+      </header>
+      <div class="app-body">
+        <div class="steps" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span></div>
+        <div class="card">
+          <div class="meta">VSM_staff_list.xlsx · Sheet1</div>
+          <div><span class="hero-figure num">85</span> <span class="muted">employees will be added</span></div>
+          <hr class="divider">
+          <dl class="kv">
+            <dt>Clean rows</dt><dd class="num">81</dd>
+            <dt>Fixed by you</dt><dd class="num">1</dd>
+            <dt>Imported as is</dt><dd class="num">3</dd>
+            <dt>Skipped</dt><dd class="num">15</dd>
+          </dl>
+        </div>
+        <div class="banner banner-info"><i data-lucide="info"></i><div class="grow"><div class="b-title">Set after import</div><div class="t15">Department, batch and salary are not in the file. You will get a to-do list for each.</div></div></div>
+        <div class="list inset">
+          <a class="row compact" href="#"><i data-lucide="download"></i><div class="row-main"><div class="row-title">Download skipped rows</div><div class="row-sub">15 rows, .xlsx</div></div></a>
+        </div>
+        <h2 class="section-title">After you tap Import</h2>
+        <div class="card" style="background:var(--surface-2)">
+          <div class="hstack"><i data-lucide="circle-check" class="c-present"></i><span class="fw6">85 employees added</span></div>
+          <p class="t15 muted" style="margin:var(--s2) 0 var(--s3)">VSM/001 to VSM/085. Logged as "Added by Excel import · Padma (Accountant)".</p>
+          <div class="list inset">
+            <a class="row compact" href="#s02-11"><span class="count alert">85</span><div class="row-main"><div class="row-title">Upload salaries</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><span class="count alert">85</span><div class="row-main"><div class="row-title">Set department and batch</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+            <a class="row compact" href="#"><span class="count">85</span><div class="row-main"><div class="row-title">Link device codes</div></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar"><button class="btn btn-primary btn-lg" data-open="imp-confirm">Import 85 employees</button></div>
+      <div class="dialog" id="imp-confirm" role="alertdialog" aria-modal="true" aria-labelledby="ic-t" aria-hidden="true">
+        <h2 id="ic-t">Import 85 employees?</h2>
+        <p>They will appear in Staff straight away. You can deactivate anyone added by mistake.</p>
+        <div class="btn-row"><button class="btn btn-primary" data-close>Import</button><button class="btn btn-secondary" data-close>Cancel</button></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-08</span>
+      <h3>Import step 3: confirm and result</h3>
+      <p>Top half confirms what will happen; the grey box shows the result state that replaces it after import.</p>
+      <ul>
+        <li><b>Import</b> asks once in a dialog, then shows the result.</li>
+        <li><b>Result</b>: the count added, the audit line, and a to-do list: salaries (02-11), department and batch, device codes (03, unmatched codes).</li>
+        <li><b>Download skipped rows</b> gives the 15 left-out rows back as Excel.</li>
+      </ul>
+      <div class="wf-note">Re-importing later: should a second import update existing people by VSM number, or only add new ones? Proposed: add only, and show matches as "already in Staff".</div>
+    </div>
+  </section>
+</main>
+
+<div class="wf-section"><h2>Salary (owner only)</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 02-09 Change salary ============ -->
+  <section class="wf-screen" id="s02-09">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:40</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-02" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Gundla Ravi Teja</div><div class="sub">VSM/031 · Mens Wear · Batch B</div></div>
+      </header>
+      <div class="tabs" role="tablist" aria-label="Profile sections"><button aria-selected="false">Overview</button><button aria-selected="false">Attendance</button><button aria-selected="true">Pay</button><button aria-selected="false">Leave</button></div>
+      <div class="app-body">
+        <div class="card"><div class="meta">Monthly salary</div><div class="hero-figure money">₹15,500</div></div>
+      </div>
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="sal-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="sal-t">Change salary</h2><span class="badge badge-neutral"><i data-lucide="lock"></i>Owner</span><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="t15 muted">Now</span><span class="money">₹15,500 / month</span></div>
+            <div class="meta">Since 2 Nov 2026</div>
+          </div>
+          <div class="field">
+            <label for="sal-n">New monthly salary</label>
+            <div class="money-field"><span class="prefix">₹</span><input id="sal-n" inputmode="numeric" value="16,500"></div>
+            <span class="help"><span class="money" style="color:var(--accent)">+₹1,000</span> · 6.5% more</span>
+          </div>
+          <div class="field">
+            <span class="label">Effective from</span>
+            <div class="chips" role="group" aria-label="Effective date">
+              <button class="chip" aria-pressed="true">1 Dec 2026</button>
+              <button class="chip" aria-pressed="false">16 Nov 2026</button>
+              <button class="chip" aria-pressed="false">Other date</button>
+            </div>
+            <span class="help">The 28 Nov payout (1–15 Nov) uses the old salary.</span>
+          </div>
+          <div class="card">
+            <div class="t13 fw6 muted" style="text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--s2)">Daily rate in December</div>
+            <dl class="kv">
+              <dt>Working days</dt><dd class="num">28 <span class="muted">(27 + 1 Sunday)</span></dd>
+              <dt>Daily rate</dt><dd><span class="old money">₹554</span> → <span class="hl money">₹589</span></dd>
+              <dt>Free leave cash-out</dt><dd class="money">₹589 / day</dd>
+            </dl>
+          </div>
+          <div class="field">
+            <label for="sal-r">Reason <span class="opt">(required, saved in History)</span></label>
+            <textarea class="textarea" id="sal-r">Yearly review. Runs the Mens Wear counter alone on weekday mornings.</textarea>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. ₹16,500 from 1 Dec 2026.">Save salary</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-09</span>
+      <h3>Change salary / increment (owner only)</h3>
+      <p>The override-with-reason sheet, specialised for money: old → new, effective date, required reason, and a preview of the new daily rate.</p>
+      <ul>
+        <li><b>New salary</b>: whole rupees; the difference and % update as you type.</li>
+        <li><b>Effective from</b>: 1st of next month by default; "16 Nov" (start of the current half) and any date are allowed.</li>
+        <li><b>Daily rate preview</b> = salary ÷ working days that month (Mon–Sat plus the batch's one Sunday).</li>
+        <li><b>Save</b> is blocked without a reason. The change appears in History (02-10) and on Home's "Recent changes".</li>
+        <li>Padma and Ramesh see the Pay tab but no sheet: the button is disabled with "Ask the Owner".</li>
+      </ul>
+      <div class="wf-note">A change dated in the past (e.g. 16 Nov) would alter a pay run already paid. Proposed: allow it only for unpaid periods, and add any arrears to the next payout.</div>
+    </div>
+  </section>
+
+  <!-- ============ 02-10 Increment history ============ -->
+  <section class="wf-screen" id="s02-10">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:42</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-02" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Salary history</div><div class="sub">Gundla Ravi Teja · VSM/031</div></div>
+      </header>
+      <div class="app-body">
+        <div class="stats">
+          <div class="stat"><span class="label">Now</span><span class="value money">₹15,500</span><span class="delta">₹596 / day in Nov</span></div>
+          <div class="stat"><span class="label">From 1 Dec</span><span class="value money">₹16,500</span><span class="delta">₹589 / day in Dec</span></div>
+        </div>
+        <div class="tl">
+          <div class="tl-item next">
+            <div class="tl-date">1 Dec 2026 · scheduled</div>
+            <div class="card">
+              <div class="hstack"><span class="old money">₹15,500</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="money">₹16,500</span><span class="badge badge-accent">+₹1,000</span></div>
+              <div class="a-reason t13" style="background:var(--surface-2);border-radius:var(--r-sm);padding:4px 8px;margin-top:var(--s2)">Yearly review. Runs the Mens Wear counter alone on weekday mornings.</div>
+              <div class="meta" style="margin-top:var(--s1)">Owner · 23 Nov, 10:40</div>
+            </div>
+          </div>
+          <div class="tl-item now">
+            <div class="tl-date">2 Nov 2026 · current</div>
+            <div class="card">
+              <div class="hstack"><span class="money">₹15,500</span><span class="badge badge-neutral">Starting salary</span></div>
+              <div class="meta" style="margin-top:var(--s1)">Padma (Accountant) · 2 Nov, 17:10 · salary upload</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">1 Apr 2026 · from old records</div>
+            <div class="card">
+              <div class="hstack"><span class="old money">₹14,000</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="money">₹15,500</span><span class="badge badge-neutral">+₹1,500</span></div>
+              <div class="t13" style="background:var(--surface-2);border-radius:var(--r-sm);padding:4px 8px;margin-top:var(--s2)">From the salary register</div>
+              <div class="meta" style="margin-top:var(--s1)">Entered by Owner · 2 Nov, 18:02</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">10 Jan 2024 · joined</div>
+            <div class="card">
+              <div class="hstack"><span class="money">₹14,000</span><span class="badge badge-neutral">Joining salary</span></div>
+              <div class="meta" style="margin-top:var(--s1)">Entered by Owner · 2 Nov, 18:02</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar"><a class="btn btn-secondary" href="#">Add old record</a><a class="btn btn-primary" href="#s02-09">Change salary</a></div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-10</span>
+      <h3>Increment history (per employee)</h3>
+      <p>A timeline, newest first: when it takes effect, old → new, reason, who and when it was entered.</p>
+      <ul>
+        <li><b>Scheduled</b> changes (dashed dot) can still be edited or cancelled by the Owner, with a reason.</li>
+        <li><b>From old records</b> marks history typed in from the paper register; it never changes past pay.</li>
+        <li><b>Add old record</b> (Owner) back-fills earlier increments. <b>Change salary</b> opens 02-09.</li>
+      </ul>
+      <div class="wf-note">Does the owner want earlier increments back-filled from the paper register, or should history simply start at the December pilot?</div>
+    </div>
+  </section>
+
+  <!-- ============ 02-11 Bulk salary upload ============ -->
+  <section class="wf-screen" id="s02-11">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>11:05</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Upload salaries</div><div class="sub">salaries_dec_2026.xlsx · 86 rows</div></div>
+      </header>
+      <div class="app-body">
+        <div class="field">
+          <span class="label">Effective from</span>
+          <div class="date-field"><i data-lucide="calendar"></i><span>1 Dec 2026</span><i data-lucide="chevron-down" class="ic-sm"></i></div>
+        </div>
+        <div class="chips" role="group" aria-label="Filter rows">
+          <button class="chip" aria-pressed="true">Changed <span class="count">12</span></button>
+          <button class="chip" aria-pressed="false">Check <span class="count">3</span></button>
+          <button class="chip" aria-pressed="false">Same <span class="count">71</span></button>
+        </div>
+        <div class="list inset">
+          <div class="row warn">
+            <div class="row-main"><div class="row-title">Cheruku Prashanth</div><div class="row-sub">VSM/044 · 55% less. Typo?</div></div>
+            <div class="row-trail"><span class="old money t13">₹18,000</span><span class="hl money">₹8,100</span></div>
+          </div>
+          <div class="row warn">
+            <div class="row-main"><div class="row-title">VSM/140</div><div class="row-sub">Not in Staff. Will be skipped.</div></div>
+            <div class="row-trail"><span class="money">₹12,000</span></div>
+          </div>
+          <div class="row warn">
+            <div class="row-main"><div class="row-title">Nalla Divya</div><div class="row-sub">VSM/052 · salary cell blank. Keeps current.</div></div>
+            <div class="row-trail"><span class="money">₹13,500</span></div>
+          </div>
+          <div class="row">
+            <div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub">VSM/031 · +₹1,000</div></div>
+            <div class="row-trail"><span class="old money t13">₹15,500</span><span class="hl money">₹16,500</span></div>
+          </div>
+          <div class="row">
+            <div class="row-main"><div class="row-title">Mekala Anusha</div><div class="row-sub">VSM/024 · +₹1,500</div></div>
+            <div class="row-trail"><span class="old money t13">₹14,000</span><span class="hl money">₹15,500</span></div>
+          </div>
+          <div class="row">
+            <div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub">VSM/047 · +₹800</div></div>
+            <div class="row-trail"><span class="old money t13">₹11,200</span><span class="hl money">₹12,000</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="bs-r">Reason for all changes <span class="opt">(required)</span></label>
+          <input class="input" id="bs-r" value="December 2026 yearly increments">
+        </div>
+      </div>
+      <div class="action-bar"><button class="btn btn-primary btn-lg" data-open="bs-confirm">Apply 12 changes</button></div>
+      <div class="dialog" id="bs-confirm" role="alertdialog" aria-modal="true" aria-labelledby="bs-t" aria-hidden="true">
+        <h2 id="bs-t">Apply 12 salary changes?</h2>
+        <p>Effective 1 Dec 2026. Monthly total goes from <b class="money">₹12,46,300</b> to <b class="money">₹12,58,900</b>. The 3 rows to check are left out until you decide.</p>
+        <div class="btn-row"><button class="btn btn-primary" data-close>Apply</button><button class="btn btn-secondary" data-close>Cancel</button></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-11</span>
+      <h3>Bulk salary upload with preview (owner only)</h3>
+      <p>For the first load after import and for yearly increments. Only differences are shown; old value struck through, new value highlighted.</p>
+      <ul>
+        <li><b>Check</b> rows (amber edge): big drops, unknown VSM numbers, blank cells. Tap one to apply, edit or skip it.</li>
+        <li><b>Same</b> rows are counted, never changed or logged.</li>
+        <li><b>One reason</b> covers the whole upload; a row can get its own reason when tapped.</li>
+        <li><b>Apply</b> confirms with the new monthly total, then writes one History entry per person.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="wf-section"><h2>Salary advances</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 02-12 Advance list ============ -->
+  <section class="wf-screen" id="s02-12">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>12:10</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <button class="icon-btn" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <div class="appbar-title"><div class="t">Advances</div><div class="sub">Pay · recovered from payouts</div></div>
+        <a class="icon-btn" href="#s02-13" aria-label="Give advance"><i data-lucide="plus"></i></a>
+      </header>
+      <div class="app-body">
+        <div class="stats">
+          <div class="stat"><span class="label"><i data-lucide="hand-coins" class="ic-sm"></i>Outstanding</span><span class="value money">₹24,500</span><span class="delta">7 staff</span></div>
+          <div class="stat"><span class="label"><i data-lucide="wallet" class="ic-sm"></i>To recover 28 Nov</span><span class="value money">₹15,500</span><span class="delta">from the next payout</span></div>
+        </div>
+        <div class="chips" role="group" aria-label="Filter advances">
+          <button class="chip" aria-pressed="true">Open <span class="count">7</span></button>
+          <button class="chip" aria-pressed="false">Closed <span class="count">12</span></button>
+          <button class="chip" aria-pressed="false">All</button>
+        </div>
+        <div class="list inset">
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub">VSM/058 · <span class="money">₹10,000</span> on 2 Nov · 4 payouts</div></div><div class="row-trail"><span class="money">₹7,500</span><span class="meta">next −₹2,500</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Thota Lavanya</div><div class="row-sub">VSM/022 · <span class="money">₹6,000</span> on 6 Nov · 3 payouts</div></div><div class="row-trail"><span class="money">₹4,000</span><span class="meta">next −₹2,000</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Bandi Srikanth</div><div class="row-sub">VSM/039 · <span class="money">₹4,000</span> on 21 Nov · 2 payouts</div></div><div class="row-trail"><span class="money">₹4,000</span><span class="meta">next −₹2,000</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub">VSM/047 · <span class="money">₹3,000</span> on 18 Nov · full</div></div><div class="row-trail"><span class="money">₹3,000</span><span class="meta">next −₹3,000</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub">VSM/031 · <span class="money">₹5,000</span> on 10 Nov · 2 payouts</div></div><div class="row-trail"><span class="money">₹2,500</span><span class="meta">next −₹2,500</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub">VSM/064 · <span class="money">₹2,000</span> on 19 Nov · full</div></div><div class="row-trail"><span class="money">₹2,000</span><span class="meta">next −₹2,000</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+          <a class="row" href="#s02-14"><div class="row-main"><div class="row-title">Jakkula Mounika</div><div class="row-sub">VSM/071 · <span class="money">₹1,500</span> on 20 Nov · full</div></div><div class="row-trail"><span class="money">₹1,500</span><span class="meta">next −₹1,500</span></div><i data-lucide="chevron-right" class="row-chevron"></i></a>
+        </div>
+      </div>
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#s02-01"><i data-lucide="users"></i>Staff</a>
+        <a href="#" aria-current="page"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-12</span>
+      <h3>Advance list (remaining balances)</h3>
+      <p>Reached from the Pay tab ("Advances") and from each profile's Advances tab. Sorted by amount left.</p>
+      <ul>
+        <li><b>Stats</b>: total still owed, and how much the 28 Nov payout will recover.</li>
+        <li><b>Row</b>: who, amount and date given, plan, balance left and the next deduction. Tap opens 02-14.</li>
+        <li><b>+</b> opens "Give advance" (02-13).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 02-13 Give advance ============ -->
+  <section class="wf-screen" id="s02-13">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>12:12</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <button class="icon-btn" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <div class="appbar-title"><div class="t">Advances</div><div class="sub">Pay · recovered from payouts</div></div>
+      </header>
+      <div class="app-body">
+        <div class="stats">
+          <div class="stat"><span class="label">Outstanding</span><span class="value money">₹24,500</span></div>
+          <div class="stat"><span class="label">To recover 28 Nov</span><span class="value money">₹15,500</span></div>
+        </div>
+      </div>
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="ga-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ga-t">Give advance</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="field">
+            <span class="label">Employee</span>
+            <div class="date-field"><span class="avatar" style="flex:none;width:28px;height:28px;font-size:var(--fs-12)">VS</span><span>Vadla Sirisha · VSM/061</span><i data-lucide="chevron-down" class="ic-sm"></i></div>
+            <span class="help">₹13,000 / month · no open advance</span>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="ga-a">Amount</label>
+              <div class="money-field"><span class="prefix">₹</span><input id="ga-a" inputmode="numeric" value="4,000"></div>
+            </div>
+            <div class="field">
+              <span class="label">Date given</span>
+              <div class="date-field"><span style="white-space:nowrap">Mon, 23 Nov</span></div>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Recover it</span>
+            <div class="radio-list">
+              <label><input type="radio" name="ga-plan"> <span class="grow">In full from the next payout<br><span class="meta">−₹4,000 on Sat 28 Nov</span></span></label>
+              <label><input type="radio" name="ga-plan" checked> <span class="grow">Split over payouts<br><span class="meta">−₹2,000 on 28 Nov, 12 Dec</span></span>
+                <span class="input-group" style="width:120px;min-height:40px;flex:none"><input inputmode="numeric" value="2" aria-label="Number of payouts" style="font-size:var(--fs-16)"><span class="suffix t13">payouts</span></span></label>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Given by</span>
+            <div class="seg" role="group" aria-label="Given by"><button aria-pressed="false">Owner</button><button aria-pressed="false">Ramesh</button><button aria-pressed="true">Padma</button></div>
+          </div>
+          <div class="field">
+            <label for="ga-r">Reason <span class="opt">(required)</span></label>
+            <textarea class="textarea" id="ga-r">Child's school fees</textarea>
+          </div>
+          <div class="banner banner-info"><i data-lucide="info"></i><div class="grow t15">Her 28 Nov payout is about <b class="money">₹6,500</b>. After recovery she gets about <b class="money">₹4,500</b>.</div></div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Advance of ₹4,000 saved. Shows on her next 2 payslips.">Save advance</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-13</span>
+      <h3>Give advance</h3>
+      <p>Records money handed over today and how it comes back. Opens from the advance list, the Pay tab or a profile (employee prefilled there).</p>
+      <ul>
+        <li><b>Employee</b> opens a searchable picker.</li>
+        <li><b>Recovery plan</b>: full from the next payout (default) or split over N payouts; the dates and amounts update as N changes. Uneven splits put the remainder in the last payout.</li>
+        <li><b>Given by</b> defaults to the signed-in user. <b>Reason</b> is required.</li>
+        <li>The banner warns if recovery would take more than the payout; it never blocks.</li>
+        <li>Saved advances show on the payslip and in the ledger (05).</li>
+      </ul>
+      <div class="wf-note">Should there be a limit, e.g. an advance no larger than one month's salary, or only one open advance per person?</div>
+    </div>
+  </section>
+
+  <!-- ============ 02-14 Advance detail ============ -->
+  <section class="wf-screen" id="s02-14">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>12:15</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s02-12" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Advance · 10 Nov 2026</div><div class="sub">Gundla Ravi Teja · VSM/031</div></div>
+        <button class="icon-btn" aria-label="More actions" data-open="adv-actions"><i data-lucide="ellipsis-vertical"></i></button>
+      </header>
+      <div class="app-body">
+        <div class="card">
+          <div class="between"><span class="meta">Left to recover</span><span class="badge badge-accent">Open</span></div>
+          <div class="hero-figure money">₹2,500</div>
+          <div class="progress" style="margin:var(--s2) 0" role="img" aria-label="2,500 of 5,000 recovered"><span style="width:50%;background:var(--accent)"></span></div>
+          <dl class="kv">
+            <dt>Given</dt><dd class="money">₹5,000</dd>
+            <dt>Date</dt><dd>Tue, 10 Nov 2026</dd>
+            <dt>Given by</dt><dd>Padma (Accountant)</dd>
+            <dt>Plan</dt><dd>Split over 2 payouts</dd>
+          </dl>
+          <div class="t13" style="background:var(--surface-2);border-radius:var(--r-sm);padding:4px 8px;margin-top:var(--s3)">Father's hospital bills</div>
+        </div>
+        <h2 class="section-title">Recovery</h2>
+        <div class="list inset">
+          <div class="row compact"><i data-lucide="circle-check" class="c-accent"></i><div class="row-main"><div class="row-title">Sat, 14 Nov payout</div><div class="row-sub">Deducted · on payslip</div></div><span class="money">−₹2,500</span></div>
+          <div class="row compact"><i data-lucide="calendar-clock" class="c-2"></i><div class="row-main"><div class="row-title">Sat, 28 Nov payout</div><div class="row-sub">Scheduled</div></div><span class="money">−₹2,500</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" data-open="adv-change">Change plan</button>
+          <button class="btn btn-secondary" data-toast="Opens: record cash repayment (amount, date, reason)">Paid back in cash</button>
+        </div>
+        <h2 class="section-title">History</h2>
+        <div class="card flush"><div class="list">
+          <div class="audit"><span class="a-icon"><i data-lucide="hand-coins"></i></span><div class="a-main"><div class="a-what">Advance given · <span class="money">₹5,000</span></div><div class="a-meta">Padma (Accountant) · 10 Nov, 13:22</div></div></div>
+        </div></div>
+      </div>
+      <div class="sheet" id="adv-change" role="dialog" aria-modal="true" aria-labelledby="ac-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ac-t">Change recovery plan</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)"><div class="between"><span class="t15 muted">Now</span><span class="fw6">−₹2,500 on 28 Nov</span></div></div>
+          <div class="field">
+            <span class="label">New plan for the <span class="money">₹2,500</span> left</span>
+            <div class="seg" role="group" aria-label="New plan"><button aria-pressed="false">28 Nov</button><button aria-pressed="true">Split 2</button><button aria-pressed="false">Skip once</button></div>
+            <span class="help">−₹1,250 on 28 Nov and 12 Dec</span>
+          </div>
+          <div class="field has-error">
+            <label for="ac-r">Reason <span class="opt">(required, saved in History)</span></label>
+            <textarea class="textarea" id="ac-r" placeholder="e.g. Asked to spread it out, wedding in the family"></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a reason before saving.</span>
+          </div>
+        </div>
+        <div class="sheet-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" data-close>Save change</button></div>
+      </div>
+      <div class="sheet" id="adv-actions" role="dialog" aria-modal="true" aria-label="Advance actions" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2>Advance</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0"><div class="list">
+          <button class="row compact" data-close><i data-lucide="pencil"></i><div class="row-main"><div class="row-title">Correct amount or date</div></div></button>
+          <button class="row compact c-absent" data-close><i data-lucide="circle-x"></i><div class="row-main"><div class="row-title">Write off balance</div><div class="row-sub">Owner only</div></div></button>
+        </div></div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-14</span>
+      <h3>Advance detail with recovery entries</h3>
+      <p>One advance: what was given, by whom and why, what has come back and what is still scheduled.</p>
+      <ul>
+        <li><b>Recovery</b>: one line per payout, deducted or scheduled. Each deducted line links to its payslip.</li>
+        <li><b>Change plan</b> opens the reason sheet (try it): move all to the next payout, split, or skip one payout.</li>
+        <li><b>Paid back in cash</b> records money returned outside payroll, with a reason.</li>
+        <li><b>⋮</b>: correct a mistake, or write off the balance (Owner). Every action adds a History row.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="wf-section"><h2>Desktop</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 02-15 Desktop staff table ============ -->
+  <section class="wf-screen wide" id="s02-15">
+    <div class="wf-scroll-x"><div class="desktop">
+      <nav class="rail" aria-label="Main">
+        <div class="rail-brand">VSM Staff</div>
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#" aria-current="page"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <div class="rail-group">More</div>
+        <a href="#"><i data-lucide="calendar-range"></i>Sundays &amp; batches</a>
+        <a href="#"><i data-lucide="calendar-heart"></i>Leave</a>
+        <a href="#"><i data-lucide="file-text"></i>Payslips</a>
+        <a href="#"><i data-lucide="book-open"></i>Ledger</a>
+        <a href="#"><i data-lucide="history"></i>Audit log</a>
+        <a href="#"><i data-lucide="settings"></i>Settings &amp; users</a>
+      </nav>
+      <div class="main">
+        <header class="appbar">
+          <div class="appbar-title"><h1>Staff</h1><div class="sub">83 active · 2 inactive · status for Sat 21 Nov</div></div>
+          <a class="btn btn-secondary" href="#s02-11"><i data-lucide="indian-rupee"></i>Upload salaries</a>
+          <a class="btn btn-secondary" href="#s02-06" style="margin-left:var(--s2)"><i data-lucide="upload"></i>Import</a>
+          <a class="btn btn-primary" href="#s02-03" style="margin-left:var(--s2)"><i data-lucide="user-plus"></i>Add employee</a>
+        </header>
+        <div class="app-body">
+          <div class="desk-tools">
+            <div class="search"><i data-lucide="search"></i><input placeholder="Search name, VSM number or phone" aria-label="Search staff"></div>
+            <div class="chips" role="group" aria-label="Active or inactive">
+              <button class="chip" aria-pressed="true">Active <span class="count">83</span></button>
+              <button class="chip" aria-pressed="false">Inactive <span class="count">2</span></button>
+            </div>
+            <div class="chips" role="group" aria-label="Batch">
+              <button class="chip" aria-pressed="true">All batches</button>
+              <button class="chip" aria-pressed="false">A <span class="count">28</span></button>
+              <button class="chip" aria-pressed="false">B <span class="count">27</span></button>
+              <button class="chip" aria-pressed="false">C <span class="count">28</span></button>
+            </div>
+            <select class="select" aria-label="Department" style="width:200px;min-height:40px;background-position:calc(100% - 20px) 17px, calc(100% - 15px) 17px"><option>All departments</option><option>Mens Wear</option><option>Pattu Sarees</option></select>
+          </div>
+          <div class="card flush">
+            <table class="table">
+              <thead><tr><th>Employee</th><th>Department</th><th>Batch</th><th>Phone</th><th class="r">Salary</th><th class="r">Advance left</th><th>Sat 21 Nov</th></tr></thead>
+              <tbody>
+                <tr><td><a href="#s02-02">Ambati Naveen</a><div class="sub num">VSM/053</div></td><td>Billing</td><td>A</td><td class="num">90100 45210</td><td class="r money">₹16,000</td><td class="r muted">–</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td><a href="#s02-02">Bandi Srikanth</a><div class="sub num">VSM/039</div></td><td>Pattu Sarees</td><td>C</td><td class="num">90100 31872</td><td class="r money">₹14,500</td><td class="r money">₹4,000</td><td><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></td></tr>
+                <tr><td><a href="#s02-02">Cheruku Prashanth</a><div class="sub num">VSM/044</div></td><td>Accounts</td><td>B</td><td class="num">90100 77031</td><td class="r money">₹18,000</td><td class="r muted">–</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td><a href="#s02-02">Dasari Pavani</a><div class="sub num">VSM/018</div></td><td>Kids Wear</td><td>B</td><td class="num">90100 12904</td><td class="r money">₹11,500</td><td class="r muted">–</td><td><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></td></tr>
+                <tr><td><a href="#s02-02">Ennam Bhavani</a><div class="sub num">VSM/064</div></td><td>Fancy Sarees</td><td>A</td><td class="num">90100 66415</td><td class="r money">₹12,000</td><td class="r money">₹2,000</td><td><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></td></tr>
+                <tr><td><a href="#s02-02">Gaddam Harish</a><div class="sub num">VSM/027</div></td><td>Furnishing</td><td>C</td><td class="num">90100 50388</td><td class="r money">₹15,000</td><td class="r muted">–</td><td><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></td></tr>
+                <tr><td><a href="#s02-02">Gundla Ravi Teja</a><div class="sub num">VSM/031</div></td><td>Mens Wear</td><td>B</td><td class="num">90100 23131</td><td class="r money">₹15,500</td><td class="r money">₹2,500</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td><a href="#s02-02">Jakkula Mounika</a><div class="sub num">VSM/071</div></td><td>Cotton Sarees</td><td>A</td><td class="num">90100 84027</td><td class="r money">₹10,500</td><td class="r money">₹1,500</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td><a href="#s02-02">Kavali Naresh</a><div class="sub num">VSM/058</div></td><td>Counter</td><td>C</td><td class="num">90100 39916</td><td class="r money">₹17,000</td><td class="r money">₹7,500</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td><a href="#s02-02">Mekala Anusha</a><div class="sub num">VSM/024</div></td><td>Pattu Sarees</td><td>A</td><td class="num">90100 20577</td><td class="r money">₹14,000</td><td class="r muted">–</td><td><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></td></tr>
+                <tr><td><a href="#s02-02">Peddi Swapna</a><div class="sub num">VSM/047</div></td><td>Matching</td><td>B</td><td class="num">90100 91460</td><td class="r money">₹11,200</td><td class="r money">₹3,000</td><td><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></td></tr>
+              </tbody>
+            </table>
+            <div class="between" style="padding:var(--s3) var(--s4)"><span class="meta">Showing 11 of 83 · sorted by name</span><span class="hstack"><button class="btn btn-secondary btn-sm" disabled>Previous</button><button class="btn btn-secondary btn-sm">Next</button></span></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">02-15</span>
+      <h3>Desktop staff table (≥ 1024 px)</h3>
+      <p>Same list as 02-01, widened into a table for the store PC. Same filters, same actions; extra columns because there is room: phone, salary, advance left.</p>
+      <ul>
+        <li><b>Name</b> opens the profile (on desktop as a full page with the six tabs side by side as a top tab row).</li>
+        <li><b>Column headers</b> sort. Department is a dropdown here instead of a sheet.</li>
+        <li><b>Salary</b> column is visible to all three users; only the Owner can change it.</li>
+        <li><b>Add employee / Import / Upload salaries</b> open the same flows as on the phone, as a right-side panel.</li>
+      </ul>
+      <div class="wf-note">Should Ramesh (Supervisor) see salaries at all? If not, hide the Salary and Advance columns and the Pay tab for the Supervisor role.</div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

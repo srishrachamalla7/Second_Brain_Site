@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attendance Wireframes</title>
+<link rel="stylesheet" href="kit/kit.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="kit/kit.js"></script>
+<style>
+/* Screen-specific layout for 03 Attendance. Kit tokens only. */
+.fix-item { padding: var(--s3) var(--s4); background: var(--surface); }
+.fix-item + .fix-item { border-top: 1px solid var(--border); }
+.fix-head { display: flex; align-items: center; gap: var(--s3); }
+.fix-actions { display: flex; gap: var(--s2); margin-top: var(--s2); padding-left: 52px; }
+.fix-actions .btn { flex: 1; padding: 0 var(--s2); font-size: var(--fs-15); }
+
+.match { padding: var(--s3) var(--s4); background: var(--surface); display: flex; flex-direction: column; gap: var(--s2); }
+.match + .match { border-top: 1px solid var(--border); }
+.match-code { display: flex; align-items: center; gap: var(--s2); }
+.match-code .lbl { font-weight: 600; }
+.match-to { display: flex; align-items: center; gap: var(--s2); padding-left: 28px; font-size: var(--fs-15); }
+.match-to svg { color: var(--text-3); }
+.match-btns { display: flex; gap: var(--s2); padding-left: 28px; }
+.match-btns .btn { flex: 1; padding: 0 var(--s2); font-size: var(--fs-15); }
+
+.raw { background: var(--surface-2); border-radius: var(--r-sm); padding: var(--s2) var(--s3); font-size: var(--fs-15); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.rules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; font-size: var(--fs-15); }
+.rules li { display: flex; align-items: center; gap: var(--s2); min-height: 32px; padding: 0 var(--s2); border-radius: var(--r-sm); color: var(--text-2); }
+.rules li svg { width: 16px; height: 16px; }
+.rules li.applied { background: var(--surface-2); color: var(--text); font-weight: 600; }
+.cal a.d { text-decoration: none; }
+.chg-line { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+
+/* Attendance register (matrix with sticky names) */
+.reg-wrap { overflow: auto; max-height: 470px; border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); }
+.desktop .reg-wrap { max-height: 452px; }
+.reg { border-collapse: separate; border-spacing: 0; font-size: var(--fs-12); font-variant-numeric: tabular-nums; }
+.reg th, .reg td { padding: 0 1px; height: 40px; min-width: 26px; text-align: center; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.reg thead th { position: sticky; top: 0; z-index: 2; background: var(--surface-2); color: var(--text-2); font-weight: 600; line-height: 1.15; }
+.reg thead th small { display: block; font-size: 10px; font-weight: 500; color: var(--text-3); }
+.reg .nm { position: sticky; left: 0; z-index: 1; background: var(--surface); text-align: left; padding: 0 var(--s2) 0 var(--s3); min-width: 124px; max-width: 124px; border-right: 1px solid var(--border); overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-13); font-weight: 500; line-height: 1.2; }
+.desktop .reg .nm { min-width: 176px; max-width: 176px; }
+.reg thead .nm { z-index: 3; background: var(--surface-2); }
+.reg .nm small { display: block; font-size: 11px; font-weight: 400; color: var(--text-3); }
+.reg td.sun, .reg th.sun { background: var(--surface-2); }
+.reg th.today { box-shadow: inset 0 -2px 0 var(--text); color: var(--text); }
+.reg .tot { min-width: 30px; font-weight: 600; font-size: var(--fs-13); }
+.reg .tot.first { border-left: 1px solid var(--border); }
+.reg .c { position: relative; display: inline-flex; width: 22px; height: 22px; align-items: center; justify-content: center; border-radius: 4px; font-weight: 600; }
+.reg .c.p { color: var(--present); background: var(--present-bg); }
+.reg .c.s { color: var(--flagged); background: var(--flagged-bg); }
+.reg .c.a { color: var(--absent); background: var(--absent-bg); }
+.reg .c.i { color: var(--incomplete); background: var(--incomplete-bg); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.reg .c.l { color: var(--leave); background: var(--leave-bg); }
+.reg .c.o { color: var(--text-3); font-weight: 500; }
+.reg .c.e::after { content: ""; position: absolute; top: 2px; right: 2px; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.desktop .reg .tot { position: sticky; z-index: 1; width: 32px; min-width: 32px; max-width: 32px; background: var(--surface); }
+.desktop .reg thead .tot { z-index: 3; background: var(--surface-2); }
+.desktop .reg .tot:nth-last-child(1) { right: 0; } .desktop .reg .tot:nth-last-child(2) { right: 32px; } .desktop .reg .tot:nth-last-child(3) { right: 64px; }
+.desktop .reg .tot:nth-last-child(4) { right: 96px; } .desktop .reg .tot:nth-last-child(5) { right: 128px; }
+.reg-key { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); font-size: var(--fs-13); color: var(--text-2); }
+.reg-key span { display: inline-flex; align-items: center; gap: 6px; }
+.reg-key .c { position: relative; display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; border-radius: 4px; font-weight: 600; font-size: var(--fs-12); }
+.reg-key .c.p { color: var(--present); background: var(--present-bg); }
+.reg-key .c.s { color: var(--flagged); background: var(--flagged-bg); }
+.reg-key .c.a { color: var(--absent); background: var(--absent-bg); }
+.reg-key .c.i { color: var(--incomplete); background: var(--incomplete-bg); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.reg-key .c.l { color: var(--leave); background: var(--leave-bg); }
+.reg-key .c.o { color: var(--text-3); box-shadow: inset 0 0 0 1px var(--border); }
+.filters { display: flex; align-items: center; gap: var(--s3); }
+.filters .search { width: 260px; flex: none; }
+.filters .chips { flex: 1; min-width: 0; }
+</style>
+</head>
+<body class="wf-page">
+
+<header class="wf-header">
+  <a class="wf-back" href="index.html"><i data-lucide="arrow-left"></i> All wireframes</a>
+  <h1>03 · Attendance</h1>
+  <div class="wf-tools">
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-frame">Frame: on</button>
+    <button class="btn btn-secondary btn-sm" id="wf-toggle-theme">Theme: auto</button>
+  </div>
+</header>
+
+<div class="wf-intro">
+  <h2>Attendance</h2>
+  <p>Padma uploads the biometric "Daily Attendance Report" (.xls) every few days. The app reads both companies in the file, maps device codes to staff, and works out each day: 8 h or more is Present, 6–8 h is Short (present, flagged for Ramesh to talk to the person), under 6 h is Absent, and a missing out-punch is Incomplete until someone fixes it. Every manual change goes through the change-with-reason sheet and leaves an audit row. Data in these screens runs up to Sat 21 Nov. Today, Mon 23 Nov, Padma uploads 16–22 Nov.</p>
+</div>
+
+<div class="wf-section"><h2>Day view</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 03-01 Attendance home ============ -->
+  <section class="wf-screen" id="s03-01">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:24</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar">
+        <div class="appbar-title"><h1>Attendance</h1></div>
+        <a class="icon-btn" href="#s03-09" aria-label="Month register"><i data-lucide="table-2"></i></a>
+        <a class="icon-btn" href="#s03-02" aria-label="Upload biometric file"><i data-lucide="upload"></i></a>
+      </header>
+
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous day"><i data-lucide="chevron-left"></i></button>
+          <div class="center">
+            <div class="m">Sat, 21 Nov</div>
+            <div class="meta">From file uploaded 22 Nov, 09:12</div>
+          </div>
+          <button class="icon-btn" aria-label="Next day (not uploaded yet)" disabled style="opacity:.35"><i data-lucide="chevron-right"></i></button>
+        </div>
+
+        <div class="list inset">
+          <a class="row compact" href="#s03-05">
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>9</span>
+            <div class="row-main"><div class="row-title">Fix punches</div><div class="row-sub">No out-punch · before pay day, Sat 28 Nov</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row compact" href="#s03-06">
+            <span class="badge badge-flagged"><i data-lucide="clock"></i>6</span>
+            <div class="row-main"><div class="row-title">Short days to discuss</div><div class="row-sub">For Ramesh to talk to the employee</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <a class="row compact" href="#s03-04">
+            <span class="badge badge-neutral"><i data-lucide="fingerprint"></i>3</span>
+            <div class="row-main"><div class="row-title">Unmatched device codes</div><div class="row-sub">Punches with no employee yet</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="between" style="margin-bottom: var(--s3)">
+            <div><span class="hero-figure">70</span> <span class="muted">of 83 at work</span></div>
+            <span class="meta">Present + Short</span>
+          </div>
+          <div class="progress" role="img" aria-label="67 present, 3 short, 6 incomplete, 4 absent, 3 on leave">
+            <span class="bg-present" style="width:80.7%"></span><span class="bg-flagged" style="width:3.6%"></span><span class="bg-incomplete" style="width:7.2%"></span><span class="bg-absent" style="width:4.8%"></span><span class="bg-leave" style="width:3.6%"></span>
+          </div>
+        </div>
+
+        <div class="chips" role="group" aria-label="Filter by status">
+          <button class="chip" aria-pressed="true">All <span class="count">83</span></button>
+          <button class="chip" aria-pressed="false"><i data-lucide="circle-check" class="ic-sm c-present"></i>Present <span class="count">67</span></button>
+          <button class="chip" aria-pressed="false"><i data-lucide="clock" class="ic-sm c-flagged"></i>Short <span class="count">3</span></button>
+          <button class="chip" aria-pressed="false"><i data-lucide="circle-dashed" class="ic-sm"></i>Incomplete <span class="count">6</span></button>
+          <button class="chip" aria-pressed="false"><i data-lucide="circle-x" class="ic-sm c-absent"></i>Absent <span class="count">4</span></button>
+          <button class="chip" aria-pressed="false"><i data-lucide="calendar-heart" class="ic-sm c-leave"></i>Leave <span class="count">3</span></button>
+          <button class="chip" aria-pressed="false"><i data-lucide="moon" class="ic-sm"></i>Off <span class="count">0</span></button>
+        </div>
+
+        <div class="list inset">
+          <a class="row" href="#s03-07">
+            <span class="avatar">BS</span>
+            <div class="row-main"><div class="row-title">Bairi Suresh</div><div class="row-sub">VSM/015 · 12:05 – 19:20</div></div>
+            <div class="row-trail"><span class="num t15">7 h 15 m</span><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></div>
+          </a>
+          <a class="row" href="#s03-07">
+            <span class="avatar">BS</span>
+            <div class="row-main"><div class="row-title">Bhukya Sandhya</div><div class="row-sub">VSM/057 · 10:10 – 17:40</div></div>
+            <div class="row-trail"><span class="num t15">7 h 30 m</span><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></div>
+          </a>
+          <a class="row" href="#s03-05">
+            <span class="avatar">BP</span>
+            <div class="row-main"><div class="row-title">Bollam Prasad</div><div class="row-sub">VSM/033 · In 10:01 · no out-punch</div></div>
+            <div class="row-trail"><span class="num t15 muted">–</span><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+          </a>
+          <a class="row" href="#s03-07">
+            <span class="avatar">EB</span>
+            <div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub">VSM/063 · 09:57 – 21:02</div></div>
+            <div class="row-trail"><span class="num t15">11 h 05 m</span><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+          </a>
+          <a class="row" href="#s03-05">
+            <span class="avatar">GR</span>
+            <div class="row-main"><div class="row-title">Gaddam Rajitha</div><div class="row-sub">VSM/041 · In 10:20 · no out-punch</div></div>
+            <div class="row-trail"><span class="num t15 muted">–</span><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+          </a>
+          <a class="row" href="#s03-07">
+            <span class="avatar">GR</span>
+            <div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub">VSM/031 · 10:02 – 21:04</div></div>
+            <div class="row-trail"><span class="num t15">11 h 02 m</span><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+          </a>
+          <a class="row" href="#s03-07">
+            <span class="avatar">MV</span>
+            <div class="row-main"><div class="row-title">Madasu Venu</div><div class="row-sub">VSM/036 · 10:05 – 14:40</div></div>
+            <div class="row-trail"><span class="num t15">4 h 35 m</span><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></div>
+          </a>
+          <a class="row" href="#s03-07">
+            <span class="avatar">MA</span>
+            <div class="row-main"><div class="row-title">Mekala Anusha</div><div class="row-sub">VSM/044 · free leave (Nov)</div></div>
+            <div class="row-trail"><span class="num t15 muted">–</span><span class="badge badge-leave"><i data-lucide="calendar-heart"></i>Leave</span></div>
+          </a>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-01</span>
+      <h3>Attendance home (day view)</h3>
+      <p>Opens on the latest day in the uploaded data, so it is always a day or two behind the machine. The work queue sits above the totals.</p>
+      <ul>
+        <li><b>‹ / ›</b> move one day. › is disabled after the last uploaded day. Tapping the date opens a calendar picker.</li>
+        <li><b>Fix punches</b> opens 03-05, <b>Short days</b> 03-06, <b>Unmatched codes</b> 03-04.</li>
+        <li><b>"At work"</b> counts Present + Short, since Short is still present.</li>
+        <li><b>Status chips</b> filter the list; counts are for this day. List is A–Z.</li>
+        <li><b>A row</b> opens that person's day (03-07). Incomplete rows open the fix list.</li>
+        <li><b>Upload</b> (top right) opens 03-02. <b>Table</b> opens the month register (03-09).</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Upload the biometric file</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 03-02 Upload step 1 ============ -->
+  <section class="wf-screen" id="s03-02">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:25</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Upload attendance</div><div class="sub">Step 1 of 2 · Choose the file</div></div>
+      </header>
+
+      <div class="app-body">
+        <div class="dropzone">
+          <i data-lucide="file-spreadsheet"></i>
+          <div class="fw6" style="color:var(--text)">Daily Attendance Report (.xls)</div>
+          <div class="t15">From the biometric software on the billing-counter PC</div>
+          <a class="btn btn-primary" href="#s03-03" style="margin-top:var(--s2)"><i data-lucide="upload"></i>Choose file</a>
+        </div>
+
+        <h2 class="section-title">Before you export</h2>
+        <div class="card">
+          <ul class="rules" style="gap:var(--s2)">
+            <li style="align-items:flex-start;color:var(--text)"><i data-lucide="check" class="c-accent" style="margin-top:4px"></i><span><b class="fw6">Report:</b> "Daily Attendance Report", not the monthly or muster report.</span></li>
+            <li style="align-items:flex-start;color:var(--text)"><i data-lucide="check" class="c-accent" style="margin-top:4px"></i><span><b class="fw6">Companies:</b> all, so both RRL SONS and Default are in the file. Unnamed fingerprints sit under Default.</span></li>
+            <li style="align-items:flex-start;color:var(--text)"><i data-lucide="check" class="c-accent" style="margin-top:4px"></i><span><b class="fw6">Dates:</b> up to yesterday. Export in the morning, before the shop opens.</span></li>
+            <li style="align-items:flex-start;color:var(--text)"><i data-lucide="check" class="c-accent" style="margin-top:4px"></i><span><b class="fw6">File:</b> the .xls exactly as saved. Don't open and edit it in Excel.</span></li>
+          </ul>
+        </div>
+        <div class="banner banner-info">
+          <i data-lucide="info"></i>
+          <div class="t15">Overlapping dates are fine. Days already uploaded are updated, never added twice. Next file should start <b>Sun, 22 Nov</b>.</div>
+        </div>
+
+        <h2 class="section-title">Previous uploads</h2>
+        <div class="list inset">
+          <div class="row compact">
+            <i data-lucide="file-check-2" class="c-2"></i>
+            <div class="row-main"><div class="row-title num">16 – 21 Nov</div><div class="row-sub">22 Nov, 09:12 · Padma (Accountant)</div></div>
+            <span class="meta num">498 days</span>
+          </div>
+          <div class="row compact">
+            <i data-lucide="file-check-2" class="c-2"></i>
+            <div class="row-main"><div class="row-title num">9 – 15 Nov</div><div class="row-sub">16 Nov, 09:40 · Padma (Accountant)</div></div>
+            <span class="meta num">502 days</span>
+          </div>
+          <div class="row compact">
+            <i data-lucide="file-check-2" class="c-2"></i>
+            <div class="row-main"><div class="row-title num">2 – 8 Nov</div><div class="row-sub">9 Nov, 10:03 · Owner · first upload</div></div>
+            <span class="meta num">487 days</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-02</span>
+      <h3>Upload, step 1: choose the file</h3>
+      <p>Tells whoever does the export exactly what to pick in the biometric software, so the import doesn't fail on the second step.</p>
+      <ul>
+        <li><b>Choose file</b> opens the phone's file picker (Files / Downloads / WhatsApp). The app reads the file right away and shows 03-03. Nothing is saved yet.</li>
+        <li><b>A wrong file</b> (monthly report, .csv, a re-saved sheet with missing columns) stops here with an error that names the missing columns.</li>
+        <li><b>Previous uploads</b> are read-only. They show which dates are already in.</li>
+      </ul>
+      <div class="wf-note">The "export in the morning" line exists because the sample file was taken mid-day: 19 Nov had 49 people with no out-punch and 0 Present.</div>
+    </div>
+  </section>
+
+  <!-- ============ 03-03 Upload step 2: parse summary ============ -->
+  <section class="wf-screen" id="s03-03">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:26</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-02" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Check the file</div><div class="sub">Step 2 of 2 · Daily_Attendance_Report.xls</div></div>
+      </header>
+
+      <div class="app-body">
+        <div class="card">
+          <div class="meta">Dates found</div>
+          <div class="between">
+            <div class="t20 fw6 num">Mon 16 – Sun 22 Nov</div>
+            <span class="badge badge-neutral num">7 days</span>
+          </div>
+          <hr class="divider">
+          <dl class="kv">
+            <dt>RRL SONS</dt><dd class="num">1,141 rows · 163 codes</dd>
+            <dt>Default</dt><dd class="num">119 rows · 17 codes</dd>
+            <dt>Test Employee 1–3</dt><dd class="muted">ignored</dd>
+          </dl>
+        </div>
+
+        <div class="list inset">
+          <div class="row">
+            <span class="badge badge-present"><i data-lucide="circle-check"></i>Matched</span>
+            <div class="row-main"><div class="row-title num">412 staff-days</div><div class="row-sub">80 employees punched in these 7 days</div></div>
+          </div>
+          <a class="row" href="#s03-04">
+            <span class="badge badge-neutral"><i data-lucide="fingerprint"></i>Unmatched</span>
+            <div class="row-main"><div class="row-title num">3 codes · 11 days</div><div class="row-sub">187, 204, 230 · no name on device</div></div>
+            <span class="btn btn-secondary btn-sm">Match</span>
+          </a>
+          <a class="row" href="#s03-05">
+            <span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span>
+            <div class="row-main"><div class="row-title num">11 days</div><div class="row-sub">No out-punch · 9 already in Fix punches, 2 new</div></div>
+            <i data-lucide="chevron-right" class="row-chevron"></i>
+          </a>
+          <div class="row compact">
+            <i data-lucide="eye-off" class="c-2"></i>
+            <div class="row-main"><div class="row-title t15">84 old codes with no punches</div><div class="row-sub">Codes 1–85 (old enrolments) · skipped</div></div>
+          </div>
+        </div>
+
+        <div class="banner banner-warn">
+          <i data-lucide="copy-check"></i>
+          <div class="grow">
+            <div class="b-title">16–21 Nov are already in the app</div>
+            <div class="t15">This file updates those 6 days. No duplicates. 22 Nov is new. 2 days someone edited by hand keep their edit.</div>
+            <button class="btn btn-ghost btn-sm" data-open="up-changes" style="padding-left:0">See 14 changed days</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <a class="btn btn-secondary" href="#s03-02">Other file</a>
+        <button class="btn btn-primary" data-toast="Imported 16–22 Nov. 11 days to fix.">Save import</button>
+      </div>
+
+      <div class="sheet" id="up-changes" role="dialog" aria-modal="true" aria-labelledby="up-changes-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="up-changes-t">Changes to days already in</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body" style="padding-left:0;padding-right:0">
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="file-spreadsheet"></i></span>
+              <div class="a-main">
+                <div class="a-what">Kanukuntla Raju · Sat 21 Nov</div>
+                <div class="a-change"><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+                <div class="a-meta">Out-punch 21:03 is in this file</div>
+              </div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="file-spreadsheet"></i></span>
+              <div class="a-main">
+                <div class="a-what">Pandiri Mounika · Thu 19 Nov</div>
+                <div class="a-change"><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></div>
+                <div class="a-meta">Out-punch now 17:48, was 21:00 in the old file</div>
+              </div>
+            </div>
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="lock"></i></span>
+              <div class="a-main">
+                <div class="a-what">Gundla Ravi Teja · Wed 18 Nov</div>
+                <div class="a-change"><span class="badge badge-present badge-override"><i data-lucide="circle-check"></i>Present</span><span class="meta">kept</span></div>
+                <div class="a-meta">Edited by Ramesh (Supervisor). The file still has no out-punch.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-03</span>
+      <h3>Upload, step 2: what's in the file</h3>
+      <p>A dry run. The file is read and compared with what the app already has; nothing changes until Save import.</p>
+      <ul>
+        <li><b>Dates found</b> and <b>both companies</b> (RRL SONS + Default) with row and code counts, so a half-exported file is obvious.</li>
+        <li><b>Match</b> opens device-code matching (03-04). Saving without matching is allowed; those punches wait in the unmatched queue.</li>
+        <li><b>Incomplete</b> opens the fix list (03-05) after saving.</li>
+        <li><b>See 14 changed days</b> opens a sheet: per day, old status → new status from the file. Days edited by hand are locked and never overwritten.</li>
+        <li><b>Save import</b>: toast, then back to 03-01 on the newest day. Every import is logged (file, dates, who, when).</li>
+      </ul>
+      <div class="wf-note">Open question: if the newest day in a file has almost no out-punches (file taken mid-day), should the app refuse that day or import it as Incomplete? Proposed: warn and skip that day by default.</div>
+    </div>
+  </section>
+
+  <!-- ============ 03-04 Device-code matching ============ -->
+  <section class="wf-screen" id="s03-04">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:28</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-03" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Match device codes</div><div class="sub">One-time setup · first upload, 2–8 Nov</div></div>
+      </header>
+
+      <div class="app-body">
+        <div class="card">
+          <div class="between" style="margin-bottom:var(--s2)">
+            <div><span class="t20 fw7 num">41</span> <span class="muted">of 63 codes matched</span></div>
+            <span class="meta num">65%</span>
+          </div>
+          <div class="progress" role="img" aria-label="41 of 63 matched"><span class="bg-present" style="width:65%"></span></div>
+          <div class="meta" style="margin-top:var(--s2)">Only codes that punched in this file. Each confirm is saved at once.</div>
+        </div>
+
+        <div class="chips" role="group" aria-label="Show">
+          <button class="chip" aria-pressed="true">To check <span class="count">14</span></button>
+          <button class="chip" aria-pressed="false">No name <span class="count">5</span></button>
+          <button class="chip" aria-pressed="false">Matched <span class="count">41</span></button>
+          <button class="chip" aria-pressed="false">Ignored <span class="count">3</span></button>
+        </div>
+
+        <h2 class="section-title">Suggested by name</h2>
+        <div class="list inset">
+          <div class="match">
+            <div class="match-code"><i data-lucide="fingerprint" class="c-2"></i><span class="lbl num">162 · G RAVI TEJA</span><span class="meta">RRL SONS · 6 days</span></div>
+            <div class="match-to"><i data-lucide="corner-down-right" class="ic-sm"></i><span class="grow"><b class="fw6">VSM/031</b> Gundla Ravi Teja</span><span class="badge badge-accent">Strong</span></div>
+            <div class="match-btns">
+              <button class="btn btn-primary" data-toast="Code 162 linked to VSM/031. 42 of 63.">Confirm</button>
+              <button class="btn btn-secondary" data-open="pick-emp">Change</button>
+              <button class="btn btn-ghost" data-toast="Code 162 ignored. Its punches won't count.">Ignore</button>
+            </div>
+          </div>
+          <div class="match">
+            <div class="match-code"><i data-lucide="fingerprint" class="c-2"></i><span class="lbl num">205 · ANUSHA M</span><span class="meta">RRL SONS · 5 days</span></div>
+            <div class="match-to"><i data-lucide="corner-down-right" class="ic-sm"></i><span class="grow"><b class="fw6">VSM/044</b> Mekala Anusha</span><span class="badge badge-neutral">Likely</span></div>
+            <div class="match-btns">
+              <button class="btn btn-primary" data-toast="Code 205 linked to VSM/044.">Confirm</button>
+              <button class="btn btn-secondary" data-open="pick-emp">Change</button>
+              <button class="btn btn-ghost" data-toast="Code 205 ignored.">Ignore</button>
+            </div>
+          </div>
+          <div class="match">
+            <div class="match-code"><i data-lucide="fingerprint" class="c-2"></i><span class="lbl num">31 · GUNDLA RAVI TEJA</span><span class="meta">old code · 0 days</span></div>
+            <div class="match-to"><i data-lucide="corner-down-right" class="ic-sm"></i><span class="grow"><b class="fw6">VSM/031</b> as a 2nd code</span><span class="badge badge-neutral">Same name</span></div>
+            <div class="match-btns">
+              <button class="btn btn-primary" data-toast="VSM/031 now has 2 codes: 31 and 162.">Add as 2nd</button>
+              <button class="btn btn-ghost" data-toast="Code 31 ignored.">Ignore</button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">No name on the device</h2>
+        <div class="list inset">
+          <div class="row">
+            <i data-lucide="fingerprint" class="c-2"></i>
+            <div class="row-main"><div class="row-title num">Code 187</div><div class="row-sub">Default · 5 days · in about 10:05</div></div>
+            <button class="btn btn-secondary btn-sm" data-open="pick-emp">Pick</button>
+          </div>
+          <div class="row">
+            <i data-lucide="fingerprint" class="c-2"></i>
+            <div class="row-main"><div class="row-title num">Code 204</div><div class="row-sub">Default · 4 days · in about 09:50</div></div>
+            <button class="btn btn-secondary btn-sm" data-open="pick-emp">Pick</button>
+          </div>
+          <div class="row compact">
+            <i data-lucide="ban" class="c-2"></i>
+            <div class="row-main"><div class="row-title t15">Test Employee 1, 2, 3</div><div class="row-sub">Ignored automatically</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <a class="btn btn-secondary" href="#s03-03">Finish later</a>
+        <a class="btn btn-primary" href="#s03-03">Back to import</a>
+      </div>
+
+      <div class="sheet" id="pick-emp" role="dialog" aria-modal="true" aria-labelledby="pick-emp-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="pick-emp-t">Who is code 187?</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="t15">Punched on <span class="num">2, 3, 4, 6, 7 Nov</span> · in 10:02–10:09 · out 20:55–21:06</div>
+          </div>
+          <div class="search"><i data-lucide="search"></i><input placeholder="Search name or VSM number" aria-label="Search staff"></div>
+          <div class="section-title" style="margin:0">Staff with no punches in this file</div>
+          <div class="radio-list">
+            <label><input type="radio" name="pk" checked><span class="grow"><b class="fw6">VSM/075</b> Pulla Saritha<br><span class="meta">Cotton Sarees · no code yet</span></span></label>
+            <label><input type="radio" name="pk"><span class="grow"><b class="fw6">VSM/036</b> Madasu Venu<br><span class="meta">Synthetics · no code yet</span></span></label>
+            <label><input type="radio" name="pk"><span class="grow"><b class="fw6">VSM/012</b> Vadde Ramulu<br><span class="meta">Furnishing · old code 12, no punches</span></span></label>
+          </div>
+          <div class="field">
+            <label for="pk-r">How do you know? <span class="opt">(saved in the audit log)</span></label>
+            <input class="input" id="pk-r" value="Checked with Ramesh at the counter">
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Code 187 linked to VSM/075. 5 days of punches added.">Link code</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-04</span>
+      <h3>Match device codes (one-time setup)</h3>
+      <p>The device holds about 163 codes for 83 people: old codes 1–85 with full names, new codes 103–218 with short names, and 14 fingerprints with no name at all. This screen links each code to a VSM number once; after that, uploads only ask about new codes (3 today).</p>
+      <ul>
+        <li><b>Confirm</b> links the suggested employee and moves the counter (toast). <b>Change</b> and <b>Pick</b> open the staff picker sheet, which lists staff with no punches first.</li>
+        <li><b>Add as 2nd</b>: an employee can have more than one code, so old enrolments still count if someone uses them.</li>
+        <li><b>Ignore</b> hides a code; its punches never count. Undo from the Ignored chip.</li>
+        <li>A manual pick needs a short reason ("How do you know?") and is audit-logged. Name matches are logged without one.</li>
+        <li>Shown here mid-way through the first upload. The same list lives under Staff → Device codes (screen group 02).</li>
+      </ul>
+      <div class="wf-note">For the owner: the cleanest fix is at the device (one code per person, ideally equal to the VSM number). The app copes either way.</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Fix and review</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 03-05 Fix punches ============ -->
+  <section class="wf-screen" id="s03-05">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:31</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Fix punches</div><div class="sub">9 days · fix before pay day, Sat 28 Nov</div></div>
+        <button class="icon-btn" aria-label="Select several" data-toast="Select mode: tick rows, then set one out-time for all."><i data-lucide="list-checks"></i></button>
+      </header>
+
+      <div class="app-body flush">
+        <div style="padding:0 var(--s4)">
+          <div class="banner banner-info">
+            <i data-lucide="info"></i>
+            <div class="t15">No out-punch means the day is <b>Incomplete</b>, not Absent. Pick what really happened.</div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Sat, 21 Nov · 6</h2>
+        <div class="list">
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">TL</span><div class="row-main"><div class="row-title">Thota Lavanya</div><div class="row-sub num">VSM/038 · In 10:06 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">KR</span><div class="row-main"><div class="row-title">Kanukuntla Raju</div><div class="row-sub num">VSM/048 · In 09:58 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">JS</span><div class="row-main"><div class="row-title">Jangiti Shirisha</div><div class="row-sub num">VSM/066 · In 10:12 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">BP</span><div class="row-main"><div class="row-title">Bollam Prasad</div><div class="row-sub num">VSM/033 · In 10:01 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">GR</span><div class="row-main"><div class="row-title">Gaddam Rajitha</div><div class="row-sub num">VSM/041 · In 10:20 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">OS</span><div class="row-main"><div class="row-title">Oruganti Srikanth</div><div class="row-sub num">VSM/011 · In 10:03 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Fri, 20 Nov · 2</h2>
+        <div class="list">
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">PS</span><div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub num">VSM/052 · In 10:08 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">KN</span><div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub num">VSM/027 · In 10:31 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Thu, 19 Nov · 1</h2>
+        <div class="list">
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">EB</span><div class="row-main"><div class="row-title">Ennam Bhavani</div><div class="row-sub num">VSM/063 · In 09:57 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="fix-actions"><button class="btn btn-secondary" data-open="fix-out">Out-time</button><button class="btn btn-secondary" data-open="fix-present">Present</button><button class="btn btn-secondary" data-open="fix-absent">Absent</button></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <!-- Sheet: enter out-time -->
+      <div class="sheet" id="fix-out" role="dialog" aria-modal="true" aria-labelledby="fix-out-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="fix-out-t">Enter out-time</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Thota Lavanya · Sat, 21 Nov</span><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+            <div class="t15 muted">In 10:06 · no out-punch</div>
+          </div>
+          <div class="field">
+            <label for="fo-t">Out-time</label>
+            <input class="input num" id="fo-t" type="time" value="21:00">
+            <span class="help">Shift ends 21:00. Result: <b class="num">10 h 54 m</b> → <span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></span>
+          </div>
+          <div class="field">
+            <span class="label">Reason</span>
+            <div class="chips" role="group" aria-label="Reason" style="flex-wrap:wrap">
+              <button class="chip" aria-pressed="true">Forgot to punch</button>
+              <button class="chip" aria-pressed="false">Machine fault</button>
+              <button class="chip" aria-pressed="false">Other</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fo-n">Note <span class="opt">(optional, required for Other)</span></label>
+            <input class="input" id="fo-n" placeholder="e.g. Ramesh saw her leave at closing">
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. 21 Nov is now Present (out 21:00).">Save</button>
+        </div>
+      </div>
+
+      <!-- Sheet: mark present -->
+      <div class="sheet" id="fix-present" role="dialog" aria-modal="true" aria-labelledby="fix-pr-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="fix-pr-t">Mark Present</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="fw6">Thota Lavanya · Sat, 21 Nov</div>
+            <div class="chg-line" style="margin-top:var(--s1)"><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span><span class="meta">8 h credited</span></div>
+          </div>
+          <div class="field">
+            <span class="label">Reason</span>
+            <div class="chips" role="group" aria-label="Reason" style="flex-wrap:wrap">
+              <button class="chip" aria-pressed="true">Outside work</button>
+              <button class="chip" aria-pressed="false">Machine fault</button>
+              <button class="chip" aria-pressed="false">Forgot to punch</button>
+              <button class="chip" aria-pressed="false">Other</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fp-n">Where was she sent? <span class="opt">(optional)</span></label>
+            <input class="input" id="fp-n" placeholder="e.g. Delivery to a customer in Yadagirigutta">
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. 21 Nov is now Present.">Save</button>
+        </div>
+      </div>
+
+      <!-- Sheet: mark absent -->
+      <div class="sheet" id="fix-absent" role="dialog" aria-modal="true" aria-labelledby="fix-ab-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="fix-ab-t">Mark Absent</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="fw6">Thota Lavanya · Sat, 21 Nov</div>
+            <div class="chg-line" style="margin-top:var(--s1)"><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-absent"><i data-lucide="circle-x"></i>Absent</span></div>
+          </div>
+          <div class="banner banner-warn"><i data-lucide="triangle-alert"></i><div class="t15">An Absent day is deducted at the daily rate in the pay run, unless free leave covers it.</div></div>
+          <div class="field">
+            <span class="label">Reason</span>
+            <div class="chips" role="group" aria-label="Reason" style="flex-wrap:wrap">
+              <button class="chip" aria-pressed="true">Left early, didn't return</button>
+              <button class="chip" aria-pressed="false">Machine fault</button>
+              <button class="chip" aria-pressed="false">Other</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fa-n">Note <span class="opt">(optional, required for Other)</span></label>
+            <input class="input" id="fa-n" placeholder="e.g. Went home at 13:00, unwell">
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-danger" data-toast="Saved. 21 Nov is now Absent.">Mark Absent</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-05</span>
+      <h3>Fix punches (incomplete days)</h3>
+      <p>Every day with an in-punch but no out-punch, grouped by date, newest first. Pay day can't be finalised for a period that still has items here.</p>
+      <ul>
+        <li><b>Out-time</b> opens a sheet with the time (defaults to 21:00, shift end), the hours it gives and the status that follows, plus a reason.</li>
+        <li><b>Present</b> opens the reason sheet with "Outside work" picked and 8 h credited (full sheet: 03-10).</li>
+        <li><b>Absent</b> opens the reason sheet with a pay warning and a red button.</li>
+        <li>On save: toast, the row leaves the list, the day gets the "edited" mark and an audit row (who, when, old → new, reason).</li>
+        <li><b>Select</b> (top right): tick several rows and give them one out-time and one reason.</li>
+      </ul>
+      <div class="wf-note">Open question: in the sample file about half the staff skip the out-punch every day. Is a bulk "everyone out at 21:00, forgot to punch" acceptable, or must each day be checked? Proposed: bulk allowed, still one audit row per day.</div>
+    </div>
+  </section>
+
+  <!-- ============ 03-06 Supervisor review: short days ============ -->
+  <section class="wf-screen" id="s03-06">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:34</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Short days</div><div class="sub">6–8 h · Ramesh to talk to each person</div></div>
+      </header>
+      <div class="tabs" data-tabs role="tablist">
+        <button data-tab="sd-open" aria-selected="true" role="tab">To discuss <span class="count">6</span></button>
+        <button data-tab="sd-done" aria-selected="false" role="tab">Talked <span class="count">11</span></button>
+      </div>
+
+      <div class="app-body">
+        <div data-panel="sd-open" class="stack" style="gap:var(--s4)">
+          <div class="banner banner-info">
+            <i data-lucide="info"></i>
+            <div class="t15">A Short day still counts as Present. No pay cut. Talk to the person and note what they said.</div>
+          </div>
+
+          <h2 class="section-title">Sat, 21 Nov</h2>
+          <div class="list inset">
+            <div class="row">
+              <div class="row-main"><div class="row-title">Sirigiri Mahesh</div><div class="row-sub num">7 h 22 m · 10:00 – 17:22 · <b class="c-flagged">3rd in Nov</b></div></div>
+              <div class="row-trail"><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span><button class="btn btn-secondary btn-sm" data-open="talk-sheet">Talked</button></div>
+            </div>
+            <div class="row">
+              <div class="row-main"><div class="row-title">Bairi Suresh</div><div class="row-sub num">7 h 15 m · 12:05 – 19:20</div></div>
+              <div class="row-trail"><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span><button class="btn btn-secondary btn-sm" data-open="talk-sheet">Talked</button></div>
+            </div>
+            <div class="row">
+              <div class="row-main"><div class="row-title">Bhukya Sandhya</div><div class="row-sub num">7 h 30 m · 10:10 – 17:40</div></div>
+              <div class="row-trail"><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span><button class="btn btn-secondary btn-sm" data-open="talk-sheet">Talked</button></div>
+            </div>
+          </div>
+
+          <h2 class="section-title">Fri, 20 Nov</h2>
+          <div class="list inset">
+            <div class="row">
+              <div class="row-main"><div class="row-title">Gundla Ravi Teja</div><div class="row-sub num">7 h 35 m · 10:15 – 17:50 · <b class="c-flagged">2nd in Nov</b></div></div>
+              <div class="row-trail"><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span><button class="btn btn-secondary btn-sm" data-open="talk-sheet">Talked</button></div>
+            </div>
+            <div class="row">
+              <div class="row-main"><div class="row-title">Nalla Divya</div><div class="row-sub num">7 h 42 m · 11:48 – 19:30</div></div>
+              <div class="row-trail"><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span><button class="btn btn-secondary btn-sm" data-open="talk-sheet">Talked</button></div>
+            </div>
+          </div>
+
+          <h2 class="section-title">Wed, 18 Nov</h2>
+          <div class="list inset">
+            <div class="row">
+              <div class="row-main"><div class="row-title">Pandiri Mounika</div><div class="row-sub num">6 h 35 m · 10:05 – 16:40</div></div>
+              <div class="row-trail"><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span><button class="btn btn-secondary btn-sm" data-open="talk-sheet">Talked</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div data-panel="sd-done" hidden>
+          <div class="card flush">
+            <div class="list">
+              <div class="audit">
+                <span class="a-icon"><i data-lucide="message-square-text"></i></span>
+                <div class="a-main">
+                  <div class="a-what">Mudiraj Anil · Tue 17 Nov · <span class="num">7 h 05 m</span></div>
+                  <div class="a-reason">Bus from Choutuppal was late. Told him to take the 8:30 bus from now on.</div>
+                  <div class="a-meta">Ramesh (Supervisor) · 18 Nov, 11:20</div>
+                </div>
+              </div>
+              <div class="audit">
+                <span class="a-icon"><i data-lucide="message-square-text"></i></span>
+                <div class="a-main">
+                  <div class="a-what">Sirigiri Mahesh · Thu 12 Nov · <span class="num">7 h 48 m</span></div>
+                  <div class="a-reason">Left early for his daughter's school meeting. Asked him to tell me before leaving next time.</div>
+                  <div class="a-meta">Ramesh (Supervisor) · 13 Nov, 10:15</div>
+                </div>
+              </div>
+              <div class="audit">
+                <span class="a-icon"><i data-lucide="message-square-text"></i></span>
+                <div class="a-main">
+                  <div class="a-what">Vemula Kiran · Tue 10 Nov · <span class="num">6 h 50 m</span></div>
+                  <div class="a-reason">Unwell, went to the clinic at 17:00. Fine now.</div>
+                  <div class="a-meta">Ramesh (Supervisor) · 11 Nov, 10:02</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+
+      <div class="sheet" id="talk-sheet" role="dialog" aria-modal="true" aria-labelledby="talk-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="talk-t">Talked to employee</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Sirigiri Mahesh · Sat, 21 Nov</span><span class="badge badge-flagged"><i data-lucide="clock"></i>Short</span></div>
+            <div class="t15 muted num">10:00 – 17:22 · 7 h 22 m · 3rd short day in Nov</div>
+          </div>
+          <div class="field has-error">
+            <label for="tk-n">What did they say? <span class="opt">(required, saved in the audit log)</span></label>
+            <textarea class="textarea" id="tk-n" placeholder="e.g. Left early for a family function. Will make up on Sunday."></textarea>
+            <span class="error-text"><i data-lucide="circle-alert" class="ic-sm"></i>Write a short note before saving.</span>
+          </div>
+          <p class="t13 muted" style="margin:0">The day stays Short. If it was really outside work, change the status from the day screen (03-07) instead.</p>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Noted. Moved to Talked.">Save note</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-06</span>
+      <h3>Short days: supervisor review</h3>
+      <p>Ramesh's list of 6–8 h days. It's a conversation log, not a pay change: the day stays Short and is paid as present.</p>
+      <ul>
+        <li><b>"2nd / 3rd in Nov"</b> marks repeat cases, so Ramesh knows who to talk to first.</li>
+        <li><b>Talked</b> opens a sheet with a required note. Save moves the day to the Talked tab as a logged entry (who, when, what was said).</li>
+        <li><b>Talked tab</b>: the notes, newest first. They also show on the employee's day (03-07) and in the Audit log.</li>
+        <li><b>Tapping a name</b> opens that day (03-07), where the status can be changed with a reason.</li>
+      </ul>
+      <div class="wf-note">Open question: should Owner and Padma see this list too, or only Ramesh? Proposed: everyone sees it; only Ramesh's notes clear an item.</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>One employee</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 03-07 Day detail ============ -->
+  <section class="wf-screen" id="s03-07">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:40</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-08" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Gundla Ravi Teja</div><div class="sub">VSM/031 · Mens Wear · Batch B</div></div>
+      </header>
+
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous day"><i data-lucide="chevron-left"></i></button>
+          <span class="m">Wed, 18 Nov 2026</span>
+          <button class="icon-btn" aria-label="Next day"><i data-lucide="chevron-right"></i></button>
+        </div>
+
+        <div class="card">
+          <div class="between">
+            <span class="badge badge-present badge-override" style="height:28px;font-size:var(--fs-13)"><i data-lucide="circle-check"></i>Present</span>
+            <span class="num fw6">8 h credited</span>
+          </div>
+          <div class="t15 muted" style="margin-top:var(--s2)">Changed from Incomplete by Ramesh (Supervisor) today, 09:40.</div>
+        </div>
+
+        <h2 class="section-title">From the machine</h2>
+        <div class="card stack">
+          <div class="raw">10:52:in(TD)</div>
+          <dl class="kv">
+            <dt>Device code</dt><dd class="num">162 · RRL SONS</dd>
+            <dt>Shift on device</dt><dd>NS (not set)</dd>
+            <dt>Machine status</dt><dd>"Absent (No OutPunch)"</dd>
+            <dt>File</dt><dd class="num">16–21 Nov · 22 Nov, 09:12</dd>
+          </dl>
+        </div>
+
+        <h2 class="section-title">How the app read it</h2>
+        <div class="card stack">
+          <dl class="kv">
+            <dt>First in</dt><dd class="num">10:52</dd>
+            <dt>Last out</dt><dd class="muted">none</dd>
+            <dt>Hours</dt><dd class="muted">can't count</dd>
+          </dl>
+          <ul class="rules" aria-label="Rules">
+            <li><i data-lucide="circle-check" class="c-present"></i>8 h or more → Present</li>
+            <li><i data-lucide="clock" class="c-flagged"></i>6 – 8 h → Short</li>
+            <li><i data-lucide="circle-x" class="c-absent"></i>Under 6 h → Absent</li>
+            <li class="applied"><i data-lucide="circle-dashed"></i>No out-punch → Incomplete<span class="grow"></span><span class="meta">applied</span></li>
+          </ul>
+        </div>
+
+        <h2 class="section-title">Changes</h2>
+        <div class="card flush">
+          <div class="list">
+            <div class="audit">
+              <span class="a-icon"><i data-lucide="pencil"></i></span>
+              <div class="a-main">
+                <div class="a-change"><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></div>
+                <div class="a-reason"><b class="fw6">Outside work:</b> sent to the Hyderabad wholesaler for stock pickup</div>
+                <div class="a-meta">Ramesh (Supervisor) · 23 Nov, 09:40</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-secondary" data-open="dd-out">Enter out-time</button>
+        <a class="btn btn-primary" href="#s03-10">Change status</a>
+      </div>
+
+      <div class="sheet" id="dd-out" role="dialog" aria-modal="true" aria-labelledby="dd-out-t" aria-hidden="true">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="dd-out-t">Enter out-time</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Wed, 18 Nov · In 10:52</span><span class="badge badge-present badge-override"><i data-lucide="circle-check"></i>Present</span></div>
+            <div class="t15 muted">Replaces the current edit. Both stay in the history.</div>
+          </div>
+          <div class="field">
+            <label for="dd-t">Out-time</label>
+            <input class="input num" id="dd-t" type="time" value="20:30">
+            <span class="help">Result: <b class="num">9 h 38 m</b> → <span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span></span>
+          </div>
+          <div class="field">
+            <span class="label">Reason</span>
+            <div class="chips" role="group" aria-label="Reason" style="flex-wrap:wrap">
+              <button class="chip" aria-pressed="true">Forgot to punch</button>
+              <button class="chip" aria-pressed="false">Machine fault</button>
+              <button class="chip" aria-pressed="false">Other</button>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. Out-time 20:30 added.">Save</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-07</span>
+      <h3>Day detail (one employee, one day)</h3>
+      <p>Answers "why does the app say this?" for any day: the raw punch text from the file, the device code, how hours were counted, which rule applied, and every change since.</p>
+      <ul>
+        <li><b>‹ / ›</b> step through this person's days.</li>
+        <li><b>"edited"</b> on the status badge means an admin changed it; the audit row below says who and why.</li>
+        <li><b>The machine's own status</b> is shown in quotes for reference only. The app's rules decide the status.</li>
+        <li><b>Enter out-time</b> opens a reason sheet with the time. <b>Change status</b> opens the override sheet (03-10).</li>
+        <li>Back returns to the month grid (03-08) or the day list, wherever the user came from.</li>
+      </ul>
+      <div class="wf-note">Open question: when there are 4 punches (in, out for lunch, in, out), count first-in to last-out, or add up the pairs? Proposed: first in to last out, since there's no lunch rule.</div>
+    </div>
+  </section>
+
+  <!-- ============ 03-08 Monthly grid, one employee ============ -->
+  <section class="wf-screen" id="s03-08">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:38</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-09" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Gundla Ravi Teja</div><div class="sub">VSM/031 · Mens Wear · Batch B</div></div>
+        <button class="icon-btn" aria-label="Share month" data-toast="Month summary ready to share or print."><i data-lucide="share-2"></i></button>
+      </header>
+
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+          <span class="m">November 2026</span>
+          <button class="icon-btn" aria-label="Next month" disabled style="opacity:.35"><i data-lucide="chevron-right"></i></button>
+        </div>
+
+        <div class="cal" role="grid" aria-label="November 2026">
+          <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+          <span class="d out">26</span><span class="d out">27</span><span class="d out">28</span><span class="d out">29</span><span class="d out">30</span><span class="d out">31</span><span class="d closed">1<small>Off</small></span>
+          <a class="d present" href="#s03-07">2<small>P</small></a><a class="d present" href="#s03-07">3<small>P</small></a><a class="d flagged" href="#s03-07">4<small>S</small></a><a class="d present" href="#s03-07">5<small>P</small></a><a class="d present" href="#s03-07">6<small>P</small></a><a class="d present" href="#s03-07">7<small>P</small></a><span class="d closed">8<small>Off</small></span>
+          <a class="d present" href="#s03-07">9<small>P</small></a><a class="d present" href="#s03-07">10<small>P</small></a><a class="d leave" href="#s03-07">11<small>L</small></a><a class="d present" href="#s03-07">12<small>P</small></a><a class="d absent" href="#s03-07">13<small>A</small></a><a class="d present" href="#s03-07">14<small>P</small></a><span class="d closed">15<small>Off</small></span>
+          <a class="d present" href="#s03-07">16<small>P</small></a><a class="d present" href="#s03-07">17<small>P</small></a><a class="d present edited" href="#s03-07">18<small>P</small></a><a class="d present" href="#s03-07">19<small>P</small></a><a class="d flagged" href="#s03-07">20<small>S</small></a><a class="d present" href="#s03-07">21<small>P</small></a><span class="d closed">22<small>Off</small></span>
+          <span class="d today">23</span><span class="d">24</span><span class="d">25</span><span class="d">26</span><span class="d">27</span><span class="d">28</span><span class="d">29<small>B</small></span>
+          <span class="d">30</span><span class="d out">1</span><span class="d out">2</span><span class="d out">3</span><span class="d out">4</span><span class="d out">5</span><span class="d out">6</span>
+        </div>
+        <div class="legend">
+          <span><i class="bg-present"></i>P Present</span><span><i class="bg-flagged"></i>S Short</span><span><i class="bg-absent"></i>A Absent</span><span><i class="bg-incomplete"></i>I Incomplete</span><span><i class="bg-leave"></i>L Leave</span><span>Off = off-Sunday · B = his batch works</span>
+        </div>
+
+        <div class="stats three">
+          <div class="stat"><span class="label"><i data-lucide="circle-check" class="ic-sm c-present"></i>Present</span><span class="value">14</span></div>
+          <div class="stat"><span class="label"><i data-lucide="clock" class="ic-sm c-flagged"></i>Short</span><span class="value">2</span></div>
+          <div class="stat"><span class="label"><i data-lucide="circle-x" class="ic-sm c-absent"></i>Absent</span><span class="value">1</span></div>
+          <div class="stat"><span class="label"><i data-lucide="circle-dashed" class="ic-sm"></i>Incomplete</span><span class="value">0</span></div>
+          <div class="stat"><span class="label"><i data-lucide="calendar-heart" class="ic-sm c-leave"></i>Leave</span><span class="value">1</span></div>
+          <div class="stat"><span class="label"><i data-lucide="moon" class="ic-sm"></i>Off</span><span class="value">4</span></div>
+        </div>
+        <div class="card">
+          <div class="between"><span class="muted">Hours counted, 1–21 Nov</span><span class="t20 fw6 num">161 h 40 m</span></div>
+          <div class="meta">Includes 8 h credited on 18 Nov (edited). Next: his batch works Sun 29 Nov.</div>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-08</span>
+      <h3>Month grid (one employee)</h3>
+      <p>One person's month at a glance with totals for the pay run. Each day shows its colour and a letter, so status never depends on colour alone.</p>
+      <ul>
+        <li><b>A day</b> opens the day detail (03-07). A dot in the corner means the day was edited.</li>
+        <li><b>Sundays:</b> 1 and 15 Nov the store was closed; 8 and 22 Nov were other batches' Sundays, so Off for him. 29 Nov is Batch B's Sunday, a normal working day.</li>
+        <li><b>Totals</b> cover uploaded days only (1–21 Nov). Today (23) has a ring and no data yet.</li>
+        <li><b>Share</b> makes a one-page month summary (print or WhatsApp).</li>
+        <li>Also reached from Staff → profile → Attendance tab.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Month register, all staff</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 03-09 Register mobile ============ -->
+  <section class="wf-screen" id="s03-09">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:36</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <a class="icon-btn" href="#s03-01" aria-label="Back"><i data-lucide="arrow-left"></i></a>
+        <div class="appbar-title"><div class="t">Register</div><div class="sub">83 staff · data up to Sat 21 Nov</div></div>
+        <button class="icon-btn" aria-label="Export to Excel" data-toast="Register_Nov_2026.xlsx saved to Downloads."><i data-lucide="download"></i></button>
+      </header>
+
+      <div class="app-body">
+        <div class="month-switch">
+          <button class="icon-btn" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+          <span class="m">November 2026</span>
+          <button class="icon-btn" aria-label="Next month" disabled style="opacity:.35"><i data-lucide="chevron-right"></i></button>
+        </div>
+        <div class="chips" role="group" aria-label="Department">
+          <button class="chip" aria-pressed="true">All <span class="count">83</span></button>
+          <button class="chip" aria-pressed="false">Pattu Sarees <span class="count">11</span></button>
+          <button class="chip" aria-pressed="false">Mens Wear <span class="count">9</span></button>
+          <button class="chip" aria-pressed="false">Kids Wear <span class="count">7</span></button>
+          <button class="chip" aria-pressed="false">Billing <span class="count">6</span></button>
+        </div>
+
+        <div class="reg-wrap" tabindex="0" aria-label="Attendance register, scrolls sideways">
+          <table class="reg"><thead><tr><th class="nm">Name</th><th class="sun">1<small>Su</small></th><th>2<small>Mo</small></th><th>3<small>Tu</small></th><th>4<small>We</small></th><th>5<small>Th</small></th><th>6<small>Fr</small></th><th>7<small>Sa</small></th><th class="sun">8<small>Su</small></th><th>9<small>Mo</small></th><th>10<small>Tu</small></th><th>11<small>We</small></th><th>12<small>Th</small></th><th>13<small>Fr</small></th><th>14<small>Sa</small></th><th class="sun">15<small>Su</small></th><th>16<small>Mo</small></th><th>17<small>Tu</small></th><th>18<small>We</small></th><th>19<small>Th</small></th><th>20<small>Fr</small></th><th>21<small>Sa</small></th><th class="sun">22<small>Su</small></th><th class="today">23<small>Mo</small></th><th>24<small>Tu</small></th><th>25<small>We</small></th><th>26<small>Th</small></th><th>27<small>Fr</small></th><th>28<small>Sa</small></th><th class="sun">29<small>Su</small></th><th>30<small>Mo</small></th><th class="tot first">P</th><th class="tot">S</th><th class="tot">A</th><th class="tot">I</th><th class="tot">L</th></tr></thead><tbody><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Bairi Suresh</a><small>VSM/015 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Bhukya Sandhya</a><small>VSM/057 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">1</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Bollam Prasad</a><small>VSM/033 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Ennam Bhavani</a><small>VSM/063 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">18</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Gaddam Rajitha</a><small>VSM/041 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Gundla Ravi Teja</a><small>VSM/031 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p e">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">14</td><td class="tot num">2</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Jangiti Shirisha</a><small>VSM/066 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">18</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Kanukuntla Raju</a><small>VSM/048 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Kavali Naresh</a><small>VSM/027 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Madasu Venu</a><small>VSM/036 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Mekala Anusha</a><small>VSM/044 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Mudiraj Anil</a><small>VSM/021 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Nalla Divya</a><small>VSM/059 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Oruganti Srikanth</a><small>VSM/011 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">14</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">1</td><td class="tot num">3</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Pandiri Mounika</a><small>VSM/070 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Peddi Swapna</a><small>VSM/052 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Pulla Saritha</a><small>VSM/075 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Sirigiri Mahesh</a><small>VSM/024 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c l">L</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c s">S</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">14</td><td class="tot num">3</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Thota Lavanya</a><small>VSM/038 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Vemula Kiran</a><small>VSM/009 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c l">L</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td></tr></tbody></table>
+        </div>
+
+        <div class="reg-key">
+          <span><span class="c p">P</span>Present</span><span><span class="c s">S</span>Short</span><span><span class="c a">A</span>Absent</span><span><span class="c i">I</span>Incomplete</span><span><span class="c l">L</span>Leave</span><span><span class="c o">O</span>Off</span>
+        </div>
+      </div>
+
+      <nav class="tabbar" aria-label="Main">
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <a href="#"><i data-lucide="menu"></i>More</a>
+      </nav>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-09</span>
+      <h3>Month register (phone)</h3>
+      <p>The old paper muster, on a phone. Names stay pinned on the left and the day header stays pinned on top while the grid scrolls both ways. Try scrolling it sideways.</p>
+      <ul>
+        <li><b>Opens scrolled</b> to the latest uploaded day. Grey columns are Sundays; a dot marks an edited day.</li>
+        <li><b>A name</b> opens that person's month (03-08). <b>A cell</b> opens the day (03-07).</li>
+        <li><b>Department chips</b> narrow the list. Totals (P S A I L) sit at the right end.</li>
+        <li><b>Download</b> exports the register to Excel for the accountant.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 03-09b Register desktop ============ -->
+  <section class="wf-screen wide" id="s03-09b">
+    <div class="wf-scroll-x"><div class="desktop">
+      <nav class="rail" aria-label="Main">
+        <div class="rail-brand">VSM Staff</div>
+        <a href="#"><i data-lucide="house"></i>Home</a>
+        <a href="#" aria-current="page"><i data-lucide="calendar-check"></i>Attendance</a>
+        <a href="#"><i data-lucide="users"></i>Staff</a>
+        <a href="#"><i data-lucide="wallet"></i>Pay</a>
+        <div class="rail-group">More</div>
+        <a href="#"><i data-lucide="calendar-range"></i>Sundays &amp; batches</a>
+        <a href="#"><i data-lucide="calendar-heart"></i>Leave</a>
+        <a href="#"><i data-lucide="file-text"></i>Payslips</a>
+        <a href="#"><i data-lucide="book-open"></i>Ledger</a>
+        <a href="#"><i data-lucide="history"></i>Audit log</a>
+        <a href="#"><i data-lucide="settings"></i>Settings &amp; users</a>
+      </nav>
+      <div class="main">
+        <header class="appbar">
+          <div class="appbar-title"><h1>Attendance register · November 2026</h1><div class="sub">83 staff · data up to Sat 21 Nov · last upload 22 Nov, 09:12</div></div>
+          <button class="btn btn-secondary" data-toast="Printing register (A4 landscape)"><i data-lucide="printer"></i>Print</button>
+          <button class="btn btn-secondary" data-toast="Register_Nov_2026.xlsx downloaded" style="margin-left:var(--s2)"><i data-lucide="download"></i>Export .xlsx</button>
+          <a class="btn btn-primary" href="#s03-02" style="margin-left:var(--s2)"><i data-lucide="upload"></i>Upload</a>
+        </header>
+        <div class="app-body">
+          <div class="filters">
+            <div class="search"><i data-lucide="search"></i><input placeholder="Search name or VSM number" aria-label="Search"></div>
+            <div class="chips" role="group" aria-label="Department">
+              <button class="chip" aria-pressed="true">All <span class="count">83</span></button>
+              <button class="chip" aria-pressed="false">Pattu Sarees <span class="count">11</span></button>
+              <button class="chip" aria-pressed="false">Mens Wear <span class="count">9</span></button>
+              <button class="chip" aria-pressed="false">Kids Wear <span class="count">7</span></button>
+              <button class="chip" aria-pressed="false">Cotton Sarees <span class="count">8</span></button>
+              <button class="chip" aria-pressed="false">Billing <span class="count">6</span></button>
+            </div>
+            <div class="seg" role="group" aria-label="Batch" style="flex:none">
+              <button aria-pressed="true">All</button><button aria-pressed="false">A</button><button aria-pressed="false">B</button><button aria-pressed="false">C</button>
+            </div>
+          </div>
+          <div class="reg-wrap" tabindex="0" aria-label="Attendance register">
+            <table class="reg"><thead><tr><th class="nm">Name</th><th class="sun">1<small>Su</small></th><th>2<small>Mo</small></th><th>3<small>Tu</small></th><th>4<small>We</small></th><th>5<small>Th</small></th><th>6<small>Fr</small></th><th>7<small>Sa</small></th><th class="sun">8<small>Su</small></th><th>9<small>Mo</small></th><th>10<small>Tu</small></th><th>11<small>We</small></th><th>12<small>Th</small></th><th>13<small>Fr</small></th><th>14<small>Sa</small></th><th class="sun">15<small>Su</small></th><th>16<small>Mo</small></th><th>17<small>Tu</small></th><th>18<small>We</small></th><th>19<small>Th</small></th><th>20<small>Fr</small></th><th>21<small>Sa</small></th><th class="sun">22<small>Su</small></th><th class="today">23<small>Mo</small></th><th>24<small>Tu</small></th><th>25<small>We</small></th><th>26<small>Th</small></th><th>27<small>Fr</small></th><th>28<small>Sa</small></th><th class="sun">29<small>Su</small></th><th>30<small>Mo</small></th><th class="tot first">P</th><th class="tot">S</th><th class="tot">A</th><th class="tot">I</th><th class="tot">L</th></tr></thead><tbody><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Bairi Suresh</a><small>VSM/015 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Bhukya Sandhya</a><small>VSM/057 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">1</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Bollam Prasad</a><small>VSM/033 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Ennam Bhavani</a><small>VSM/063 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">18</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Gaddam Rajitha</a><small>VSM/041 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Gundla Ravi Teja</a><small>VSM/031 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p e">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">14</td><td class="tot num">2</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Jangiti Shirisha</a><small>VSM/066 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">18</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Kanukuntla Raju</a><small>VSM/048 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Kavali Naresh</a><small>VSM/027 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Madasu Venu</a><small>VSM/036 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Mekala Anusha</a><small>VSM/044 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Mudiraj Anil</a><small>VSM/021 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Nalla Divya</a><small>VSM/059 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Oruganti Srikanth</a><small>VSM/011 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">14</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">1</td><td class="tot num">3</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Pandiri Mounika</a><small>VSM/070 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Peddi Swapna</a><small>VSM/052 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">17</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Pulla Saritha</a><small>VSM/075 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c l">L</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Sirigiri Mahesh</a><small>VSM/024 · A</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c l">L</span></td><td class="sun"><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c s">S</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">14</td><td class="tot num">3</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">1</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Thota Lavanya</a><small>VSM/038 · B</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c a">A</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c i">I</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">15</td><td class="tot num">0</td><td class="tot num">2</td><td class="tot num">1</td><td class="tot num">0</td></tr><tr><td class="nm"><a href="#s03-08" style="color:inherit;text-decoration:none">Vemula Kiran</a><small>VSM/009 · C</small></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c l">L</span></td><td><span class="c s">S</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"><span class="c o">O</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td><span class="c p">P</span></td><td class="sun"></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="sun"></td><td></td><td class="tot first num">16</td><td class="tot num">1</td><td class="tot num">0</td><td class="tot num">0</td><td class="tot num">1</td></tr></tbody></table>
+          </div>
+          <div class="between">
+            <div class="reg-key">
+              <span><span class="c p">P</span>Present</span><span><span class="c s">S</span>Short</span><span><span class="c a">A</span>Absent</span><span><span class="c i">I</span>Incomplete</span><span><span class="c l">L</span>Leave</span><span><span class="c o">O</span>Off</span><span>Grey column = Sunday</span>
+            </div>
+            <span class="meta">Showing 20 of 83</span>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <div class="wf-caption">
+      <span class="wf-id">03-09b</span>
+      <h3>Month register (desktop, ≥ 1024 px)</h3>
+      <p>Same register in the store PC layout: side rail, search, department and batch filters, the month across with names pinned left and totals (P S A I L) pinned right. Print gives an A4 landscape sheet that can be signed and filed.</p>
+      <ul>
+        <li><b>Hovering a cell</b> shows in/out and hours; clicking opens the day as a right-side panel (03-07 content).</li>
+        <li><b>Batch A / B / C</b> shows only that batch, handy for checking a Sunday's turnout.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="wf-section"><h2>Change with reason</h2></div>
+<main class="wf-grid">
+
+  <!-- ============ 03-10 Override sheet open ============ -->
+  <section class="wf-screen" id="s03-10">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>10:33</span><span class="sb-icons"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+
+      <header class="appbar has-back">
+        <button class="icon-btn" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+        <div class="appbar-title"><div class="t">Fix punches</div><div class="sub">9 days · fix before pay day, Sat 28 Nov</div></div>
+      </header>
+      <div class="app-body flush">
+        <h2 class="section-title">Fri, 20 Nov · 2</h2>
+        <div class="list">
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">PS</span><div class="row-main"><div class="row-title">Peddi Swapna</div><div class="row-sub num">VSM/052 · In 10:08 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+          </div>
+          <div class="fix-item">
+            <div class="fix-head"><span class="avatar">KN</span><div class="row-main"><div class="row-title">Kavali Naresh</div><div class="row-sub num">VSM/027 · In 10:31 · no out</div></div><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet is-open" role="dialog" aria-modal="true" aria-labelledby="ov-t">
+        <div class="sheet-grab"></div>
+        <div class="sheet-head"><h2 id="ov-t">Change day status</h2><button class="icon-btn" data-close aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="sheet-body">
+          <div class="card" style="background:var(--surface-2)">
+            <div class="between"><span class="fw6">Peddi Swapna · Fri, 20 Nov</span><span class="meta">VSM/052</span></div>
+            <div class="t15 muted">In 10:08 · no out-punch · 0 h counted</div>
+            <div class="chg-line" style="margin-top:var(--s2)"><span class="badge badge-incomplete"><i data-lucide="circle-dashed"></i>Incomplete</span><i data-lucide="arrow-right" class="ic-sm"></i><span class="badge badge-present"><i data-lucide="circle-check"></i>Present</span><span class="meta">8 h credited</span></div>
+          </div>
+          <div class="field">
+            <span class="label">New status</span>
+            <div class="seg" role="group" aria-label="New status">
+              <button aria-pressed="true">Present</button><button aria-pressed="false">Short</button><button aria-pressed="false">Absent</button><button aria-pressed="false">Leave</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Reason</span>
+            <div class="chips" role="group" aria-label="Reason" style="flex-wrap:wrap">
+              <button class="chip" aria-pressed="true">Outside work</button>
+              <button class="chip" aria-pressed="false">Machine fault</button>
+              <button class="chip" aria-pressed="false">Forgot to punch</button>
+              <button class="chip" aria-pressed="false">Other</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="ov-n">Details <span class="opt">(optional; required for Other)</span></label>
+            <textarea class="textarea" id="ov-n" style="min-height:64px">Took the bridal saree order to the customer's house in Yadagirigutta.</textarea>
+          </div>
+          <p class="t13 muted" style="margin:0">Saved in the audit log as Padma (Accountant), with the time.</p>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-secondary" data-close>Cancel</button>
+          <button class="btn btn-primary" data-toast="Saved. 20 Nov is now Present.">Save change</button>
+        </div>
+      </div>
+      <div class="home-ind"></div>
+    </div></div>
+
+    <div class="wf-caption">
+      <span class="wf-id">03-10</span>
+      <h3>Change day status (override with reason)</h3>
+      <p>The kit's shared override sheet (D-02), set up for attendance. Opened here from Fix punches; the same sheet opens from the day detail, the month grid and the register.</p>
+      <ul>
+        <li><b>Top card</b>: what the machine gave, then old → new status, updated as you pick.</li>
+        <li><b>New status</b>: Present, Short, Absent or Leave. Present credits 8 h; Leave uses this month's free leave (warns if none left).</li>
+        <li><b>Reason presets</b>: Outside work, Machine fault, Forgot to punch, Other. "Forgot to punch" swaps in an out-time field so real hours are recorded. "Other" makes Details required; Save stays disabled until it's filled.</li>
+        <li><b>Save</b>: toast, row leaves Fix punches, day marked "edited", audit row written (who, when, old → new, reason).</li>
+      </ul>
+      <div class="wf-note">Open question: is a preset alone enough as the reason (e.g. just "Outside work"), or should Details always be required? Proposed: preset alone is enough, except Other.</div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
